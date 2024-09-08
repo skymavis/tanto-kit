@@ -1,0 +1,28 @@
+{
+  "private": true,
+  "name": "tanto-kit",
+
+  "scripts": {
+    "build": "turbo run build --filter=@sky-mavis/tanto-kit",
+    "dev": "turbo run dev --filter=@sky-mavis/tanto-kit --no-cache --parallel --continue",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "eslint": "8.22.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-simple-import-sort": "8.0.0",
+    "@typescript-eslint/eslint-plugin": "6.21.0",
+    "@typescript-eslint/parser": "6.21.0",
+    "prettier": "2.7.1",
+    "typescript": "4.8.4",
+    "turbo": "latest"
+  },
+  "packageManager": "yarn@1.22.17",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}
