@@ -1,4 +1,4 @@
-import { IConnectorConfig } from '../types/connector';
+import { IConnectorConfigs } from '../types/connector';
 
 export enum SupportedConnector {
   RONIN_WALLET = 'RONIN_WALLET',
@@ -13,7 +13,7 @@ export enum ConnectorType {
   MULTISIG = 'MULTISIG',
 }
 
-export const DEFAULT_CONNECTORS_CONFIG: Record<SupportedConnector, IConnectorConfig> = {
+export const DEFAULT_CONNECTORS_CONFIG: Record<SupportedConnector, IConnectorConfigs> = {
   [SupportedConnector.RONIN_WALLET]: {
     name: 'Ronin Wallet',
     id: SupportedConnector.RONIN_WALLET,
