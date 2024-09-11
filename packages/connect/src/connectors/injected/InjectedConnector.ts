@@ -1,16 +1,19 @@
-import { IConnectorConfig } from '../../types/connector';
+import { ReconnectStorage } from '../../common/storage';
+import { IConnectorConfigs } from '../../types/connector';
 import { ConnectorError, ConnectorErrorType } from '../../types/connector-error';
 import { EIP1193Event, IEIP1193Provider } from '../../types/eip1193';
 import { numberToHex } from '../../utils';
 import { BaseConnector } from '../base/BaseConnector';
 
 export class InjectedConnector extends BaseConnector {
-  constructor(provider: IEIP1193Provider, config: IConnectorConfig) {
+  readonly provider: IEIP1193Provider;
+  readonly isRonin: boolean;
+
+  constructor(provider: IEIP1193Provider, config: IConnectorConfigs) {
     super(config);
     this.provider = provider;
+    this.isRonin = !!provider.isRonin;
   }
-
-  readonly provider: IEIP1193Provider;
 
   async getProvider() {
     return this.provider;
@@ -28,6 +31,7 @@ export class InjectedConnector extends BaseConnector {
         await this.switchChain(chainId);
       }
       this.setupProviderListeners();
+      ReconnectStorage.set(this.id);
 
       return {
         provider,
@@ -35,7 +39,7 @@ export class InjectedConnector extends BaseConnector {
         account: accounts[0],
       };
     } catch (err) {
-      throw new ConnectorError(ConnectorErrorType.PROVIDER_NOT_FOUND);
+      throw new ConnectorError(ConnectorErrorType.CONNECT_FAIL);
     }
   }
 

@@ -1,4 +1,4 @@
-export interface IConnectorConfig {
+export interface IConnectorConfigs {
   id: string;
   name: string;
   type: string;
@@ -16,6 +16,7 @@ export interface IBaseConnector {
   readonly name: string;
   readonly icon?: string;
   readonly type: string;
+  readonly isRonin: boolean;
 
   connect(chainId?: number): Promise<IConnectResult>;
   disconnect(): Promise<void>;

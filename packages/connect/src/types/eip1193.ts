@@ -44,4 +44,7 @@ export interface IEIP1193EventEmitter {
 
 export interface IEIP1193Provider extends IEIP1193EventEmitter {
   request: <T = unknown>(args: IProviderRequestArgs) => Promise<T>;
+
+  isRonin?: boolean;
+  isMetaMask?: boolean;
 }
