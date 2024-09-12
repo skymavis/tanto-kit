@@ -1,10 +1,9 @@
 {
   "private": true,
   "name": "tanto-kit",
-
   "scripts": {
-    "build": "turbo run build --filter=@sky-mavis/tanto-kit",
-    "dev": "turbo run dev --filter=@sky-mavis/tanto-kit --no-cache --parallel --continue",
+    "build": "turbo run build --filter=!@tanto-kit/example",
+    "dev": "turbo run dev --no-cache --parallel --continue",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },

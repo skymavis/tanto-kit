@@ -1,38 +1,36 @@
-import { EIP6963EventNames, IEIP6963AnnounceProviderEvent, IEIP6963ProviderDetail } from '../types/eip6963';
+import { EthereumProvider, EthereumProviderOptions } from '@walletconnect/ethereum-provider';
 
-export const injectedProviderDetails: IEIP6963ProviderDetail[] = [];
+import { DEFAULT_DELAY_TIME, RONIN_WALLET_RDNS } from '../common/constant';
+import { ConnectorError, ConnectorErrorType } from '../types/connector-error';
+import { IEIP1193Provider } from '../types/eip1193';
+import { checkRoninInstalled } from '../utils';
+import { requestProviders } from './eip6963';
 
-export const requestEIP6963Providers = async (delay = 700): Promise<IEIP6963ProviderDetail[]> => {
-  if (typeof window === 'undefined') {
-    return injectedProviderDetails;
+export const requestRoninProviders = async (delay = DEFAULT_DELAY_TIME) => {
+  const providersDetail = await requestProviders(delay);
+  const roninProvider = providersDetail.find(({ info }) => info.rdns === RONIN_WALLET_RDNS)?.provider;
+  if (roninProvider) {
+    return roninProvider;
+  } else {
+    throw new ConnectorError(ConnectorErrorType.PROVIDER_NOT_FOUND);
   }
-  const handlerAnnouncement = (event: IEIP6963AnnounceProviderEvent) => {
-    const isProviderAlreadyAnnounced = injectedProviderDetails.some(({ info }) => info.uuid === event.detail.info.uuid);
-    if (isProviderAlreadyAnnounced) {
-      return;
-    }
-    injectedProviderDetails.push(event.detail);
-    window.dispatchEvent(new CustomEvent(EIP6963EventNames.UpdateProvider));
-  };
-
-  window.addEventListener(EIP6963EventNames.AnnounceProvider, handlerAnnouncement);
-  window.dispatchEvent(new CustomEvent(EIP6963EventNames.RequestProvider));
-
-  return new Promise(resolve => {
-    setTimeout(() => {
-      window.removeEventListener(EIP6963EventNames.AnnounceProvider, handlerAnnouncement); // Clean up the event listener
-      resolve(injectedProviderDetails);
-    }, delay);
-  });
 };
 
-export const onProvidersUpdated = (callback: () => void) => {
-  if (typeof window === 'undefined') {
-    callback();
+export const requestLegacyRoninProvider = async (delay = DEFAULT_DELAY_TIME): Promise<IEIP1193Provider> => {
+  if (checkRoninInstalled()) {
+    return window.ronin?.provider as IEIP1193Provider;
   }
 
-  window.addEventListener(EIP6963EventNames.UpdateProvider, callback);
-  return () => {
-    window.removeEventListener(EIP6963EventNames.UpdateProvider, callback);
-  };
+  // Wait for the provider to be injected if it's not available yet
+  await new Promise(resolve => setTimeout(resolve, delay));
+
+  if (checkRoninInstalled()) {
+    return window.ronin?.provider as IEIP1193Provider;
+  }
+
+  throw new ConnectorError(ConnectorErrorType.NOT_INSTALLED);
+};
+
+export const createWalletConnectProvider = (options: EthereumProviderOptions) => {
+  return EthereumProvider.init(options);
 };

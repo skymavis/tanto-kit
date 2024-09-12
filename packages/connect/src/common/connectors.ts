@@ -1,6 +1,6 @@
 import { IConnectorConfigs } from '../types/connector';
 
-export enum SupportedConnector {
+export enum SupportedConnectors {
   RONIN_WALLET = 'RONIN_WALLET',
   RONIN_WC = 'RONIN_WC',
   INJECTED = 'INJECTED',
@@ -13,30 +13,30 @@ export enum ConnectorType {
   MULTISIG = 'MULTISIG',
 }
 
-export const DEFAULT_CONNECTORS_CONFIG: Record<SupportedConnector, IConnectorConfigs> = {
-  [SupportedConnector.RONIN_WALLET]: {
+export const DEFAULT_CONNECTORS_CONFIG: Record<SupportedConnectors, IConnectorConfigs> = {
+  [SupportedConnectors.RONIN_WALLET]: {
     name: 'Ronin Wallet',
-    id: SupportedConnector.RONIN_WALLET,
+    id: SupportedConnectors.RONIN_WALLET,
     type: ConnectorType.WALLET,
   },
-  [SupportedConnector.RONIN_WC]: {
+  [SupportedConnectors.RONIN_WC]: {
     name: 'Ronin Mobile',
-    id: SupportedConnector.RONIN_WC,
+    id: SupportedConnectors.RONIN_WC,
     type: ConnectorType.WALLET,
   },
-  [SupportedConnector.INJECTED]: {
-    id: 'INJECTED_CONNECTOR',
-    name: SupportedConnector.INJECTED,
-    type: ConnectorType.WALLET,
-  },
-  [SupportedConnector.WAYPOINT]: {
+  [SupportedConnectors.WAYPOINT]: {
     name: 'Ronin Waypoint',
-    id: SupportedConnector.WAYPOINT,
+    id: SupportedConnectors.WAYPOINT,
     type: ConnectorType.WALLET,
   },
-  [SupportedConnector.SAFE]: {
-    name: 'Safe',
-    id: SupportedConnector.SAFE,
+  [SupportedConnectors.INJECTED]: {
+    name: 'Injected Providers',
+    id: SupportedConnectors.INJECTED,
+    type: ConnectorType.WALLET,
+  },
+  [SupportedConnectors.SAFE]: {
+    name: 'Gnosis Safe',
+    id: SupportedConnectors.SAFE,
     type: ConnectorType.MULTISIG,
   },
 };
