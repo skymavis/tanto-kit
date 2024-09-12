@@ -137,6 +137,9 @@ export class RoninWCConnector extends BaseConnector {
       this.provider.removeListener(EIP1193Event.DISCONNECT, this.onDisconnect);
       this.provider.removeListener(EIP1193Event.ACCOUNTS_CHANGED, this.onAccountsChanged);
       this.provider.removeListener(EIP1193Event.CHAIN_CHANGED, this.onChainChanged);
+
+      this.provider.removeListener(WCEvent.DISPLAY_URI, this.onDisplayUri);
+      this.provider.removeListener(WCEvent.SESSION_EVENT, this.onSessionEvent);
     }
   }
 }

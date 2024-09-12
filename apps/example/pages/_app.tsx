@@ -1,20 +1,14 @@
 import { NextUIProvider } from '@nextui-org/react';
+import { AppProps } from 'next/app';
 import { ThemeProvider } from 'next-themes';
-
-import InjectedProviderConnect from '../ components/InjectedProvidersConnect';
-import RoninWalletConnect from '../ components/RoninWalletConnect';
 
 import '../styles/index.scss';
 
-function MyApp() {
+function MyApp({ Component, pageProps }: AppProps) {
   return (
     <NextUIProvider>
       <ThemeProvider defaultTheme="dark">
-        <div className={'max-w-2xl flex-col flex mx-auto items-center gap-6 p-10'}>
-          <h3>Hello Ronin Wallet!</h3>
-          <RoninWalletConnect />
-          <InjectedProviderConnect />
-        </div>
+        <Component {...pageProps} />
       </ThemeProvider>
     </NextUIProvider>
   );

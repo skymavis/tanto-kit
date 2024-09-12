@@ -19,19 +19,27 @@ export class InjectedConnector extends BaseConnector {
     return this.provider;
   }
 
+  shouldAutoReconnect = async () => {
+    return false;
+  };
+
   async connect(chainId?: number) {
     const provider = await this.getProvider();
+
     if (!provider) {
       throw new ConnectorError(ConnectorErrorType.PROVIDER_NOT_FOUND);
     }
+
     try {
       const accounts = await this.requestAccounts();
       const currentChainId = await this.getChainId();
+
       if (chainId && currentChainId !== chainId) {
         await this.switchChain(chainId);
       }
+
       this.setupProviderListeners();
-      ReconnectStorage.set(this.id);
+      ReconnectStorage.add(this.id);
 
       return {
         provider,
