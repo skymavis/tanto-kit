@@ -26,4 +26,10 @@ export interface IBaseConnector {
   getChainId(): Promise<number>;
   switchChain(chain: any): Promise<boolean>;
   requestAccounts(): Promise<readonly string[]>;
+  shouldAutoReconnect(): Promise<boolean>;
+
+  onChainChanged(chainId: string): void;
+  onAccountsChanged(accounts: string[]): void;
+  onConnect({ chainId }: { chainId: string }): void;
+  onDisconnect(): void;
 }

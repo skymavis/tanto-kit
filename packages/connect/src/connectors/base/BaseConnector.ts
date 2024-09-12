@@ -21,7 +21,9 @@ export abstract class BaseConnector extends ConnectorEventEmitter implements IBa
     this.icon = icon;
     this.type = type;
     this.isRonin = false;
-    this.autoReconnect() && this.connect();
+    this.shouldAutoReconnect().then(isAuto => {
+      if (isAuto) this.connect().catch();
+    });
   }
 
   abstract getProvider(chainId?: number): Promise<ExternalProvider>;
@@ -33,25 +35,26 @@ export abstract class BaseConnector extends ConnectorEventEmitter implements IBa
   abstract switchChain(chain: number): Promise<boolean>;
   abstract requestAccounts(): Promise<readonly string[]>;
 
-  autoReconnect = () => {
-    return ReconnectStorage.get(this.id);
+  shouldAutoReconnect = async () => {
+    const isReconnect = ReconnectStorage.get(this.id);
+    return isReconnect && (await this.isAuthorized());
   };
 
-  protected onChainChanged = (chainId: string) => {
+  onChainChanged = (chainId: string) => {
     this.emit(EIP1193Event.CHAIN_CHANGED, chainId);
   };
 
-  protected onAccountsChanged = (accounts: string[]) => {
+  onAccountsChanged = (accounts: string[]) => {
     if (accounts.length === 0) {
       this.onDisconnect();
     } else this.emit(EIP1193Event.ACCOUNTS_CHANGED, accounts);
   };
 
-  protected onConnect = ({ chainId }: { chainId: string }) => {
+  onConnect = ({ chainId }: { chainId: string }) => {
     this.emit(EIP1193Event.CONNECT, { chainId: chainId });
   };
 
-  protected onDisconnect = () => {
+  onDisconnect = () => {
     this.emit(EIP1193Event.DISCONNECT);
   };
 }

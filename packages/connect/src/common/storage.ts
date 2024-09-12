@@ -31,7 +31,7 @@ export const ReconnectStorage = {
   get: (connectorId: string): boolean =>
     LocalStorage.get<boolean>(`${STORAGE_PREFIX}.RECONNECT.${connectorId}`) ?? false,
 
-  set: (connectorId: string): boolean => LocalStorage.set(`${STORAGE_PREFIX}.RECONNECT.${connectorId}`, true),
+  add: (connectorId: string): boolean => LocalStorage.set(`${STORAGE_PREFIX}.RECONNECT.${connectorId}`, true),
 
-  clear: (connectorId: string): boolean => LocalStorage.remove(`${STORAGE_PREFIX}.RECONNECT.${connectorId}`),
+  remove: (connectorId: string): boolean => LocalStorage.remove(`${STORAGE_PREFIX}.RECONNECT.${connectorId}`),
 };

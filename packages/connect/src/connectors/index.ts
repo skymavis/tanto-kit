@@ -1,4 +1,4 @@
-import { requestEIP6963Providers } from '../providers';
+import { requestProviders } from '../providers/eip6963';
 import { IConnectorConfigs } from '../types/connector';
 import { IEIP1193Provider } from '../types/eip1193';
 import { InjectedConnector } from './injected/InjectedConnector';
@@ -8,7 +8,7 @@ export const createInjectedConnector = (injectedProvider: IEIP1193Provider, opti
 };
 
 export const requestInjectedConnectors = async () => {
-  const providerDetails = await requestEIP6963Providers();
+  const providerDetails = await requestProviders();
 
   return providerDetails.map(providerDetail => {
     return createInjectedConnector(providerDetail.provider, {
