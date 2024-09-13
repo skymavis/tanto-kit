@@ -1,77 +1,48 @@
-import { Button, User } from '@nextui-org/react';
-import { IBaseConnector, RoninWalletConnector } from '@sky-mavis/tanto-connect';
-import { EIP1193Event } from '@sky-mavis/tanto-connect/src';
+import { Button } from '@nextui-org/react';
+import { EIP1193Event, RoninWalletConnector } from '@sky-mavis/tanto-connect';
 import { isNil } from 'lodash';
 import React, { FC, useEffect } from 'react';
 
+import { useConnectorStore } from '../../../hooks/useConnectorStore';
 import WillRender from '../../will-render/WillRender';
-
-interface IPropsType {
-  setConnector: (connector: IBaseConnector) => void;
-}
+import ConnectorActions from '../connector-actions/ConnectorActions';
 
 const roninWalletConnector = new RoninWalletConnector();
-const RoninWallet: FC<IPropsType> = ({ setConnector }) => {
+const RoninWallet: FC = () => {
+  const { connector, setConnector } = useConnectorStore();
+
   const [connecting, setConnecting] = React.useState<boolean>(false);
-  const [account, setAccount] = React.useState<string | null>(null);
-  const [chainId, setChainId] = React.useState<number | null>(null);
+  const isConnected = !isNil(connector) && connector.id === roninWalletConnector.id;
 
   const connectWallet = () => {
     setConnecting(true);
     roninWalletConnector
       .connect()
-      .then(res => res?.account && setAccount(res?.account))
+      .then(() => {
+        setConnector(roninWalletConnector);
+      })
       .catch(console.error)
       .finally(() => setConnecting(false));
   };
 
-  const disconnectWallet = () => {
-    roninWalletConnector
-      .disconnect()
-      .then(() => setAccount(null))
-      .catch(console.error);
-  };
-
-  const fetchChainId = () => {
-    roninWalletConnector
-      .getChainId()
-      .then(chainId => setChainId(chainId))
-      .catch(console.error);
-  };
-
   useEffect(() => {
-    roninWalletConnector.on(EIP1193Event.DISCONNECT, () => setAccount(null));
-    roninWalletConnector.on(EIP1193Event.CHAIN_CHANGED, chainId => setChainId(Number(chainId)));
-    roninWalletConnector.on(EIP1193Event.ACCOUNTS_CHANGED, accounts =>
-      accounts.length > 0 ? setAccount(accounts[0]) : setAccount(null),
-    );
-    roninWalletConnector.on(EIP1193Event.CONNECT, () => {
+    const setupConnect = () => {
       setConnector(roninWalletConnector);
-      roninWalletConnector
-        .getAccounts()
-        .then(accounts => setAccount(accounts[0]))
-        .catch(console.error);
-    });
+    };
+
+    roninWalletConnector.on(EIP1193Event.CONNECT, () => setupConnect);
   }, []);
 
   return (
     <div className={'w-full flex flex-col justify-center gap-6'}>
-      <WillRender when={isNil(account)}>
+      <WillRender when={!isConnected}>
         <Button onClick={connectWallet} isLoading={connecting} size={'lg'}>
           <img src={'https://cdn.skymavis.com/wallet/logo.png'} height={20} width={20} />
           Connect to Ronin Wallet!
         </Button>
       </WillRender>
-      <WillRender when={!isNil(account)}>
-        <User name="Account Wallet" description={account} />
-        <div className={'flex gap-6 justify-center'}>
-          <Button onClick={fetchChainId} fullWidth>
-            {chainId ? `Chain Id: ${chainId}` : 'Get ChainId'}
-          </Button>
-          <Button onClick={disconnectWallet} fullWidth color={'secondary'}>
-            Disconnect
-          </Button>
-        </div>
+      <WillRender when={isConnected && !isNil(connector)}>
+        <ConnectorActions />
       </WillRender>
     </div>
   );

@@ -1,12 +1,12 @@
 import { Button, Card, CardBody, CardFooter, CardHeader, Input } from '@nextui-org/react';
-import { IBaseConnector } from '@sky-mavis/tanto-connect';
+import { isNil } from 'lodash';
 import React, { FC, useState } from 'react';
 
-interface IPropsType {
-  connector?: IBaseConnector;
-}
+import { useConnectorStore } from '../../../hooks/useConnectorStore';
 
-const RequestAccount: FC<IPropsType> = ({ connector }) => {
+const RequestAccount: FC = () => {
+  const connector = useConnectorStore(state => state.connector);
+
   const [loading, setLoading] = useState<boolean>(false);
   const [account, setAccount] = useState<string | null>(null);
 
@@ -31,7 +31,7 @@ const RequestAccount: FC<IPropsType> = ({ connector }) => {
         <Input label={'Your address'} value={account || ''} disabled />
       </CardBody>
       <CardFooter className={'flex flex-row-reverse'}>
-        <Button isLoading={loading} onClick={requestAccount}>
+        <Button isLoading={loading} onClick={requestAccount} disabled={isNil(connector)}>
           Request Account
         </Button>
       </CardFooter>

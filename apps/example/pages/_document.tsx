@@ -4,7 +4,7 @@ export default function Document() {
   return (
     <Html>
       <Head>
-        <meta property="og:site_name" content="Example Mavis Market SDK" />
+        <meta property="og:site_name" content="TantoKit Connect Example" />
         <link rel="icon" href="https://cdn.skymavis.com/skymavis-home/public/favicon.ico" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />

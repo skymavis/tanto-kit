@@ -1,14 +1,13 @@
 import { Button, Card, CardBody, CardFooter, CardHeader, Input } from '@nextui-org/react';
-import { IBaseConnector } from '@sky-mavis/tanto-connect';
 import { ethers } from 'ethers';
 import { isNil } from 'lodash';
 import React, { FC, useState } from 'react';
 
-interface IPropsType {
-  connector?: IBaseConnector;
-}
+import { useConnectorStore } from '../../../hooks/useConnectorStore';
 
-const SignMessage: FC<IPropsType> = ({ connector }) => {
+const SignMessage: FC = () => {
+  const connector = useConnectorStore(state => state.connector);
+
   const [message, setMessage] = useState<string>('');
   const [signature, setSignature] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -42,7 +41,7 @@ const SignMessage: FC<IPropsType> = ({ connector }) => {
         <Input label={'Your signature'} disabled value={signature} />
       </CardBody>
       <CardFooter className={'flex flex-row-reverse'}>
-        <Button disabled={!!signature || isNil(connector)} onClick={signMessage} isLoading={loading}>
+        <Button disabled={isNil(connector)} onClick={signMessage} isLoading={loading}>
           Sign Message
         </Button>
       </CardFooter>

@@ -1,5 +1,3 @@
-import { ExternalProvider } from '@ethersproject/providers';
-
 import { ReconnectStorage } from '../../common/storage';
 import { IBaseConnector, IConnectorConfigs, IConnectResult } from '../../types/connector';
 import { ConnectorEventEmitter } from '../../types/connector-event';
@@ -21,12 +19,10 @@ export abstract class BaseConnector extends ConnectorEventEmitter implements IBa
     this.icon = icon;
     this.type = type;
     this.isRonin = false;
-    this.shouldAutoReconnect().then(isAuto => {
-      if (isAuto) this.connect().catch();
-    });
+    this.processAutoReconnect();
   }
 
-  abstract getProvider(chainId?: number): Promise<ExternalProvider>;
+  abstract getProvider(chainId?: number): Promise<unknown>;
   abstract connect(chainId?: number): Promise<IConnectResult>;
   abstract disconnect(): Promise<void>;
   abstract isAuthorized(): Promise<boolean>;
@@ -35,9 +31,21 @@ export abstract class BaseConnector extends ConnectorEventEmitter implements IBa
   abstract switchChain(chain: number): Promise<boolean>;
   abstract requestAccounts(): Promise<readonly string[]>;
 
+  processAutoReconnect = async () => {
+    try {
+      const shouldConnect = await this.shouldAutoReconnect();
+      if (shouldConnect) {
+        await this.connect();
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   shouldAutoReconnect = async () => {
     const isReconnect = ReconnectStorage.get(this.id);
-    return isReconnect && (await this.isAuthorized());
+    const isAuthorized = await this.isAuthorized();
+    return isReconnect && isAuthorized;
   };
 
   onChainChanged = (chainId: string) => {

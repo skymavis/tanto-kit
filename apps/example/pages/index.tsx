@@ -8,17 +8,15 @@ import WalletActions from '../components/wallet-actions/WalletActions';
 import WalletConnectors from '../components/wallet-connectors/WalletConnectors';
 
 const HomePage: NextPage = () => {
-  const [connector, setConnector] = React.useState<IBaseConnector>();
-
   return (
-    <div className={'flex'}>
+    <div className={'flex justify-center'}>
       <div className={'max-w-screen-sm flex h-screen flex-col p-6'}>
         <Intro />
-        <WalletConnectors setConnector={connector => setConnector(connector)} />
+        <WalletConnectors />
       </div>
 
       <div className="flex flex-col max-w-screen-sm p-6  min-h-screen flex-grow">
-        <WalletActions connector={connector} />
+        <WalletActions />
       </div>
     </div>
   );
