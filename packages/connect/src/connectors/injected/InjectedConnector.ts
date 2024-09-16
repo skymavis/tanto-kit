@@ -6,12 +6,10 @@ import { numberToHex } from '../../utils';
 import { BaseConnector } from '../base/BaseConnector';
 
 export class InjectedConnector extends BaseConnector {
-  readonly provider: IEIP1193Provider;
   readonly isRonin: boolean;
 
   constructor(provider: IEIP1193Provider, config: IConnectorConfigs) {
-    super(config);
-    this.provider = provider;
+    super(provider, config);
     this.isRonin = !!provider.isRonin;
   }
 

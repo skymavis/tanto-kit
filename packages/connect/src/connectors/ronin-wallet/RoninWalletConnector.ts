@@ -13,21 +13,17 @@ interface IRoninWalletConnectorConfigs extends Partial<IConnectorConfigs> {
 
 export class RoninWalletConnector extends BaseConnector {
   readonly isRonin: boolean;
-  private provider?: IEIP1193Provider;
   private readonly isUseEIP6963: boolean;
 
-  constructor(configs?: IRoninWalletConnectorConfigs) {
+  constructor(provider: IEIP1193Provider, configs?: IRoninWalletConnectorConfigs) {
     const { isUseEIP6963 = true, ...restConfigs } = configs ?? {};
-    super({ ...DEFAULT_CONNECTORS_CONFIG.RONIN_WALLET, ...restConfigs });
+    super(provider, { ...DEFAULT_CONNECTORS_CONFIG.RONIN_WALLET, ...restConfigs });
 
     this.isUseEIP6963 = isUseEIP6963;
     this.isRonin = true;
   }
 
   async getProvider() {
-    if (!this.provider) {
-      this.provider = this.isUseEIP6963 ? await requestRoninProviders() : await requestLegacyRoninProvider();
-    }
     return this.provider;
   }
 

@@ -1,7 +1,7 @@
 import { ReconnectStorage } from '../../common/storage';
 import { IBaseConnector, IConnectorConfigs, IConnectResult } from '../../types/connector';
 import { ConnectorEventEmitter } from '../../types/connector-event';
-import { EIP1193Event } from '../../types/eip1193';
+import {EIP1193Event, IEIP1193Provider} from '../../types/eip1193';
 
 export abstract class BaseConnector extends ConnectorEventEmitter implements IBaseConnector {
   readonly id: string;
@@ -9,8 +9,9 @@ export abstract class BaseConnector extends ConnectorEventEmitter implements IBa
   readonly type: string;
   readonly isRonin: boolean;
   readonly icon?: string;
+  readonly provider: IEIP1193Provider;
 
-  protected constructor(configs: IConnectorConfigs) {
+  protected constructor(provider: IEIP1193Provider, configs: IConnectorConfigs) {
     const { id, name, icon, type } = configs;
 
     super();
@@ -19,10 +20,10 @@ export abstract class BaseConnector extends ConnectorEventEmitter implements IBa
     this.icon = icon;
     this.type = type;
     this.isRonin = false;
+    this.provider = provider;
     this.processAutoReconnect();
   }
 
-  abstract getProvider(chainId?: number): Promise<unknown>;
   abstract connect(chainId?: number): Promise<IConnectResult>;
   abstract disconnect(): Promise<void>;
   abstract isAuthorized(): Promise<boolean>;
@@ -30,6 +31,11 @@ export abstract class BaseConnector extends ConnectorEventEmitter implements IBa
   abstract getChainId(): Promise<number>;
   abstract switchChain(chain: number): Promise<boolean>;
   abstract requestAccounts(): Promise<readonly string[]>;
+
+
+  async getProvider() {
+    return this.provider;
+  }
 
   processAutoReconnect = async () => {
     try {
