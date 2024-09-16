@@ -5,7 +5,6 @@ export * from './common/storage';
 export * from './connectors';
 export * from './connectors/base/BaseConnector';
 export * from './connectors/coinbase/CoinbaseWalletConnector';
-export * from './connectors/gnosis/SafeProvider';
 export * from './connectors/injected/InjectedConnector';
 export * from './connectors/ronin-wallet/RoninWalletConnector';
 export * from './connectors/ronin-wallet-connect/RoninWalletConnectConnector';
