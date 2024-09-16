@@ -1,25 +1,16 @@
 import { DEFAULT_CONNECTORS_CONFIG } from '../../common/connectors';
 import { ReconnectStorage } from '../../common/storage';
-import { requestLegacyRoninProvider, requestRoninProviders } from '../../providers';
 import { IConnectorConfigs } from '../../types/connector';
 import { ConnectorError, ConnectorErrorType } from '../../types/connector-error';
 import { EIP1193Event, IEIP1193Provider } from '../../types/eip1193';
 import { numberToHex } from '../../utils';
 import { BaseConnector } from '../base/BaseConnector';
 
-interface IRoninWalletConnectorConfigs extends Partial<IConnectorConfigs> {
-  isUseEIP6963?: boolean;
-}
-
 export class RoninWalletConnector extends BaseConnector {
   readonly isRonin: boolean;
-  private readonly isUseEIP6963: boolean;
 
-  constructor(provider: IEIP1193Provider, configs?: IRoninWalletConnectorConfigs) {
-    const { isUseEIP6963 = true, ...restConfigs } = configs ?? {};
-    super(provider, { ...DEFAULT_CONNECTORS_CONFIG.RONIN_WALLET, ...restConfigs });
-
-    this.isUseEIP6963 = isUseEIP6963;
+  constructor(provider: IEIP1193Provider, configs?: Partial<IConnectorConfigs>) {
+    super(provider, { ...DEFAULT_CONNECTORS_CONFIG.RONIN_WALLET, ...configs });
     this.isRonin = true;
   }
 
