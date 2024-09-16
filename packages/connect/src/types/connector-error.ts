@@ -6,28 +6,17 @@ export enum ConnectorErrorType {
   INVALID_PARAMS = 'InvalidParams',
   NOT_INSTALLED = 'NotInstalled',
   UNKNOWN = 'Unknown',
+  SWITCH_CHAIN_NOT_SUPPORTED= 'SwitchChainNotSupported'
 }
-
-const ConnectorErrorCode = {
-  [ConnectorErrorType.PROVIDER_NOT_FOUND]: 1001,
-  [ConnectorErrorType.WALLET_IS_LOCKED]: 1002,
-  [ConnectorErrorType.CONNECT_FAIL]: 1003,
-  [ConnectorErrorType.USER_REJECTED_SESSION_REQUEST]: 1004,
-  [ConnectorErrorType.INVALID_PARAMS]: 1005,
-  [ConnectorErrorType.NOT_INSTALLED]: 1006,
-  [ConnectorErrorType.UNKNOWN]: 1010,
-};
 
 export class ConnectorError extends Error {
   name: ConnectorErrorType;
-  message: string;
-  code: number;
+  error?: any;
 
-  constructor(name: ConnectorErrorType, message?: string) {
+  constructor(name: ConnectorErrorType, error?: any) {
     super();
 
     this.name = name;
-    this.message = message ?? name;
-    this.code = ConnectorErrorCode[name];
+    this.error = error;
   }
 }

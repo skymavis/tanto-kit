@@ -47,7 +47,7 @@ export class InjectedConnector extends BaseConnector {
         account: accounts[0],
       };
     } catch (err) {
-      throw new ConnectorError(ConnectorErrorType.CONNECT_FAIL);
+      throw new ConnectorError(ConnectorErrorType.CONNECT_FAIL, err);
     }
   }
 
