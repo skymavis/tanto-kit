@@ -1,5 +1,6 @@
 import { DEFAULT_CONNECTORS_CONFIG } from '../../common/connectors';
 import { checkRoninInstalled } from '../../utils';
+import { requestRoninWalletConnector } from '../index';
 import { RoninWalletConnector } from './RoninWalletConnector';
 
 jest.mock('../../utils', () => ({
@@ -9,9 +10,9 @@ jest.mock('../../utils', () => ({
 describe('RoninWalletConnector', () => {
   let connector: RoninWalletConnector;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     (checkRoninInstalled as jest.Mock).mockReturnValue(true);
-    connector = new RoninWalletConnector();
+    connector = await requestRoninWalletConnector();
   });
 
   afterEach(() => {
