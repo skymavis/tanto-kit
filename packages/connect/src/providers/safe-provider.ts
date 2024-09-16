@@ -7,10 +7,10 @@ import { ConnectorError, ConnectorErrorType } from '../types/connector-error';
 
 const safeSDK = new SafeAppsSDK();
 
-export const requestSafeProvider = async () => {
+export const requestSafeProvider = async (delay = DEFAULT_DELAY_TIME) => {
   const safeInfo = await Promise.race([
     safeSDK.safe.getInfo(),
-    new Promise<undefined>(resolve => setTimeout(resolve, DEFAULT_DELAY_TIME)),
+    new Promise<undefined>(resolve => setTimeout(resolve, delay)),
   ]);
 
   if (!safeInfo) {
