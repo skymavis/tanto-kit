@@ -1,40 +1,14 @@
 import { DEFAULT_CONNECTORS_CONFIG } from '../../common/connectors';
 import { ReconnectStorage } from '../../common/storage';
-import { requestCoinbaseProviders, requestLegacyCoinbaseProvider } from '../../providers/coinbase-provider';
 import { IConnectorConfigs } from '../../types/connector';
 import { ConnectorError, ConnectorErrorType } from '../../types/connector-error';
 import { EIP1193Event, IEIP1193Provider } from '../../types/eip1193';
 import { numberToHex } from '../../utils';
 import { BaseConnector } from '../base/BaseConnector';
 
-interface ICoinbaseWalletConnectorConfigs extends Partial<IConnectorConfigs> {
-  isUseEIP6963?: boolean;
-}
-
 export class CoinbaseWalletConnector extends BaseConnector {
-  readonly isCoinbaseWallet: boolean;
-  private provider?: IEIP1193Provider;
-  private readonly isUseEIP6963: boolean;
-
-  constructor(config?: ICoinbaseWalletConnectorConfigs) {
-    const { isUseEIP6963 = true, ...restConfigs } = config ?? {};
-    super({ ...DEFAULT_CONNECTORS_CONFIG.COINBASE_WALLET, ...restConfigs });
-
-    this.isUseEIP6963 = isUseEIP6963;
-    this.isCoinbaseWallet = true;
-  }
-
-  async getProvider() {
-    if (this.provider) {
-      return this.provider;
-    }
-
-    const coinbaseProvider = this.isUseEIP6963
-      ? await requestCoinbaseProviders()
-      : await requestLegacyCoinbaseProvider();
-
-    this.provider = coinbaseProvider;
-    return this.provider;
+  constructor(provider: IEIP1193Provider, configs?: IConnectorConfigs) {
+    super(provider, { ...DEFAULT_CONNECTORS_CONFIG.COINBASE_WALLET, ...configs });
   }
 
   async connect(chainId?: number) {
