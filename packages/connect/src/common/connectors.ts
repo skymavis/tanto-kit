@@ -6,6 +6,7 @@ export enum SupportedConnectors {
   INJECTED = 'INJECTED',
   WAYPOINT = 'WAYPOINT',
   SAFE = 'SAFE',
+  COINBASE_WALLET = 'COINBASE_WALLET',
 }
 
 export enum ConnectorType {
@@ -38,5 +39,10 @@ export const DEFAULT_CONNECTORS_CONFIG: Record<SupportedConnectors, IConnectorCo
     name: 'Gnosis Safe',
     id: SupportedConnectors.SAFE,
     type: ConnectorType.MULTISIG,
+  },
+  [SupportedConnectors.COINBASE_WALLET]: {
+    name: 'Coinbase Wallet',
+    id: SupportedConnectors.COINBASE_WALLET,
+    type: ConnectorType.WALLET,
   },
 };
