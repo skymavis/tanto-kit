@@ -1,7 +1,7 @@
 import { ReconnectStorage } from '../../common/storage';
 import { IBaseConnector, IConnectorConfigs, IConnectResult } from '../../types/connector';
 import { ConnectorEventEmitter } from '../../types/connector-event';
-import {EIP1193Event, IEIP1193Provider} from '../../types/eip1193';
+import { EIP1193Event, IEIP1193Provider } from '../../types/eip1193';
 
 export abstract class BaseConnector extends ConnectorEventEmitter implements IBaseConnector {
   readonly id: string;
@@ -31,7 +31,6 @@ export abstract class BaseConnector extends ConnectorEventEmitter implements IBa
   abstract getChainId(): Promise<number>;
   abstract switchChain(chain: number): Promise<boolean>;
   abstract requestAccounts(): Promise<readonly string[]>;
-
 
   async getProvider() {
     return this.provider;

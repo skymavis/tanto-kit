@@ -1,39 +1,14 @@
 import { RoninWaypointWallet } from '@sky-mavis/waypoint';
 
-import { SupportedChainIds } from '../../common/chain';
 import { DEFAULT_CONNECTORS_CONFIG } from '../../common/connectors';
 import { IConnectorConfigs } from '../../types/connector';
 import { ConnectorError, ConnectorErrorType } from '../../types/connector-error';
 import { EIP1193Event } from '../../types/eip1193';
 import { BaseConnector } from '../base/BaseConnector';
 
-const DEFAULT_ID_ORIGIN = 'https://waypoint.roninchain.com';
-const CLIENT_ID = 'ced25363-9cab-4e50-b1bc-0e583b93c3a2';
-
 export class WaypointConnector extends BaseConnector {
-  constructor(config?: IConnectorConfigs) {
-    super({ ...DEFAULT_CONNECTORS_CONFIG.WAYPOINT, ...config });
-  }
-
-  private provider?: RoninWaypointWallet;
-
-  async getProvider(chainId?: number) {
-    if (this.provider) {
-      return this.provider;
-    }
-
-    const waypointProvider = RoninWaypointWallet.create({
-      idOrigin: DEFAULT_ID_ORIGIN,
-      clientId: CLIENT_ID,
-      chainId: chainId || SupportedChainIds.RoninMainet,
-    });
-
-    if (!waypointProvider) {
-      throw new ConnectorError(ConnectorErrorType.PROVIDER_NOT_FOUND);
-    }
-
-    this.provider = waypointProvider;
-    return this.provider;
+  constructor(provider: RoninWaypointWallet, configs: IConnectorConfigs) {
+    super(provider, { ...DEFAULT_CONNECTORS_CONFIG.WAYPOINT, ...configs });
   }
 
   async isAuthorized() {
@@ -72,7 +47,7 @@ export class WaypointConnector extends BaseConnector {
   }
 
   async connect(chainId?: number) {
-    const provider = await this.getProvider(chainId);
+    const provider = await this.getProvider();
 
     if (!provider) {
       throw new ConnectorError(ConnectorErrorType.PROVIDER_NOT_FOUND);

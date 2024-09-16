@@ -7,35 +7,12 @@ import { ConnectorError, ConnectorErrorType } from '../../types/connector-error'
 import { EIP1193Event } from '../../types/eip1193';
 import { BaseConnector } from '../base/BaseConnector';
 
-const DEFAULT_TIMEOUT = 700;
-
 export class SafeConnector extends BaseConnector {
-  constructor(config?: IConnectorConfigs) {
-    super({ ...DEFAULT_CONNECTORS_CONFIG.SAFE, ...config });
+  constructor(provider: SafeAppProvider, configs: IConnectorConfigs) {
+    super(provider, { ...DEFAULT_CONNECTORS_CONFIG.SAFE, ...configs });
   }
-
-  private provider?: SafeAppProvider;
 
   protected safeSdk = new SafeAppsSDK();
-
-  async getProvider() {
-    if (this.provider) {
-      return this.provider;
-    }
-
-    const safeInfo = await Promise.race([
-      this.safeSdk.safe.getInfo(),
-      new Promise<undefined>(resolve => setTimeout(resolve, DEFAULT_TIMEOUT)),
-    ]);
-
-    if (!safeInfo) {
-      throw new ConnectorError(ConnectorErrorType.PROVIDER_NOT_FOUND);
-    }
-
-    const safeAppProvider = new SafeAppProvider(safeInfo, this.safeSdk);
-    this.provider = safeAppProvider;
-    return this.provider;
-  }
 
   async connect(chainId?: number) {
     const provider = await this.getProvider();
@@ -73,7 +50,7 @@ export class SafeConnector extends BaseConnector {
   async getAccounts() {
     const provider = await this.getProvider();
 
-    return provider?.request({
+    return provider?.request<string[]>({
       method: 'eth_accounts',
     });
   }
@@ -96,7 +73,7 @@ export class SafeConnector extends BaseConnector {
 
   async requestAccounts() {
     const provider = await this.getProvider();
-    return provider?.request({
+    return provider?.request<string[]>({
       method: 'eth_requestAccounts',
     });
   }
