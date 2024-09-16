@@ -8,7 +8,7 @@ export const checkRoninInstalled = () => {
 
 export const checkCoinbaseInstalled = () => {
   if (typeof window !== 'undefined') {
-    return window.ethereum !== undefined && (window.ethereum as any)?.isCoinbaseWallet !== false;
+    return (window.ethereum as any)?.isCoinbaseWallet;
   } else {
     return false;
   }

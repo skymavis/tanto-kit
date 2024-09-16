@@ -9,7 +9,7 @@ import { BaseConnector } from '../base/BaseConnector';
 
 const DEFAULT_TIMEOUT = 700;
 
-export class SafeProvider extends BaseConnector {
+export class SafeConnector extends BaseConnector {
   constructor(config?: IConnectorConfigs) {
     super({ ...DEFAULT_CONNECTORS_CONFIG.SAFE, ...config });
   }
@@ -81,7 +81,7 @@ export class SafeProvider extends BaseConnector {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async switchChain(chain: number) {
     // TODO: Add a Connector Error for not allowing switch chain
-    throw new ConnectorError(ConnectorErrorType.UNKNOWN);
+    throw new ConnectorError(ConnectorErrorType.SWITCH_CHAIN_NOT_SUPPORTED);
     return false; // This is to prevent TS error
   }
 

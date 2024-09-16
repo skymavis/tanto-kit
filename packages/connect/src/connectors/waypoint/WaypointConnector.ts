@@ -51,7 +51,7 @@ export class WaypointConnector extends BaseConnector {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async switchChain(chain: number) {
     // TODO: Create new ConnectorErrorType for this case
-    throw new ConnectorError(ConnectorErrorType.UNKNOWN, 'Switch chain is not supported');
+    throw new ConnectorError(ConnectorErrorType.SWITCH_CHAIN_NOT_SUPPORTED);
     return false; // This is to prevent TS error
   }
 

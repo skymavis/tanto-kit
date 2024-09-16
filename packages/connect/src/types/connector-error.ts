@@ -6,7 +6,7 @@ export enum ConnectorErrorType {
   INVALID_PARAMS = 'InvalidParams',
   NOT_INSTALLED = 'NotInstalled',
   UNKNOWN = 'Unknown',
-  SWITCH_CHAIN_NOT_SUPPORTED= 'SwitchChainNotSupported'
+  SWITCH_CHAIN_NOT_SUPPORTED = 'SwitchChainNotSupported',
 }
 
 export class ConnectorError extends Error {
