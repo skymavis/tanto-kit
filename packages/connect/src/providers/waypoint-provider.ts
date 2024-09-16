@@ -1,6 +1,7 @@
 import { RoninWaypointWallet } from '@sky-mavis/waypoint';
 
 import { SupportedChainIds } from '../common/chain';
+import { WaypointConnector } from '../connectors/waypoint/WaypointConnector';
 import { ConnectorError, ConnectorErrorType } from '../types/connector-error';
 
 const DEFAULT_ID_ORIGIN = 'https://waypoint.roninchain.com';
@@ -17,5 +18,5 @@ export const requestWaypointProvider = (chainId?: number) => {
     throw new ConnectorError(ConnectorErrorType.PROVIDER_NOT_FOUND);
   }
 
-  return waypointProvider;
+  return new WaypointConnector(waypointProvider);
 };

@@ -8,7 +8,7 @@ import { EIP1193Event } from '../../types/eip1193';
 import { BaseConnector } from '../base/BaseConnector';
 
 export class SafeConnector extends BaseConnector {
-  constructor(provider: SafeAppProvider, configs: IConnectorConfigs) {
+  constructor(provider: SafeAppProvider, configs?: IConnectorConfigs) {
     super(provider, { ...DEFAULT_CONNECTORS_CONFIG.SAFE, ...configs });
   }
 

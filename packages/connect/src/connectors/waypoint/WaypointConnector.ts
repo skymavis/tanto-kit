@@ -7,7 +7,7 @@ import { EIP1193Event } from '../../types/eip1193';
 import { BaseConnector } from '../base/BaseConnector';
 
 export class WaypointConnector extends BaseConnector {
-  constructor(provider: RoninWaypointWallet, configs: IConnectorConfigs) {
+  constructor(provider: RoninWaypointWallet, configs?: IConnectorConfigs) {
     super(provider, { ...DEFAULT_CONNECTORS_CONFIG.WAYPOINT, ...configs });
   }
 
