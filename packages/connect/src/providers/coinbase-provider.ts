@@ -4,7 +4,7 @@ import { ConnectorError, ConnectorErrorType } from '../types/connector-error';
 import { checkCoinbaseInstalled } from '../utils';
 import { requestProviders } from './eip6963';
 
-export const requestCoinbaseProviders = async (delay = DEFAULT_DELAY_TIME) => {
+export const requestCoinbaseProvider = async (delay = DEFAULT_DELAY_TIME) => {
   const providersDetail = await requestProviders(delay);
   const coinbaseProvider = providersDetail.find(({ info }) => info.rdns === COINBASE_WALLET_RDNS)?.provider;
 
