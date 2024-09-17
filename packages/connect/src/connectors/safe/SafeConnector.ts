@@ -1,5 +1,4 @@
 import { SafeAppProvider } from '@safe-global/safe-apps-provider';
-import SafeAppsSDK from '@safe-global/safe-apps-sdk';
 
 import { DEFAULT_CONNECTORS_CONFIG } from '../../common/connectors';
 import { IConnectorConfigs } from '../../types/connector';
@@ -11,8 +10,6 @@ export class SafeConnector extends BaseConnector {
   constructor(provider: SafeAppProvider, configs?: IConnectorConfigs) {
     super(provider, { ...DEFAULT_CONNECTORS_CONFIG.SAFE, ...configs });
   }
-
-  protected safeSdk = new SafeAppsSDK();
 
   async connect(chainId?: number) {
     const provider = await this.getProvider();

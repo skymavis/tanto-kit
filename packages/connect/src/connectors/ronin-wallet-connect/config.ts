@@ -1,15 +1,15 @@
 import { EthereumRpcMap } from '@walletconnect/ethereum-provider/dist/types/EthereumProvider';
 
-import { SupportedChainIds } from '../../common/chain';
+import { ChainIds } from '../../common/chain';
 
 export const WC_SUPPORTED_CHAIN_IDS: ArrayOneOrMore<number> = [
-  SupportedChainIds.RoninMainet,
-  SupportedChainIds.RoninTestnet,
+  ChainIds.RoninMainet,
+  ChainIds.RoninTestnet,
 ];
 
 export const WC_RPC_MAP: EthereumRpcMap = {
-  [SupportedChainIds.RoninMainet]: 'https://api.roninchain.com/rpc',
-  [SupportedChainIds.RoninTestnet]: 'https://saigon-testnet.roninchain.com/rpc',
+  [ChainIds.RoninMainet]: 'https://api.roninchain.com/rpc',
+  [ChainIds.RoninTestnet]: 'https://saigon-testnet.roninchain.com/rpc',
 };
 export const WC_CAIP_CHAIN = 'eip155';
 export const WC_SUPPORTED_METHODS = ['eth_sendTransaction', 'eth_sign', 'personal_sign', 'eth_signTypedData'];

@@ -1,4 +1,4 @@
-export enum SupportedChainIds {
+export enum ChainIds {
   Ethereum = 1,
   Goerli = 5,
   RoninMainet = 2020,
@@ -19,9 +19,9 @@ export interface IChainInfo {
 
 export type IChainsConfig = Record<number, IChainInfo>;
 
-export const DEFAULT_CHAINS_CONFIG: IChainsConfig = {
-  [SupportedChainIds.RoninMainet]: {
-    chainId: SupportedChainIds.RoninMainet,
+export const CHAINS_CONFIG: IChainsConfig = {
+  [ChainIds.RoninMainet]: {
+    chainId: ChainIds.RoninMainet,
     blockExplorerUrl: 'https://app.roninchain.com',
     chainName: 'Ronin Mainnet',
     iconUrl: 'https://cdn.skymavis.com/explorer-cdn/asset/favicon/apple-touch-icon.png',
@@ -31,8 +31,8 @@ export const DEFAULT_CHAINS_CONFIG: IChainsConfig = {
       decimals: 18,
     },
   },
-  [SupportedChainIds.RoninTestnet]: {
-    chainId: SupportedChainIds.RoninTestnet,
+  [ChainIds.RoninTestnet]: {
+    chainId: ChainIds.RoninTestnet,
     blockExplorerUrl: 'https://saigon-app.roninchain.com',
     chainName: 'Saigon Testnet',
     iconUrl: 'https://cdn.skymavis.com/explorer-cdn/asset/favicon/apple-touch-icon.png',
@@ -42,8 +42,8 @@ export const DEFAULT_CHAINS_CONFIG: IChainsConfig = {
       decimals: 18,
     },
   },
-  [SupportedChainIds.Ethereum]: {
-    chainId: SupportedChainIds.Ethereum,
+  [ChainIds.Ethereum]: {
+    chainId: ChainIds.Ethereum,
     blockExplorerUrl: 'https://etherscan.io',
     chainName: 'Ethereum',
     nativeCurrency: {
@@ -52,8 +52,8 @@ export const DEFAULT_CHAINS_CONFIG: IChainsConfig = {
       decimals: 18,
     },
   },
-  [SupportedChainIds.Goerli]: {
-    chainId: SupportedChainIds.Goerli,
+  [ChainIds.Goerli]: {
+    chainId: ChainIds.Goerli,
     blockExplorerUrl: 'https://goerli.etherscan.io/',
     chainName: 'Goerli',
     nativeCurrency: {

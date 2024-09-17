@@ -1,6 +1,5 @@
 import { RONIN_WALLET_RDNS } from '../common/constant';
-import { createWalletConnectProvider, requestLegacyRoninProvider } from '../providers';
-import { requestProviders } from '../providers/eip6963';
+import { createWalletConnectProvider, requestLegacyRoninProvider, requestProviders } from '../providers';
 import { IBaseConnector } from '../types/connector';
 import { InjectedConnector } from './injected/InjectedConnector';
 import { RoninWalletConnector } from './ronin-wallet/RoninWalletConnector';

@@ -5,9 +5,8 @@ import { DEFAULT_DELAY_TIME } from '../common/constant';
 import { SafeConnector } from '../connectors/safe/SafeConnector';
 import { ConnectorError, ConnectorErrorType } from '../types/connector-error';
 
-const safeSDK = new SafeAppsSDK();
-
 export const requestSafeProvider = async (delay = DEFAULT_DELAY_TIME) => {
+  const safeSDK = new SafeAppsSDK();
   const safeInfo = await Promise.race([
     safeSDK.safe.getInfo(),
     new Promise<undefined>(resolve => setTimeout(resolve, delay)),

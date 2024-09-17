@@ -12,6 +12,8 @@ export enum SupportedConnectors {
 export enum ConnectorType {
   WALLET = 'WALLET',
   MULTISIG = 'MULTISIG',
+  MPC = 'MPC',
+  WC = 'WC',
 }
 
 export const DEFAULT_CONNECTORS_CONFIG: Record<SupportedConnectors, IConnectorConfigs> = {
@@ -23,12 +25,12 @@ export const DEFAULT_CONNECTORS_CONFIG: Record<SupportedConnectors, IConnectorCo
   [SupportedConnectors.RONIN_WC]: {
     name: 'Ronin Mobile',
     id: SupportedConnectors.RONIN_WC,
-    type: ConnectorType.WALLET,
+    type: ConnectorType.WC,
   },
   [SupportedConnectors.WAYPOINT]: {
     name: 'Ronin Waypoint',
     id: SupportedConnectors.WAYPOINT,
-    type: ConnectorType.WALLET,
+    type: ConnectorType.MPC,
   },
   [SupportedConnectors.INJECTED]: {
     name: 'Injected Providers',
