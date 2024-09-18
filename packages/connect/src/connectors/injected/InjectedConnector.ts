@@ -42,7 +42,7 @@ export class InjectedConnector extends BaseConnector {
 
       return connectResults;
     } catch (err) {
-      throw new ConnectorError(ConnectorErrorType.CONNECT_FAIL, err);
+      throw new ConnectorError(ConnectorErrorType.CONNECT_FAILED, err);
     }
   }
 

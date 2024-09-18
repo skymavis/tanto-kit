@@ -1,8 +1,7 @@
 import { SafeAppProvider } from '@safe-global/safe-apps-provider';
-import SafeAppsSDK from '@safe-global/safe-apps-sdk/dist/types/sdk';
+import SafeAppsSDK from '@safe-global/safe-apps-sdk';
 
 import { DEFAULT_DELAY_TIME } from '../common/constant';
-import { SafeConnector } from '../connectors/safe/SafeConnector';
 import { ConnectorError, ConnectorErrorType } from '../types/connector-error';
 
 export const requestSafeProvider = async (delay = DEFAULT_DELAY_TIME) => {
@@ -17,5 +16,5 @@ export const requestSafeProvider = async (delay = DEFAULT_DELAY_TIME) => {
   }
 
   const safeProvider = new SafeAppProvider(safeInfo, safeSDK);
-  return new SafeConnector(safeProvider);
+  return safeProvider;
 };

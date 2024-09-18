@@ -4359,10 +4359,10 @@
   dependencies:
     "@sinonjs/commons" "^3.0.0"
 
-"@sky-mavis/waypoint@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@sky-mavis/waypoint/-/waypoint-1.0.1.tgz#ec8a9e60c8abfc8bea38a544a490447de16a320e"
-  integrity sha512-BHioqU1Soq1gWG+dBjn1tqpUEPa9+X2ow2kvDzKnzVmLWmHkayF2BytP4QqwjTMUhpc8JjOMH7CUsyj+UY2rag==
+"@sky-mavis/waypoint@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@sky-mavis/waypoint/-/waypoint-2.0.0.tgz#5151adfd072c8eacff1fdc0c9da17f0342e5cd9d"
+  integrity sha512-c7RIl5TKJnfBbCcp224DXUk+LOXeiIs3Z43qefdWsCLlC/wPBjTUdVMMrXPHFnEF+UUJnJagvlFanjfcCrV+BQ==
 
 "@sky-mavis/waypoint@^1.0.1":
   version "1.0.1"
