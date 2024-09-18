@@ -26,7 +26,14 @@ export class SafeConnector extends BaseConnector {
       await this.switchChain(chainId);
     }
 
+    const connectResults = {
+      provider,
+      chainId: chainId || currentChainId,
+      account: accounts[0],
+    };
+
     this.setupProviderListeners();
+    this.onConnect(connectResults);
 
     return {
       provider,

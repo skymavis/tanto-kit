@@ -1,6 +1,7 @@
 import { WaypointProvider } from '@sky-mavis/waypoint';
 
 import { DEFAULT_CONNECTORS_CONFIG } from '../../common/connectors';
+import { ReconnectStorage } from '../../common/storage';
 import { requestWaypointProvider } from '../../providers';
 import { IConnectorConfigs } from '../../types/connector';
 import { ConnectorError, ConnectorErrorType } from '../../types/connector-error';
@@ -60,6 +61,16 @@ export class WaypointConnector extends BaseConnector {
     if (chainId && currentChainId !== chainId) {
       await this.switchChain(chainId);
     }
+
+    const connectResults = {
+      provider,
+      chainId: chainId || currentChainId,
+      account: accounts[0],
+    };
+
+    this.setupProviderListeners();
+    this.onConnect(connectResults);
+    ReconnectStorage.add(this.id);
 
     return {
       provider,
