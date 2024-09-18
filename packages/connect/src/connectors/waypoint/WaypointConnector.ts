@@ -1,14 +1,16 @@
-import { RoninWaypointWallet } from '@sky-mavis/waypoint';
+import { WaypointProvider } from '@sky-mavis/waypoint';
 
 import { DEFAULT_CONNECTORS_CONFIG } from '../../common/connectors';
+import { ReconnectStorage } from '../../common/storage';
+import { requestWaypointProvider } from '../../providers';
 import { IConnectorConfigs } from '../../types/connector';
 import { ConnectorError, ConnectorErrorType } from '../../types/connector-error';
 import { EIP1193Event } from '../../types/eip1193';
 import { BaseConnector } from '../base/BaseConnector';
 
 export class WaypointConnector extends BaseConnector {
-  constructor(provider: RoninWaypointWallet, configs?: IConnectorConfigs) {
-    super(provider, { ...DEFAULT_CONNECTORS_CONFIG.WAYPOINT, ...configs });
+  constructor(configs: Partial<IConnectorConfigs>, provider?: WaypointProvider) {
+    super({ ...DEFAULT_CONNECTORS_CONFIG.WAYPOINT, ...configs }, provider);
   }
 
   async isAuthorized() {
@@ -60,6 +62,16 @@ export class WaypointConnector extends BaseConnector {
       await this.switchChain(chainId);
     }
 
+    const connectResults = {
+      provider,
+      chainId: chainId || currentChainId,
+      account: accounts[0],
+    };
+
+    this.setupProviderListeners();
+    this.onConnect(connectResults);
+    ReconnectStorage.add(this.id);
+
     return {
       provider,
       chainId: chainId ?? currentChainId,
@@ -68,21 +80,24 @@ export class WaypointConnector extends BaseConnector {
   }
 
   async disconnect() {
+    this.onDisconnect();
     this.removeAllListeners();
     this.removeProviderListeners();
+  }
+
+  async requestProvider() {
+    return requestWaypointProvider();
   }
 
   protected setupProviderListeners() {
     this.removeProviderListeners();
     if (this.provider) {
-      this.provider.on(EIP1193Event.CONNECT, this.onConnect);
       this.provider.on(EIP1193Event.DISCONNECT, this.onDisconnect);
     }
   }
 
   protected removeProviderListeners() {
     if (this.provider) {
-      this.provider.removeListener(EIP1193Event.CONNECT, this.onConnect);
       this.provider.removeListener(EIP1193Event.DISCONNECT, this.onDisconnect);
     }
   }

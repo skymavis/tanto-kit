@@ -6,7 +6,6 @@ export const RONIN_WALLET_RDNS = 'com.roninchain.wallet';
 
 export const DEFAULT_DELAY_TIME = 700;
 
-export const WAYPOINT_URL = 'https://waypoint.roninchain.com';
 export const WAYPOINT_CLIENT_ID = 'ced25363-9cab-4e50-b1bc-0e583b93c3a2';
 
 export const WC_SUPPORTED_CHAIN_IDS: ArrayOneOrMore<number> = [ChainIds.RoninMainet, ChainIds.RoninTestnet];

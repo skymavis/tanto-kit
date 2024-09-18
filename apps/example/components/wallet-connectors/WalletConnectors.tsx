@@ -6,6 +6,7 @@ import React, { FC } from 'react';
 import WillRender from '../will-render/WillRender';
 import InjectedWallets from './injected-wallets/InjectedWallets';
 import RoninWallet from './ronin-wallet/RoninWallet';
+import Waypoint from './waypoint/Waypoint';
 
 const tabs = Object.values(DEFAULT_CONNECTORS_CONFIG).map(connector => ({
   id: connector.id as SupportedConnectors,
@@ -26,6 +27,9 @@ const WalletConnectors: FC = () => {
               </WillRender>
               <WillRender when={item.id === SupportedConnectors.RONIN_WALLET}>
                 <RoninWallet />
+              </WillRender>
+              <WillRender when={item.id === SupportedConnectors.WAYPOINT}>
+                <Waypoint />
               </WillRender>
             </CardBody>
           </Card>
