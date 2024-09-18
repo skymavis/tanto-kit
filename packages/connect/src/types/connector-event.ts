@@ -1,5 +1,6 @@
 import { EventEmitter } from 'events';
 
+import { IConnectResult } from './connector';
 import { EIP1193Event, IEIP1193EventArgs } from './eip1193';
 
 export enum WCEvent {
@@ -18,9 +19,27 @@ export interface WCEventArgs {
   [WCEvent.SESSION_DELETE]: string;
 }
 
-export type ConnectorEvent = EIP1193Event | WCEvent;
+export enum ConnectorEvent {
+  CONNECT = 'connect',
+  DISCONNECT = 'disconnect',
+  ACCOUNTS_CHANGED = 'accountsChanged',
+  CHAIN_CHANGED = 'chainChanged',
+  MESSAGE = 'message',
 
-export interface IConnectorEventArgs extends IEIP1193EventArgs, WCEventArgs {}
+  DISPLAY_URI = 'display_uri',
+  SESSION_DELETE = 'session_delete',
+}
+
+export interface IConnectorEventArgs {
+  [ConnectorEvent.CONNECT]: IConnectResult;
+  [ConnectorEvent.DISCONNECT]: undefined;
+  [ConnectorEvent.ACCOUNTS_CHANGED]: string[];
+  [ConnectorEvent.CHAIN_CHANGED]: number;
+  [ConnectorEvent.MESSAGE]: IEIP1193EventArgs[EIP1193Event.MESSAGE];
+
+  [ConnectorEvent.DISPLAY_URI]: WCEventArgs[WCEvent.DISPLAY_URI];
+  [ConnectorEvent.SESSION_DELETE]: WCEventArgs[WCEvent.SESSION_DELETE];
+}
 
 export class ConnectorEventEmitter extends EventEmitter {
   emit<E extends ConnectorEvent>(event: E, payload?: IConnectorEventArgs[E]): boolean {
@@ -38,4 +57,11 @@ export class ConnectorEventEmitter extends EventEmitter {
   off<E extends ConnectorEvent>(event: E, listener: (payload: IConnectorEventArgs[E]) => void): this {
     return super.off(event, listener);
   }
+}
+
+export interface IConnectorEventEmitter {
+  emit<E extends ConnectorEvent>(event: E, payload?: IConnectorEventArgs[E]): boolean;
+  on<E extends ConnectorEvent>(event: E, listener: (payload: IConnectorEventArgs[E]) => void): this;
+  once<E extends ConnectorEvent>(event: E, listener: (payload: IConnectorEventArgs[E]) => void): this;
+  off<E extends ConnectorEvent>(event: E, listener: (payload: IConnectorEventArgs[E]) => void): this;
 }

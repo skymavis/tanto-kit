@@ -1,7 +1,7 @@
 export enum ConnectorErrorType {
   PROVIDER_NOT_FOUND = 'ProviderNotFound',
   WALLET_IS_LOCKED = 'WalletIsLocked',
-  CONNECT_FAIL = 'ConnectFail',
+  CONNECT_FAILED = 'ConnectFailed',
   USER_REJECTED_SESSION_REQUEST = 'UserRejectedSessionRequest',
   INVALID_PARAMS = 'InvalidParams',
   NOT_INSTALLED = 'NotInstalled',

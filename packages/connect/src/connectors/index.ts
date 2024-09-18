@@ -1,14 +1,8 @@
-import { RONIN_WALLET_RDNS } from '../common/constant';
-import { createWalletConnectProvider, requestLegacyRoninProvider, requestProviders } from '../providers';
+import { RONIN_WALLET_RDNS, WC_SUPPORTED_CHAIN_IDS } from '../common/constant';
+import { requestLegacyRoninProvider, requestProviders, requestRoninWalletConnectProvider } from '../providers';
 import { IBaseConnector } from '../types/connector';
 import { InjectedConnector } from './injected/InjectedConnector';
 import { RoninWalletConnector } from './ronin-wallet/RoninWalletConnector';
-import {
-  WC_RPC_MAP,
-  WC_SUPPORTED_CHAIN_IDS,
-  WC_SUPPORTED_METHODS,
-  WC_SUPPORTED_OPTIONAL_METHODS,
-} from './ronin-wallet-connect/config';
 import {
   IRoninWalletConnectConnectorConfigs,
   RoninWalletConnectConnector,
@@ -19,7 +13,7 @@ export const requestInjectedConnectors = async (): Promise<IBaseConnector[]> => 
 
   return providerDetails.map(detail => {
     if (detail.info.rdns === RONIN_WALLET_RDNS) {
-      return new RoninWalletConnector(detail.provider, {});
+      return new RoninWalletConnector({ icon: detail.info.icon });
     } else {
       const configs = {
         name: detail.info.name,
@@ -27,27 +21,23 @@ export const requestInjectedConnectors = async (): Promise<IBaseConnector[]> => 
         icon: detail.info.icon,
         type: 'injected',
       };
-      return new InjectedConnector(detail.provider, configs);
+      return new InjectedConnector(configs, detail.provider);
     }
   });
 };
 
 export const requestRoninWalletConnector = async () => {
   const provider = await requestLegacyRoninProvider();
-  return new RoninWalletConnector(provider, {});
+  return new RoninWalletConnector({}, provider);
 };
 
 export const requestRoninWalletConnectConnector = async (configs: IRoninWalletConnectConnectorConfigs) => {
-  const provider = await createWalletConnectProvider({
+  const provider = await requestRoninWalletConnectProvider({
     projectId: configs.projectId,
-    metadata: configs.clientMeta,
+    metadata: configs.metadata,
     chains: WC_SUPPORTED_CHAIN_IDS,
-    methods: WC_SUPPORTED_METHODS,
-    optionalMethods: WC_SUPPORTED_OPTIONAL_METHODS,
-    rpcMap: WC_RPC_MAP,
-    disableProviderPing: true,
     showQrModal: false,
   });
 
-  return new RoninWalletConnectConnector(provider, configs);
+  return new RoninWalletConnectConnector(configs, provider);
 };

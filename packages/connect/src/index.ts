@@ -6,6 +6,7 @@ export * from './connectors';
 export * from './connectors/base/BaseConnector';
 export * from './connectors/injected/InjectedConnector';
 export * from './connectors/ronin-wallet/RoninWalletConnector';
+export * from './connectors/ronin-wallet-connect/RoninWalletConnectConnector';
 export * from './connectors/safe/SafeConnector';
 export * from './connectors/waypoint/WaypointConnector';
 export * from './providers';

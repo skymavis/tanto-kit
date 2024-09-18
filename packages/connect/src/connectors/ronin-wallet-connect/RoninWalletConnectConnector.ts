@@ -2,37 +2,47 @@ import EthereumProvider from '@walletconnect/ethereum-provider/dist/types/Ethere
 import { SignClientTypes } from '@walletconnect/types';
 
 import { DEFAULT_CONNECTORS_CONFIG } from '../../common/connectors';
+import { WC_SUPPORTED_CHAIN_IDS } from '../../common/constant';
 import { ReconnectStorage } from '../../common/storage';
+import { requestRoninWalletConnectProvider } from '../../providers';
 import { IConnectorConfigs } from '../../types/connector';
 import { ConnectorError, ConnectorErrorType } from '../../types/connector-error';
-import { WCEvent } from '../../types/connector-event';
+import { ConnectorEvent, WCEvent } from '../../types/connector-event';
 import { EIP1193Event } from '../../types/eip1193';
 import { numberToHex } from '../../utils';
 import { BaseConnector } from '../base/BaseConnector';
-import { WC_SUPPORTED_CHAIN_IDS } from './config';
 
 export interface IRoninWalletConnectConnectorConfigs extends Partial<IConnectorConfigs> {
   projectId: string;
-  clientMeta: SignClientTypes.Metadata;
-  autoHandleDisplayUri?: boolean;
-  requiredChains?: number[];
+  metadata?: SignClientTypes.Metadata;
+  showQrModal?: boolean;
 }
 
 export class RoninWalletConnectConnector extends BaseConnector<EthereumProvider> {
   private readonly projectId: string;
-  readonly clientMeta: SignClientTypes.Metadata;
+  private readonly metadata?: SignClientTypes.Metadata;
+  private readonly showQrModal?: boolean;
+
   readonly isRonin: boolean;
 
-  constructor(provider: EthereumProvider, configs: IRoninWalletConnectConnectorConfigs) {
-    const { projectId, clientMeta, ...restConfigs } = configs;
-    super(provider, { ...DEFAULT_CONNECTORS_CONFIG.RONIN_WC, ...restConfigs });
+  constructor(configs: IRoninWalletConnectConnectorConfigs, provider?: EthereumProvider) {
+    const { projectId, metadata, showQrModal, ...restConfigs } = configs;
+    super({ ...DEFAULT_CONNECTORS_CONFIG.RONIN_WC, ...restConfigs }, provider);
 
-    this.clientMeta = clientMeta;
+    this.metadata = metadata;
     this.projectId = projectId;
+    this.showQrModal = showQrModal;
     this.isRonin = true;
 
-    this.setupWalletConnectEvent();
+    this.setupProviderListeners();
   }
+
+  getProvider = async () => {
+    if (!this.provider) {
+      this.provider = await this.requestProvider();
+    }
+    return this.provider;
+  };
 
   async connect(chainId?: number) {
     const provider = await this.getProvider();
@@ -40,7 +50,7 @@ export class RoninWalletConnectConnector extends BaseConnector<EthereumProvider>
     const targetChainId = chainId ?? WC_SUPPORTED_CHAIN_IDS[0];
     const isChainSupported = WC_SUPPORTED_CHAIN_IDS.includes(targetChainId);
     if (!isChainSupported) {
-      throw new ConnectorError(ConnectorErrorType.WALLET_IS_LOCKED);
+      throw new ConnectorError(ConnectorErrorType.SWITCH_CHAIN_NOT_SUPPORTED);
     }
 
     const isAuthorized = await this.isAuthorized();
@@ -50,21 +60,22 @@ export class RoninWalletConnectConnector extends BaseConnector<EthereumProvider>
       await provider.enable();
     }
 
-    this.setupProviderListeners();
-    this.emit(EIP1193Event.CONNECT, { chainId: numberToHex(targetChainId) });
-
-    ReconnectStorage.add(this.id);
-
-    return {
+    const connectResults = {
       provider,
       chainId: targetChainId,
       account: provider.accounts[0],
     };
+
+    ReconnectStorage.add(this.id);
+    this.onConnect(connectResults);
+
+    return connectResults;
   }
 
   async disconnect() {
     const provider = await this.getProvider();
-    await provider?.disconnect();
+    await provider.disconnect();
+    this.onDisconnect();
 
     ReconnectStorage.remove(this.id);
     this.removeAllListeners();
@@ -107,21 +118,28 @@ export class RoninWalletConnectConnector extends BaseConnector<EthereumProvider>
     });
   }
 
+  async requestProvider() {
+    return requestRoninWalletConnectProvider({
+      projectId: this.projectId,
+      metadata: this.metadata,
+      showQrModal: this.isRonin,
+      chains: WC_SUPPORTED_CHAIN_IDS,
+    });
+  }
+
   protected onDisplayUri = (uri: string) => {
-    this.emit(WCEvent.DISPLAY_URI, uri);
+    this.emit(ConnectorEvent.DISPLAY_URI, uri);
   };
 
   protected setupWalletConnectEvent() {
-    if (this.provider) {
-      this.provider.on(WCEvent.DISPLAY_URI, this.onDisplayUri);
-      this.provider.on(WCEvent.SESSION_DELETE, this.onDisconnect);
-    }
+    this.getProvider().then(provider => {
+      provider.on(WCEvent.SESSION_DELETE, this.onDisconnect);
+      provider.on(WCEvent.DISPLAY_URI, this.onDisplayUri);
+    });
   }
 
   protected setupProviderListeners() {
-    this.removeProviderListeners();
     if (this.provider) {
-      this.provider.on(EIP1193Event.CONNECT, this.onConnect);
       this.provider.on(EIP1193Event.DISCONNECT, this.onDisconnect);
       this.provider.on(EIP1193Event.ACCOUNTS_CHANGED, this.onAccountsChanged);
       this.provider.on(EIP1193Event.CHAIN_CHANGED, this.onChainChanged);
@@ -132,7 +150,6 @@ export class RoninWalletConnectConnector extends BaseConnector<EthereumProvider>
 
   protected removeProviderListeners() {
     if (this.provider) {
-      this.provider.removeListener(EIP1193Event.CONNECT, this.onConnect);
       this.provider.removeListener(EIP1193Event.DISCONNECT, this.onDisconnect);
       this.provider.removeListener(EIP1193Event.ACCOUNTS_CHANGED, this.onAccountsChanged);
       this.provider.removeListener(EIP1193Event.CHAIN_CHANGED, this.onChainChanged);

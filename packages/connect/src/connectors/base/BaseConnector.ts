@@ -1,17 +1,21 @@
 import { ReconnectStorage } from '../../common/storage';
 import { IBaseConnector, IConnectorConfigs, IConnectResult } from '../../types/connector';
-import { ConnectorEventEmitter } from '../../types/connector-event';
-import { EIP1193Event, IEIP1193Provider } from '../../types/eip1193';
+import { ConnectorEvent, ConnectorEventEmitter } from '../../types/connector-event';
+import { IEIP1193Provider } from '../../types/eip1193';
 
-export abstract class BaseConnector<T = IEIP1193Provider> extends ConnectorEventEmitter implements IBaseConnector {
+export abstract class BaseConnector<ProviderType = IEIP1193Provider>
+  extends ConnectorEventEmitter
+  implements IBaseConnector
+{
   readonly id: string;
   readonly name: string;
   readonly type: string;
   readonly isRonin: boolean;
   readonly icon?: string;
-  readonly provider: T;
 
-  protected constructor(provider: T, configs: IConnectorConfigs) {
+  protected provider?: ProviderType;
+
+  protected constructor(configs: IConnectorConfigs, provider?: ProviderType) {
     const { id, name, icon, type } = configs;
 
     super();
@@ -31,9 +35,14 @@ export abstract class BaseConnector<T = IEIP1193Provider> extends ConnectorEvent
   abstract switchChain(chain: number): Promise<boolean>;
   abstract requestAccounts(): Promise<readonly string[]>;
 
-  async getProvider() {
+  protected abstract requestProvider(): Promise<ProviderType>;
+
+  getProvider = async () => {
+    if (!this.provider) {
+      this.provider = await this.requestProvider();
+    }
     return this.provider;
-  }
+  };
 
   autoConnect = async () => {
     try {
@@ -51,21 +60,21 @@ export abstract class BaseConnector<T = IEIP1193Provider> extends ConnectorEvent
   };
 
   onChainChanged = (chainId: string) => {
-    this.emit(EIP1193Event.CHAIN_CHANGED, chainId);
+    this.emit(ConnectorEvent.CHAIN_CHANGED, Number(chainId));
   };
 
   onAccountsChanged = (accounts: string[]) => {
     if (accounts.length === 0) {
       this.onDisconnect();
     }
-    this.emit(EIP1193Event.ACCOUNTS_CHANGED, accounts);
+    this.emit(ConnectorEvent.ACCOUNTS_CHANGED, accounts);
   };
 
-  onConnect = ({ chainId }: { chainId: string }) => {
-    this.emit(EIP1193Event.CONNECT, { chainId: chainId });
+  onConnect = (results: IConnectResult) => {
+    this.emit(ConnectorEvent.CONNECT, results);
   };
 
   onDisconnect = () => {
-    this.emit(EIP1193Event.DISCONNECT);
+    this.emit(ConnectorEvent.DISCONNECT);
   };
 }

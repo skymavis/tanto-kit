@@ -7,19 +7,13 @@ import { BaseConnector } from '../base/BaseConnector';
 
 export class InjectedConnector extends BaseConnector {
   readonly isRonin: boolean;
+  protected provider: IEIP1193Provider;
 
-  constructor(provider: IEIP1193Provider, config: IConnectorConfigs) {
-    super(provider, config);
+  constructor(configs: IConnectorConfigs, provider: IEIP1193Provider) {
+    super(configs);
     this.isRonin = !!provider.isRonin;
+    this.provider = provider;
   }
-
-  async getProvider() {
-    return this.provider;
-  }
-
-  shouldAutoReconnect = async () => {
-    return false;
-  };
 
   async connect(chainId?: number) {
     const provider = await this.getProvider();
@@ -36,20 +30,24 @@ export class InjectedConnector extends BaseConnector {
         await this.switchChain(chainId);
       }
 
-      this.setupProviderListeners();
-      ReconnectStorage.add(this.id);
-
-      return {
+      const connectResults = {
         provider,
         chainId: chainId || currentChainId,
         account: accounts[0],
       };
+
+      this.setupProviderListeners();
+      this.onConnect(connectResults);
+      ReconnectStorage.add(this.id);
+
+      return connectResults;
     } catch (err) {
       throw new ConnectorError(ConnectorErrorType.CONNECT_FAIL, err);
     }
   }
 
   async disconnect() {
+    this.onDisconnect();
     this.removeAllListeners();
     this.removeProviderListeners();
   }
@@ -91,9 +89,12 @@ export class InjectedConnector extends BaseConnector {
     });
   }
 
+  async requestProvider() {
+    return this.provider;
+  }
+
   protected setupProviderListeners() {
     if (this.provider) {
-      this.provider.on(EIP1193Event.CONNECT, this.onConnect);
       this.provider.on(EIP1193Event.DISCONNECT, this.onDisconnect);
       this.provider.on(EIP1193Event.ACCOUNTS_CHANGED, this.onAccountsChanged);
       this.provider.on(EIP1193Event.CHAIN_CHANGED, this.onChainChanged);
@@ -102,7 +103,6 @@ export class InjectedConnector extends BaseConnector {
 
   protected removeProviderListeners() {
     if (this.provider) {
-      this.provider.removeListener(EIP1193Event.CONNECT, this.onConnect);
       this.provider.removeListener(EIP1193Event.DISCONNECT, this.onDisconnect);
       this.provider.removeListener(EIP1193Event.ACCOUNTS_CHANGED, this.onAccountsChanged);
       this.provider.removeListener(EIP1193Event.CHAIN_CHANGED, this.onChainChanged);
