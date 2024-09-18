@@ -36,10 +36,7 @@ export interface IEIP1193EventArgs {
 
 export interface IEIP1193EventEmitter {
   on: <E extends EIP1193Event>(event: E, listener: (args: IEIP1193EventArgs[E]) => void) => void;
-  once: <E extends EIP1193Event>(event: E, listener: (args: IEIP1193EventArgs[E]) => void) => void;
-  off: <E extends EIP1193Event>(event: E, listener: (args: IEIP1193EventArgs[E]) => void) => void;
   removeListener: <E extends EIP1193Event>(event: E, listener: (args: IEIP1193EventArgs[E]) => void) => void;
-  emit: <E extends EIP1193Event>(event: E, payload: IEIP1193EventArgs[E]) => boolean;
 }
 
 export interface IEIP1193Provider extends IEIP1193EventEmitter {

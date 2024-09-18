@@ -1,3 +1,5 @@
+import { IConnectorEventEmitter } from './connector-event';
+
 export interface IConnectorConfigs {
   id: string;
   name: string;
@@ -11,7 +13,7 @@ export interface IConnectResult {
   account: string;
 }
 
-export interface IBaseConnector {
+export interface IBaseConnector extends IConnectorEventEmitter {
   readonly id: string;
   readonly name: string;
   readonly icon?: string;
@@ -31,6 +33,6 @@ export interface IBaseConnector {
 
   onChainChanged(chainId: string): void;
   onAccountsChanged(accounts: string[]): void;
-  onConnect({ chainId }: { chainId: string }): void;
+  onConnect(results: IConnectResult): void;
   onDisconnect(): void;
 }

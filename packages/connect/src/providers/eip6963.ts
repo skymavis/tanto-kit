@@ -8,10 +8,9 @@ export const requestProviders = async (delay = DEFAULT_DELAY_TIME): Promise<IEIP
   }
 
   const handlerAnnouncement = (event: IEIP6963AnnounceProviderEvent) => {
-    const isAnnounced = injectedProviders.some((detail: any) => detail.info.uuid === event.detail.info.uuid);
+    const isAnnounced = injectedProviders.some(detail => detail.info.uuid === event.detail.info.uuid);
     if (!isAnnounced) {
-      const detail = event.detail as never;
-      injectedProviders.push(detail);
+      injectedProviders.push(event.detail);
     }
   };
 
