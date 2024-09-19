@@ -54,7 +54,7 @@
     "stylelint": "15.10.1",
     "stylelint-config-prettier-scss": "0.0.1",
     "stylelint-config-standard-scss": "6.1.0",
-    "typechain": "^8.3.2"
+    "typechain": "8.3.2"
   },
   "resolutions": {
     "@types/react": "18.2.79",

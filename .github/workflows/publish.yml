@@ -6,7 +6,7 @@ on:
 
 jobs:
   publish:
-    if: ${{ true == startsWith(github.event.release.tag_name, 'connect') }}
+    if: ${{ true == startsWith(github.event.release.tag_name, 'tanto=connect') }}
     runs-on: ubuntu-latest
     environment: npm-production
 
@@ -29,7 +29,7 @@ jobs:
       - name: Build
         run: cd packages/connect && yarn build
 
-      - name: Publish @sky-mavis/tanto-kit/connect
+      - name: Publish @sky-mavis/tanto-connect
         run: cd packages/connect && npm publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
