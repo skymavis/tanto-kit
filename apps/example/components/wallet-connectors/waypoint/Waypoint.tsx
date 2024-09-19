@@ -1,24 +1,38 @@
 import { Button } from '@nextui-org/react';
-import { requestWaypointConnector } from '@sky-mavis/tanto-connect';
+import { ConnectorEvent, requestWaypointConnector } from '@sky-mavis/tanto-connect';
 import { isNil } from 'lodash';
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import { useConnectorStore } from '../../../hooks/useConnectorStore';
 import WillRender from '../../will-render/WillRender';
 import ConnectorActions from '../connector-actions/ConnectorActions';
 
 const Waypoint: FC = () => {
-  const { connector, setConnector } = useConnectorStore();
+  const { connector, setConnector, isConnected, setIsConnected, setAccount, setChainId } = useConnectorStore();
 
   const [connecting, setConnecting] = React.useState<boolean>(false);
-  const isConnected = !isNil(connector);
 
   const connectWallet = async () => {
-    setConnecting(true);
-    const provider = requestWaypointConnector({});
-    setConnector(provider);
-    setConnecting(false);
+    connector
+      ?.connect()
+      .then(() => setIsConnected(true))
+      .catch(console.error)
+      .finally(() => setConnecting(false));
   };
+
+  useEffect(() => {
+    const waypointConnector = requestWaypointConnector({}, 2021);
+    waypointConnector.autoConnect();
+    setIsConnected(false);
+    setConnector(waypointConnector);
+    waypointConnector.on(ConnectorEvent.CONNECT, payload => {
+      setIsConnected(true);
+      setAccount(payload.account);
+      setChainId(payload.chainId);
+    });
+    waypointConnector.on(ConnectorEvent.CHAIN_CHANGED, chainId => setChainId(chainId));
+    waypointConnector.on(ConnectorEvent.DISCONNECT, () => setIsConnected(false));
+  }, []);
 
   return (
     <div className={'w-full flex flex-col justify-center gap-6'}>

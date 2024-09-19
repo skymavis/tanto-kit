@@ -75,7 +75,6 @@ export class WaypointConnector extends BaseConnector {
 
   async disconnect() {
     this.onDisconnect();
-    this.removeAllListeners();
     this.removeProviderListeners();
   }
 

@@ -43,7 +43,6 @@ export class RoninWalletConnector extends BaseConnector {
   async disconnect() {
     ReconnectStorage.remove(this.id);
     this.onDisconnect();
-    this.removeAllListeners();
     this.removeProviderListeners();
   }
 
@@ -61,7 +60,7 @@ export class RoninWalletConnector extends BaseConnector {
 
   async switchChain(chain: number) {
     const provider = await this.getProvider();
-    const chainId = provider?.request<number | string>({
+    const chainId = await provider?.request<number | string>({
       method: 'wallet_switchEthereumChain',
       params: [{ chainId: numberToHex(chain) }],
     });

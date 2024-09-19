@@ -1,5 +1,5 @@
 import { Button } from '@nextui-org/react';
-import { EIP1193Event, RoninWalletConnector } from '@sky-mavis/tanto-connect';
+import { ConnectorEvent, IConnectResult, requestRoninWalletConnector } from '@sky-mavis/tanto-connect';
 import { isNil } from 'lodash';
 import React, { FC, useEffect } from 'react';
 
@@ -7,30 +7,44 @@ import { useConnectorStore } from '../../../hooks/useConnectorStore';
 import WillRender from '../../will-render/WillRender';
 import ConnectorActions from '../connector-actions/ConnectorActions';
 
-const roninWalletConnector = new RoninWalletConnector();
 const RoninWallet: FC = () => {
-  const { connector, setConnector } = useConnectorStore();
-
+  const { connector, setConnector, isConnected, setIsConnected, setAccount, setChainId } = useConnectorStore();
   const [connecting, setConnecting] = React.useState<boolean>(false);
-  const isConnected = !isNil(connector) && connector.id === roninWalletConnector.id;
 
   const connectWallet = () => {
     setConnecting(true);
-    roninWalletConnector
-      .connect()
-      .then(() => {
-        setConnector(roninWalletConnector);
-      })
+    connector
+      ?.connect()
+      .then(({ account }) => !isNil(account) && setIsConnected(true))
       .catch(console.error)
       .finally(() => setConnecting(false));
   };
 
-  useEffect(() => {
-    const setupConnect = () => {
-      setConnector(roninWalletConnector);
-    };
+  const onConnect = (payload: IConnectResult) => {
+    setIsConnected(true);
+    setAccount(payload.account);
+    setChainId(payload.chainId);
+  };
 
-    roninWalletConnector.on(EIP1193Event.CONNECT, () => setupConnect);
+  const onAccountChange = (accounts: string[]) => {
+    if (accounts.length > 0) {
+      setAccount(accounts[0]);
+      setIsConnected(true);
+    } else {
+      setIsConnected(false);
+    }
+  };
+
+  useEffect(() => {
+    setIsConnected(false);
+    requestRoninWalletConnector().then(connector => {
+      setConnector(connector);
+      connector.on(ConnectorEvent.CONNECT, onConnect);
+      connector.on(ConnectorEvent.ACCOUNTS_CHANGED, onAccountChange);
+      connector.on(ConnectorEvent.CHAIN_CHANGED, chainId => setChainId(chainId));
+      connector.on(ConnectorEvent.DISCONNECT, () => setIsConnected(false));
+      connector.autoConnect();
+    });
   }, []);
 
   return (
@@ -41,7 +55,7 @@ const RoninWallet: FC = () => {
           Connect to Ronin Wallet!
         </Button>
       </WillRender>
-      <WillRender when={isConnected && !isNil(connector)}>
+      <WillRender when={isConnected}>
         <ConnectorActions />
       </WillRender>
     </div>

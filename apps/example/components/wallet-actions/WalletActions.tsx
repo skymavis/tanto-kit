@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import GetBalance from './get-balance/GetBalance';
 import RequestAccount from './request-account/RequestAccount';
 import SignMessage from './sign-message/SignMessage';
+import SignTransaction from './sign-transaction/SignTransaction';
 
 const WalletActions: FC = () => {
   return (
@@ -10,7 +11,7 @@ const WalletActions: FC = () => {
       <RequestAccount />
       <GetBalance />
       <SignMessage />
-      {/*<SignTransaction />*/}
+      <SignTransaction />
     </div>
   );
 };

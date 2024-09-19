@@ -21,20 +21,19 @@ const RequestAccount: FC = () => {
 
   return (
     <Card fullWidth>
-      <CardHeader>
+      <CardHeader className={'flex justify-between items-start gap-20'}>
         <div className={'flex flex-col'}>
-          <h4 className={'font-bold text-xl'}>Request Account</h4>
+          <h4 className={'font-bold text-xl '}>Request Account</h4>
           <p> Initiate a request to create or access an account within the wallet system.</p>
         </div>
+        <Button isLoading={loading} onClick={requestAccount} disabled={isNil(connector)} className={'px-6'}>
+          Request Account
+        </Button>
       </CardHeader>
       <CardBody>
         <Input label={'Your address'} value={account || ''} disabled />
       </CardBody>
-      <CardFooter className={'flex flex-row-reverse'}>
-        <Button isLoading={loading} onClick={requestAccount} disabled={isNil(connector)}>
-          Request Account
-        </Button>
-      </CardFooter>
+      <CardFooter className={'flex flex-row-reverse'}></CardFooter>
     </Card>
   );
 };

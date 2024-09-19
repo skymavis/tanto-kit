@@ -33,8 +33,6 @@ export class RoninWalletConnectConnector extends BaseConnector<EthereumProvider>
     this.projectId = projectId;
     this.showQrModal = showQrModal;
     this.isRonin = true;
-
-    this.setupProviderListeners();
   }
 
   getProvider = async () => {
@@ -47,6 +45,7 @@ export class RoninWalletConnectConnector extends BaseConnector<EthereumProvider>
   async connect(chainId?: number) {
     const provider = await this.getProvider();
 
+    this.setupProviderListeners();
     const targetChainId = chainId ?? WC_SUPPORTED_CHAIN_IDS[0];
     const isChainSupported = WC_SUPPORTED_CHAIN_IDS.includes(targetChainId);
     if (!isChainSupported) {
@@ -78,7 +77,6 @@ export class RoninWalletConnectConnector extends BaseConnector<EthereumProvider>
     this.onDisconnect();
 
     ReconnectStorage.remove(this.id);
-    this.removeAllListeners();
     this.removeProviderListeners();
   }
 
@@ -95,7 +93,7 @@ export class RoninWalletConnectConnector extends BaseConnector<EthereumProvider>
   async switchChain(chain: number) {
     const provider = await this.getProvider();
 
-    const chainId = provider?.request<number | string>({
+    const chainId = await provider?.request<number | string>({
       method: 'wallet_switchEthereumChain',
       params: [{ chainId: numberToHex(chain) }],
     });

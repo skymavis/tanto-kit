@@ -1,12 +1,11 @@
-import { Button, Card, CardBody, CardFooter, CardHeader, Input } from '@nextui-org/react';
+import { Button, Card, CardBody, CardHeader, Input } from '@nextui-org/react';
 import { ethers } from 'ethers';
-import { isNil } from 'lodash';
 import React, { FC, useState } from 'react';
 
 import { useConnectorStore } from '../../../hooks/useConnectorStore';
 
 const GetBalance: FC = () => {
-  const connector = useConnectorStore(state => state.connector);
+  const { connector, isConnected } = useConnectorStore();
   const [balance, setBalance] = React.useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -33,20 +32,18 @@ const GetBalance: FC = () => {
 
   return (
     <Card fullWidth>
-      <CardHeader>
+      <CardHeader className={'flex justify-between gap-20'}>
         <div className={'flex flex-col'}>
           <h4 className={'font-bold text-xl'}>Get Balance</h4>
           <p>Retrieve the balance from your current wallet.</p>
         </div>
+        <Button onClick={getBalance} isLoading={loading} disabled={!isConnected}>
+          Get Balance
+        </Button>
       </CardHeader>
       <CardBody>
         <Input label={'Your balance'} value={balance} readOnly />
       </CardBody>
-      <CardFooter className={'flex flex-row-reverse'}>
-        <Button onClick={getBalance} isLoading={loading} disabled={isNil(connector)}>
-          Get Balance
-        </Button>
-      </CardFooter>
     </Card>
   );
 };
