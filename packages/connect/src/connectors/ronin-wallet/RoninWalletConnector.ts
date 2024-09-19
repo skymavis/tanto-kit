@@ -1,6 +1,6 @@
 import { DEFAULT_CONNECTORS_CONFIG } from '../../common/connectors';
 import { ReconnectStorage } from '../../common/storage';
-import { requestLegacyRoninProvider } from '../../providers';
+import { requestRoninProvider } from '../../providers';
 import { IConnectorConfigs } from '../../types/connector';
 import { ConnectorError, ConnectorErrorType } from '../../types/connector-error';
 import { EIP1193Event, IEIP1193Provider } from '../../types/eip1193';
@@ -85,7 +85,7 @@ export class RoninWalletConnector extends BaseConnector {
   }
 
   async requestProvider() {
-    return requestLegacyRoninProvider();
+    return requestRoninProvider();
   }
 
   protected setupProviderListeners() {

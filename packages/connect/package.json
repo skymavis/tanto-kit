@@ -1,17 +1,14 @@
 {
   "name": "@sky-mavis/tanto-connect",
   "type": "module",
-  "version": "0.0.2",
+  "version": "0.0.1-alpha.0",
   "description": "Tanto Connect",
   "main": "./dist/index.js",
   "types": "./dist/types/index.d.ts",
   "scripts": {
-    "dev": "",
-    "start": "node dist/index.js",
     "build": "rm -rf dist && rollup -c",
     "lint": "node ./node_modules/eslint/bin/eslint ../.. --ext .js --fix",
     "lint:fix": "eslint ../.. --ext .js,.tsx,.ts --fix",
-    "generate-contract-types": "node ../../scripts/generate-contract-types/index.js",
     "test": "jest"
   },
   "files": [
@@ -27,9 +24,9 @@
   "license": "MIT",
   "dependencies": {
     "@walletconnect/ethereum-provider": "2.16.1",
-    "@safe-global/safe-apps-provider": "^0.18.3",
-    "@safe-global/safe-apps-sdk": "^9.1.0",
-    "@sky-mavis/waypoint": "^2.0.0",
+    "@safe-global/safe-apps-provider": "0.18.3",
+    "@safe-global/safe-apps-sdk": "9.1.0",
+    "@sky-mavis/waypoint": "2.0.0",
     "eslint": "8.30.0",
     "ethers": "5.7.2",
     "jest": "29.7.0",

@@ -4,7 +4,7 @@ import { IEIP1193Provider } from '../types/eip1193';
 import { checkRoninInstalled } from '../utils';
 import { requestProviders } from './eip6963';
 
-export const requestRoninProviders = async (delay = DEFAULT_DELAY_TIME) => {
+export const requestRoninProvider = async (delay = DEFAULT_DELAY_TIME) => {
   const providersDetail = await requestProviders(delay);
   const roninProvider = providersDetail.find(({ info }) => info.rdns === RONIN_WALLET_RDNS)?.provider;
   if (roninProvider) {

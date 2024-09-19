@@ -14,7 +14,7 @@ const config = defineConfig({
       minifyInternalExports: true,
     },
   ],
-  external: ['ethers', 'ethers/lib/utils', 'graphql', 'graphql-request', 'typechain'],
+  external: ['ethers', 'ethers/lib/utils'],
   plugins: [
     json(),
     typescript({
