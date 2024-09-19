@@ -25,11 +25,9 @@ export class WaypointConnector extends BaseConnector {
     });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async switchChain(chain: number) {
-    // TODO: Create new ConnectorErrorType for this case
-    throw new ConnectorError(ConnectorErrorType.SWITCH_CHAIN_NOT_SUPPORTED);
-    return false; // This is to prevent TS error
+  async switchChain() {
+    console.error(new ConnectorError(ConnectorErrorType.SWITCH_CHAIN_NOT_SUPPORTED));
+    return false;
   }
 
   async getChainId() {
@@ -57,10 +55,6 @@ export class WaypointConnector extends BaseConnector {
 
     const accounts = await this.requestAccounts();
     const currentChainId = await this.getChainId();
-
-    if (chainId && currentChainId !== chainId) {
-      await this.switchChain(chainId);
-    }
 
     const connectResults = {
       provider,
