@@ -6,9 +6,9 @@ on:
 
 jobs:
   publish:
-    if: ${{ true == startsWith(github.event.release.tag_name, 'tanto=connect') }}
+    if: ${{ true == startsWith(github.event.release.tag_name, 'tanto-connect') }}
     runs-on: ubuntu-latest
-    environment: npm-production
+    environment: production
 
     steps:
       - uses: actions/checkout@v2
