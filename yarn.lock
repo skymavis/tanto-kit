@@ -1292,6 +1292,35 @@
     util "^0.12.4"
     uuid "^8.3.2"
 
+"@metamask/sdk@0.28.4":
+  version "0.28.4"
+  resolved "https://registry.yarnpkg.com/@metamask/sdk/-/sdk-0.28.4.tgz#bb5f3849629403ec97c23e1a968c6b893ecf001c"
+  integrity sha512-RjWBKPNesjeua2SXIDF9IvYALOSsOQyqHv5DPPK0Voskytk7y+2n/33ocbC1BH5hTLI4hDPH+BuCpXJRWs3/Yg==
+  dependencies:
+    "@metamask/onboarding" "^1.0.1"
+    "@metamask/providers" "16.1.0"
+    "@metamask/sdk-communication-layer" "0.28.2"
+    "@metamask/sdk-install-modal-web" "0.28.1"
+    "@types/dom-screen-wake-lock" "^1.0.0"
+    "@types/uuid" "^10.0.0"
+    bowser "^2.9.0"
+    cross-fetch "^4.0.0"
+    debug "^4.3.4"
+    eciesjs "^0.3.15"
+    eth-rpc-errors "^4.0.3"
+    eventemitter2 "^6.4.7"
+    i18next "23.11.5"
+    i18next-browser-languagedetector "7.1.0"
+    obj-multiplex "^1.0.0"
+    pump "^3.0.0"
+    qrcode-terminal-nooctal "^0.12.1"
+    react-native-webview "^11.26.0"
+    readable-stream "^3.6.2"
+    rollup-plugin-visualizer "^5.9.2"
+    socket.io-client "^4.5.1"
+    util "^0.12.4"
+    uuid "^8.3.2"
+
 "@metamask/superstruct@^3.0.0", "@metamask/superstruct@^3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@metamask/superstruct/-/superstruct-3.1.0.tgz#148f786a674fba3ac885c1093ab718515bf7f648"
@@ -4202,6 +4231,19 @@
   dependencies:
     "@coinbase/wallet-sdk" "4.0.4"
     "@metamask/sdk" "0.28.2"
+    "@safe-global/safe-apps-provider" "0.18.3"
+    "@safe-global/safe-apps-sdk" "9.1.0"
+    "@walletconnect/ethereum-provider" "2.16.1"
+    "@walletconnect/modal" "2.6.2"
+    cbw-sdk "npm:@coinbase/wallet-sdk@3.9.3"
+
+"@wagmi/connectors@5.1.11":
+  version "5.1.11"
+  resolved "https://registry.yarnpkg.com/@wagmi/connectors/-/connectors-5.1.11.tgz#828fd8764c4e632efe215d2b3b75415d8e601836"
+  integrity sha512-k6IfxYHG0MqJWt2KY6UhrNt4mPSmCLq0tQG3h+uB5em1oioX9V902geoik+KoF6Sa0oqAq5UTJVA1IT5lAjOkQ==
+  dependencies:
+    "@coinbase/wallet-sdk" "4.0.4"
+    "@metamask/sdk" "0.28.4"
     "@safe-global/safe-apps-provider" "0.18.3"
     "@safe-global/safe-apps-sdk" "9.1.0"
     "@walletconnect/ethereum-provider" "2.16.1"
@@ -9660,7 +9702,16 @@ string-length@^4.0.1:
     char-regex "^1.0.2"
     strip-ansi "^6.0.0"
 
-"string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
+"string-width-cjs@npm:string-width@^4.2.0":
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
+  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
+  dependencies:
+    emoji-regex "^8.0.0"
+    is-fullwidth-code-point "^3.0.0"
+    strip-ansi "^6.0.1"
+
+string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -9754,7 +9805,14 @@ string_decoder@~1.1.1:
   dependencies:
     safe-buffer "~5.1.0"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
+  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
+  dependencies:
+    ansi-regex "^5.0.1"
+
+strip-ansi@^6.0.0, strip-ansi@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -10549,12 +10607,36 @@ viem@2.x, viem@^2.1.1:
     webauthn-p256 "0.0.5"
     ws "8.17.1"
 
+viem@^2.21.10:
+  version "2.21.10"
+  resolved "https://registry.yarnpkg.com/viem/-/viem-2.21.10.tgz#a6c6fb201512320946f1266321df74ac2e6b1d2a"
+  integrity sha512-n+BKNabWI0k2i7PB4UEdxgHHpQmMeDk+2X9093l/yU0NLUjIgiazybfD1BksGwbiIRk/WXr+aoRqKOExxRDxWA==
+  dependencies:
+    "@adraffy/ens-normalize" "1.10.0"
+    "@noble/curves" "1.4.0"
+    "@noble/hashes" "1.4.0"
+    "@scure/bip32" "1.4.0"
+    "@scure/bip39" "1.4.0"
+    abitype "1.0.5"
+    isows "1.0.4"
+    webauthn-p256 "0.0.5"
+    ws "8.17.1"
+
 wagmi@2.12.11:
   version "2.12.11"
   resolved "https://registry.yarnpkg.com/wagmi/-/wagmi-2.12.11.tgz#f2e854032650bfe6fb0eedaa1eafb695e31f800f"
   integrity sha512-CtK05Hl5nKVskiwvNEtxMIAMJwI8RF+6qwVqlhypDs+Y1c30gVnNnF7ivAuVs4xzJbAsZ5LUmsrVVxUMIC0KDg==
   dependencies:
     "@wagmi/connectors" "5.1.10"
+    "@wagmi/core" "2.13.5"
+    use-sync-external-store "1.2.0"
+
+wagmi@^2.12.12:
+  version "2.12.12"
+  resolved "https://registry.yarnpkg.com/wagmi/-/wagmi-2.12.12.tgz#0780267ac473f7dfe25d887ae5186e1e3790c087"
+  integrity sha512-BgB8GprWJzWuq3V6vCr12kP9a+ta9AWEkoM/fjQWE90yD9YWEgYmpK/uqXNnZLymsuSfxyIFn7JhYIs+mwo/yA==
+  dependencies:
+    "@wagmi/connectors" "5.1.11"
     "@wagmi/core" "2.13.5"
     use-sync-external-store "1.2.0"
 
@@ -10678,7 +10760,7 @@ wordwrapjs@^4.0.0:
     reduce-flatten "^2.0.0"
     typical "^5.2.0"
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
@@ -10691,6 +10773,15 @@ wrap-ansi@^6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-6.2.0.tgz#e9393ba07102e6c91a3b221478f0257cd2856e53"
   integrity sha512-r6lPcBGxZXlIcymEu7InxDMhdW0KDxpLgoFLcguasxCaJ/SOIZwINatK9KY/tf+ZrlywOKU0UDj3ATXUBfxJXA==
+  dependencies:
+    ansi-styles "^4.0.0"
+    string-width "^4.1.0"
+    strip-ansi "^6.0.0"
+
+wrap-ansi@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
+  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
   dependencies:
     ansi-styles "^4.0.0"
     string-width "^4.1.0"
