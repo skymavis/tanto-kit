@@ -16,6 +16,7 @@
     "@nextui-org/theme": "2.2.3",
     "@rainbow-me/rainbowkit": "2.1.6",
     "@sky-mavis/tanto-connect": "0.0.1-alpha.0",
+    "@sky-mavis/tanto-wagmi": "*",
     "@tanstack/react-query": "5.56.2",
     "@typechain/ethers-v5": "11.1.2",
     "@types/node": "20.12.7",

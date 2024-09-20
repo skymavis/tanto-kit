@@ -1,79 +1,61 @@
-import { Button, User } from '@nextui-org/react';
+import { Button, Select, SelectItem, User } from '@nextui-org/react';
 import { BaseConnector } from '@sky-mavis/tanto-connect';
-import { EIP1193Event } from '@sky-mavis/tanto-connect/src';
-import React, { FC, useEffect } from 'react';
+import { CHAINS_CONFIG } from '@sky-mavis/tanto-connect/src';
+import { isNil } from 'lodash';
+import React, { FC } from 'react';
 
 import { useConnectorStore } from '../../../hooks/useConnectorStore';
+import WillRender from '../../will-render/WillRender';
 
 const ConnectorActions: FC = () => {
-  const { setConnector } = useConnectorStore();
   const connector = useConnectorStore(state => state.connector) as BaseConnector;
-
-  const [account, setAccount] = React.useState<string | null>(null);
-  const [chainId, setChainId] = React.useState<number | null>(null);
+  const { account, chainId } = useConnectorStore();
+  const [networkSwitch, setNetworkSwitch] = React.useState<number | null>();
 
   const disconnectWallet = () => {
-    connector
-      .disconnect()
-      .then(() => {
-        setAccount(null);
-        setConnector(null);
-      })
-      .catch(console.error);
+    connector.disconnect();
   };
 
-  const fetchChainId = () => {
-    connector
-      .getChainId()
-      .then(chainId => setChainId(chainId))
-      .catch(console.error);
+  const handleClickSwitchNetwork = () => {
+    if (networkSwitch) {
+      connector.switchChain(networkSwitch).catch(console.error);
+    } else {
+      setNetworkSwitch(chainId);
+    }
   };
-
-  const switchToSaiGon = () => {
-    connector.switchChain(2021).catch(console.error);
-  };
-
-  useEffect(() => {
-    connector
-      .getAccounts()
-      .then(accounts => setAccount(accounts[0]))
-      .catch(console.error);
-
-    connector.on(EIP1193Event.DISCONNECT, () => {
-      setAccount(null);
-      setConnector(null);
-    });
-    connector.on(EIP1193Event.CHAIN_CHANGED, chainId => setChainId(Number(chainId)));
-    connector.on(EIP1193Event.ACCOUNTS_CHANGED, accounts =>
-      accounts.length > 0 ? setAccount(accounts[0]) : setAccount(null),
-    );
-    connector.on(EIP1193Event.CONNECT, () => {
-      connector
-        .getAccounts()
-        .then(accounts => setAccount(accounts[0]))
-        .catch(console.error);
-    });
-
-    return () => {
-      connector.removeAllListeners();
-    };
-  }, []);
 
   return (
-    <React.Fragment>
+    <div>
       <User name={connector.name} description={account} />
-      <div className={'flex gap-6 justify-center'}>
-        <Button onClick={fetchChainId} fullWidth>
-          {chainId ? `Chain Id: ${chainId}` : 'Get ChainId'}
-        </Button>
-        <Button onClick={switchToSaiGon} fullWidth>
-          Switch To SaiGon
-        </Button>
-        <Button onClick={disconnectWallet} fullWidth color={'secondary'}>
-          Disconnect
-        </Button>
+      <div>
+        <div className={'flex gap-2 justify-center'}>
+          <Button fullWidth radius={'sm'} disabled>
+            {chainId ? `Chain ID: ${chainId}` : 'Get ChainID'}
+          </Button>
+          <Button onClick={disconnectWallet} fullWidth color={'secondary'} radius={'sm'}>
+            Disconnect
+          </Button>
+        </div>
+        <div className={'flex gap-2 justify-center mt-2'}>
+          <WillRender when={!isNil(networkSwitch)}>
+            <Select
+              radius={'sm'}
+              placeholder={'Select Network'}
+              onChange={e => setNetworkSwitch(Number(e.target.value))}
+            >
+              {Object.values(CHAINS_CONFIG).map(chain => (
+                <SelectItem key={chain.chainId} value={chain.chainId}>
+                  {chain.chainName + ' - ' + chain.chainId}
+                </SelectItem>
+              ))}
+            </Select>
+          </WillRender>
+          <Button onClick={handleClickSwitchNetwork} radius={'sm'} className={'px-10'} fullWidth={isNil(networkSwitch)}>
+            Switch Network
+          </Button>
+        </div>
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 

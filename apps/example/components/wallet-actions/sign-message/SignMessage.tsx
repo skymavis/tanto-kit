@@ -1,12 +1,11 @@
-import { Button, Card, CardBody, CardFooter, CardHeader, Input } from '@nextui-org/react';
+import { Button, Card, CardBody, CardHeader, Input } from '@nextui-org/react';
 import { ethers } from 'ethers';
-import { isNil } from 'lodash';
 import React, { FC, useState } from 'react';
 
 import { useConnectorStore } from '../../../hooks/useConnectorStore';
 
 const SignMessage: FC = () => {
-  const connector = useConnectorStore(state => state.connector);
+  const { connector, isConnected } = useConnectorStore();
 
   const [message, setMessage] = useState<string>('');
   const [signature, setSignature] = useState<string>('');
@@ -30,21 +29,19 @@ const SignMessage: FC = () => {
 
   return (
     <Card fullWidth>
-      <CardHeader>
+      <CardHeader className={'flex justify-between gap-20 items-start'}>
         <div className={'flex flex-col'}>
           <h4 className={'font-bold text-xl'}>Sign Message</h4>
           <p>Generate a signature for a message using your wallet.</p>
         </div>
+        <Button disabled={!isConnected} onClick={signMessage} isLoading={loading}>
+          Sign Message
+        </Button>
       </CardHeader>
       <CardBody className={'flex flex-col gap-4'}>
         <Input label={'Your message'} onChange={e => setMessage(e.target.value)} value={message} />
         <Input label={'Your signature'} disabled value={signature} />
       </CardBody>
-      <CardFooter className={'flex flex-row-reverse'}>
-        <Button disabled={isNil(connector)} onClick={signMessage} isLoading={loading}>
-          Sign Message
-        </Button>
-      </CardFooter>
     </Card>
   );
 };

@@ -44,7 +44,6 @@ export class SafeConnector extends BaseConnector {
 
   async disconnect() {
     this.onDisconnect();
-    this.removeAllListeners();
     this.removeProviderListeners();
   }
 
