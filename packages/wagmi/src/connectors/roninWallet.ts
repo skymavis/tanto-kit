@@ -1,4 +1,4 @@
-import { ConnectorEvent, RoninWalletConnector } from '@sky-mavis/tanto-connect';
+import { ConnectorEvent, IConnectResult, RoninWalletConnector } from '@sky-mavis/tanto-connect';
 import { getAddress } from 'viem';
 import { createConnector } from 'wagmi';
 
@@ -26,30 +26,28 @@ export function roninWallet() {
     return _mapAccounts(accounts);
   };
 
-  const onChainChanged = (config: any, chainId: number) => {
-    config.emitter.emit('change', { chainId });
-  };
+  return createConnector(config => {
+    const onChainChanged = (chainId: number) => {
+      config.emitter.emit('change', { chainId });
+    };
 
-  const onAccountsChanged = (config: any, accounts: string[]) => {
-    config.emitter.emit('change', { accounts: _mapAccounts(accounts) });
-  };
+    const onAccountsChanged = (accounts: string[]) => {
+      config.emitter.emit('change', { accounts: _mapAccounts(accounts) });
+    };
 
-  const onConnect = async (config: any, results: any) => {
-    const accounts = await _getAccounts();
-    config.emitter.emit('connect', { accounts, chainId: results.chainId });
-  };
+    const onConnect = async (results: IConnectResult) => {
+      const accounts = await _getAccounts();
+      config.emitter.emit('connect', { accounts, chainId: results.chainId });
+    };
 
-  const onDisconnect = (config: any) => {
-    config.emitter.emit('disconnect');
-  };
+    const onDisconnect = () => {
+      config.emitter.emit('disconnect');
+    };
 
-  return createConnector((config: any) => {
-    roninWalletConnector.on(ConnectorEvent.CONNECT, (results: any) => onConnect(config, results));
-    roninWalletConnector.on(ConnectorEvent.DISCONNECT, () => onDisconnect(config));
-    roninWalletConnector.on(ConnectorEvent.ACCOUNTS_CHANGED, (accounts: string[]) =>
-      onAccountsChanged(config, accounts),
-    );
-    roninWalletConnector.on(ConnectorEvent.CHAIN_CHANGED, (chain: number) => onChainChanged(config, Number(chain)));
+    roninWalletConnector.on(ConnectorEvent.CONNECT, onConnect);
+    roninWalletConnector.on(ConnectorEvent.DISCONNECT, onDisconnect);
+    roninWalletConnector.on(ConnectorEvent.ACCOUNTS_CHANGED, onAccountsChanged);
+    roninWalletConnector.on(ConnectorEvent.CHAIN_CHANGED, onChainChanged);
 
     return {
       icon: roninWalletConnector.icon,
