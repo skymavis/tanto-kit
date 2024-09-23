@@ -7,11 +7,16 @@ const config = defineConfig({
   input: ['src/index.ts'],
   output: [
     {
-      dir: 'dist',
+      dir: 'dist/mjs',
       format: 'esm',
       sourcemap: false,
       compact: true,
       minifyInternalExports: true,
+    },
+    {
+      dir: 'dist/cjs',
+      format: 'cjs',
+      sourcemap: false,
     },
   ],
   external: ['ethers', 'ethers/lib/utils'],
