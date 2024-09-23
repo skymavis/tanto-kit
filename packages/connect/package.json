@@ -1,6 +1,5 @@
 {
   "name": "@sky-mavis/tanto-connect",
-  "type": "module",
   "version": "0.0.1-alpha.1",
   "description": "Tanto Connect",
   "main": "dist/cjs/index.js",
