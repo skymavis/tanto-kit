@@ -47,9 +47,13 @@ export abstract class BaseConnector<ProviderType = IEIP1193Provider>
   autoConnect = async () => {
     try {
       const shouldConnect = await this.shouldAutoReconnect();
-      if (shouldConnect) await this.connect();
+      if (shouldConnect) {
+        return await this.connect();
+      }
+      return null;
     } catch (e) {
       console.error(e);
+      return null;
     }
   };
 
@@ -70,8 +74,8 @@ export abstract class BaseConnector<ProviderType = IEIP1193Provider>
     this.emit(ConnectorEvent.ACCOUNTS_CHANGED, accounts);
   };
 
-  onConnect = (results: IConnectResult) => {
-    this.emit(ConnectorEvent.CONNECT, results);
+  onConnect = (result: IConnectResult) => {
+    this.emit(ConnectorEvent.CONNECT, result);
   };
 
   onDisconnect = () => {

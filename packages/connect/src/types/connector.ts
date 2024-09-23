@@ -11,6 +11,7 @@ export interface IConnectResult {
   provider: unknown;
   chainId: number;
   account: string;
+  accessToken?: string;
 }
 
 export interface IBaseConnector extends IConnectorEventEmitter {
@@ -29,7 +30,7 @@ export interface IBaseConnector extends IConnectorEventEmitter {
   switchChain(chain: any): Promise<boolean>;
   requestAccounts(): Promise<readonly string[]>;
   shouldAutoReconnect(): Promise<boolean>;
-  autoConnect(): Promise<void>;
+  autoConnect(): Promise<IConnectResult | null>;
 
   onChainChanged(chainId: string): void;
   onAccountsChanged(accounts: string[]): void;

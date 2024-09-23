@@ -1,8 +1,9 @@
 import { WaypointProvider } from '@sky-mavis/waypoint';
 
 import { DEFAULT_CONNECTORS_CONFIG } from '../../common/connectors';
+import { ReconnectStorage } from '../../common/storage';
 import { requestWaypointProvider } from '../../providers';
-import { IConnectorConfigs } from '../../types/connector';
+import { IConnectorConfigs, IConnectResult } from '../../types/connector';
 import { ConnectorError, ConnectorErrorType } from '../../types/connector-error';
 import { EIP1193Event } from '../../types/eip1193';
 import { BaseConnector } from '../base/BaseConnector';
@@ -45,25 +46,25 @@ export class WaypointConnector extends BaseConnector<WaypointProvider> {
     });
   }
 
-  async connect(chainId?: number) {
-    const currentChainId = await this.getChainId();
-    if (currentChainId !== chainId) {
-      this.provider = await this.requestProvider(chainId);
-    }
-
-    let accounts = await this.getAccounts();
-    if (accounts.length === 0) {
-      accounts = await this.requestAccounts();
-    }
-
-    const connectResults = {
-      provider: this.provider,
-      chainId: chainId || currentChainId,
-      account: accounts[0],
+  async connect() {
+    const provider = await this.getProvider();
+    const chainId = await this.getChainId();
+    const accounts = await this.getAccounts();
+    const account = accounts[0];
+    const connectResult: IConnectResult = {
+      provider,
+      chainId,
+      account,
     };
 
-    this.onConnect(connectResults);
-    return connectResults;
+    if (!account) {
+      const { address, accessToken } = await provider.connect();
+      connectResult.account = address as string;
+      connectResult.accessToken = accessToken;
+    }
+    this.onConnect(connectResult);
+    ReconnectStorage.add(this.id);
+    return connectResult;
   }
 
   async disconnect() {
