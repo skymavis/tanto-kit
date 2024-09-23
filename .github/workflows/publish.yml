@@ -6,7 +6,6 @@ on:
 
 jobs:
   publish:
-    if: ${{ true == startsWith(github.event.release.tag_name, 'tanto-connect') }}
     runs-on: ubuntu-latest
     environment: production
 
@@ -31,5 +30,12 @@ jobs:
 
       - name: Publish @sky-mavis/tanto-connect
         run: cd packages/connect && npm publish --access=public
+        if: ${{ true == startsWith(github.event.release.tag_name, 'tanto-connect') }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+
+      - name: Publish @sky-mavis/tanto-wagmi
+        run: cd packages/wagmi && npm publish --access=public
+        if: ${{ true == startsWith(github.event.release.tag_name, 'tanto-wagmi') }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
