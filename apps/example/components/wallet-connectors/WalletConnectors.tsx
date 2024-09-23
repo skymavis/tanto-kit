@@ -1,5 +1,5 @@
 import { Card, CardBody, Tab, Tabs } from '@nextui-org/react';
-import { DEFAULT_CONNECTORS_CONFIG, SupportedConnectors } from '@sky-mavis/tanto-connect/src';
+import { DEFAULT_CONNECTORS_CONFIG, SupportedConnectors } from '@sky-mavis/tanto-connect';
 import React, { FC } from 'react';
 
 import InjectedWallets from './injected-wallets/InjectedWallets';

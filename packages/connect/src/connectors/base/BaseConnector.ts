@@ -10,8 +10,8 @@ export abstract class BaseConnector<ProviderType = IEIP1193Provider>
   readonly id: string;
   readonly name: string;
   readonly type: string;
-  readonly isRonin: boolean;
   readonly icon?: string;
+  readonly isRonin: boolean;
 
   protected provider?: ProviderType;
 

@@ -1,12 +1,14 @@
+import { ConnectorType } from '../common/connectors';
 import { DEFAULT_DELAY_TIME, RONIN_WALLET_RDNS, WC_SUPPORTED_CHAIN_IDS } from '../common/constant';
 import {
-  requestLegacyRoninProvider,
   requestProviders,
+  requestRoninProvider,
   requestRoninWalletConnectProvider,
   requestSafeProvider,
   requestWaypointProvider,
 } from '../providers';
-import { IBaseConnector, IConnectorConfigs } from '../types/connector';
+import { IConnectorConfigs } from '../types/connector';
+import { BaseConnector } from './base/BaseConnector';
 import { InjectedConnector } from './injected/InjectedConnector';
 import { RoninWalletConnector } from './ronin-wallet/RoninWalletConnector';
 import {
@@ -16,26 +18,26 @@ import {
 import { SafeConnector } from './safe/SafeConnector';
 import { WaypointConnector } from './waypoint/WaypointConnector';
 
-export const requestInjectedConnectors = async (): Promise<IBaseConnector[]> => {
+export const requestInjectedConnectors = async (): Promise<BaseConnector[]> => {
   const providerDetails = await requestProviders();
 
   return providerDetails.map(detail => {
     if (detail.info.rdns === RONIN_WALLET_RDNS) {
-      return new RoninWalletConnector({ icon: detail.info.icon });
-    } else {
-      const configs = {
-        name: detail.info.name,
-        id: detail.info.rdns,
-        icon: detail.info.icon,
-        type: 'injected',
-      };
-      return new InjectedConnector(configs, detail.provider);
+      return new RoninWalletConnector({ icon: detail.info.icon }, detail.provider);
     }
+
+    const configs = {
+      name: detail.info.name,
+      id: detail.info.rdns,
+      icon: detail.info.icon,
+      type: ConnectorType.WALLET,
+    };
+    return new InjectedConnector(configs, detail.provider);
   });
 };
 
 export const requestRoninWalletConnector = async () => {
-  const provider = await requestLegacyRoninProvider();
+  const provider = await requestRoninProvider();
   return new RoninWalletConnector({}, provider);
 };
 

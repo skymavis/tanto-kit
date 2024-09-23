@@ -1,14 +1,13 @@
 import { WaypointProvider } from '@sky-mavis/waypoint';
 
 import { DEFAULT_CONNECTORS_CONFIG } from '../../common/connectors';
-import { ReconnectStorage } from '../../common/storage';
 import { requestWaypointProvider } from '../../providers';
 import { IConnectorConfigs } from '../../types/connector';
 import { ConnectorError, ConnectorErrorType } from '../../types/connector-error';
 import { EIP1193Event } from '../../types/eip1193';
 import { BaseConnector } from '../base/BaseConnector';
 
-export class WaypointConnector extends BaseConnector {
+export class WaypointConnector extends BaseConnector<WaypointProvider> {
   constructor(configs: Partial<IConnectorConfigs>, provider?: WaypointProvider) {
     super({ ...DEFAULT_CONNECTORS_CONFIG.WAYPOINT, ...configs }, provider);
   }
@@ -47,39 +46,36 @@ export class WaypointConnector extends BaseConnector {
   }
 
   async connect(chainId?: number) {
-    const provider = await this.getProvider();
-
-    if (!provider) {
-      throw new ConnectorError(ConnectorErrorType.PROVIDER_NOT_FOUND);
+    const currentChainId = await this.getChainId();
+    if (currentChainId !== chainId) {
+      this.provider = await this.requestProvider(chainId);
     }
 
-    const accounts = await this.requestAccounts();
-    const currentChainId = await this.getChainId();
+    let accounts = await this.getAccounts();
+    if (accounts.length === 0) {
+      accounts = await this.requestAccounts();
+    }
 
     const connectResults = {
-      provider,
+      provider: this.provider,
       chainId: chainId || currentChainId,
       account: accounts[0],
     };
 
-    this.setupProviderListeners();
     this.onConnect(connectResults);
-    ReconnectStorage.add(this.id);
-
-    return {
-      provider,
-      chainId: chainId ?? currentChainId,
-      account: accounts[0],
-    };
+    return connectResults;
   }
 
   async disconnect() {
+    const provider = await this.getProvider();
+    provider.disconnect();
+
     this.onDisconnect();
     this.removeProviderListeners();
   }
 
-  async requestProvider() {
-    return requestWaypointProvider();
+  async requestProvider(chainId?: number) {
+    return requestWaypointProvider(chainId);
   }
 
   protected setupProviderListeners() {

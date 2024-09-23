@@ -1,6 +1,6 @@
 import { ConnectorEvent, IConnectResult, RoninWalletConnector } from '@sky-mavis/tanto-connect';
+import { createConnector } from '@wagmi/core';
 import { getAddress } from 'viem';
-import { createConnector } from 'wagmi';
 
 type ConnectParams = {
   chainId?: number;
