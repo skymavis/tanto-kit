@@ -8,7 +8,8 @@ import WalletConnectors from '../components/wallet-connectors/WalletConnectors';
 import { useConnectorStore } from '../hooks/useConnectorStore';
 
 const HomePage: NextPage = () => {
-  const { connector } = useConnectorStore(state => state);
+  const connector = useConnectorStore(state => state.connector);
+
   return (
     <div className={'flex justify-center'}>
       <div className={'max-w-screen-sm flex h-screen flex-col p-6'}>

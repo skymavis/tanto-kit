@@ -19,7 +19,7 @@ const config = defineConfig({
       sourcemap: false,
     },
   ],
-  external: ['ethers', 'ethers/lib/utils'],
+  external: ['ethers', 'ethers/lib/utils', 'viem'],
   plugins: [
     json(),
     typescript({

@@ -1,15 +1,28 @@
 import { Button, User } from '@nextui-org/react';
-import { roninWallet } from '@sky-mavis/tanto-wagmi';
+import { roninWallet, waypoint } from '@sky-mavis/tanto-wagmi';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React, { FC } from 'react';
 import { ronin, saigon } from 'viem/chains';
-import { Connector, createConfig, useAccount, useConnect, useDisconnect, useSignMessage, WagmiProvider } from 'wagmi';
+import {
+  Connector,
+  createConfig,
+  http,
+  useAccount,
+  useConnect,
+  useDisconnect,
+  useSignMessage,
+  WagmiProvider,
+} from 'wagmi';
 
 import WillRender from '../../components/will-render/WillRender';
 
 const config = createConfig({
   chains: [ronin, saigon],
-  connectors: [roninWallet()],
+  transports: {
+    [ronin.id]: http(),
+    [saigon.id]: http(),
+  },
+  connectors: [roninWallet(), waypoint()],
   multiInjectedProviderDiscovery: false,
   ssr: true,
 });

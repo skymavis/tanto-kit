@@ -1,6 +1,5 @@
 import { Button, Select, SelectItem, User } from '@nextui-org/react';
-import { BaseConnector } from '@sky-mavis/tanto-connect';
-import { CHAINS_CONFIG } from '@sky-mavis/tanto-connect/src';
+import { BaseConnector, CHAINS_CONFIG } from '@sky-mavis/tanto-connect';
 import { isNil } from 'lodash';
 import React, { FC } from 'react';
 
