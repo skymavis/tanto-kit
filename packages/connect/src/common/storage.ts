@@ -43,3 +43,5 @@ export const ReconnectStorage = {
 
   remove: (connectorId: string): boolean => LocalStorage.remove(`${STORAGE_PREFIX}.RECONNECT.${connectorId}`),
 };
+
+export const WAYPOINT_ACCESS_TOKEN_STORAGE_KEY = `${STORAGE_PREFIX}.WAYPOINT.ACCESS_TOKEN`;
