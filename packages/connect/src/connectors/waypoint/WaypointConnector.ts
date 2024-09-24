@@ -53,6 +53,7 @@ export class WaypointConnector extends BaseConnector<WaypointProvider> {
     const account = accounts[0];
 
     const connectResult: IConnectResult = {
+      accessToken: LocalStorage.get(WAYPOINT_ACCESS_TOKEN_STORAGE_KEY),
       provider,
       chainId,
       account,
@@ -60,11 +61,11 @@ export class WaypointConnector extends BaseConnector<WaypointProvider> {
 
     if (!account) {
       const { address, accessToken } = await provider.connect();
-      LocalStorage.set(WAYPOINT_ACCESS_TOKEN_STORAGE_KEY, accessToken);
       connectResult.account = address as string;
+      connectResult.accessToken = accessToken;
+      LocalStorage.set(WAYPOINT_ACCESS_TOKEN_STORAGE_KEY, accessToken);
     }
 
-    connectResult.accessToken = LocalStorage.get(WAYPOINT_ACCESS_TOKEN_STORAGE_KEY);
     ReconnectStorage.add(this.id);
     this.onConnect(connectResult);
     return connectResult;
