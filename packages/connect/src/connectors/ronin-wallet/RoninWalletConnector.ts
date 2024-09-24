@@ -21,23 +21,32 @@ export class RoninWalletConnector extends BaseConnector {
     if (!provider) {
       throw new ConnectorError(ConnectorErrorType.PROVIDER_NOT_FOUND);
     }
-    const accounts = await this.requestAccounts();
-    const currentChainId = await this.getChainId();
-    if (chainId && currentChainId !== chainId) {
-      await this.switchChain(chainId);
+
+    try {
+      const accounts = await this.requestAccounts();
+      const currentChainId = await this.getChainId();
+
+      if (chainId && currentChainId !== chainId) {
+        await this.switchChain(chainId);
+      }
+
+      const connectResults = {
+        provider,
+        chainId: chainId || currentChainId,
+        account: accounts[0],
+      };
+
+      this.setupProviderListeners();
+      this.onConnect(connectResults);
+      ReconnectStorage.add(this.id);
+
+      return connectResults;
+    } catch (err) {
+      if ((err as any as { code: number; message: string })?.code === 4001) {
+        throw new ConnectorError(ConnectorErrorType.USER_REJECTED_SESSION_REQUEST, err);
+      }
+      throw new ConnectorError(ConnectorErrorType.CONNECT_FAILED, err);
     }
-
-    const connectResults = {
-      provider,
-      chainId: chainId || currentChainId,
-      account: accounts[0],
-    };
-
-    this.setupProviderListeners();
-    this.onConnect(connectResults);
-    ReconnectStorage.add(this.id);
-
-    return connectResults;
   }
 
   async disconnect() {
