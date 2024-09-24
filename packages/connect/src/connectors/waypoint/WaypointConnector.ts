@@ -60,10 +60,14 @@ export class WaypointConnector extends BaseConnector<WaypointProvider> {
     };
 
     if (!account) {
-      const { address, accessToken } = await provider.connect();
-      connectResult.account = address as string;
-      connectResult.accessToken = accessToken;
-      LocalStorage.set(WAYPOINT_ACCESS_TOKEN_STORAGE_KEY, accessToken);
+      try {
+        const { address, accessToken } = await provider.connect();
+        connectResult.account = address as string;
+        connectResult.accessToken = accessToken;
+        LocalStorage.set(WAYPOINT_ACCESS_TOKEN_STORAGE_KEY, accessToken);
+      } catch (err) {
+        console.error(new ConnectorError(ConnectorErrorType.CONNECT_FAILED, err));
+      }
     }
 
     ReconnectStorage.add(this.id);
