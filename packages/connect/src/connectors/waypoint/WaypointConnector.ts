@@ -9,7 +9,7 @@ import { EIP1193Event } from '../../types/eip1193';
 import { BaseConnector } from '../base/BaseConnector';
 
 export class WaypointConnector extends BaseConnector<WaypointProvider> {
-  constructor(configs: Partial<IConnectorConfigs>, provider?: WaypointProvider) {
+  constructor(configs?: Partial<IConnectorConfigs>, provider?: WaypointProvider) {
     super({ ...DEFAULT_CONNECTORS_CONFIG.WAYPOINT, ...configs }, provider);
   }
 

@@ -10,7 +10,7 @@ import { BaseConnector } from '../base/BaseConnector';
 export class RoninWalletConnector extends BaseConnector {
   readonly isRonin: boolean;
 
-  constructor(configs: Partial<IConnectorConfigs>, provider?: IEIP1193Provider) {
+  constructor(configs?: Partial<IConnectorConfigs>, provider?: IEIP1193Provider) {
     super({ ...DEFAULT_CONNECTORS_CONFIG.RONIN_WALLET, ...configs }, provider);
     this.isRonin = true;
   }
