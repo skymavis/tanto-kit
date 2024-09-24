@@ -71,6 +71,7 @@ export class WaypointConnector extends BaseConnector<WaypointProvider> {
     const provider = await this.getProvider();
     provider.disconnect();
 
+    ReconnectStorage.remove(this.id);
     this.onDisconnect();
     this.removeProviderListeners();
   }

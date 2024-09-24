@@ -47,6 +47,7 @@ export class InjectedConnector extends BaseConnector {
   }
 
   async disconnect() {
+    ReconnectStorage.remove(this.id);
     this.onDisconnect();
     this.removeProviderListeners();
   }
