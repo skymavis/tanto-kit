@@ -1,6 +1,7 @@
 import { ConnectorType, RONIN_WALLET_CONNECT_PROJECT_ID } from '../common/connectors';
 import { DEFAULT_DELAY_TIME, RONIN_WALLET_RDNS, WC_SUPPORTED_CHAIN_IDS } from '../common/constant';
 import {
+  IWaypointProviderConfigs,
   requestProviders,
   requestRoninProvider,
   requestRoninWalletConnectProvider,
@@ -57,8 +58,11 @@ export const requestSafeConnector = async (configs?: Partial<IConnectorConfigs>,
   return new SafeConnector(configs, provider);
 };
 
-export const requestWaypointConnector = (config?: Partial<IConnectorConfigs>, chainId?: number) => {
-  const waypointProvider = requestWaypointProvider(chainId);
+export const requestWaypointConnector = (
+  config?: Partial<IConnectorConfigs>,
+  providerConfigs?: IWaypointProviderConfigs,
+) => {
+  const waypointProvider = requestWaypointProvider(providerConfigs);
 
   return new WaypointConnector(config, waypointProvider);
 };

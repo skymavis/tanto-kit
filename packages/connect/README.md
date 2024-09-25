@@ -31,26 +31,43 @@ const connectorConfigs = {
 
 ### Waypoint Connector
 
+The configs that override the default configs of the Waypoint provider.
+
+```javascript
+import { ChainIds } from '@sky-mavis/tanto-connect';
+
+const waypointProviderConfigs = {
+  clientId: "",
+  chainId: ChainIds.RoninMainnet,
+};
+```
+
 #### _Request a connector_
 
 ```javascript
-import { ChainIds, requestWaypointConnector } from '@sky-mavis/tanto-connect';
+import { requestWaypointConnector } from '@sky-mavis/tanto-connect';
 
 // Use your own connector config if needed, if not, we recommend you should leave it as default.
 const waypointConnectorConfigs = {};
 
-const waypointConnector = requestWaypointConnector(wayPointConnectorConfigs, ChainIds.RoninMainnet);
+const waypointConnector = requestWaypointConnector(
+  waypointConnectorConfigs,
+  waypointProviderConfigs
+);
 ```
 
 #### _Request a provider_
 
 ```javascript
-import { ChainIds, requestWaypointProvider } from '@sky-mavis/tanto-connect';
+import { requestWaypointProvider } from '@sky-mavis/tanto-connect';
 
-const waypointProvider = requestWaypointProvider(ChainIds.RoninMainnet);
+const waypointProvider = requestWaypointProvider(waypointProviderConfigs);
 ```
+
 Or if you have already had a `waypointConnector`:
 
 ```javascript
-const waypointProvider = waypointConnector.requestProvider(ChainIds.RoninMainnet);
+const waypointProvider = waypointConnector.requestProvider(
+  waypointProviderConfigs
+);
 ```
