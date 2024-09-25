@@ -43,7 +43,7 @@ export class RoninWalletConnector extends BaseConnector {
       return connectResults;
     } catch (err) {
       if ((err as any as { code: number; message: string })?.code === 4001) {
-        throw new ConnectorError(ConnectorErrorType.USER_REJECTED_SESSION_REQUEST, err);
+        throw new ConnectorError(ConnectorErrorType.USER_REJECTED_REQUEST, err);
       }
       throw new ConnectorError(ConnectorErrorType.CONNECT_FAILED, err);
     }
