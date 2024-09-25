@@ -45,3 +45,5 @@ export const DEFAULT_CONNECTORS_CONFIG: Record<SupportedConnectors, IConnectorCo
     type: ConnectorType.MULTISIG,
   },
 };
+
+export const RONIN_WALLET_CONNECT_PROJECT_ID = 'd2ef97836db7eb390bcb2c1e9847ecdc';
