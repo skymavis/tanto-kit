@@ -7,7 +7,7 @@ import { ConnectorError, ConnectorErrorType } from '../types/connector-error';
 export const requestWaypointProvider = (chainId?: number) => {
   const waypointProvider = WaypointProvider.create({
     clientId: WAYPOINT_CLIENT_ID,
-    chainId: chainId || ChainIds.RoninMainet,
+    chainId: chainId || ChainIds.RoninMainnet,
   });
 
   if (!waypointProvider) {
