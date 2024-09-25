@@ -66,7 +66,7 @@ export class WaypointConnector extends BaseConnector<WaypointProvider> {
         connectResult.accessToken = accessToken;
         LocalStorage.set(WAYPOINT_ACCESS_TOKEN_STORAGE_KEY, accessToken);
       } catch (err) {
-        console.error(new ConnectorError(ConnectorErrorType.CONNECT_FAILED, err));
+        throw new ConnectorError(ConnectorErrorType.CONNECT_FAILED, err);
       }
     }
 
