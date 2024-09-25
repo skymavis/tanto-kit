@@ -3,6 +3,7 @@ import { WaypointProvider } from '@sky-mavis/waypoint';
 import { DEFAULT_CONNECTORS_CONFIG } from '../../common/connectors';
 import { LocalStorage, ReconnectStorage, WAYPOINT_ACCESS_TOKEN_STORAGE_KEY } from '../../common/storage';
 import { requestWaypointProvider } from '../../providers';
+import { IWaypointProviderConfigs } from '../../providers/waypoint-provider';
 import { IConnectorConfigs, IConnectResult } from '../../types/connector';
 import { ConnectorError, ConnectorErrorType } from '../../types/connector-error';
 import { EIP1193Event } from '../../types/eip1193';
@@ -85,8 +86,8 @@ export class WaypointConnector extends BaseConnector<WaypointProvider> {
     this.removeProviderListeners();
   }
 
-  async requestProvider(chainId?: number) {
-    return requestWaypointProvider(chainId);
+  async requestProvider(configs?: IWaypointProviderConfigs) {
+    return requestWaypointProvider(configs);
   }
 
   protected setupProviderListeners() {

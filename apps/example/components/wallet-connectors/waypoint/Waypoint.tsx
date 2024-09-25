@@ -21,7 +21,10 @@ const Waypoint: FC = () => {
   };
 
   useEffect(() => {
-    const waypointConnector = requestWaypointConnector({}, 2021);
+    const waypointProviderConfigs = {
+      chainId: 2021,
+    };
+    const waypointConnector = requestWaypointConnector({}, waypointProviderConfigs);
     waypointConnector.autoConnect();
     setIsConnected(false);
     setConnector(waypointConnector);
