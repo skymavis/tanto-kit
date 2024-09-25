@@ -1,11 +1,8 @@
 export enum ConnectorErrorType {
   PROVIDER_NOT_FOUND = 'ProviderNotFound',
-  WALLET_IS_LOCKED = 'WalletIsLocked',
   CONNECT_FAILED = 'ConnectFailed',
-  USER_REJECTED_SESSION_REQUEST = 'UserRejectedSessionRequest',
-  INVALID_PARAMS = 'InvalidParams',
+  USER_REJECTED_REQUEST = 'UserRejectedRequest',
   NOT_INSTALLED = 'NotInstalled',
-  UNKNOWN = 'Unknown',
   SWITCH_CHAIN_NOT_SUPPORTED = 'SwitchChainNotSupported',
 }
 
