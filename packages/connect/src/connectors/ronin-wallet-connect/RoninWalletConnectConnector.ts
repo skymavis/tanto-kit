@@ -1,7 +1,7 @@
 import EthereumProvider from '@walletconnect/ethereum-provider/dist/types/EthereumProvider';
 import { SignClientTypes } from '@walletconnect/types';
 
-import { DEFAULT_CONNECTORS_CONFIG } from '../../common/connectors';
+import { DEFAULT_CONNECTORS_CONFIG, RONIN_WALLET_CONNECT_PROJECT_ID } from '../../common/connectors';
 import { WC_SUPPORTED_CHAIN_IDS } from '../../common/constant';
 import { ReconnectStorage } from '../../common/storage';
 import { requestRoninWalletConnectProvider } from '../../providers';
@@ -13,7 +13,7 @@ import { numberToHex } from '../../utils';
 import { BaseConnector } from '../base/BaseConnector';
 
 export interface IRoninWalletConnectConnectorConfigs extends Partial<IConnectorConfigs> {
-  projectId: string;
+  projectId?: string;
   metadata?: SignClientTypes.Metadata;
   showQrModal?: boolean;
 }
@@ -25,8 +25,8 @@ export class RoninWalletConnectConnector extends BaseConnector<EthereumProvider>
 
   readonly isRonin: boolean;
 
-  constructor(configs: IRoninWalletConnectConnectorConfigs, provider?: EthereumProvider) {
-    const { projectId, metadata, showQrModal, ...restConfigs } = configs;
+  constructor(configs?: IRoninWalletConnectConnectorConfigs, provider?: EthereumProvider) {
+    const { projectId = RONIN_WALLET_CONNECT_PROJECT_ID, metadata, showQrModal, ...restConfigs } = configs ?? {};
     super({ ...DEFAULT_CONNECTORS_CONFIG.RONIN_WC, ...restConfigs }, provider);
 
     this.metadata = metadata;

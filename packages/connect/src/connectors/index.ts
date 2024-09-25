@@ -1,4 +1,4 @@
-import { ConnectorType } from '../common/connectors';
+import { ConnectorType, RONIN_WALLET_CONNECT_PROJECT_ID } from '../common/connectors';
 import { DEFAULT_DELAY_TIME, RONIN_WALLET_RDNS, WC_SUPPORTED_CHAIN_IDS } from '../common/constant';
 import {
   requestProviders,
@@ -41,10 +41,10 @@ export const requestRoninWalletConnector = async () => {
   return new RoninWalletConnector({}, provider);
 };
 
-export const requestRoninWalletConnectConnector = async (configs: IRoninWalletConnectConnectorConfigs) => {
+export const requestRoninWalletConnectConnector = async (configs?: IRoninWalletConnectConnectorConfigs) => {
   const provider = await requestRoninWalletConnectProvider({
-    projectId: configs.projectId,
-    metadata: configs.metadata,
+    projectId: configs?.projectId ?? RONIN_WALLET_CONNECT_PROJECT_ID,
+    metadata: configs?.metadata,
     chains: WC_SUPPORTED_CHAIN_IDS,
     showQrModal: false,
   });
@@ -52,12 +52,12 @@ export const requestRoninWalletConnectConnector = async (configs: IRoninWalletCo
   return new RoninWalletConnectConnector(configs, provider);
 };
 
-export const requestSafeConnector = async (configs: Partial<IConnectorConfigs>, delay = DEFAULT_DELAY_TIME) => {
+export const requestSafeConnector = async (configs?: Partial<IConnectorConfigs>, delay = DEFAULT_DELAY_TIME) => {
   const provider = await requestSafeProvider(delay);
   return new SafeConnector(configs, provider);
 };
 
-export const requestWaypointConnector = (config: Partial<IConnectorConfigs>, chainId?: number) => {
+export const requestWaypointConnector = (config?: Partial<IConnectorConfigs>, chainId?: number) => {
   const waypointProvider = requestWaypointProvider(chainId);
 
   return new WaypointConnector(config, waypointProvider);
