@@ -27,7 +27,7 @@ export interface IBaseConnector extends IConnectorEventEmitter {
   isAuthorized(): Promise<boolean>;
   getAccounts(): Promise<readonly string[]>;
   getChainId(): Promise<number>;
-  switchChain(chain: any): Promise<boolean>;
+  switchChain(chain: number): Promise<void>;
   requestAccounts(): Promise<readonly string[]>;
   shouldAutoReconnect(): Promise<boolean>;
   autoConnect(): Promise<IConnectResult | null>;

@@ -1,4 +1,5 @@
-import { EthereumProvider, EthereumProviderOptions } from '@walletconnect/ethereum-provider';
+import { EthereumProvider } from '@walletconnect/ethereum-provider';
+import { EthereumProviderOptions } from '@walletconnect/ethereum-provider/dist/types/EthereumProvider';
 
 import {
   WC_RPC_MAP,

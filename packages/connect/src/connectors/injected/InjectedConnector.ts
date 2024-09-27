@@ -18,10 +18,6 @@ export class InjectedConnector extends BaseConnector {
   async connect(chainId?: number) {
     const provider = await this.getProvider();
 
-    if (!provider) {
-      throw new ConnectorError(ConnectorErrorType.PROVIDER_NOT_FOUND);
-    }
-
     try {
       const accounts = await this.requestAccounts();
       const currentChainId = await this.getChainId();
@@ -66,11 +62,10 @@ export class InjectedConnector extends BaseConnector {
 
   async switchChain(chain: number) {
     const provider = await this.getProvider();
-    const chainId = provider?.request<number | string>({
+    return provider.request<void>({
       method: 'wallet_switchEthereumChain',
       params: [{ chainId: numberToHex(chain) }],
     });
-    return !!chainId;
   }
 
   async getChainId() {

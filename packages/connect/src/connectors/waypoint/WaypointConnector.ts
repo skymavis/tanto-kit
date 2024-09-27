@@ -27,8 +27,7 @@ export class WaypointConnector extends BaseConnector<WaypointProvider> {
   }
 
   async switchChain() {
-    console.error(new ConnectorError(ConnectorErrorType.SWITCH_CHAIN_NOT_SUPPORTED));
-    return false;
+    throw new ConnectorError(ConnectorErrorType.SWITCH_CHAIN_NOT_SUPPORTED);
   }
 
   async getChainId() {
@@ -61,14 +60,10 @@ export class WaypointConnector extends BaseConnector<WaypointProvider> {
     };
 
     if (!account) {
-      try {
-        const { address, accessToken } = await provider.connect();
-        connectResult.account = address as string;
-        connectResult.accessToken = accessToken;
-        LocalStorage.set(WAYPOINT_ACCESS_TOKEN_STORAGE_KEY, accessToken);
-      } catch (err) {
-        throw new ConnectorError(ConnectorErrorType.CONNECT_FAILED, err);
-      }
+      const { address, accessToken } = await provider.connect();
+      connectResult.account = address as string;
+      connectResult.accessToken = accessToken;
+      LocalStorage.set(WAYPOINT_ACCESS_TOKEN_STORAGE_KEY, accessToken);
     }
 
     ReconnectStorage.add(this.id);

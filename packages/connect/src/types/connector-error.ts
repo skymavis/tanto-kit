@@ -1,7 +1,6 @@
 export enum ConnectorErrorType {
   PROVIDER_NOT_FOUND = 'ProviderNotFound',
   CONNECT_FAILED = 'ConnectFailed',
-  USER_REJECTED_REQUEST = 'UserRejectedRequest',
   NOT_INSTALLED = 'NotInstalled',
   SWITCH_CHAIN_NOT_SUPPORTED = 'SwitchChainNotSupported',
 }
