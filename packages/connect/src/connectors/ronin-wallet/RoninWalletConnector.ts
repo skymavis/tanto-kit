@@ -2,7 +2,6 @@ import { DEFAULT_CONNECTORS_CONFIG } from '../../common/connectors';
 import { ReconnectStorage } from '../../common/storage';
 import { requestRoninProvider } from '../../providers';
 import { IConnectorConfigs } from '../../types/connector';
-import { ConnectorError, ConnectorErrorType } from '../../types/connector-error';
 import { EIP1193Event, IEIP1193Provider } from '../../types/eip1193';
 import { numberToHex } from '../../utils';
 import { BaseConnector } from '../base/BaseConnector';
@@ -17,36 +16,23 @@ export class RoninWalletConnector extends BaseConnector {
 
   async connect(chainId?: number) {
     const provider = await this.getProvider();
+    const accounts = await this.requestAccounts();
+    const currentChainId = await this.getChainId();
 
-    if (!provider) {
-      throw new ConnectorError(ConnectorErrorType.PROVIDER_NOT_FOUND);
+    if (chainId && currentChainId !== chainId) {
+      await this.switchChain(chainId);
     }
 
-    try {
-      const accounts = await this.requestAccounts();
-      const currentChainId = await this.getChainId();
+    const connectResults = {
+      provider,
+      chainId: chainId || currentChainId,
+      account: accounts[0],
+    };
 
-      if (chainId && currentChainId !== chainId) {
-        await this.switchChain(chainId);
-      }
-
-      const connectResults = {
-        provider,
-        chainId: chainId || currentChainId,
-        account: accounts[0],
-      };
-
-      this.setupProviderListeners();
-      this.onConnect(connectResults);
-      ReconnectStorage.add(this.id);
-
-      return connectResults;
-    } catch (err) {
-      if ((err as any as { code: number; message: string })?.code === 4001) {
-        throw new ConnectorError(ConnectorErrorType.USER_REJECTED_REQUEST, err);
-      }
-      throw new ConnectorError(ConnectorErrorType.CONNECT_FAILED, err);
-    }
+    this.setupProviderListeners();
+    this.onConnect(connectResults);
+    ReconnectStorage.add(this.id);
+    return connectResults;
   }
 
   async disconnect() {
@@ -69,11 +55,10 @@ export class RoninWalletConnector extends BaseConnector {
 
   async switchChain(chain: number) {
     const provider = await this.getProvider();
-    const chainId = await provider?.request<number | string>({
+    return provider.request<void>({
       method: 'wallet_switchEthereumChain',
       params: [{ chainId: numberToHex(chain) }],
     });
-    return !!chainId;
   }
 
   async getChainId() {

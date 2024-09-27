@@ -64,7 +64,6 @@ export class SafeConnector extends BaseConnector {
   async switchChain(chain: number) {
     // TODO: Add a Connector Error for not allowing switch chain
     throw new ConnectorError(ConnectorErrorType.SWITCH_CHAIN_NOT_SUPPORTED);
-    return false; // This is to prevent TS error
   }
 
   async getChainId() {
