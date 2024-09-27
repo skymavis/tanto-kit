@@ -17,11 +17,16 @@ export const WC_RPC_MAP: EthereumRpcMap = {
   [ChainIds.RoninTestnet]: 'https://saigon-testnet.roninchain.com/rpc',
 };
 export const WC_CAIP_CHAIN = 'eip155';
-export const WC_SUPPORTED_METHODS = ['eth_sendTransaction', 'eth_sign', 'personal_sign', 'eth_signTypedData'];
+export const WC_SUPPORTED_METHODS = [
+  'eth_sendTransaction',
+  'eth_sign',
+  'personal_sign',
+  'eth_signTypedData',
+  'eth_signTypedData_v4',
+];
 export const WC_SUPPORTED_OPTIONAL_METHODS = [
   'eth_accounts',
   'eth_requestAccounts',
-  'eth_signTypedData_v4',
   'eth_getFreeGasRequests',
   'wallet_initialData',
 ];
