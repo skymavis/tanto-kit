@@ -11,9 +11,9 @@ import ConnectorActions from '../connector-actions/ConnectorActions';
 const wcOptions = {
   projectId: 'd2ef97836db7eb390bcb2c1e9847ecdc',
   metadata: {
-    name: 'Ronin Wallet',
-    description: 'Ronin Wallet Example',
-    icons: ['https://cdn.skymavis.com/explorer-cdn/asset/favicon/apple-touch-icon.png'],
+    name: 'New Ronin Wallet',
+    description: 'New Ronin Wallet',
+    icons: ['https://cdn.skymavis.com/skymavis-home/public//homepage/core-value.png'],
     url: 'https://wallet.roninchain.com',
   },
 };

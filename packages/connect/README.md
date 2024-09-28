@@ -1,4 +1,4 @@
-# Tanto kit connect
+# Tanto connect
 
 ## Installation
 
@@ -16,58 +16,67 @@ npm install @sky-mavis/tanto-connect
 
 ## Usage
 
-### Connector Configs
+### Tanto Connectors
 
-We use the same types for connector configs, which you can use to override the default configs of any connectors.
+#### EIP-6963 Injected Connectors
 
 ```javascript
-const connectorConfigs = {
-  id: "",
-  name: "",
-  type: "",
-  icon: "",
-};
+import { ConnectorEvent, IBaseConnector, IConnectResult, requestInjectedConnectors, requestRoninWalletConnector } from '@sky-mavis/tanto-connect';
+
+const injectedConnectors = requestInjectedConnectors();
+// Find Ronin Wallet connector
+const roninWaletConnector = injectedConnectors.find(connector => connector.isRonin);
+
+// Request Ronin Wallet Connector only
+const roninConnector = await requestRoninWalletConnector();
+roninConnector.on(ConnectorEvent.CONNECT, onConnect);
+roninConnector.on(ConnectorEvent.ACCOUNTS_CHANGED, onAccountChanged);
+roninConnector.on(ConnectorEvent.CHAIN_CHANGED, onChainChanged);
+roninConnector.on(ConnectorEvent.DISCONNECT, () => setIsConnected(false));
+roninConnector.autoConnect();
 ```
 
-### Waypoint Connector
+#### Ronin Wallet Connect connector
+    
+```javascript
+const wcOptions = {
+  projectId: 'd2ef97836db7eb390bcb2c1e9847ecdc',
+  metadata: {
+    name: 'New Ronin Wallet',
+    description: 'New Ronin Wallet',
+    icons: ['https://cdn.skymavis.com/skymavis-home/public//homepage/core-value.png'],
+    url: 'https://wallet.roninchain.com',
+  },
+};
 
-The configs that override the default configs of the Waypoint provider.
+const roninWalletConnectConnector = requestRoninWalletConnectConnector(wcOptions);
+roninWalletConnectConnector.on(ConnectorEvent.CONNECT, onConnect);
+roninWalletConnectConnector.on(ConnectorEvent.ACCOUNTS_CHANGED, onAccountChanged);
+roninWalletConnectConnector.on(ConnectorEvent.CHAIN_CHANGED, onChainChanged);
+roninWalletConnectConnector.on(ConnectorEvent.DISPLAY_URI, uri => setUri(uri));
+roninWalletConnectConnector.on(ConnectorEvent.DISCONNECT, async () => {
+  setUri(null);
+  setIsConnected(false);
+  roninWalletConnectConnector.connect(2021);
+});
+roninWalletConnectConnector.connect(2021);
+```
+
+
+#### Waypoint Connector
 
 ```javascript
-import { ChainIds } from '@sky-mavis/tanto-connect';
+import { requestWaypointConnector, ChainIds } from '@sky-mavis/tanto-connect';
 
 const waypointProviderConfigs = {
   clientId: "",
   chainId: ChainIds.RoninMainnet,
 };
-```
-
-#### _Request a connector_
-
-```javascript
-import { requestWaypointConnector } from '@sky-mavis/tanto-connect';
-
 // Use your own connector config if needed, if not, we recommend you should leave it as default.
 const waypointConnectorConfigs = {};
 
 const waypointConnector = requestWaypointConnector(
   waypointConnectorConfigs,
-  waypointProviderConfigs
-);
-```
-
-#### _Request a provider_
-
-```javascript
-import { requestWaypointProvider } from '@sky-mavis/tanto-connect';
-
-const waypointProvider = requestWaypointProvider(waypointProviderConfigs);
-```
-
-Or if you have already had a `waypointConnector`:
-
-```javascript
-const waypointProvider = waypointConnector.requestProvider(
   waypointProviderConfigs
 );
 ```

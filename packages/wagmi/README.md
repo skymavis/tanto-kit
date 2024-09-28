@@ -34,7 +34,7 @@ export const config = createConfig({
 })
 ```
 
-### Wrap Application with Providers
+### Using Wagmi Providers
 
 ```javascript
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
