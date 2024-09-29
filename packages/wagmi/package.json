@@ -27,7 +27,21 @@
     },
     "./dist/*": "./dist/*"
   },
-  "keywords": [],
+  "keywords": [
+    "Ronin",
+    "Waypoint",
+    "Tanto",
+    "Tanto Connect",
+    "Tanto Kit",
+    "Ronin Dapps",
+    "Ronin Wallet",
+    "Ronin Network",
+    "Ronin Waypoint",
+    "Ronin Wallet SDK",
+    "Ronin Provider",
+    "Ronin Connect",
+    "Ronin Wagmi Connector"
+  ],
   "author": "SkyMavis",
   "license": "MIT",
   "dependencies": {
