@@ -17,7 +17,7 @@
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git@github.com:skymavis/tanto-kit.git"
   },
   "exports": {
     ".": {
@@ -43,6 +43,10 @@
   ],
   "author": "SkyMavis",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/skymavis/tanto-kit/issues"
+  },
+  "homepage": "https://github.com/skymavis/tanto-kit",
   "dependencies": {
     "@walletconnect/ethereum-provider": "2.10.5",
     "@safe-global/safe-apps-provider": "0.18.3",

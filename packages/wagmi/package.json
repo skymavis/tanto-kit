@@ -17,7 +17,7 @@
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git@github.com:skymavis/tanto-kit.git"
   },
   "exports": {
     ".": {
@@ -44,6 +44,10 @@
   ],
   "author": "SkyMavis",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/skymavis/tanto-kit/issues"
+  },
+  "homepage": "https://github.com/skymavis/tanto-kit",
   "dependencies": {
     "@sky-mavis/tanto-connect": "0.0.2",
     "@wagmi/core": "2.13.6",
