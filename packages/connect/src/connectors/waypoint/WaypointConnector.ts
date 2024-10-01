@@ -2,8 +2,7 @@ import { WaypointProvider } from '@sky-mavis/waypoint';
 
 import { DEFAULT_CONNECTORS_CONFIG } from '../../common/connectors';
 import { LocalStorage, ReconnectStorage, WAYPOINT_ACCESS_TOKEN_STORAGE_KEY } from '../../common/storage';
-import { requestWaypointProvider } from '../../providers';
-import { IWaypointProviderConfigs } from '../../providers/waypoint-provider';
+import { IWaypointProviderConfigs, requestWaypointProvider } from '../../providers';
 import { IConnectorConfigs, IConnectResult } from '../../types/connector';
 import { ConnectorError, ConnectorErrorType } from '../../types/connector-error';
 import { EIP1193Event } from '../../types/eip1193';
@@ -46,16 +45,19 @@ export class WaypointConnector extends BaseConnector<WaypointProvider> {
     });
   }
 
-  async connect() {
+  async connect(chainId?: number) {
     const provider = await this.getProvider();
-    const chainId = await this.getChainId();
     const accounts = await this.getAccounts();
+    const currentChainId = await this.getChainId();
+    if (currentChainId !== chainId) {
+      this.provider = await this.requestProvider({ chainId });
+    }
     const account = accounts[0];
 
     const connectResult: IConnectResult = {
       accessToken: LocalStorage.get(WAYPOINT_ACCESS_TOKEN_STORAGE_KEY),
       provider,
-      chainId,
+      chainId: chainId || currentChainId,
       account,
     };
 
