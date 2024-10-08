@@ -30,6 +30,7 @@ export const config = createConfig({
         [ronin.id]: http(),
         [saigon.id]: http(),
     },
+    multiInjectedProviderDiscovery: false,
     connectors: [roninWallet(), waypoint()],
 })
 ```

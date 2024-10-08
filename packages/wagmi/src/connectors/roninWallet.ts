@@ -8,7 +8,7 @@ type ConnectParams = {
 };
 
 export function roninWallet() {
-  const roninWalletConnector = new RoninWalletConnector({});
+  const roninWalletConnector = new RoninWalletConnector();
 
   const _mapAccounts = (accounts: string[]) => accounts.map(getAddress);
 

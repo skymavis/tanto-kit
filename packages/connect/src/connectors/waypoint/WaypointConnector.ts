@@ -46,18 +46,19 @@ export class WaypointConnector extends BaseConnector<WaypointProvider> {
   }
 
   async connect(chainId?: number) {
-    const provider = await this.getProvider();
-    const accounts = await this.getAccounts();
     const currentChainId = await this.getChainId();
-    if (currentChainId !== chainId) {
+    if (chainId && currentChainId !== chainId) {
       this.provider = await this.requestProvider({ chainId });
     }
+
+    const provider = await this.getProvider();
+    const accounts = await this.getAccounts();
     const account = accounts[0];
 
     const connectResult: IConnectResult = {
       accessToken: LocalStorage.get(WAYPOINT_ACCESS_TOKEN_STORAGE_KEY),
-      provider,
       chainId: chainId || currentChainId,
+      provider,
       account,
     };
 
