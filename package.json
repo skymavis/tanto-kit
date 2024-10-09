@@ -16,7 +16,7 @@
     "@typescript-eslint/eslint-plugin": "6.21.0",
     "@typescript-eslint/parser": "6.21.0",
     "prettier": "2.7.1",
-    "typescript": "4.8.4",
+    "typescript": "5.4.5",
     "turbo": "latest"
   },
   "packageManager": "yarn@1.22.17",
