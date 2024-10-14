@@ -24,12 +24,7 @@ export const WC_SUPPORTED_METHODS = [
   'eth_signTypedData',
   'eth_signTypedData_v4',
 ];
-export const WC_SUPPORTED_OPTIONAL_METHODS = [
-  'eth_accounts',
-  'eth_requestAccounts',
-  'eth_getFreeGasRequests',
-  'wallet_initialData',
-];
+export const WC_SUPPORTED_OPTIONAL_METHODS = ['eth_accounts', 'eth_requestAccounts'];
 
 declare type ArrayOneOrMore<T> = {
   0: T;

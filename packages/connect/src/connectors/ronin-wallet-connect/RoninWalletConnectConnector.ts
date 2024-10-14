@@ -44,26 +44,23 @@ export class RoninWalletConnectConnector extends BaseConnector<EthereumProvider>
 
   async connect(chainId?: number) {
     const provider = await this.getProvider();
-
-    this.setupProviderListeners();
-    const targetChainId = chainId ?? WC_SUPPORTED_CHAIN_IDS[0];
-    const isChainSupported = WC_SUPPORTED_CHAIN_IDS.includes(targetChainId);
-
-    if (!isChainSupported) {
-      throw new ConnectorError(ConnectorErrorType.SWITCH_CHAIN_NOT_SUPPORTED);
-    }
-
     const isAuthorized = await this.isAuthorized();
+    this.setupProviderListeners();
 
     if (!isAuthorized) {
-      await provider.connect({ chains: [targetChainId] });
+      await provider.connect();
     } else {
       await provider.enable();
     }
 
+    const currentChainId = await this.getChainId();
+    if (chainId && currentChainId !== chainId) {
+      await this.switchChain(chainId);
+    }
+
     const connectResults = {
       provider,
-      chainId: targetChainId,
+      chainId: chainId || currentChainId,
       account: provider.accounts[0],
     };
 
@@ -121,7 +118,7 @@ export class RoninWalletConnectConnector extends BaseConnector<EthereumProvider>
       projectId: this.projectId,
       metadata: this.metadata,
       showQrModal: this.isRonin,
-      chains: WC_SUPPORTED_CHAIN_IDS,
+      optionalChains: WC_SUPPORTED_CHAIN_IDS,
     });
   }
 

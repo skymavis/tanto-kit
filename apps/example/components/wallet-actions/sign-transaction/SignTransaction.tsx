@@ -6,9 +6,11 @@ import React, { FC, useEffect } from 'react';
 
 import { CheckIn__factory } from '../../../abis/types';
 import { useConnectorStore } from '../../../hooks/useConnectorStore';
-import WillRender from '../../will-render/WillRender';
 
-const CHECK_IN_ADDRESS = '0x40ca2f9af6050434a62c2f9caba6ebefa59c6982';
+const CHECK_IN_ADDRESS: Record<number, string> = {
+  [ChainIds.RoninMainnet]: '0xcd4f1cd738cf862995239b5b7d9ff09cffc22399',
+  [ChainIds.RoninTestnet]: '0x40ca2f9af6050434a62c2f9caba6ebefa59c6982',
+};
 
 const SignTransaction: FC = () => {
   const { connector, isConnected, chainId, account } = useConnectorStore();
@@ -24,7 +26,7 @@ const SignTransaction: FC = () => {
     if (!provider) return;
     const web3Provider = new ethers.providers.Web3Provider(provider as ethers.providers.ExternalProvider);
     const signer = web3Provider.getSigner();
-    return CheckIn__factory.connect(CHECK_IN_ADDRESS, signer);
+    return CheckIn__factory.connect(CHECK_IN_ADDRESS[chainId as ChainIds], signer);
   };
 
   const fetchStreak = async () => {
@@ -73,23 +75,19 @@ const SignTransaction: FC = () => {
     return Math.floor(diffInMilliseconds / 1000);
   };
 
-  const switchToSaigonNetwork = () => {
-    connector?.switchChain(2021).catch(console.error);
-  };
-
   useEffect(() => {
     if (!isNil(timeLeft) && timeLeft > 0) {
-      const timerId = setInterval(() => {
+      const timeInterval = setInterval(() => {
         setTimeLeft(prev => (prev ? prev - 1 : prev));
       }, 1000);
 
-      return () => clearInterval(timerId);
+      return () => clearInterval(timeInterval);
     }
   }, [timeLeft]);
 
   useEffect(() => {
     fetchStreak();
-  }, [account]);
+  }, [account, chainId]);
 
   return (
     <Card fullWidth>
@@ -99,20 +97,13 @@ const SignTransaction: FC = () => {
           <p>Sign transaction to Daily Check in Ronin Wallet.</p>
         </div>
         <div className={'flex gap-2'}>
-          <WillRender when={Number(chainId) === ChainIds.RoninTestnet}>
-            <Button disabled={!isConnected} isLoading={loadingStreak} onClick={fetchStreak}>
-              Get Current Streaks
-            </Button>
-            <Button disabled={!isNil(timeLeft)} isLoading={isCheckingIn} onClick={checkIn}>
-              {isNil(timeLeft) ? 'Check In' : `${timeLeft}s`}
-            </Button>
-          </WillRender>
-        </div>
-        <WillRender when={Number(chainId) !== ChainIds.RoninTestnet}>
-          <Button disabled={!isConnected} onClick={switchToSaigonNetwork}>
-            Switch To Saigon
+          <Button disabled={!isConnected} isLoading={loadingStreak} onClick={fetchStreak}>
+            Get Current Streaks
           </Button>
-        </WillRender>
+          <Button disabled={!isNil(timeLeft)} isLoading={isCheckingIn} onClick={checkIn}>
+            {isNil(timeLeft) ? 'Check In' : `${timeLeft}s`}
+          </Button>
+        </div>
       </CardHeader>
       <CardBody className={'flex flex-col gap-4'}>
         <Input label={'Your streak'} value={streak || ''} disabled />
