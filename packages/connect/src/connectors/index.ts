@@ -46,7 +46,7 @@ export const requestRoninWalletConnectConnector = async (configs?: IRoninWalletC
   const provider = await requestRoninWalletConnectProvider({
     projectId: configs?.projectId ?? RONIN_WALLET_CONNECT_PROJECT_ID,
     metadata: configs?.metadata,
-    chains: WC_SUPPORTED_CHAIN_IDS,
+    optionalChains: WC_SUPPORTED_CHAIN_IDS,
     showQrModal: false,
   });
 

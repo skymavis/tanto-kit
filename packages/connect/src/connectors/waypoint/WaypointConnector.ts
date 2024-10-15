@@ -62,7 +62,7 @@ export class WaypointConnector extends BaseConnector<WaypointProvider> {
       account,
     };
 
-    if (!account) {
+    if (!account || !connectResult.accessToken) {
       const { address, accessToken } = await provider.connect();
       connectResult.account = address as string;
       connectResult.accessToken = accessToken;

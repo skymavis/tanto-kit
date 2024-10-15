@@ -22,7 +22,7 @@ const queryClient = new QueryClient();
 
 const WagmiExample: FC = () => {
   return (
-    <WagmiProvider config={config} reconnectOnMount={false}>
+    <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <Account />
       </QueryClientProvider>
@@ -41,7 +41,7 @@ const Account = () => {
       <WillRender when={!isConnected}>
         {connectors.map(connector => (
           <Button onClick={() => connect({ connector })} key={connector.id}>
-            {'Connect'} to {connector.name}
+            Connect to {connector.name}
           </Button>
         ))}
       </WillRender>
