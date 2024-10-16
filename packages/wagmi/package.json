@@ -49,7 +49,7 @@
   },
   "homepage": "https://github.com/skymavis/tanto-kit",
   "dependencies": {
-    "@sky-mavis/tanto-connect": "0.0.3"
+    "@sky-mavis/tanto-connect": "0.0.4"
   },
   "peerDependencies": {
     "@wagmi/core": "^2.x",
