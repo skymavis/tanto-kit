@@ -12,34 +12,29 @@ export class SafeConnector extends BaseConnector {
     super({ ...DEFAULT_CONNECTORS_CONFIG.SAFE, ...configs }, provider);
   }
 
-  async connect(chainId?: number) {
+  async connect() {
     const provider = await this.getProvider();
 
     if (!provider) {
       throw new ConnectorError(ConnectorErrorType.PROVIDER_NOT_FOUND);
     }
 
-    const accounts = await this.requestAccounts();
-    const currentChainId = await this.getChainId();
+    const accounts = await this.getAccounts();
+    const chainId = await this.getChainId();
 
-    if (chainId && chainId !== currentChainId) {
-      await this.switchChain(chainId);
+    if (accounts?.length && !!chainId) {
+      const connectResults = {
+        provider,
+        chainId,
+        account: accounts[0],
+      };
+
+      this.setupProviderListeners();
+      this.onConnect(connectResults);
+
+      return connectResults;
     }
-
-    const connectResults = {
-      provider,
-      chainId: chainId || currentChainId,
-      account: accounts[0],
-    };
-
-    this.setupProviderListeners();
-    this.onConnect(connectResults);
-
-    return {
-      provider,
-      chainId: chainId ?? currentChainId,
-      account: accounts[0],
-    };
+    throw new ConnectorError(ConnectorErrorType.CONNECT_FAILED);
   }
 
   async disconnect() {
