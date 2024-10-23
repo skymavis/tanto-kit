@@ -6,7 +6,6 @@ import { WC_SUPPORTED_CHAIN_IDS } from '../../common/constant';
 import { ReconnectStorage } from '../../common/storage';
 import { requestRoninWalletConnectProvider } from '../../providers';
 import { IConnectorConfigs } from '../../types/connector';
-import { ConnectorError, ConnectorErrorType } from '../../types/connector-error';
 import { ConnectorEvent, WCEvent } from '../../types/connector-event';
 import { EIP1193Event } from '../../types/eip1193';
 import { numberToHex } from '../../utils';
