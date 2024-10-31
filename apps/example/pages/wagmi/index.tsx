@@ -13,13 +13,17 @@ const config = createConfig({
     [ronin.id]: http(),
     [saigon.id]: http(),
   },
-  connectors: [roninWallet(), waypoint()],
+  connectors: [
+    roninWallet(),
+    waypoint({
+      chainId: 2021,
+    }),
+  ],
   multiInjectedProviderDiscovery: false,
   ssr: true,
 });
 
 const queryClient = new QueryClient();
-
 const WagmiExample: FC = () => {
   return (
     <WagmiProvider config={config}>

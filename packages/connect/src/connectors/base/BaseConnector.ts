@@ -46,13 +46,10 @@ export abstract class BaseConnector<ProviderType = IEIP1193Provider>
 
   autoConnect = async () => {
     try {
-      const shouldConnect = await this.shouldAutoReconnect();
-      if (shouldConnect) {
-        return await this.connect();
-      }
-      return null;
-    } catch (e) {
-      console.error(e);
+      const isConnectable = await this.shouldAutoReconnect();
+      return isConnectable ? await this.connect() : null;
+    } catch (error) {
+      console.error('Failed to auto-connect:', error);
       return null;
     }
   };
