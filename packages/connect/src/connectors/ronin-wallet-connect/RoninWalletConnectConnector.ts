@@ -14,23 +14,20 @@ import { BaseConnector } from '../base/BaseConnector';
 export interface IRoninWalletConnectConnectorConfigs extends Partial<IConnectorConfigs> {
   projectId?: string;
   metadata?: SignClientTypes.Metadata;
-  showQrModal?: boolean;
 }
 
 export class RoninWalletConnectConnector extends BaseConnector<EthereumProvider> {
   private readonly projectId: string;
   private readonly metadata?: SignClientTypes.Metadata;
-  private readonly showQrModal?: boolean;
 
   readonly isRonin: boolean;
 
   constructor(configs?: IRoninWalletConnectConnectorConfigs, provider?: EthereumProvider) {
-    const { projectId = RONIN_WALLET_CONNECT_PROJECT_ID, metadata, showQrModal, ...restConfigs } = configs ?? {};
+    const { projectId = RONIN_WALLET_CONNECT_PROJECT_ID, metadata, ...restConfigs } = configs ?? {};
     super({ ...DEFAULT_CONNECTORS_CONFIG.RONIN_WC, ...restConfigs }, provider);
 
     this.metadata = metadata;
     this.projectId = projectId;
-    this.showQrModal = showQrModal;
     this.isRonin = true;
   }
 

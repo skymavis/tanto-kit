@@ -37,8 +37,13 @@ export class RoninWalletConnector extends BaseConnector {
 
   async disconnect() {
     ReconnectStorage.remove(this.id);
-    this.onDisconnect();
+    const provider = await this.getProvider();
+    await provider?.request<void>({
+      method: 'wallet_disconnectSession',
+    });
+
     this.removeProviderListeners();
+    this.onDisconnect();
   }
 
   async isAuthorized() {

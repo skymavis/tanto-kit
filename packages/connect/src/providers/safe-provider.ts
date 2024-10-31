@@ -15,6 +15,5 @@ export const requestSafeProvider = async (delay = DEFAULT_DELAY_TIME) => {
     throw new ConnectorError(ConnectorErrorType.PROVIDER_NOT_FOUND);
   }
 
-  const safeProvider = new SafeAppProvider(safeInfo, safeSDK);
-  return safeProvider;
+  return new SafeAppProvider(safeInfo, safeSDK);
 };
