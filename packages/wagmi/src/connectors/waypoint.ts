@@ -1,4 +1,5 @@
 import { ConnectorEvent, IConnectResult, WaypointConnector } from '@sky-mavis/tanto-connect';
+import { IWaypointProviderConfigs, requestWaypointProvider } from '@sky-mavis/tanto-connect/src';
 import { createConnector } from '@wagmi/core';
 import { getAddress } from 'viem';
 
@@ -7,23 +8,22 @@ type ConnectParams = {
   isReconnecting?: boolean;
 };
 
-export function waypoint() {
-  const waypointConnector = new WaypointConnector({});
-
-  const _mapAccounts = (accounts: string[]) => accounts.map(getAddress);
+export function waypoint(params: IWaypointProviderConfigs) {
+  const provider = requestWaypointProvider(params);
+  const connector = new WaypointConnector({}, provider);
 
   const _connect = async (params?: ConnectParams) => {
-    const { chainId } = await waypointConnector.connect(params?.chainId);
-    const accounts = await waypointConnector.getAccounts();
+    const { chainId } = await connector.connect(params?.chainId);
+    const accounts = await connector.getAccounts();
     return {
-      accounts: _mapAccounts(accounts),
+      accounts: accounts.map(getAddress),
       chainId,
     };
   };
 
   const _getAccounts = async () => {
-    const accounts = await waypointConnector.getAccounts();
-    return _mapAccounts(accounts);
+    const accounts = await connector.getAccounts();
+    return accounts.map(getAddress);
   };
 
   return createConnector(config => {
@@ -32,7 +32,7 @@ export function waypoint() {
     };
 
     const onAccountsChanged = (accounts: string[]) => {
-      config.emitter.emit('change', { accounts: _mapAccounts(accounts) });
+      config.emitter.emit('change', { accounts: accounts.map(getAddress) });
     };
 
     const onConnect = async (results: IConnectResult) => {
@@ -44,26 +44,26 @@ export function waypoint() {
       config.emitter.emit('disconnect');
     };
 
-    waypointConnector.on(ConnectorEvent.CONNECT, onConnect);
-    waypointConnector.on(ConnectorEvent.DISCONNECT, onDisconnect);
-    waypointConnector.on(ConnectorEvent.ACCOUNTS_CHANGED, onAccountsChanged);
-    waypointConnector.on(ConnectorEvent.CHAIN_CHANGED, onChainChanged);
+    connector.on(ConnectorEvent.CONNECT, onConnect);
+    connector.on(ConnectorEvent.DISCONNECT, onDisconnect);
+    connector.on(ConnectorEvent.ACCOUNTS_CHANGED, onAccountsChanged);
+    connector.on(ConnectorEvent.CHAIN_CHANGED, onChainChanged);
 
     return {
-      icon: waypointConnector.icon,
-      id: waypointConnector.id,
-      name: waypointConnector.name,
-      type: waypointConnector.type,
+      icon: connector.icon,
+      id: connector.id,
+      name: connector.name,
+      type: connector.type,
 
       connect: _connect,
       getAccounts: _getAccounts,
-      disconnect: waypointConnector.disconnect.bind(waypointConnector),
-      getChainId: waypointConnector.getChainId.bind(waypointConnector),
-      getProvider: waypointConnector.getProvider.bind(waypointConnector),
-      isAuthorized: waypointConnector.isAuthorized.bind(waypointConnector),
-      onAccountsChanged: waypointConnector.onAccountsChanged.bind(waypointConnector),
-      onChainChanged: waypointConnector.onChainChanged.bind(waypointConnector),
-      onDisconnect: waypointConnector.onDisconnect.bind(waypointConnector),
+      disconnect: connector.disconnect.bind(connector),
+      getChainId: connector.getChainId.bind(connector),
+      getProvider: connector.getProvider.bind(connector),
+      isAuthorized: connector.isAuthorized.bind(connector),
+      onAccountsChanged: connector.onAccountsChanged.bind(connector),
+      onChainChanged: connector.onChainChanged.bind(connector),
+      onDisconnect: connector.onDisconnect.bind(connector),
     };
   });
 }

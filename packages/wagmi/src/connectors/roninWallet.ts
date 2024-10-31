@@ -8,22 +8,20 @@ type ConnectParams = {
 };
 
 export function roninWallet() {
-  const roninWalletConnector = new RoninWalletConnector();
-
-  const _mapAccounts = (accounts: string[]) => accounts.map(getAddress);
+  const connector = new RoninWalletConnector();
 
   const _connect = async (params?: ConnectParams) => {
-    const { chainId } = await roninWalletConnector.connect(params?.chainId);
-    const accounts = await roninWalletConnector.getAccounts();
+    const { chainId } = await connector.connect(params?.chainId);
+    const accounts = await connector.getAccounts();
     return {
-      accounts: _mapAccounts(accounts),
+      accounts: accounts.map(getAddress),
       chainId,
     };
   };
 
   const _getAccounts = async () => {
-    const accounts = await roninWalletConnector.getAccounts();
-    return _mapAccounts(accounts);
+    const accounts = await connector.getAccounts();
+    return accounts.map(getAddress);
   };
 
   return createConnector(config => {
@@ -32,7 +30,7 @@ export function roninWallet() {
     };
 
     const onAccountsChanged = (accounts: string[]) => {
-      config.emitter.emit('change', { accounts: _mapAccounts(accounts) });
+      config.emitter.emit('change', { accounts: accounts.map(getAddress) });
     };
 
     const onConnect = async (results: IConnectResult) => {
@@ -41,29 +39,30 @@ export function roninWallet() {
     };
 
     const onDisconnect = () => {
+      config.storage?.removeItem('injected.connected');
       config.emitter.emit('disconnect');
     };
 
-    roninWalletConnector.on(ConnectorEvent.CONNECT, onConnect);
-    roninWalletConnector.on(ConnectorEvent.DISCONNECT, onDisconnect);
-    roninWalletConnector.on(ConnectorEvent.ACCOUNTS_CHANGED, onAccountsChanged);
-    roninWalletConnector.on(ConnectorEvent.CHAIN_CHANGED, onChainChanged);
+    connector.on(ConnectorEvent.CONNECT, onConnect);
+    connector.on(ConnectorEvent.DISCONNECT, onDisconnect);
+    connector.on(ConnectorEvent.ACCOUNTS_CHANGED, onAccountsChanged);
+    connector.on(ConnectorEvent.CHAIN_CHANGED, onChainChanged);
 
     return {
-      icon: roninWalletConnector.icon,
-      id: roninWalletConnector.id,
-      name: roninWalletConnector.name,
-      type: roninWalletConnector.type,
+      icon: connector.icon,
+      id: connector.id,
+      name: connector.name,
+      type: connector.type,
 
       connect: _connect,
       getAccounts: _getAccounts,
-      disconnect: roninWalletConnector.disconnect.bind(roninWalletConnector),
-      getChainId: roninWalletConnector.getChainId.bind(roninWalletConnector),
-      getProvider: roninWalletConnector.getProvider.bind(roninWalletConnector),
-      isAuthorized: roninWalletConnector.isAuthorized.bind(roninWalletConnector),
-      onAccountsChanged: roninWalletConnector.onAccountsChanged.bind(roninWalletConnector),
-      onChainChanged: roninWalletConnector.onChainChanged.bind(roninWalletConnector),
-      onDisconnect: roninWalletConnector.onDisconnect.bind(roninWalletConnector),
+      disconnect: connector.disconnect.bind(connector),
+      getChainId: connector.getChainId.bind(connector),
+      getProvider: connector.getProvider.bind(connector),
+      isAuthorized: connector.isAuthorized.bind(connector),
+      onAccountsChanged: connector.onAccountsChanged.bind(connector),
+      onChainChanged: connector.onChainChanged.bind(connector),
+      onDisconnect: connector.onDisconnect.bind(connector),
     };
   });
 }
