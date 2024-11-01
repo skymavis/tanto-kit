@@ -1,10 +1,9 @@
 import { ExternalProvider } from '@ethersproject/providers';
-import { IEIP1193Provider } from '@sky-mavis/tanto-connect';
 
 declare global {
   interface Window {
     ronin?: {
-      provider: IEIP1193Provider;
+      provider: ExternalProvider;
     };
     ethereum?: ExternalProvider;
     isWalletApp?: boolean;
