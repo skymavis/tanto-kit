@@ -1,10 +1,10 @@
 {
   "name": "@sky-mavis/tanto-connect",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Tanto Connect",
   "main": "dist/cjs/index.js",
   "module": "dist/mjs/index.js",
-  "types": "./dist/types/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "scripts": {
     "build": "rm -rf dist && rollup -c",
     "dev": "rollup -c -w",

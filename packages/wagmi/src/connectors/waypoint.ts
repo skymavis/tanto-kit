@@ -1,12 +1,14 @@
-import { ConnectorEvent, IConnectResult, WaypointConnector } from '@sky-mavis/tanto-connect';
-import { IWaypointProviderConfigs, requestWaypointProvider } from '@sky-mavis/tanto-connect/src';
+import {
+  ConnectorEvent,
+  IConnectResult,
+  IWaypointProviderConfigs,
+  requestWaypointProvider,
+  WaypointConnector,
+} from '@sky-mavis/tanto-connect';
 import { createConnector } from '@wagmi/core';
 import { getAddress } from 'viem';
 
-type ConnectParams = {
-  chainId?: number;
-  isReconnecting?: boolean;
-};
+import { ConnectParams } from '../types';
 
 export function waypoint(params: IWaypointProviderConfigs) {
   const provider = requestWaypointProvider(params);

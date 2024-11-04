@@ -2,10 +2,7 @@ import { ConnectorEvent, IConnectResult, RoninWalletConnector } from '@sky-mavis
 import { createConnector } from '@wagmi/core';
 import { getAddress } from 'viem';
 
-type ConnectParams = {
-  chainId?: number;
-  isReconnecting?: boolean;
-};
+import { ConnectParams } from '../types';
 
 export function roninWallet() {
   const connector = new RoninWalletConnector();
