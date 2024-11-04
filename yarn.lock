@@ -3509,16 +3509,6 @@
   dependencies:
     "@sinonjs/commons" "^3.0.0"
 
-"@sky-mavis/tanto-connect@0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@sky-mavis/tanto-connect/-/tanto-connect-0.0.8.tgz#e3e193c35cd9d1646c03d66ce00215d6b553ab41"
-  integrity sha512-gUhEjtMBgykVKjRo/axP6bbD2pje7Hfx/uX9INRhgj3Fu00GU7O4LkE3cafUt5/IF/PfdoFSqNgTBr9l4ZUkew==
-  dependencies:
-    "@safe-global/safe-apps-provider" "0.18.3"
-    "@safe-global/safe-apps-sdk" "9.1.0"
-    "@sky-mavis/waypoint" "2.0.2"
-    "@walletconnect/ethereum-provider" "2.10.5"
-
 "@sky-mavis/waypoint@2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@sky-mavis/waypoint/-/waypoint-2.0.2.tgz#dae199212ed5158032cf3069c4f1117a460863a3"
