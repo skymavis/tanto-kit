@@ -52,7 +52,7 @@
     "@walletconnect/ethereum-provider": "2.10.5",
     "@safe-global/safe-apps-provider": "0.18.3",
     "@safe-global/safe-apps-sdk": "9.1.0",
-    "@sky-mavis/waypoint": "2.0.2"
+    "@sky-mavis/waypoint": "3.1.1"
   },
   "devDependencies": {
     "@babel/core": "7.23.9",

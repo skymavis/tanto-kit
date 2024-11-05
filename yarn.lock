@@ -3509,10 +3509,10 @@
   dependencies:
     "@sinonjs/commons" "^3.0.0"
 
-"@sky-mavis/waypoint@2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@sky-mavis/waypoint/-/waypoint-2.0.2.tgz#dae199212ed5158032cf3069c4f1117a460863a3"
-  integrity sha512-+4NZtj1QFpR99PGlxukvRt8c5dZGzwuJwhBgqCS+RVpsSIpByBaBEbTH1fzWFDr+ZRuacUpTUN8P9nkPhPp8RQ==
+"@sky-mavis/waypoint@3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@sky-mavis/waypoint/-/waypoint-3.1.1.tgz#c903ee77094b4001871269a2f13c46c52ef53a70"
+  integrity sha512-NoafEsvwLYVPB06IDgEYXgrHl01CgzbCyoq/kTj13P2x4kiV+0E/at6mUrLWY76aY0iynDPGMBgmI4RPB0kk7w==
 
 "@socket.io/component-emitter@~3.1.0":
   version "3.1.2"
