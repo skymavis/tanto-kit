@@ -1,1 +1,1 @@
-export * from './connectParams';
+export * from './params';
