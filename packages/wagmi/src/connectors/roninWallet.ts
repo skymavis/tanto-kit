@@ -1,8 +1,8 @@
 import { ConnectorEvent, IConnectResult, RoninWalletConnector } from '@sky-mavis/tanto-connect';
-import { createConnector } from '@wagmi/core';
-import { getAddress } from 'viem';
+import { ChainNotConfiguredError, createConnector } from '@wagmi/core';
+import { getAddress, SwitchChainError } from 'viem';
 
-import { ConnectParams } from '../types';
+import { ConnectParams, SwitchChainParams } from '../types';
 
 export function roninWallet() {
   const connector = new RoninWalletConnector();
@@ -22,6 +22,18 @@ export function roninWallet() {
   };
 
   return createConnector(config => {
+    const _switchChain = async ({ chainId }: SwitchChainParams) => {
+      const chain = config.chains.find(chain => chain.id === chainId);
+      if (!chain) throw new SwitchChainError(new ChainNotConfiguredError());
+
+      try {
+        await connector.switchChain(chainId);
+        return chain;
+      } catch (error) {
+        throw new SwitchChainError(error as Error);
+      }
+    };
+
     const onChainChanged = (chainId: number) => {
       config.emitter.emit('change', { chainId });
     };
@@ -53,6 +65,7 @@ export function roninWallet() {
 
       connect: _connect,
       getAccounts: _getAccounts,
+      switchChain: _switchChain,
       disconnect: connector.disconnect.bind(connector),
       getChainId: connector.getChainId.bind(connector),
       getProvider: connector.getProvider.bind(connector),
