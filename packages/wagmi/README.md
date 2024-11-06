@@ -17,7 +17,10 @@ npm install @sky-mavis/tanto-wagmi
 ## Usage
 
 ### Create Config
-Create and export a new Wagmi config using createConfig where chains and transports are set up for the Ronin and Saigon network and roninWallet() connects to the Ronin wallet, waypoint() connect to Ronin Waypoint.
+Create and export a new Wagmi config using createConfig where chains and transports are set up for the Ronin and Saigon network.
+
+To connect to Ronin Wallet and Ronin Waypoint, use the **roninWallet()** and **waypoint()** connectors. For waypoint, you need to pass specific configuration parameters as required by the Waypoint SDK (Check the [Ronin Waypoint Web SDK](https://docs.skymavis.com/mavis/ronin-waypoint/reference/web-sdk) for details.).
+
 
 ```javascript
 import { roninWallet, waypoint } from '@sky-mavis/tanto-wagmi';
@@ -31,7 +34,7 @@ export const config = createConfig({
         [saigon.id]: http(),
     },
     multiInjectedProviderDiscovery: false,
-    connectors: [roninWallet(), waypoint()],
+    connectors: [roninWallet(), waypoint(waypointConfigs)],
 })
 ```
 
