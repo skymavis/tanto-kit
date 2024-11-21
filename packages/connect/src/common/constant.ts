@@ -24,6 +24,6 @@ export const WC_SUPPORTED_METHODS = [
 ];
 export const WC_SUPPORTED_OPTIONAL_METHODS = ['eth_accounts', 'eth_requestAccounts'];
 
-declare type ArrayOneOrMore<T> = {
+export declare type ArrayOneOrMore<T> = {
   0: T;
 } & Array<T>;
