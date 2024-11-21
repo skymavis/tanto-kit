@@ -1,5 +1,5 @@
 import { ConnectorType, RONIN_WALLET_CONNECT_PROJECT_ID } from '../common/connectors';
-import { DEFAULT_DELAY_TIME, RONIN_WALLET_RDNS, WC_SUPPORTED_CHAIN_IDS } from '../common/constant';
+import { ArrayOneOrMore, DEFAULT_DELAY_TIME, RONIN_WALLET_RDNS, WC_SUPPORTED_CHAIN_IDS } from '../common/constant';
 import {
   IWaypointProviderConfigs,
   requestProviders,
@@ -46,7 +46,7 @@ export const requestRoninWalletConnectConnector = async (configs?: IRoninWalletC
   const provider = await requestRoninWalletConnectProvider({
     projectId: configs?.projectId ?? RONIN_WALLET_CONNECT_PROJECT_ID,
     metadata: configs?.metadata,
-    optionalChains: WC_SUPPORTED_CHAIN_IDS,
+    optionalChains: [...WC_SUPPORTED_CHAIN_IDS, ...(configs?.optionalChains ?? [])] as ArrayOneOrMore<number>,
     showQrModal: false,
   });
 

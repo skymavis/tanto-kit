@@ -2,7 +2,7 @@ import EthereumProvider from '@walletconnect/ethereum-provider/dist/types/Ethere
 import { SignClientTypes } from '@walletconnect/types';
 
 import { DEFAULT_CONNECTORS_CONFIG, RONIN_WALLET_CONNECT_PROJECT_ID } from '../../common/connectors';
-import { WC_SUPPORTED_CHAIN_IDS } from '../../common/constant';
+import { ArrayOneOrMore, WC_SUPPORTED_CHAIN_IDS } from '../../common/constant';
 import { ReconnectStorage } from '../../common/storage';
 import { requestRoninWalletConnectProvider } from '../../providers';
 import { IConnectorConfigs } from '../../types/connector';
@@ -14,6 +14,7 @@ import { BaseConnector } from '../base/BaseConnector';
 export interface IRoninWalletConnectConnectorConfigs extends Partial<IConnectorConfigs> {
   projectId?: string;
   metadata?: SignClientTypes.Metadata;
+  optionalChains?: ArrayOneOrMore<number>;
 }
 
 export class RoninWalletConnectConnector extends BaseConnector<EthereumProvider> {
