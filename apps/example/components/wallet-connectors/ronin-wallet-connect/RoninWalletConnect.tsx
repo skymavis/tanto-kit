@@ -1,5 +1,10 @@
 import { Spinner } from '@nextui-org/react';
-import { ConnectorEvent, IConnectResult, requestRoninWalletConnectConnector } from '@sky-mavis/tanto-connect';
+import {
+  ConnectorEvent,
+  IConnectResult,
+  IRoninWalletConnectConnectorConfigs,
+  requestRoninWalletConnectConnector,
+} from '@sky-mavis/tanto-connect';
 import { isNil } from 'lodash';
 import { QRCodeSVG } from 'qrcode.react';
 import React, { FC, useEffect } from 'react';
@@ -8,7 +13,7 @@ import { useConnectorStore } from '../../../hooks/useConnectorStore';
 import WillRender from '../../will-render/WillRender';
 import ConnectorActions from '../connector-actions/ConnectorActions';
 
-const wcOptions = {
+const wcOptions: IRoninWalletConnectConnectorConfigs = {
   projectId: 'd2ef97836db7eb390bcb2c1e9847ecdc',
   metadata: {
     name: 'New Ronin Wallet',

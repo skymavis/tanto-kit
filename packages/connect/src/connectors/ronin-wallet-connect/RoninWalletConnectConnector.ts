@@ -1,8 +1,9 @@
-import EthereumProvider from '@walletconnect/ethereum-provider/dist/types/EthereumProvider';
-import { SignClientTypes } from '@walletconnect/types';
+import EthereumProvider, {
+  EthereumProviderOptions,
+} from '@walletconnect/ethereum-provider/dist/types/EthereumProvider';
 
 import { DEFAULT_CONNECTORS_CONFIG, RONIN_WALLET_CONNECT_PROJECT_ID } from '../../common/connectors';
-import { ArrayOneOrMore, WC_SUPPORTED_CHAIN_IDS } from '../../common/constant';
+import { WC_SUPPORTED_CHAIN_IDS } from '../../common/constant';
 import { ReconnectStorage } from '../../common/storage';
 import { requestRoninWalletConnectProvider } from '../../providers';
 import { IConnectorConfigs } from '../../types/connector';
@@ -11,24 +12,22 @@ import { EIP1193Event } from '../../types/eip1193';
 import { numberToHex } from '../../utils';
 import { BaseConnector } from '../base/BaseConnector';
 
-export interface IRoninWalletConnectConnectorConfigs extends Partial<IConnectorConfigs> {
-  projectId?: string;
-  metadata?: SignClientTypes.Metadata;
-  optionalChains?: ArrayOneOrMore<number>;
-}
-
 export class RoninWalletConnectConnector extends BaseConnector<EthereumProvider> {
-  private readonly projectId: string;
-  private readonly metadata?: SignClientTypes.Metadata;
-
+  readonly providerOptions?: EthereumProviderOptions;
   readonly isRonin: boolean;
 
-  constructor(configs?: IRoninWalletConnectConnectorConfigs, provider?: EthereumProvider) {
-    const { projectId = RONIN_WALLET_CONNECT_PROJECT_ID, metadata, ...restConfigs } = configs ?? {};
-    super({ ...DEFAULT_CONNECTORS_CONFIG.RONIN_WC, ...restConfigs }, provider);
+  constructor({
+    connectorConfigs,
+    provider,
+    providerOptions,
+  }: {
+    connectorConfigs?: Partial<IConnectorConfigs>;
+    providerOptions?: EthereumProviderOptions;
+    provider?: EthereumProvider;
+  }) {
+    super({ ...DEFAULT_CONNECTORS_CONFIG.RONIN_WC, ...connectorConfigs }, provider);
 
-    this.metadata = metadata;
-    this.projectId = projectId;
+    this.providerOptions = providerOptions;
     this.isRonin = true;
   }
 
@@ -112,10 +111,10 @@ export class RoninWalletConnectConnector extends BaseConnector<EthereumProvider>
 
   async requestProvider() {
     return requestRoninWalletConnectProvider({
-      projectId: this.projectId,
-      metadata: this.metadata,
-      showQrModal: this.isRonin,
+      projectId: RONIN_WALLET_CONNECT_PROJECT_ID,
       optionalChains: WC_SUPPORTED_CHAIN_IDS,
+      showQrModal: this.isRonin,
+      ...this.providerOptions,
     });
   }
 
