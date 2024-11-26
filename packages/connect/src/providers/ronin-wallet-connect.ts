@@ -15,7 +15,7 @@ export const requestRoninWalletConnectProvider = (options: EthereumProviderOptio
     optionalMethods: WC_SUPPORTED_OPTIONAL_METHODS,
     rpcMap: WC_RPC_MAP,
     ...options,
-    chains: [...WC_SUPPORTED_CHAIN_IDS, ...(options.chains ?? [])],
-    optionalChains: [...WC_SUPPORTED_CHAIN_IDS, ...(options.optionalChains ?? [])] as ArrayOneOrMore<number>,
+    chains: options.chains ?? WC_SUPPORTED_CHAIN_IDS,
+    optionalChains: (options.optionalChains ?? WC_SUPPORTED_CHAIN_IDS) as ArrayOneOrMore<number>,
   });
 };
