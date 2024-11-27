@@ -2,6 +2,7 @@ import { EthereumProvider } from '@walletconnect/ethereum-provider';
 import { EthereumProviderOptions } from '@walletconnect/ethereum-provider/dist/types/EthereumProvider';
 
 import {
+  ArrayOneOrMore,
   WC_RPC_MAP,
   WC_SUPPORTED_CHAIN_IDS,
   WC_SUPPORTED_METHODS,
@@ -10,10 +11,11 @@ import {
 
 export const requestRoninWalletConnectProvider = (options: EthereumProviderOptions) => {
   return EthereumProvider.init({
-    chains: WC_SUPPORTED_CHAIN_IDS,
     methods: WC_SUPPORTED_METHODS,
     optionalMethods: WC_SUPPORTED_OPTIONAL_METHODS,
     rpcMap: WC_RPC_MAP,
     ...options,
+    chains: options.chains ?? WC_SUPPORTED_CHAIN_IDS,
+    optionalChains: (options.optionalChains ?? WC_SUPPORTED_CHAIN_IDS) as ArrayOneOrMore<number>,
   });
 };

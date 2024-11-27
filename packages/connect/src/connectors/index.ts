@@ -1,5 +1,7 @@
+import { EthereumProviderOptions } from '@walletconnect/ethereum-provider';
+
 import { ConnectorType, RONIN_WALLET_CONNECT_PROJECT_ID } from '../common/connectors';
-import { ArrayOneOrMore, DEFAULT_DELAY_TIME, RONIN_WALLET_RDNS, WC_SUPPORTED_CHAIN_IDS } from '../common/constant';
+import { DEFAULT_DELAY_TIME, RONIN_WALLET_RDNS, WC_SUPPORTED_CHAIN_IDS } from '../common/constant';
 import {
   IWaypointProviderConfigs,
   requestProviders,
@@ -12,10 +14,7 @@ import { IConnectorConfigs } from '../types/connector';
 import { BaseConnector } from './base/BaseConnector';
 import { InjectedConnector } from './injected/InjectedConnector';
 import { RoninWalletConnector } from './ronin-wallet/RoninWalletConnector';
-import {
-  IRoninWalletConnectConnectorConfigs,
-  RoninWalletConnectConnector,
-} from './ronin-wallet-connect/RoninWalletConnectConnector';
+import { RoninWalletConnectConnector } from './ronin-wallet-connect/RoninWalletConnectConnector';
 import { SafeConnector } from './safe/SafeConnector';
 import { WaypointConnector } from './waypoint/WaypointConnector';
 
@@ -42,15 +41,18 @@ export const requestRoninWalletConnector = async () => {
   return new RoninWalletConnector({}, provider);
 };
 
-export const requestRoninWalletConnectConnector = async (configs?: IRoninWalletConnectConnectorConfigs) => {
+export const requestRoninWalletConnectConnector = async (
+  connectorConfigs?: Partial<IConnectorConfigs>,
+  providerOptions?: EthereumProviderOptions,
+) => {
   const provider = await requestRoninWalletConnectProvider({
-    projectId: configs?.projectId ?? RONIN_WALLET_CONNECT_PROJECT_ID,
-    metadata: configs?.metadata,
-    optionalChains: [...WC_SUPPORTED_CHAIN_IDS, ...(configs?.optionalChains ?? [])] as ArrayOneOrMore<number>,
+    projectId: RONIN_WALLET_CONNECT_PROJECT_ID,
+    optionalChains: WC_SUPPORTED_CHAIN_IDS,
     showQrModal: false,
+    ...providerOptions,
   });
 
-  return new RoninWalletConnectConnector(configs, provider);
+  return new RoninWalletConnectConnector({ connectorConfigs, provider, providerOptions });
 };
 
 export const requestSafeConnector = async (configs?: Partial<IConnectorConfigs>, delay = DEFAULT_DELAY_TIME) => {

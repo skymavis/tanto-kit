@@ -1,6 +1,6 @@
 {
   "name": "@sky-mavis/tanto-connect",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "Tanto Connect",
   "main": "dist/cjs/index.js",
   "module": "dist/mjs/index.js",
@@ -49,7 +49,7 @@
   },
   "homepage": "https://github.com/skymavis/tanto-kit",
   "dependencies": {
-    "@walletconnect/ethereum-provider": "2.10.5",
+    "@walletconnect/ethereum-provider": "2.17.2",
     "@safe-global/safe-apps-provider": "0.18.3",
     "@safe-global/safe-apps-sdk": "9.1.0",
     "@sky-mavis/waypoint": "3.1.1"
