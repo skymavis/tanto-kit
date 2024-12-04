@@ -1,3 +1,4 @@
+import { CHAINS_CONFIG } from '../../common/chain';
 import { ReconnectStorage } from '../../common/storage';
 import { IConnectorConfigs } from '../../types/connector';
 import { ConnectorError, ConnectorErrorType } from '../../types/connector-error';
@@ -65,6 +66,28 @@ export class InjectedConnector extends BaseConnector {
     return provider.request<void>({
       method: 'wallet_switchEthereumChain',
       params: [{ chainId: numberToHex(chain) }],
+    });
+  }
+
+  async addChain(chain: number): Promise<void> {
+    const provider = await this.getProvider();
+
+    const { iconUrl, blockExplorerUrl, ...chainConfig } = CHAINS_CONFIG[chain] ?? {};
+
+    if (!chainConfig) {
+      throw new ConnectorError(ConnectorErrorType.ADD_CHAIN_NOT_SUPPORTED);
+    }
+
+    return provider.request<void>({
+      method: 'wallet_addEthereumChain',
+      params: [
+        {
+          ...chainConfig,
+          chainId: numberToHex(chain),
+          iconUrls: [iconUrl],
+          blockExplorerUrls: [blockExplorerUrl],
+        },
+      ],
     });
   }
 

@@ -3,6 +3,7 @@ export enum ConnectorErrorType {
   CONNECT_FAILED = 'ConnectFailed',
   NOT_INSTALLED = 'NotInstalled',
   SWITCH_CHAIN_NOT_SUPPORTED = 'SwitchChainNotSupported',
+  ADD_CHAIN_NOT_SUPPORTED = 'AddChainNotSupported',
 }
 
 export class ConnectorError extends Error {
