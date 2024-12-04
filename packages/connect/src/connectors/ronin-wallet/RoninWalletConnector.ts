@@ -2,6 +2,7 @@ import { DEFAULT_CONNECTORS_CONFIG } from '../../common/connectors';
 import { ReconnectStorage } from '../../common/storage';
 import { requestRoninProvider } from '../../providers';
 import { IConnectorConfigs } from '../../types/connector';
+import { ConnectorError, ConnectorErrorType } from '../../types/connector-error';
 import { EIP1193Event, IEIP1193Provider } from '../../types/eip1193';
 import { numberToHex } from '../../utils';
 import { BaseConnector } from '../base/BaseConnector';
@@ -64,6 +65,10 @@ export class RoninWalletConnector extends BaseConnector {
       method: 'wallet_switchEthereumChain',
       params: [{ chainId: numberToHex(chain) }],
     });
+  }
+
+  async addChain(): Promise<void> {
+    throw new ConnectorError(ConnectorErrorType.ADD_CHAIN_NOT_SUPPORTED);
   }
 
   async getChainId() {

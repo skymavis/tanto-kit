@@ -57,7 +57,6 @@ export class SafeConnector extends BaseConnector {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async switchChain(chain: number) {
-    // TODO: Add a Connector Error for not allowing switch chain
     throw new ConnectorError(ConnectorErrorType.SWITCH_CHAIN_NOT_SUPPORTED);
   }
 
@@ -75,6 +74,10 @@ export class SafeConnector extends BaseConnector {
     return provider?.request<string[]>({
       method: 'eth_requestAccounts',
     });
+  }
+
+  async addChain(): Promise<void> {
+    throw new ConnectorError(ConnectorErrorType.ADD_CHAIN_NOT_SUPPORTED);
   }
 
   async requestProvider() {

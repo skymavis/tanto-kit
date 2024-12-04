@@ -32,6 +32,10 @@ export class WaypointConnector extends BaseConnector<WaypointProvider> {
     throw new ConnectorError(ConnectorErrorType.SWITCH_CHAIN_NOT_SUPPORTED);
   }
 
+  async addChain(): Promise<void> {
+    throw new ConnectorError(ConnectorErrorType.ADD_CHAIN_NOT_SUPPORTED);
+  }
+
   async getChainId() {
     const provider = await this.getProvider();
     const chainId = await provider?.request<number | string>({

@@ -10,6 +10,7 @@ export interface IChainInfo {
   blockExplorerUrl?: string;
   chainName: string;
   iconUrl?: string;
+  rpcUrls?: string[];
   nativeCurrency: {
     name: string;
     symbol: string;
@@ -25,6 +26,7 @@ export const CHAINS_CONFIG: IChainsConfig = {
     blockExplorerUrl: 'https://app.roninchain.com',
     chainName: 'Ronin Mainnet',
     iconUrl: 'https://cdn.skymavis.com/explorer-cdn/asset/favicon/apple-touch-icon.png',
+    rpcUrls: ['https://api.roninchain.com/rpc'],
     nativeCurrency: {
       name: 'Ronin',
       symbol: 'RON',
@@ -36,6 +38,7 @@ export const CHAINS_CONFIG: IChainsConfig = {
     blockExplorerUrl: 'https://saigon-app.roninchain.com',
     chainName: 'Saigon Testnet',
     iconUrl: 'https://cdn.skymavis.com/explorer-cdn/asset/favicon/apple-touch-icon.png',
+    rpcUrls: ['https://saigon-testnet.roninchain.com/rpc'],
     nativeCurrency: {
       name: 'tRonin',
       symbol: 'tRON',
@@ -46,6 +49,7 @@ export const CHAINS_CONFIG: IChainsConfig = {
     chainId: ChainIds.Ethereum,
     blockExplorerUrl: 'https://etherscan.io',
     chainName: 'Ethereum',
+    rpcUrls: [],
     nativeCurrency: {
       name: 'Ethereum',
       symbol: 'ETH',
@@ -56,6 +60,7 @@ export const CHAINS_CONFIG: IChainsConfig = {
     chainId: ChainIds.Goerli,
     blockExplorerUrl: 'https://goerli.etherscan.io/',
     chainName: 'Goerli',
+    rpcUrls: [],
     nativeCurrency: {
       name: 'GoerliETH',
       symbol: 'GTH',
