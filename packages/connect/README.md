@@ -49,7 +49,7 @@ const wcOptions = {
   },
 };
 
-const roninWalletConnectConnector = requestRoninWalletConnectConnector(wcOptions);
+const roninWalletConnectConnector = requestRoninWalletConnectConnector({ providerOptions: wcOptions });
 roninWalletConnectConnector.on(ConnectorEvent.CONNECT, onConnect);
 roninWalletConnectConnector.on(ConnectorEvent.ACCOUNTS_CHANGED, onAccountChanged);
 roninWalletConnectConnector.on(ConnectorEvent.CHAIN_CHANGED, onChainChanged);
