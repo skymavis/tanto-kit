@@ -64,11 +64,14 @@ export const requestSafeConnector = async (configs?: Partial<IConnectorConfigs>,
   return new SafeConnector(configs, provider);
 };
 
-export const requestWaypointConnector = (
-  config?: Partial<IConnectorConfigs>,
-  providerConfigs?: IWaypointProviderConfigs,
-) => {
-  const waypointProvider = requestWaypointProvider(providerConfigs);
+export const requestWaypointConnector = ({
+  connectorConfigs,
+  providerConfigs,
+}: {
+  connectorConfigs?: Partial<IConnectorConfigs>;
+  providerConfigs?: IWaypointProviderConfigs;
+}) => {
+  const provider = requestWaypointProvider(providerConfigs);
 
-  return new WaypointConnector(config, waypointProvider);
+  return new WaypointConnector({ connectorConfigs, providerConfigs, provider });
 };

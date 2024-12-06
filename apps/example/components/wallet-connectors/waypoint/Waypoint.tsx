@@ -24,7 +24,7 @@ const Waypoint: FC = () => {
     const waypointProviderConfigs = {
       chainId: 2021,
     };
-    const waypointConnector = requestWaypointConnector({}, waypointProviderConfigs);
+    const waypointConnector = requestWaypointConnector({ providerConfigs: waypointProviderConfigs });
     waypointConnector.autoConnect();
     setIsConnected(false);
     setConnector(waypointConnector);
