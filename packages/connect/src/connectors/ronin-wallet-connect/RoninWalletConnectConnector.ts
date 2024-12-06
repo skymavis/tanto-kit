@@ -14,7 +14,7 @@ import { numberToHex } from '../../utils';
 import { BaseConnector } from '../base/BaseConnector';
 
 export class RoninWalletConnectConnector extends BaseConnector<EthereumProvider> {
-  readonly providerOptions?: EthereumProviderOptions;
+  readonly providerOptions?: Partial<EthereumProviderOptions>;
   readonly isRonin: boolean;
 
   constructor({
@@ -23,7 +23,7 @@ export class RoninWalletConnectConnector extends BaseConnector<EthereumProvider>
     providerOptions,
   }: {
     connectorConfigs?: Partial<IConnectorConfigs>;
-    providerOptions?: EthereumProviderOptions;
+    providerOptions?: Partial<EthereumProviderOptions>;
     provider?: EthereumProvider;
   }) {
     super({ ...DEFAULT_CONNECTORS_CONFIG.RONIN_WC, ...connectorConfigs }, provider);
@@ -117,6 +117,7 @@ export class RoninWalletConnectConnector extends BaseConnector<EthereumProvider>
   async requestProvider() {
     return requestRoninWalletConnectProvider({
       projectId: RONIN_WALLET_CONNECT_PROJECT_ID,
+      chains: WC_SUPPORTED_CHAIN_IDS,
       optionalChains: WC_SUPPORTED_CHAIN_IDS,
       showQrModal: this.isRonin,
       ...this.providerOptions,

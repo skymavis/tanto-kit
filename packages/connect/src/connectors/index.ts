@@ -41,12 +41,16 @@ export const requestRoninWalletConnector = async () => {
   return new RoninWalletConnector({}, provider);
 };
 
-export const requestRoninWalletConnectConnector = async (
-  connectorConfigs?: Partial<IConnectorConfigs>,
-  providerOptions?: EthereumProviderOptions,
-) => {
+export const requestRoninWalletConnectConnector = async ({
+  connectorConfigs,
+  providerOptions,
+}: {
+  connectorConfigs?: Partial<IConnectorConfigs>;
+  providerOptions?: Partial<EthereumProviderOptions>;
+}) => {
   const provider = await requestRoninWalletConnectProvider({
     projectId: RONIN_WALLET_CONNECT_PROJECT_ID,
+    chains: WC_SUPPORTED_CHAIN_IDS,
     optionalChains: WC_SUPPORTED_CHAIN_IDS,
     showQrModal: false,
     ...providerOptions,
