@@ -3,6 +3,8 @@ export enum ChainIds {
   Goerli = 5,
   RoninMainnet = 2020,
   RoninTestnet = 2021,
+
+  BaseMainnet = 8453,
 }
 
 export interface IChainInfo {
@@ -64,6 +66,17 @@ export const CHAINS_CONFIG: IChainsConfig = {
     nativeCurrency: {
       name: 'GoerliETH',
       symbol: 'GTH',
+      decimals: 18,
+    },
+  },
+  [ChainIds.BaseMainnet]: {
+    chainId: ChainIds.BaseMainnet,
+    blockExplorerUrl: 'https://basescan.org/',
+    chainName: 'Base Mainnet',
+    rpcUrls: ['https://mainnet.base.org'],
+    nativeCurrency: {
+      name: 'Ethereum',
+      symbol: 'ETH',
       decimals: 18,
     },
   },
