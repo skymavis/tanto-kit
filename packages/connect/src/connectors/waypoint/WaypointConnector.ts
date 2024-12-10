@@ -9,10 +9,21 @@ import { EIP1193Event } from '../../types/eip1193';
 import { BaseConnector } from '../base/BaseConnector';
 
 export class WaypointConnector extends BaseConnector<WaypointProvider> {
+  readonly providerConfigs?: IWaypointProviderConfigs;
   readonly isRonin: boolean;
 
-  constructor(configs?: Partial<IConnectorConfigs>, provider?: WaypointProvider) {
-    super({ ...DEFAULT_CONNECTORS_CONFIG.WAYPOINT, ...configs }, provider);
+  constructor({
+    connectorConfigs,
+    providerConfigs,
+    provider,
+  }: {
+    connectorConfigs?: Partial<IConnectorConfigs>;
+    providerConfigs?: IWaypointProviderConfigs;
+    provider?: WaypointProvider;
+  }) {
+    super({ ...DEFAULT_CONNECTORS_CONFIG.WAYPOINT, ...connectorConfigs }, provider);
+
+    this.providerConfigs = providerConfigs;
     this.isRonin = true;
   }
 
@@ -92,7 +103,7 @@ export class WaypointConnector extends BaseConnector<WaypointProvider> {
   }
 
   async requestProvider(configs?: IWaypointProviderConfigs) {
-    return requestWaypointProvider(configs);
+    return requestWaypointProvider({ ...this.providerConfigs, ...configs });
   }
 
   protected setupProviderListeners() {
