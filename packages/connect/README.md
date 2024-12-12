@@ -76,7 +76,9 @@ const waypointProviderConfigs = {
 const waypointConnectorConfigs = {};
 
 const waypointConnector = requestWaypointConnector(
-  waypointConnectorConfigs,
-  waypointProviderConfigs
+  { 
+    connectorConfigs: waypointConnectorConfigs,
+    providerConfigs: waypointProviderConfigs 
+  }
 );
 ```
