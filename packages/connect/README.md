@@ -23,7 +23,7 @@ npm install @sky-mavis/tanto-connect
 ```javascript
 import { ConnectorEvent, IBaseConnector, IConnectResult, requestInjectedConnectors, requestRoninWalletConnector } from '@sky-mavis/tanto-connect';
 
-const injectedConnectors = requestInjectedConnectors();
+const injectedConnectors = await requestInjectedConnectors();
 // Find Ronin Wallet connector
 const roninWaletConnector = injectedConnectors.find(connector => connector.isRonin);
 
@@ -49,7 +49,7 @@ const wcOptions = {
   },
 };
 
-const roninWalletConnectConnector = requestRoninWalletConnectConnector({ providerOptions: wcOptions });
+const roninWalletConnectConnector = await requestRoninWalletConnectConnector({ providerOptions: wcOptions });
 roninWalletConnectConnector.on(ConnectorEvent.CONNECT, onConnect);
 roninWalletConnectConnector.on(ConnectorEvent.ACCOUNTS_CHANGED, onAccountChanged);
 roninWalletConnectConnector.on(ConnectorEvent.CHAIN_CHANGED, onChainChanged);
