@@ -1,12 +1,20 @@
-import { WaypointProvider } from '@sky-mavis/waypoint';
+import { authorize, WaypointProvider } from '@sky-mavis/waypoint';
 
 import { DEFAULT_CONNECTORS_CONFIG } from '../../common/connectors';
 import { LocalStorage, ReconnectStorage, WAYPOINT_ACCESS_TOKEN_STORAGE_KEY } from '../../common/storage';
-import { IWaypointProviderConfigs, requestWaypointProvider } from '../../providers';
+import { IWaypointProviderConfigs, requestWaypointProvider, WaypointScope } from '../../providers';
 import { IConnectorConfigs, IConnectResult } from '../../types/connector';
 import { ConnectorError, ConnectorErrorType } from '../../types/connector-error';
 import { EIP1193Event } from '../../types/eip1193';
 import { BaseConnector } from '../base/BaseConnector';
+
+export interface IWaypointAuthorizeConfigs {
+  mode: 'redirect' | 'popup';
+  waypointOrigin: string;
+  clientId?: string;
+  scopes?: WaypointScope[];
+  redirectUrl?: string;
+}
 
 export class WaypointConnector extends BaseConnector<WaypointProvider> {
   readonly providerConfigs?: IWaypointProviderConfigs;
@@ -90,6 +98,29 @@ export class WaypointConnector extends BaseConnector<WaypointProvider> {
     ReconnectStorage.add(this.id);
     this.onConnect(connectResult);
     return connectResult;
+  }
+
+  async authorize(configs: IWaypointAuthorizeConfigs) {
+    const { clientId } = this.providerConfigs || {};
+    const currentClientId = configs.clientId;
+
+    const authorizationResult = await authorize({
+      clientId: (currentClientId || clientId) as string,
+      ...configs,
+    });
+
+    if (!authorizationResult) {
+      return null;
+    }
+
+    const { address, token: accessToken, secondaryAddress } = authorizationResult;
+    LocalStorage.set(WAYPOINT_ACCESS_TOKEN_STORAGE_KEY, accessToken);
+
+    return {
+      account: address,
+      accessToken,
+      secondaryAccount: secondaryAddress,
+    };
   }
 
   async disconnect() {

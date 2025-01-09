@@ -1,6 +1,6 @@
 {
   "name": "@sky-mavis/tanto-connect",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "Tanto Connect",
   "main": "dist/cjs/index.js",
   "module": "dist/mjs/index.js",
@@ -52,7 +52,7 @@
     "@walletconnect/ethereum-provider": "2.17.2",
     "@safe-global/safe-apps-provider": "0.18.3",
     "@safe-global/safe-apps-sdk": "9.1.0",
-    "@sky-mavis/waypoint": "3.1.1"
+    "@sky-mavis/waypoint": "4.0.2"
   },
   "devDependencies": {
     "@babel/core": "7.23.9",
