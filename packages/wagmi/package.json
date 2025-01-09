@@ -1,7 +1,7 @@
 {
   "name": "@sky-mavis/tanto-wagmi",
   "type": "module",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Tanto Wagmi",
   "main": "dist/cjs/index.js",
   "types": "dist/types/index.d.ts",
@@ -50,7 +50,7 @@
   },
   "homepage": "https://github.com/skymavis/tanto-kit",
   "dependencies": {
-    "@sky-mavis/tanto-connect": "0.0.9"
+    "@sky-mavis/tanto-connect": "0.0.17"
   },
   "peerDependencies": {
     "@wagmi/core": "^2.x",

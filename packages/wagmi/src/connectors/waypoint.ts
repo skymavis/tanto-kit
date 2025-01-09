@@ -12,7 +12,7 @@ import { ConnectParams } from '../types';
 
 export function waypoint(params: IWaypointProviderConfigs) {
   const provider = requestWaypointProvider(params);
-  const connector = new WaypointConnector({}, provider);
+  const connector = new WaypointConnector({ provider });
 
   const _connect = async (params?: ConnectParams) => {
     const { chainId } = await connector.connect(params?.chainId);

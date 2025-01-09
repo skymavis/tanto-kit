@@ -10,16 +10,18 @@ export interface IWaypointProviderConfigs {
   clientId?: string;
   waypointOrigin?: string;
   scopes?: WaypointScope[];
+  popupCloseDelay?: number;
 }
 
 export const requestWaypointProvider = (configs?: IWaypointProviderConfigs) => {
-  const { chainId, clientId, waypointOrigin, scopes } = configs || {};
+  const { chainId, clientId, waypointOrigin, scopes, popupCloseDelay } = configs || {};
 
   const waypointProvider = WaypointProvider.create({
     clientId: clientId as string,
     chainId: chainId || ChainIds.RoninMainnet,
     waypointOrigin,
     scopes,
+    popupCloseDelay,
   });
 
   if (!waypointProvider) {
