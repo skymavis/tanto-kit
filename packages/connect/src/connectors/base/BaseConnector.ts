@@ -33,6 +33,7 @@ export abstract class BaseConnector<ProviderType = IEIP1193Provider>
   abstract getChainId(): Promise<number>;
   abstract switchChain(chain: number): Promise<void>;
   abstract addChain(chain: number): Promise<void>;
+  abstract requestAccounts(): Promise<readonly string[]>;
 
   protected abstract requestProvider(): Promise<ProviderType>;
 
