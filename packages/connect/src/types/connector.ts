@@ -24,6 +24,7 @@ export interface IBaseConnector extends IConnectorEventEmitter {
   connect(chainId?: number): Promise<IConnectResult>;
   disconnect(): Promise<void>;
   getProvider(chainId?: number): Promise<unknown>;
+  getProviderSync(): unknown;
   isAuthorized(): Promise<boolean>;
   getAccounts(): Promise<readonly string[]>;
   getChainId(): Promise<number>;
