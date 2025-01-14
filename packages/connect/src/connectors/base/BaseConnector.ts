@@ -12,7 +12,6 @@ export abstract class BaseConnector<ProviderType = IEIP1193Provider>
   readonly type: string;
   readonly icon?: string;
   readonly isRonin: boolean;
-
   protected provider?: ProviderType;
 
   protected constructor(configs: IConnectorConfigs, provider?: ProviderType) {
@@ -34,7 +33,6 @@ export abstract class BaseConnector<ProviderType = IEIP1193Provider>
   abstract getChainId(): Promise<number>;
   abstract switchChain(chain: number): Promise<void>;
   abstract addChain(chain: number): Promise<void>;
-  abstract requestAccounts(): Promise<readonly string[]>;
 
   protected abstract requestProvider(): Promise<ProviderType>;
 
@@ -42,6 +40,10 @@ export abstract class BaseConnector<ProviderType = IEIP1193Provider>
     if (!this.provider) {
       this.provider = await this.requestProvider();
     }
+    return this.provider;
+  };
+
+  getProviderSync = () => {
     return this.provider;
   };
 
