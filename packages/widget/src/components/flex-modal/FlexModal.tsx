@@ -62,7 +62,7 @@ const Overlay = React.memo(
         css={{
           position: 'fixed',
           inset: 0,
-          zIndex: 50,
+          zIndex: 49,
           backgroundColor: theme.modalOverlayColor,
           '&[data-state="open"]': {
             animation: `${fadeIn} 0.15s ease-in`,
