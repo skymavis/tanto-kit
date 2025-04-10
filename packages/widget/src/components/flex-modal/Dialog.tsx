@@ -31,9 +31,9 @@ const DialogContent = styled(DialogPrimitive.Content, {
   {
     display: 'grid',
     width: '100%',
-    maxWidth: '32rem',
+    maxWidth: 420,
     gap: '1rem',
-    padding: '16px 20px 20px 20px',
+    padding: '8px 20px 20px 20px',
     animationDuration: '150ms',
 
     '&[data-state="open"]': {

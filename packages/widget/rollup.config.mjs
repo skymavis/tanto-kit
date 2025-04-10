@@ -36,7 +36,6 @@ const config = defineConfig({
     'use-callback-ref',
     'use-resize-observer',
     'vaul',
-    'zustand',
     'wagmi',
     'wagmi/connectors',
     '@sky-mavis/tanto-wagmi',

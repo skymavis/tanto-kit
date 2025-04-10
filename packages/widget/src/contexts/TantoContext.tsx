@@ -1,14 +1,28 @@
 import type { ReactNode } from 'react';
 import { createContext, useContext } from 'react';
 
-interface TantoContextValue {}
+import { ThemeMode } from '../types';
+import { ThemeProvider } from './ThemeContext';
+import { WidgetProvider } from './WidgetContext';
 
-const TantoContext = createContext<TantoContextValue>({});
+interface TantoState {}
 
-export function TantoProvider(props: { children?: ReactNode }) {
-  const { children } = props;
+const TantoContext = createContext<TantoState | undefined>(undefined);
 
-  return <TantoContext.Provider value={{}}>{children}</TantoContext.Provider>;
+interface TantoProviderProps {
+  theme?: ThemeMode;
+  children: ReactNode;
+}
+
+export function TantoProvider(props: TantoProviderProps) {
+  const { theme, children } = props;
+  return (
+    <TantoContext.Provider value={{}}>
+      <ThemeProvider theme={theme}>
+        <WidgetProvider>{children}</WidgetProvider>
+      </ThemeProvider>
+    </TantoContext.Provider>
+  );
 }
 
 export function useTanto() {

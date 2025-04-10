@@ -1,0 +1,16 @@
+import { useAccount, useDisconnect } from 'wagmi';
+
+import { Button } from './components/button/Button';
+import { useWidget } from './contexts/WidgetContext';
+
+export function TantoConnectButton() {
+  const { isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
+  const { show } = useWidget();
+
+  return isConnected ? (
+    <Button onClick={() => disconnect()}>Disconnect</Button>
+  ) : (
+    <Button onClick={show}>Connect</Button>
+  );
+}

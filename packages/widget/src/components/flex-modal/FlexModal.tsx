@@ -1,4 +1,5 @@
 import { useTheme } from '@emotion/react';
+import styled from '@emotion/styled';
 import type {
   DialogCloseProps,
   DialogPortalProps,
@@ -6,6 +7,7 @@ import type {
   DialogTitleProps,
   DialogTriggerProps,
 } from '@radix-ui/react-dialog';
+import * as m from 'motion/react-m';
 import * as React from 'react';
 
 import { useAnimatedResize } from '../../hooks/useAnimatedResize';
@@ -13,6 +15,7 @@ import { useIsMobile } from '../../hooks/useMobile';
 import { fadeIn, fadeOut } from '../../styles/animations';
 import { Box } from '../box/Box';
 import { IconButton } from '../button/Button';
+import { ArrowLeftIcon } from '../icons/ArrowLeftIcon';
 import { XIcon } from '../icons/XIcon';
 import * as Dialog from './Dialog';
 import * as Drawer from './Drawer';
@@ -118,10 +121,17 @@ const Close = React.memo((props: DialogCloseProps) => {
   return <CloseComponent {...props} />;
 });
 
+const ActionSecion = styled(m.div)({
+  minWidth: 36,
+  minHeight: 36,
+  width: 36,
+  height: 36,
+});
+
 export interface FlexModalProps {
   container?: Element | DocumentFragment | null;
   children: React.ReactNode;
-  title?: string;
+  title?: React.ReactNode;
   defaultOpen?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -135,6 +145,7 @@ export const FlexModal = React.memo((props: FlexModalProps) => {
   const resolvedOpen = isEmbedded ? true : open;
   const allowOutsideInteraction = !isEmbedded;
   const showOverlay = !isEmbedded;
+  const showBackButton = true;
   const showCloseButton = !isEmbedded;
 
   const contextValue = React.useMemo(
@@ -151,13 +162,26 @@ export const FlexModal = React.memo((props: FlexModalProps) => {
         <Portal container={container}>
           {showOverlay && <Overlay />}
           <Content forceMount isEmbedded={isEmbedded} onCloseAutoFocus={onAfterClose}>
-            <Box gap={16} mb={16}>
+            <Box align="center" gap={4} mb={16}>
+              <ActionSecion>
+                {showBackButton && (
+                  <IconButton
+                    aria-label="Back"
+                    intent="secondary"
+                    variant="plain"
+                    size="small"
+                    icon={<ArrowLeftIcon />}
+                  />
+                )}
+              </ActionSecion>
               <Title>{title}</Title>
-              {showCloseButton && (
-                <Close asChild aria-label="Close">
-                  <IconButton intent="secondary" variant="plain" size="small" icon={<XIcon />} />
-                </Close>
-              )}
+              <ActionSecion>
+                {showCloseButton && (
+                  <Close asChild aria-label="Close">
+                    <IconButton intent="secondary" variant="plain" size="small" icon={<XIcon />} />
+                  </Close>
+                )}
+              </ActionSecion>
             </Box>
             {children}
           </Content>
