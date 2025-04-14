@@ -2,8 +2,8 @@ import { css, Global, ThemeProvider as EmotionThemeProvider } from '@emotion/rea
 import type { ReactNode } from 'react';
 import { useState } from 'react';
 
-import { dark, light } from '../styles/theme';
-import type { ThemeMode } from '../types/theme';
+import { dark, light } from '../../styles/theme';
+import type { ThemeMode } from '../../types/theme';
 
 interface ThemeProviderProps {
   children: ReactNode;

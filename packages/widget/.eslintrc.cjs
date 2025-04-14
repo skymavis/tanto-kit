@@ -8,7 +8,7 @@ module.exports = {
     'plugin:import/typescript',
     'plugin:@typescript-eslint/recommended',
   ],
-  plugins: ['simple-import-sort', 'import'],
+  plugins: ['simple-import-sort', 'import', '@typescript-eslint'],
   parserOptions: {
     ecmaVersion: 2018,
     ecmaFeatures: { jsx: true },
@@ -66,5 +66,7 @@ module.exports = {
         allow: ['debug', 'error'],
       },
     ],
+
+    '@typescript-eslint/consistent-type-definitions': 'error',
   },
 };

@@ -18,7 +18,7 @@ export const getDefaultConfig = (): Config => {
         chainId: 2021,
       }),
     ],
-    multiInjectedProviderDiscovery: false,
+    multiInjectedProviderDiscovery: true,
     ssr: true,
   });
 };

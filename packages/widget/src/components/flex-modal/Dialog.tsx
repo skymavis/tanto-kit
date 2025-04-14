@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import React from 'react';
+import { ElementRef, forwardRef } from 'react';
 
 import { fadeInUp, fadeOutDown } from '../../styles/animations';
 
@@ -57,7 +57,7 @@ const Title = DialogPrimitive.Title;
 const Trigger = DialogPrimitive.Trigger;
 const Close = DialogPrimitive.Close;
 
-const Content = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Content>, DialogContentProps>(
+const Content = forwardRef<ElementRef<typeof DialogPrimitive.Content>, DialogContentProps>(
   ({ children, isEmbedded, ...props }, ref) => {
     return (
       <DialogContainer isEmbedded={isEmbedded}>
