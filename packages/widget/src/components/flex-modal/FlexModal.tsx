@@ -11,7 +11,7 @@ import * as m from 'motion/react-m';
 import { createContext, ElementRef, forwardRef, memo, ReactNode, useContext, useMemo } from 'react';
 
 import { useAnimatedResize } from '../../hooks/useAnimatedResize';
-import { useIsMobile } from '../../hooks/useMobile';
+import { useIsMobileView } from '../../hooks/useMobile';
 import { fadeIn, fadeOut } from '../../styles/animations';
 import { Box } from '../box/Box';
 import { IconButton } from '../button/Button';
@@ -142,7 +142,7 @@ export interface FlexModalProps {
 
 export const FlexModal = memo((props: FlexModalProps) => {
   const { container, children, title, defaultOpen, open, showBackButton, onOpenChange, onBack, onAfterClose } = props;
-  const isMobile = useIsMobile();
+  const isMobile = useIsMobileView();
   const isEmbedded = typeof container !== 'undefined' && container !== null;
   const resolvedOpen = isEmbedded ? true : open;
   const allowOutsideInteraction = !isEmbedded;

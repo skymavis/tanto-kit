@@ -4,7 +4,7 @@ import { useConnect } from 'wagmi';
 import { useTanto } from '../../hooks/useTanto';
 
 // Avoid layout shift
-const DELAY_CONNECT = 500;
+const DELAY_CONNECT = 600;
 
 export function Connect() {
   const { connect } = useConnect();

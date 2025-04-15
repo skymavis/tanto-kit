@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { Connector } from 'wagmi';
 
-export interface Wallet {
+export interface WalletConfig {
   id: string;
   name: string;
   icon: string | ReactNode;
@@ -9,5 +9,11 @@ export interface Wallet {
     download?: string;
     website?: string;
   };
-  connector: Connector;
 }
+
+export type Wallet = WalletConfig & {
+  connector: Connector | null;
+  isInstalled?: boolean;
+  // In case of navigate to In-app Ronin Wallet
+  alternativeConnectAction?: () => void;
+};

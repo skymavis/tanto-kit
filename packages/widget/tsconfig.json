@@ -30,6 +30,6 @@
       "esnext"
     ],
   },
-  "include": ["src", "emotion.d.ts"],
+  "include": ["src", "emotion.d.ts", "global.d.ts"],
   "exclude": ["node_modules", "dist"]
 }

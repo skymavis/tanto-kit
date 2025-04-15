@@ -1,6 +1,7 @@
 import { roninWallet, waypoint } from '@sky-mavis/tanto-wagmi';
 import { ronin, saigon } from 'viem/chains';
 import { Config, createConfig, http } from 'wagmi';
+import { walletConnect } from 'wagmi/connectors';
 
 // TODO: Add extra configuration options
 export const getDefaultConfig = (): Config => {
@@ -16,6 +17,16 @@ export const getDefaultConfig = (): Config => {
       waypoint({
         clientId: 'id',
         chainId: 2021,
+      }),
+      walletConnect({
+        showQrModal: false,
+        projectId: 'd2ef97836db7eb390bcb2c1e9847ecdc',
+        metadata: {
+          name: 'Ronin Wallet',
+          description: 'Your passport into a digital nation',
+          icons: ['https://cdn.skymavis.com/wallet/web-app/logo/ronin.png'],
+          url: 'https://wallet.roninchain.com',
+        },
       }),
     ],
     multiInjectedProviderDiscovery: true,

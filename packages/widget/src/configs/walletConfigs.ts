@@ -1,10 +1,7 @@
-import { Wallet } from '../types/wallet';
+import { WalletConfig } from '../types/wallet';
 
-export const roninExtensionIds = ['RONIN_WALLET', 'com.roninchain.wallet'];
-
-// TODO
-export const walletCustomizations: {
-  [walletId: string]: Wallet;
+export const walletConfigs: {
+  [walletId: string]: WalletConfig;
 } = {
-  'RONIN_WALLET, com.roninchain.wallet': {} as Wallet,
+  'RONIN_WALLET, com.roninchain.wallet': {} as WalletConfig,
 };

@@ -1,0 +1,78 @@
+import { useConnectors } from 'wagmi';
+
+import { walletConfigs } from '../configs/walletConfigs';
+import { Wallet } from '../types/wallet';
+import { generateInAppBrowserLink, isClient, isMobile, isRoninWallet } from '../utils';
+
+export function useWallets(): {
+  wallets: Wallet[];
+  primaryWallets: Wallet[];
+  secondaryWallets: Wallet[];
+} {
+  const connectors = useConnectors();
+  const isMobileDevice = isMobile();
+  const isDesktopDevice = !isMobileDevice;
+  const isInApp = isRoninWallet();
+
+  const wallets = connectors.map((connector): Wallet => {
+    const walletId = Object.keys(walletConfigs).find(id => id.split(', ').indexOf(connector.id) !== -1);
+    const wallet: Wallet = {
+      id: connector.id,
+      name: connector.name ?? connector.id ?? connector.type,
+      icon: <img src={connector.icon} alt={connector.name} width={'100%'} height={'100%'} />,
+      connector,
+    };
+    if (walletId) {
+      const walletOverrides = walletConfigs[walletId];
+      if (walletOverrides) {
+        return {
+          ...wallet,
+          ...walletOverrides,
+        };
+      }
+    }
+    return wallet;
+  });
+
+  const walletMap = new Map(wallets.map(wallet => [wallet.id, wallet]));
+
+  const waypointWallet = walletMap.get('WAYPOINT');
+  const roninExtensionWallet = walletMap.get('RONIN_WALLET') ?? walletMap.get('com.roninchain.wallet');
+  const wcWallet = walletMap.get('walletConnect');
+  const injectedWallets = wallets.filter(wallet => wallet.connector?.id === 'injected');
+  const roninNavigateToInApp: Wallet = {
+    id: 'ronin-navigate-to-in-app',
+    name: 'Ronin Wallet',
+    icon: <div>icon</div>,
+    connector: null,
+    alternativeConnectAction: () => {
+      if (isClient()) window.open(generateInAppBrowserLink(`https://wallet.roninchain.com/app`), '_self');
+    },
+  };
+  const inAppWallet = roninExtensionWallet
+    ? {
+        ...roninExtensionWallet,
+        id: 'ronin-in-app',
+        name: 'Ronin Wallet',
+        icon: <div>icon</div>,
+      }
+    : null;
+
+  const primaryWallets = ((): Wallet[] => {
+    if (isDesktopDevice) return [waypointWallet, roninExtensionWallet].filter(Boolean) as Wallet[];
+    if (isMobileDevice && !isInApp) return [waypointWallet, roninNavigateToInApp].filter(Boolean) as Wallet[];
+    if (isInApp) return [inAppWallet].filter(Boolean) as Wallet[];
+    return [];
+  })();
+
+  const secondaryWallets = ((): Wallet[] => {
+    const wallets = isDesktopDevice ? ([wcWallet, ...injectedWallets].filter(Boolean) as Wallet[]) : [];
+    return wallets.sort(a => (a.id === 'walletConnect' ? -1 : 1));
+  })();
+
+  return {
+    wallets: [...primaryWallets, ...secondaryWallets],
+    primaryWallets,
+    secondaryWallets,
+  };
+}

@@ -1,5 +1,13 @@
 import { detect } from 'detect-browser';
 
+export const isClient = () => {
+  return typeof window !== 'undefined';
+};
+
+export const isRoninWallet = () => {
+  return isClient() && !!window.isWalletApp && window.ronin !== undefined && !!window.ethereum?.isRonin;
+};
+
 export const detectBrowser = () => {
   const browser = detect();
   return browser?.name ?? '';
@@ -22,4 +30,8 @@ export const isAndroid = () => {
 
 export const isMobile = () => {
   return isAndroid() || isIOS();
+};
+
+export const generateInAppBrowserLink = (url: string) => {
+  return `roninwallet://in_app_browser?url=${encodeURIComponent(url)}`;
 };

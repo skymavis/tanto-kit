@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 
 import { Wallet } from '../../types/wallet';
+import { WalletItem } from './WalletItem';
 
 interface WalletGroupProps {
   className?: string;
@@ -10,33 +11,19 @@ interface WalletGroupProps {
 
 const Container = styled.div({
   display: 'flex',
-  padding: 0,
-  overflow: 'hidden',
   flexDirection: 'column',
   alignItems: 'stretch',
-  borderRadius: '12px',
-  background: 'rgba(205, 213, 229, 0.07)',
+  overflow: 'hidden',
+  borderRadius: 16,
+  gap: 1,
 });
 
-const WalletWrapper = styled.div({
-  '&:first-child': {
-    borderTopLeftRadius: '12px',
-    borderTopRightRadius: '12px',
-  },
-  '&:last-child': {
-    borderBottomLeftRadius: '12px',
-    borderBottomRightRadius: '12px',
-  },
-});
-
-const WalletGroup: FC<WalletGroupProps> = ({ wallets, className }) => {
+export const WalletGroup: FC<WalletGroupProps> = ({ wallets, className }) => {
   return (
     <Container className={className}>
-      {wallets.map(wallet => {
-        return <WalletWrapper key={wallet.id}></WalletWrapper>;
-      })}
+      {wallets.map(wallet => (
+        <WalletItem key={wallet.id} wallet={wallet} />
+      ))}
     </Container>
   );
 };
-
-export default WalletGroup;
