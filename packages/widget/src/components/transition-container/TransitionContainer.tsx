@@ -1,4 +1,4 @@
-import { AnimatePresence, AnimationDefinition, domAnimation, LazyMotion } from 'motion/react';
+import { AnimatePresence, AnimationDefinition, AnimationProps, domAnimation, LazyMotion } from 'motion/react';
 import * as m from 'motion/react-m';
 import type { ReactNode } from 'react';
 import { forwardRef, memo } from 'react';
@@ -9,7 +9,7 @@ interface TransitionContainerProps {
   onAnimationComplete?: (definition: AnimationDefinition) => void;
 }
 
-const animationProps = {
+const animationProps: AnimationProps = {
   initial: { opacity: 0, y: 0, scale: 1 },
   animate: { opacity: 1, y: 0, scale: 1 },
   exit: { opacity: 0, y: 4, scale: 0.95 },
@@ -20,7 +20,15 @@ const TransitionContainerComponent = forwardRef<HTMLDivElement, TransitionContai
   ({ children, viewKey, onAnimationComplete }, ref) => (
     <LazyMotion features={domAnimation} strict>
       <AnimatePresence initial={false} mode="popLayout">
-        <m.div key={viewKey} ref={ref} {...animationProps} onAnimationComplete={onAnimationComplete}>
+        <m.div
+          key={viewKey}
+          ref={ref}
+          css={{
+            width: '100%',
+          }}
+          {...animationProps}
+          onAnimationComplete={onAnimationComplete}
+        >
           {children}
         </m.div>
       </AnimatePresence>

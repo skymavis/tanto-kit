@@ -45,6 +45,7 @@ export const spin = keyframes`
     transform: rotate(1turn)
   }
 `;
+
 export const slideUp = keyframes`
   from {
     opacity: 0;
@@ -54,4 +55,17 @@ export const slideUp = keyframes`
     opacity: 1;
     transform: translateY(0);
   }
+`;
+
+export const shakeKeyframes = keyframes`
+  0%{ transform:none; }
+  25%{ transform:translateX(2px); }
+  50%{ transform:translateX(-2px); }
+  75%{ transform:translateX(2px); }
+  100%{ transform:none; }
+`;
+
+export const outlineKeyframes = keyframes`
+  0%{ opacity:1; }
+  100%{ opacity:0; }
 `;
