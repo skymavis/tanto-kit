@@ -23,7 +23,6 @@ const WagmiExample: FC = () => {
 
 const Account = () => {
   const { address, chainId, isConnected, connector } = useAccount();
-  const { disconnect } = useDisconnect();
   const { signMessage } = useSignMessage();
 
   return (
@@ -33,7 +32,6 @@ const Account = () => {
       <WillRender when={isConnected}>
         <User name={connector?.name} description={address} />
         <p>ChainId: {chainId}</p>
-        <Button onClick={() => disconnect()}>Disconnect</Button>
         <Button onClick={() => signMessage({ message: 'Hello Ronin Wallet!' })}>Sign Message</Button>
       </WillRender>
     </div>
