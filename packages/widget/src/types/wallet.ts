@@ -5,6 +5,9 @@ export interface WalletConfig {
   id: string;
   name: string;
   icon: string | ReactNode;
+  iconOnList?: ReactNode;
+  descriptionOnList?: string;
+  highlightOnList?: boolean;
   downloadUrls?: {
     download?: string;
     website?: string;

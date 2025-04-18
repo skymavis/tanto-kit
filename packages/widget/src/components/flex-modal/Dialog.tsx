@@ -30,8 +30,7 @@ const DialogContent = styled(DialogPrimitive.Content, {
 })<{ isEmbedded?: boolean }>(
   {
     display: 'grid',
-    width: '100%',
-    maxWidth: 420,
+    minWidth: 420,
     gap: '1rem',
     padding: '8px 20px 20px 20px',
     animationDuration: '150ms',

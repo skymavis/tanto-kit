@@ -10,13 +10,13 @@ import type {
 import * as m from 'motion/react-m';
 import { createContext, ElementRef, forwardRef, memo, ReactNode, useContext, useMemo } from 'react';
 
+import { ArrowLeftIcon } from '../../assets/ArrowLeftIcon';
+import { XIcon } from '../../assets/XIcon';
 import { useAnimatedResize } from '../../hooks/useAnimatedResize';
 import { useIsMobileView } from '../../hooks/useMobile';
 import { fadeIn, fadeOut } from '../../styles/animations';
 import { Box } from '../box/Box';
 import { IconButton } from '../button/Button';
-import { ArrowLeftIcon } from '../icons/ArrowLeftIcon';
-import { XIcon } from '../icons/XIcon';
 import * as Dialog from './Dialog';
 import * as Drawer from './Drawer';
 

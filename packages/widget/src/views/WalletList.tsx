@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
 import { useAccount } from 'wagmi';
 
+import { Box } from '../components/box/Box';
+import { DashedDivider } from '../components/dashed-divider/DashedDivider';
 import { useWallets } from '../hooks/useWallets';
 import { useWidget } from '../hooks/useWidget';
 import { WalletGroup } from './Connect/WalletGroup';
 
-// WIP
 export function WalletList() {
   const { primaryWallets, secondaryWallets } = useWallets();
   const { isConnected } = useAccount();
@@ -16,9 +17,14 @@ export function WalletList() {
   }, [isConnected]);
 
   return (
-    <div>
+    <Box vertical gap={20}>
       <WalletGroup wallets={primaryWallets} />
-      <WalletGroup wallets={secondaryWallets} />
-    </div>
+      {secondaryWallets.length > 0 && (
+        <Box vertical gap={12}>
+          <DashedDivider text="Other wallets" />
+          <WalletGroup wallets={secondaryWallets} />
+        </Box>
+      )}
+    </Box>
   );
 }

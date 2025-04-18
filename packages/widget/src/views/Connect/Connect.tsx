@@ -3,11 +3,11 @@ import * as m from 'motion/react-m';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useConnect } from 'wagmi';
 
+import { SuccessIcon } from '../../assets/SuccessIcon';
+import { WarningIcon } from '../../assets/WarningIcon';
 import { AppearContainer } from '../../components/appear-container/AppearContainer';
 import { Box } from '../../components/box/Box';
 import { Button } from '../../components/button/Button';
-import { SuccessIcon } from '../../components/icons/SuccessIcon';
-import { WarningIcon } from '../../components/icons/WarningIcon';
 import SquircleSpinner from '../../components/squircle-spinner/SquircleSpinner';
 import { TransitionContainer } from '../../components/transition-container/TransitionContainer';
 import { useTanto } from '../../hooks/useTanto';
@@ -82,15 +82,15 @@ const Description = styled.p({
 });
 
 interface ConnectViewsProps {
-  connectorName: string;
+  walletName: string;
   onRetry: () => void;
 }
 
-const ConnectViews = ({ connectorName, onRetry }: ConnectViewsProps) => ({
+const ConnectViews = ({ walletName, onRetry }: ConnectViewsProps) => ({
   [CONNECT_STATES.CONNECTING]: (
     <ContentSection>
-      <Title>{`Opening ${connectorName}`}</Title>
-      <Description>{`Confirm connection in ${connectorName}.`}</Description>
+      <Title>{`Opening ${walletName}`}</Title>
+      <Description>{`Confirm connection in ${walletName}.`}</Description>
     </ContentSection>
   ),
   [CONNECT_STATES.FAILED]: (
@@ -107,18 +107,14 @@ const ConnectViews = ({ connectorName, onRetry }: ConnectViewsProps) => ({
   [CONNECT_STATES.CONNECTED]: (
     <ContentSection>
       <Title>Success</Title>
-      <Description>{`Connected to ${connectorName} successfully.`}</Description>
+      <Description>{`Connected to ${walletName} successfully.`}</Description>
     </ContentSection>
   ),
 });
 
-const ConnectorLogo = ({ icon, name }: { icon?: string; name: string }) => (
-  <img css={{ objectFit: 'contain' }} src={icon} alt={name} />
-);
-
 export function Connect() {
   const [status, setStatus] = useState<ConnectState>(CONNECT_STATES.CONNECTING);
-  const { connector } = useTanto();
+  const { wallet, connector } = useTanto();
   const { hide } = useWidget();
 
   const triggerConnect = useCallback(() => {
@@ -143,11 +139,11 @@ export function Connect() {
     return () => clearTimeout(timer);
   }, [triggerConnect]);
 
-  if (!connector) return null;
+  if (!wallet || !connector) return null;
 
   const views = useMemo(
-    () => ConnectViews({ connectorName: connector.name, onRetry: triggerConnect }),
-    [connector.name, triggerConnect],
+    () => ConnectViews({ walletName: wallet.name, onRetry: triggerConnect }),
+    [wallet.name, triggerConnect],
   );
 
   const isFailed = status === CONNECT_STATES.FAILED;
@@ -157,10 +153,7 @@ export function Connect() {
   return (
     <Box vertical align="center" justify="center" gap={32} pt={20}>
       <LogoSection failed={isFailed} connected={isConnected}>
-        <SquircleSpinner
-          logo={<ConnectorLogo icon={connector.icon} name={connector.name} />}
-          connecting={isConnecting}
-        />
+        <SquircleSpinner logo={wallet.icon} connecting={isConnecting} />
 
         <StatusIconSection>
           {isFailed && (

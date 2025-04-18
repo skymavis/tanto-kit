@@ -19,7 +19,18 @@ export function useWallets(): {
     const wallet: Wallet = {
       id: connector.id,
       name: connector.name ?? connector.id ?? connector.type,
-      icon: <img src={connector.icon} alt={connector.name} width={'100%'} height={'100%'} />,
+      icon: connector.icon ? (
+        <img
+          src={connector.icon}
+          alt={connector.name}
+          css={{
+            width: 32,
+            height: 32,
+            borderRadius: 8,
+            objectFit: 'contain',
+          }}
+        />
+      ) : undefined,
       connector,
     };
     if (walletId) {
@@ -39,7 +50,10 @@ export function useWallets(): {
   const waypointWallet = walletMap.get('WAYPOINT');
   const roninExtensionWallet = walletMap.get('RONIN_WALLET') ?? walletMap.get('com.roninchain.wallet');
   const wcWallet = walletMap.get('walletConnect');
-  const injectedWallets = wallets.filter(wallet => wallet.connector?.id === 'injected');
+  const injectedWallets = wallets.filter(
+    wallet =>
+      wallet.connector?.type === 'injected' && wallet.id !== 'RONIN_WALLET' && wallet.id !== 'com.roninchain.wallet',
+  );
   const roninNavigateToInApp: Wallet = {
     id: 'ronin-navigate-to-in-app',
     name: 'Ronin Wallet',
