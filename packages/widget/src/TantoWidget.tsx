@@ -1,8 +1,12 @@
+import { useEffect } from 'react';
+import { useAccount } from 'wagmi';
+
 import { FlexModal } from './components/flex-modal/FlexModal';
 import { TransitionContainer } from './components/transition-container/TransitionContainer';
 import { useWidget } from './hooks/useWidget';
 import { Route } from './types/route';
-import { Connect } from './views/Connect/Connect';
+import { ConnectInjector } from './views/Connect/ConnectInjector';
+import { ConnectQRCode } from './views/Connect/ConnectQRCode';
 import { WalletList } from './views/WalletList';
 
 export function TantoWidget() {
@@ -10,8 +14,16 @@ export function TantoWidget() {
 
   const views = {
     [Route.WALLETS]: <WalletList />,
-    [Route.CONNECT]: <Connect />,
+    [Route.CONNECT_INJECTOR]: <ConnectInjector />,
+    [Route.CONNECT_QRCODE]: <ConnectQRCode />,
   };
+
+  const { isConnected } = useAccount();
+  const { hide } = useWidget();
+
+  useEffect(() => {
+    if (isConnected) hide();
+  }, [isConnected]);
 
   return (
     <FlexModal

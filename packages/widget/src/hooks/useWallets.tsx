@@ -2,7 +2,7 @@ import { useConnectors } from 'wagmi';
 
 import { walletConfigs } from '../configs/walletConfigs';
 import { Wallet } from '../types/wallet';
-import { generateInAppBrowserLink, isClient, isMobile, isRoninWallet } from '../utils';
+import { generateInAppBrowserLink, isClient, isMobile, isRoninWallet, notEmpty } from '../utils';
 
 export function useWallets(): {
   wallets: Wallet[];
@@ -73,14 +73,14 @@ export function useWallets(): {
     : null;
 
   const primaryWallets = ((): Wallet[] => {
-    if (isDesktopDevice) return [waypointWallet, roninExtensionWallet].filter(Boolean) as Wallet[];
-    if (isMobileDevice && !isInApp) return [waypointWallet, roninNavigateToInApp].filter(Boolean) as Wallet[];
-    if (isInApp) return [inAppWallet].filter(Boolean) as Wallet[];
+    if (isDesktopDevice) return [waypointWallet, roninExtensionWallet].filter(notEmpty);
+    if (isMobileDevice && !isInApp) return [waypointWallet, roninNavigateToInApp].filter(notEmpty);
+    if (isInApp) return [inAppWallet].filter(notEmpty);
     return [];
   })();
 
   const secondaryWallets = ((): Wallet[] => {
-    const wallets = isDesktopDevice ? ([wcWallet, ...injectedWallets].filter(Boolean) as Wallet[]) : [];
+    const wallets = isDesktopDevice ? [wcWallet, ...injectedWallets].filter(notEmpty) : [];
     return wallets.sort(a => (a.id === 'walletConnect' ? -1 : 1));
   })();
 

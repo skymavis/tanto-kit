@@ -32,6 +32,8 @@ const config = defineConfig({
       'use-resize-observer',
       'vaul',
       'detect-browser',
+      'qr-code-styling',
+      '@sky-mavis/tanto-connect',
       '@sky-mavis/tanto-wagmi',
       '@emotion',
       '@radix-ui',

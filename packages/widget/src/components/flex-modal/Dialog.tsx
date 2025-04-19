@@ -55,6 +55,7 @@ const Overlay = DialogPrimitive.Overlay;
 const Title = DialogPrimitive.Title;
 const Trigger = DialogPrimitive.Trigger;
 const Close = DialogPrimitive.Close;
+const Description = DialogPrimitive.Description;
 
 const Content = forwardRef<ElementRef<typeof DialogPrimitive.Content>, DialogContentProps>(
   ({ children, isEmbedded, ...props }, ref) => {
@@ -69,4 +70,4 @@ const Content = forwardRef<ElementRef<typeof DialogPrimitive.Content>, DialogCon
 );
 Content.displayName = DialogPrimitive.Content.displayName;
 
-export { Close, Content, Overlay, Portal, Root, Title, Trigger };
+export { Close, Content, Description, Overlay, Portal, Root, Title, Trigger };

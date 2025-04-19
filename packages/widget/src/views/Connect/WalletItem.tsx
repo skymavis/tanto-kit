@@ -4,7 +4,7 @@ import { FC, useCallback } from 'react';
 import { highlightedWalletBackgroundDataUri } from '../../assets/data-uris';
 import { Badge } from '../../components/badge/Badge';
 import { Box } from '../../components/box/Box';
-import { useIsMobileView } from '../../hooks/useMobile';
+import { useIsMobileView } from '../../hooks/useIsMobileView';
 import { useTanto } from '../../hooks/useTanto';
 import { useWidget } from '../../hooks/useWidget';
 import { Route } from '../../types/route';
@@ -65,7 +65,11 @@ export const WalletItem: FC<WalletItemProps> = ({ wallet }) => {
       return;
     }
     setWallet(wallet);
-    goTo(Route.CONNECT, { title: name });
+    if (wallet.id === 'walletConnect') {
+      goTo(Route.CONNECT_QRCODE, { title: name });
+      return;
+    }
+    goTo(Route.CONNECT_INJECTOR, { title: name });
   }, [wallet, setWallet, goTo, name]);
 
   const handleKeyDown = useCallback(

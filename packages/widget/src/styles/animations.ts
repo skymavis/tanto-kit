@@ -57,7 +57,7 @@ export const slideUp = keyframes`
   }
 `;
 
-export const shakeKeyframes = keyframes`
+export const shake = keyframes`
   0%{ transform:none; }
   25%{ transform:translateX(2px); }
   50%{ transform:translateX(-2px); }
@@ -65,7 +65,12 @@ export const shakeKeyframes = keyframes`
   100%{ transform:none; }
 `;
 
-export const outlineKeyframes = keyframes`
+export const outline = keyframes`
   0%{ opacity:1; }
   100%{ opacity:0; }
+`;
+
+export const shine = keyframes`
+0%{ background-position: 100% 0; }
+100%{ background-position: -100% 0; }
 `;

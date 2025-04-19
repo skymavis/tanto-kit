@@ -2,6 +2,7 @@ import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import type {
   DialogCloseProps,
+  DialogDescriptionProps,
   DialogPortalProps,
   DialogProps,
   DialogTitleProps,
@@ -13,7 +14,7 @@ import { createContext, ElementRef, forwardRef, memo, ReactNode, useContext, use
 import { ArrowLeftIcon } from '../../assets/ArrowLeftIcon';
 import { XIcon } from '../../assets/XIcon';
 import { useAnimatedResize } from '../../hooks/useAnimatedResize';
-import { useIsMobileView } from '../../hooks/useMobile';
+import { useIsMobileView } from '../../hooks/useIsMobileView';
 import { fadeIn, fadeOut } from '../../styles/animations';
 import { Box } from '../box/Box';
 import { IconButton } from '../button/Button';
@@ -51,6 +52,12 @@ const Portal = memo((props: DialogPortalProps) => {
   return <PortalComponent {...props} />;
 });
 
+const Description = memo((props: DialogDescriptionProps) => {
+  const { isMobile, isEmbedded } = useFlexModalContext();
+  const DescriptionComponent = isEmbedded ? Dialog.Description : isMobile ? Drawer.Description : Dialog.Description;
+  return <DescriptionComponent {...props} />;
+});
+
 const Overlay = memo(
   forwardRef<ElementRef<typeof Dialog.Overlay>, Dialog.DialogOverlayProps>((props, ref) => {
     const theme = useTheme();
@@ -86,7 +93,10 @@ const Content = memo(
     const theme = useTheme();
     return (
       <ContentComponent ref={ref} css={{ backgroundColor: theme.modalBackgroundColor }} {...rest}>
-        <ResizableContainer>{children}</ResizableContainer>
+        <ResizableContainer>
+          <Description />
+          {children}
+        </ResizableContainer>
       </ContentComponent>
     );
   }),

@@ -7,6 +7,7 @@ const Overlay = DrawerPrimitive.Overlay;
 const Title = DrawerPrimitive.Title;
 const Trigger = DrawerPrimitive.Trigger;
 const Close = DrawerPrimitive.Close;
+const Description = DrawerPrimitive.Description;
 
 const Content = styled(DrawerPrimitive.Content, {
   shouldForwardProp: propName => propName !== 'isEmbedded',
@@ -23,4 +24,4 @@ const Content = styled(DrawerPrimitive.Content, {
   padding: '16px 20px 20px 20px',
 });
 
-export { Close, Content, Overlay, Portal, Root, Title, Trigger };
+export { Close, Content, Description, Overlay, Portal, Root, Title, Trigger };
