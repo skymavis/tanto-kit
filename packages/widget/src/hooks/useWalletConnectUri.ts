@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Connector, useConnect } from 'wagmi';
 
+import { DELAY_CONNECT } from '../constants';
+
 interface WalletConnectUriOptions {
   connector: Connector | null;
   expireTime?: number;
@@ -31,7 +33,8 @@ export function useWalletConnectUri({ connector }: WalletConnectUriOptions) {
   }, [connector, connect]);
 
   useEffect(() => {
-    generateConnectUri();
+    const timer = setTimeout(generateConnectUri, DELAY_CONNECT);
+    return () => clearTimeout(timer);
   }, [generateConnectUri]);
 
   return { uri };

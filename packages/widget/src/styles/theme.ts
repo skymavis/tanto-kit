@@ -45,7 +45,7 @@ export const dark: Theme = {
   buttonSecondaryHoverBackgroundColor: '#CDD5E51A',
   buttonSecondaryActiveBackgroundColor: '#CDD5E526',
 
-  buttonDisabledTextColor: '#CDD5E54D',
+  buttonDisabledTextColor: 'rgba(205, 213, 229, 0.7)',
   buttonDisabledBackgroundColor: '#CDD5E512',
 
   /* ------------------ SPINNER ----------------- */

@@ -10,9 +10,7 @@ export const StyledButton = styled.button<ButtonProps>(
     display: 'inline-flex',
     justifyContent: 'center',
     alignItems: 'center',
-    transitionProperty: 'color, background-color, box-shadow',
-    transitionDuration: '150ms',
-    transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+    transition: 'all 150ms cubic-bezier(0.25, 0.1, 0.25, 1)',
   },
 
   ({ fullWidth: full }) => {
@@ -114,10 +112,12 @@ export const StyledButton = styled.button<ButtonProps>(
   ({ theme, disabled }) => {
     if (disabled) {
       return {
-        color: theme.buttonDisabledTextColor,
         backgroundColor: theme.buttonDisabledBackgroundColor,
         pointerEvents: 'none',
         cursor: 'not-allowed',
+        '&, & *': {
+          color: theme.buttonDisabledTextColor,
+        },
       };
     }
   },
