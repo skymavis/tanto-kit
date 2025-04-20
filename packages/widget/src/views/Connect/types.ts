@@ -16,8 +16,5 @@ export interface ConnectLogoProps {
 export interface ConnectContentProps {
   walletName: string;
   status: ConnectState;
-  onRetry: () => void;
+  onRetry?: () => void;
 }
-
-export const DELAY_CONNECT = 600;
-export const DELAY_HIDE = 900;

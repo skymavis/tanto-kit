@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { FC, useCallback } from 'react';
 
-import { highlightedWalletBackgroundDataUri } from '../../assets/data-uris';
+import { highlightedWalletItemBackgroundUri } from '../../assets/data-uris';
 import { Badge } from '../../components/badge/Badge';
 import { Box } from '../../components/box/Box';
 import { useIsMobileView } from '../../hooks/useIsMobileView';
@@ -29,7 +29,7 @@ const Container = styled('div', {
   },
   ({ highlight }) =>
     highlight && {
-      background: `url("${highlightedWalletBackgroundDataUri}")`,
+      background: `url("${highlightedWalletItemBackgroundUri}")`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',

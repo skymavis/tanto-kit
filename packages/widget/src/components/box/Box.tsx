@@ -15,6 +15,7 @@ export interface BoxProps extends HTMLAttributes<HTMLDivElement> {
   fullWidth?: boolean;
   justify?: JustifyContent;
   align?: AlignItems;
+  radius?: Spacing;
 
   p?: Spacing;
   pt?: Spacing;
@@ -44,6 +45,7 @@ const StyledBox = styled.div<BoxProps>(
     flex,
     fullWidth,
     gap,
+    radius,
 
     p,
     pt,
@@ -66,6 +68,7 @@ const StyledBox = styled.div<BoxProps>(
     justifyContent: justify ?? undefined,
     alignItems: align ?? undefined,
     gap: gap ?? undefined,
+    borderRadius: radius ?? undefined,
 
     paddingTop: pt ?? py ?? p,
     paddingRight: pr ?? px ?? p,

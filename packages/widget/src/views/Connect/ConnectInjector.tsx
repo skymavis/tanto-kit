@@ -2,16 +2,15 @@ import { useCallback, useEffect, useState } from 'react';
 import { useConnect } from 'wagmi';
 
 import { Box } from '../../components/box/Box';
+import { DELAY_CONNECT } from '../../constants';
 import { useTanto } from '../../hooks/useTanto';
-import { useWidget } from '../../hooks/useWidget';
 import { ConnectContent } from './components/ConnectContent';
 import { ConnectLogo } from './components/ConnectLogo';
-import { CONNECT_STATES, ConnectState, DELAY_CONNECT, DELAY_HIDE } from './types';
+import { CONNECT_STATES, ConnectState } from './types';
 
 export function ConnectInjector() {
   const [status, setStatus] = useState<ConnectState>(CONNECT_STATES.CONNECTING);
   const { wallet, connector } = useTanto();
-  const { hide } = useWidget();
 
   const triggerConnect = useCallback(() => {
     if (connector) {
@@ -23,10 +22,7 @@ export function ConnectInjector() {
     mutation: {
       onMutate: () => setStatus(CONNECT_STATES.CONNECTING),
       onError: () => setStatus(CONNECT_STATES.FAILED),
-      onSuccess: () => {
-        setStatus(CONNECT_STATES.CONNECTED);
-        setTimeout(() => hide(), DELAY_HIDE);
-      },
+      onSuccess: () => setStatus(CONNECT_STATES.CONNECTED),
     },
   });
 

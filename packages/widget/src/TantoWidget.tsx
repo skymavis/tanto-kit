@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
-import { useAccount } from 'wagmi';
+import { useAccountEffect } from 'wagmi';
 
 import { FlexModal } from './components/flex-modal/FlexModal';
 import { TransitionContainer } from './components/transition-container/TransitionContainer';
+import { DELAY_HIDE } from './constants';
 import { useWidget } from './hooks/useWidget';
 import { Route } from './types/route';
 import { ConnectInjector } from './views/Connect/ConnectInjector';
@@ -18,12 +18,13 @@ export function TantoWidget() {
     [Route.CONNECT_QRCODE]: <ConnectQRCode />,
   };
 
-  const { isConnected } = useAccount();
   const { hide } = useWidget();
 
-  useEffect(() => {
-    if (isConnected) hide();
-  }, [isConnected]);
+  useAccountEffect({
+    onConnect() {
+      setTimeout(hide, DELAY_HIDE);
+    },
+  });
 
   return (
     <FlexModal

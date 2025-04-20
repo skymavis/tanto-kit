@@ -6,6 +6,7 @@ import { SuccessIcon } from '../../../assets/SuccessIcon';
 import { WarningIcon } from '../../../assets/WarningIcon';
 import { AppearContainer } from '../../../components/appear-container/AppearContainer';
 import SquircleSpinner from '../../../components/squircle-spinner/SquircleSpinner';
+import { DELAY_HIDE } from '../../../constants';
 import { outline, shake } from '../../../styles/animations';
 import { CONNECT_STATES, ConnectLogoProps } from '../types';
 
@@ -13,6 +14,7 @@ const LogoSection = styled(m.div, {
   shouldForwardProp: propName => propName !== 'failed' && propName !== 'connected',
 })<{ failed: boolean; connected: boolean }>(
   {
+    width: 'fit-content',
     userSelect: 'none',
     position: 'relative',
     '&:before': {
@@ -25,17 +27,17 @@ const LogoSection = styled(m.div, {
   ({ failed, connected }) => {
     if (failed)
       return {
-        animation: `${shake} 220ms ease-out both`,
+        animation: `${shake} 240ms ease-out both`,
         '&:before': {
           background: '#FFC34D',
-          animation: `${outline} 220ms ease-out 800ms both`,
+          animation: `${outline} 240ms ease-out ${DELAY_HIDE - 50}ms both`,
         },
       };
     if (connected)
       return {
         '&:before': {
           background: '#52E08D',
-          animation: `${outline} 220ms ease-out 800ms both`,
+          animation: `${outline} 240ms ease-out ${DELAY_HIDE - 50}ms both`,
         },
       };
   },
@@ -65,5 +67,3 @@ export const ConnectLogo = memo(({ walletIcon, status }: ConnectLogoProps) => (
     </StatusIconSection>
   </LogoSection>
 ));
-
-ConnectLogo.displayName = 'ConnectLogo';

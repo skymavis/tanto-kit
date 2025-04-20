@@ -1,7 +1,7 @@
 import QRCodeStyling, { Options } from 'qr-code-styling';
 import { memo, useEffect, useRef } from 'react';
 
-import { walletConnectDataUri } from '../../assets/data-uris';
+import { blueFilledWCLogoUri } from '../../assets/data-uris';
 
 interface QRCode {
   value: string;
@@ -49,7 +49,7 @@ const DEFAULT_OPTIONS: Options = {
   },
 };
 
-export const QRCode = memo(function ({ value, size = SIZE, logo = walletConnectDataUri }: QRCode) {
+export const QRCode = memo(function ({ value, size = SIZE, logo = blueFilledWCLogoUri }: QRCode) {
   const qrRef = useRef<HTMLDivElement>(null);
   const qrCodeRef = useRef<QRCodeStyling | null>(null);
 

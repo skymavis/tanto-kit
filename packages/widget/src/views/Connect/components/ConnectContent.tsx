@@ -37,9 +37,11 @@ export const ConnectContent = memo(({ walletName, status, onRetry }: ConnectCont
           <Title>Could not connect</Title>
           <Description>There is a problem with connecting your wallet.</Description>
         </ContentSection>
-        <Button fullWidth intent="secondary" onClick={onRetry}>
-          Try again
-        </Button>
+        {onRetry && (
+          <Button fullWidth intent="secondary" onClick={onRetry}>
+            Try again
+          </Button>
+        )}
       </Box>
     ),
     [CONNECT_STATES.CONNECTED]: (
@@ -52,5 +54,3 @@ export const ConnectContent = memo(({ walletName, status, onRetry }: ConnectCont
 
   return <TransitionContainer viewKey={status}>{views[status]}</TransitionContainer>;
 });
-
-ConnectContent.displayName = 'ConnectContent';

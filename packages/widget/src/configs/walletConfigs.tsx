@@ -1,5 +1,6 @@
-import { RoninExtensionLogo } from '../assets/RoninExtensionLogo';
-import { RoninWaypointLogo } from '../assets/RoninWaypointLogo';
+import { BlueFilledWalletConnectLogo } from '../assets/BlueWalletConnectLogo';
+import { RoninExtensionCustomLogo } from '../assets/RoninExtensionCustomLogo';
+import { RoninWaypointCustomLogo } from '../assets/RoninWaypointCustomLogo';
 import { WalletConnectLogo } from '../assets/WalletConnectLogo';
 import { WalletConfig } from '../types/wallet';
 
@@ -9,13 +10,14 @@ export const walletConfigs: {
   WAYPOINT: {
     name: 'Email & Social',
     highlightOnList: true,
-    iconOnList: <RoninWaypointLogo />,
+    iconOnList: <RoninWaypointCustomLogo />,
   },
   'RONIN_WALLET, com.roninchain.wallet': {
     name: 'Ronin Extension',
-    iconOnList: <RoninExtensionLogo />,
+    iconOnList: <RoninExtensionCustomLogo />,
   },
   walletConnect: {
+    icon: <BlueFilledWalletConnectLogo />,
     iconOnList: <WalletConnectLogo />,
     descriptionOnList: 'Scan QR on mobile wallet to connect',
   },
