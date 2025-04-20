@@ -1,3 +1,4 @@
+import { domAnimation, LazyMotion } from 'motion/react';
 import { useAccountEffect } from 'wagmi';
 
 import { FlexModal } from './components/flex-modal/FlexModal';
@@ -34,7 +35,9 @@ export function TantoWidget() {
       onOpenChange={setOpen}
       onBack={goBack}
     >
-      <TransitionContainer viewKey={view.route}>{views[view.route]}</TransitionContainer>
+      <LazyMotion features={domAnimation} strict>
+        <TransitionContainer viewKey={view.route}>{views[view.route]}</TransitionContainer>
+      </LazyMotion>
     </FlexModal>
   );
 }
