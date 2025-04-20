@@ -50,7 +50,7 @@ const WalletDescription = styled.p({
 });
 
 export const WalletItem: FC<WalletItemProps> = ({ wallet }) => {
-  const { name, icon, iconOnList, descriptionOnList, highlightOnList = false } = wallet;
+  const { name, icon, iconOnList, descriptionOnList, isInstalled, downloadUrl, highlightOnList = false } = wallet;
   const { setWallet } = useTanto();
   const { goTo } = useWidget();
   const isMobile = useIsMobileView();
@@ -60,6 +60,10 @@ export const WalletItem: FC<WalletItemProps> = ({ wallet }) => {
   const highlighContent = highlightOnList ? (isMobile ? 'Fastest' : 'Fastest to start') : undefined;
 
   const handleClick = useCallback(() => {
+    if (!isInstalled) {
+      window.open(downloadUrl, '_blank');
+      return;
+    }
     if (typeof wallet.alternativeConnectAction === 'function') {
       wallet.alternativeConnectAction();
       return;

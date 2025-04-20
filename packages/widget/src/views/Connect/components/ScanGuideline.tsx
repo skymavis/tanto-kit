@@ -2,13 +2,13 @@ import styled from '@emotion/styled';
 
 import { ScanWalletsIcon } from '../../../assets/ScanWalletsIcon';
 import { SmallTransparentWC } from '../../../assets/SmallTransparentWC';
-import { Box } from '../../../components/box/Box';
 
-const Container = styled(Box)({
+const Container = styled.div({
   gap: 8,
   fontSize: 14,
   alignItems: 'center',
   '& > img': {
+    display: 'inline',
     transform: 'translateY(-4px)',
   },
   '& > svg': {
@@ -19,8 +19,7 @@ const Container = styled(Box)({
 export const ScanGuideline = () => {
   return (
     <Container>
-      <ScanWalletsIcon />
-      Scan with a <SmallTransparentWC /> WalletConnect-supported wallet
+      <ScanWalletsIcon /> Scan with a <SmallTransparentWC /> WalletConnect-supported wallet
     </Container>
   );
 };

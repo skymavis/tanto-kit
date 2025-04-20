@@ -3,7 +3,14 @@ import { useConnectors } from 'wagmi';
 
 import { walletConfigs } from '../configs/walletConfigs';
 import { Wallet } from '../types/wallet';
-import { generateInAppBrowserLink, isClient, isMobile, isRoninWallet, notEmpty } from '../utils';
+import {
+  generateInAppBrowserLink,
+  isClient,
+  isMobile,
+  isRoninExtensionInstalled,
+  isRoninWallet,
+  notEmpty,
+} from '../utils';
 
 const WalletIcon = styled.img({
   width: 32,
@@ -30,6 +37,11 @@ export function useWallets(): {
       id: connector.id,
       name: connector.name ?? connector.id ?? connector.type,
       icon: connector.icon ? createWalletIcon(connector.icon, connector.name) : undefined,
+      isInstalled:
+        (connector.id === 'RONIN_WALLET' && isRoninExtensionInstalled(connectors)) ||
+        connector.id === 'WAYPOINT' ||
+        connector.id === 'walletConnect' ||
+        connector.type === 'injected',
       connector,
     };
 

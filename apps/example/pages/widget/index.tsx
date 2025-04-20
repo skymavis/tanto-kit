@@ -2,7 +2,7 @@ import { Button, User } from '@nextui-org/react';
 import { getDefaultConfig, TantoConnectButton, TantoProvider } from '@sky-mavis/tanto-widget';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { FC } from 'react';
-import { useAccount, useDisconnect, useSignMessage, WagmiProvider } from 'wagmi';
+import { useAccount, useSignMessage, WagmiProvider } from 'wagmi';
 
 import WillRender from '../../components/will-render/WillRender';
 

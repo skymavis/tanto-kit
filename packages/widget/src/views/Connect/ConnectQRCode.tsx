@@ -38,7 +38,7 @@ export function ConnectQRCode() {
         ) : (
           <>
             <Box vertical align="center" justify="center" gap={16}>
-              <CopyButton value={walletConnectUri}>Copy URI</CopyButton>
+              <CopyButton value={walletConnectUri}>Copy link</CopyButton>
               <WCQRCode value={walletConnectUri} />
               <ScanGuideline />
             </Box>

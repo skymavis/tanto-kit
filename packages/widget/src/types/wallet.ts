@@ -8,10 +8,7 @@ export interface WalletConfig {
   iconOnList?: ReactNode;
   descriptionOnList?: string;
   highlightOnList?: boolean;
-  downloadUrls?: {
-    download?: string;
-    website?: string;
-  };
+  downloadUrl?: string;
 }
 
 export type Wallet = WalletConfig & {

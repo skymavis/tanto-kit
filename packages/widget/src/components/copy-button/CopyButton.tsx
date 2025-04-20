@@ -19,11 +19,13 @@ export function CopyButton({ intent = 'secondary', size = 'xsmall', value, child
 
   const handleCopy = useCallback(async () => {
     if (!value || copied) return;
-    await navigator.clipboard.writeText(value.trim());
-    setCopied(true);
-    setTimeout(() => {
-      setCopied(false);
-    }, DEFAULT_ANIMATION_DURATION);
+    try {
+      await navigator.clipboard.writeText(value.trim());
+      setCopied(true);
+      setTimeout(() => {
+        setCopied(false);
+      }, DEFAULT_ANIMATION_DURATION);
+    } catch {}
   }, [value, copied]);
 
   return (
