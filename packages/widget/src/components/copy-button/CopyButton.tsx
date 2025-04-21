@@ -31,9 +31,10 @@ export function CopyButton({ intent = 'secondary', size = 'xsmall', value, child
   const conditionalChildrenStyles = children
     ? {
         gap: 4,
-        mx: -2,
       }
-    : {};
+    : {
+        mx: -2,
+      };
 
   return (
     <Button intent={intent} size={size} disabled={!value} onClick={handleCopy} {...rest}>

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { memo, useMemo } from 'react';
+import { memo } from 'react';
 
 import { DELAY_CONNECT } from '../../constants';
 import { shine } from '../../styles/animations';
@@ -9,6 +9,12 @@ const INSET = 8;
 const SVG_SIZE = SIZE - INSET * 2;
 const BACKGROUND = '#F1F3F9';
 const DOT_COLOR = 'rgba(32, 31, 29, 0.4)';
+
+const corners = [
+  { position: { top: 0, left: 0 }, rotate: 0 },
+  { position: { top: 0, right: 1 }, rotate: 90 },
+  { position: { bottom: 1, left: 0 }, rotate: -90 },
+];
 
 const Container = styled.div({
   position: 'absolute',
@@ -113,15 +119,6 @@ const LogoOverlay = memo(() => (
 ));
 
 export const QRCodePlaceholder = memo(() => {
-  const corners = useMemo(
-    () => [
-      { position: { top: 0, left: 0 }, rotate: 0 },
-      { position: { top: 0, right: 1 }, rotate: 90 },
-      { position: { bottom: 1, left: 0 }, rotate: -90 },
-    ],
-    [],
-  );
-
   return (
     <Container>
       <Dots />
