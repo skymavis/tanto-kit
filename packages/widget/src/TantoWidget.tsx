@@ -3,7 +3,7 @@ import { useAccountEffect } from 'wagmi';
 
 import { FlexModal } from './components/flex-modal/FlexModal';
 import { TransitionContainer } from './components/transition-container/TransitionContainer';
-import { DISCONNECT_WIDGET_HIDE_DELAY } from './constants';
+import { CONNECT_WIDGET_HIDE_DELAY } from './constants';
 import { useWidget } from './hooks/useWidget';
 import { Route } from './types/route';
 import { ConnectInjector } from './views/Connect/ConnectInjector';
@@ -25,7 +25,7 @@ export function TantoWidget() {
 
   useAccountEffect({
     onConnect() {
-      setTimeout(hide, DISCONNECT_WIDGET_HIDE_DELAY);
+      setTimeout(hide, CONNECT_WIDGET_HIDE_DELAY);
     },
   });
 

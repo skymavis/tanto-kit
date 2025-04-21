@@ -64,7 +64,7 @@ export const ConnectContent = memo(({ walletName, status, wcUri, onRetry }: Conn
           <Title>{walletName}</Title>
           <Description>{wcUri ? "Tap 'Open' to continue." : 'Preparing connection'}</Description>
         </ContentSection>
-        <AppearContainer show={Boolean(wcUri)}>
+        <AppearContainer show={Boolean(wcUri)} initial={{ opacity: 0, scale: 0.85 }}>
           <a href={generateRoninMobileWCLink(wcUri!)}>
             <Button fullWidth>Open {walletName}</Button>
           </a>
