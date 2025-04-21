@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { memo } from 'react';
 
+import { AppearContainer } from '../../../components/appear-container/AppearContainer';
 import { Box } from '../../../components/box/Box';
 import { Button } from '../../../components/button/Button';
 import { TransitionContainer } from '../../../components/transition-container/TransitionContainer';
@@ -63,11 +64,11 @@ export const ConnectContent = memo(({ walletName, status, wcUri, onRetry }: Conn
           <Title>{walletName}</Title>
           <Description>{wcUri ? "Tap 'Open' to continue." : 'Preparing connection'}</Description>
         </ContentSection>
-        {wcUri && (
-          <a href={generateRoninMobileWCLink(wcUri)}>
+        <AppearContainer show={Boolean(wcUri)}>
+          <a href={generateRoninMobileWCLink(wcUri!)}>
             <Button fullWidth>Open {walletName}</Button>
           </a>
-        )}
+        </AppearContainer>
       </Box>
     ),
   };

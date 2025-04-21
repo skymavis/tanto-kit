@@ -57,16 +57,12 @@ export const ConnectLogo = memo(({ walletIcon, status }: ConnectLogoProps) => (
       connecting={[CONNECT_STATES.CONNECTING, CONNECT_STATES.OPENING_WALLET].includes(status)}
     />
     <StatusIconSection>
-      {status === CONNECT_STATES.FAILED && (
-        <AppearContainer>
-          <WarningIcon />
-        </AppearContainer>
-      )}
-      {status === CONNECT_STATES.CONNECTED && (
-        <AppearContainer>
-          <SuccessIcon />
-        </AppearContainer>
-      )}
+      <AppearContainer show={status === CONNECT_STATES.FAILED}>
+        <WarningIcon />
+      </AppearContainer>
+      <AppearContainer show={status === CONNECT_STATES.CONNECTED}>
+        <SuccessIcon />
+      </AppearContainer>
     </StatusIconSection>
   </LogoSection>
 ));

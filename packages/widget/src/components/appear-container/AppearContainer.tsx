@@ -1,9 +1,10 @@
-import { AnimationProps } from 'motion/react';
+import { AnimatePresence, AnimationProps } from 'motion/react';
 import * as m from 'motion/react-m';
 import { ReactNode } from 'react';
 
 type AppearContainerProps = AnimationProps & {
   children: ReactNode;
+  show: boolean;
 };
 
 const defaultProps: AnimationProps = {
@@ -13,15 +14,19 @@ const defaultProps: AnimationProps = {
   transition: { duration: 0.2 },
 };
 
-export function AppearContainer({ children, initial, animate, exit, transition }: AppearContainerProps) {
+export function AppearContainer({ children, initial, animate, exit, transition, show }: AppearContainerProps) {
   return (
-    <m.div
-      initial={initial || defaultProps.initial}
-      animate={animate || defaultProps.animate}
-      exit={exit || defaultProps.exit}
-      transition={transition || defaultProps.transition}
-    >
-      {children}
-    </m.div>
+    <AnimatePresence>
+      {show && (
+        <m.div
+          initial={initial || defaultProps.initial}
+          animate={animate || defaultProps.animate}
+          exit={exit || defaultProps.exit}
+          transition={transition || defaultProps.transition}
+        >
+          {children}
+        </m.div>
+      )}
+    </AnimatePresence>
   );
 }
