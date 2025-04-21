@@ -4,7 +4,7 @@ import { shine } from '../../styles/animations';
 
 const SIZE = 236;
 const BACKGROUND = '#F1F3F9';
-const DOT_COLOR = 'rgba(32, 31, 29, 0.5)';
+const DOT_COLOR = 'rgba(32, 31, 29, 0.4)';
 const SVG_SIZE = 220;
 
 const Container = styled.div({
@@ -17,27 +17,15 @@ const Container = styled.div({
   overflow: 'hidden',
 });
 
-const Dots = styled.div({
+const Shine = styled.div({
   position: 'absolute',
-  inset: 9,
-  '&::before': {
-    content: '""',
-    position: 'absolute',
-    inset: 0,
-    backgroundRepeat: 'repeat',
-    backgroundSize: '1.786% 1.786%',
-    backgroundImage: `radial-gradient(${DOT_COLOR} 30%, transparent 30%)`,
-  },
-  '&::after': {
-    content: '""',
-    position: 'absolute',
-    inset: 0,
-    zIndex: 2,
-    transform: 'scale(1.5) rotate(45deg)',
-    backgroundImage: 'linear-gradient(90deg, transparent 50%, rgba(255, 255, 255, 0.9), transparent)',
-    backgroundSize: '200% 100%',
-    animation: `${shine} 1100ms linear infinite`,
-  },
+  inset: 0,
+  zIndex: 2,
+  transform: 'scale(1.5) rotate(45deg)',
+  backgroundImage: 'linear-gradient(90deg, transparent 50%, rgba(255, 255, 255, 0.9), transparent)',
+  backgroundSize: '200% 100%',
+  animation: `${shine} 1100ms linear infinite`,
+  pointerEvents: 'none',
 });
 
 const LogoPath = () => (
@@ -156,7 +144,16 @@ export const QRCodePlaceholder = () => {
         </defs>
       </svg>
 
-      <Dots />
+      <svg width={SVG_SIZE} height={SVG_SIZE} viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="dots" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="2" r="1" fill={DOT_COLOR} />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#dots)" />
+      </svg>
+
+      <Shine />
     </Container>
   );
 };

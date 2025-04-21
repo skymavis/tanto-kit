@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 import { useConnectors } from 'wagmi';
 
-import { roninMobileCustomLogoUri } from '../assets/data-uris';
+import { RoninExtensionCustomSquareLogo } from '../assets/RoninExtensionCustomSquareLogo';
+import { RoninMobileCustomLogo } from '../assets/RoninMobileCustomLogo';
 import { walletConfigs } from '../configs/walletConfigs';
 import { Wallet } from '../types/wallet';
 import { isDesktop, isMobile, isRoninExtensionInstalled, isRoninWallet, notEmpty } from '../utils';
@@ -70,7 +71,8 @@ export function useWallets(): {
         name: 'Ronin Wallet',
         descriptionOnList: 'Sign in with the app',
         isInstalled: true,
-        iconOnList: createWalletIcon(roninMobileCustomLogoUri, 'Ronin Wallet', 38),
+        icon: <RoninExtensionCustomSquareLogo />,
+        iconOnList: <RoninMobileCustomLogo />,
       }
     : null;
 
@@ -80,7 +82,8 @@ export function useWallets(): {
         name: 'Ronin Wallet',
         descriptionOnList: 'Sign in with the app',
         isInstalled: true,
-        iconOnList: createWalletIcon(roninMobileCustomLogoUri, 'Ronin Wallet', 38),
+        icon: <RoninExtensionCustomSquareLogo />,
+        iconOnList: <RoninMobileCustomLogo />,
       }
     : null;
 
