@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { FC, useCallback } from 'react';
+import { useCallback } from 'react';
 
 import { highlightedWalletItemBackgroundUri } from '../../assets/data-uris';
 import { Badge } from '../../components/badge/Badge';
@@ -49,7 +49,7 @@ const WalletDescription = styled.p({
   margin: 0,
 });
 
-export const WalletItem: FC<WalletItemProps> = ({ wallet }) => {
+export const WalletItem = ({ wallet }: WalletItemProps) => {
   const { name, icon, iconOnList, descriptionOnList, isInstalled, downloadUrl, highlightOnList = false } = wallet;
   const { setWallet } = useTanto();
   const { goTo } = useWidget();
@@ -70,7 +70,7 @@ export const WalletItem: FC<WalletItemProps> = ({ wallet }) => {
     }
     setWallet(wallet);
     if (wallet.id === 'walletConnect') {
-      goTo(Route.CONNECT_QRCODE, { title: name });
+      goTo(Route.CONNECT_WC, { title: name });
       return;
     }
     goTo(Route.CONNECT_INJECTOR, { title: name });

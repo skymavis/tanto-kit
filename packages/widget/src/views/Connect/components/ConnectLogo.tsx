@@ -6,7 +6,7 @@ import { SuccessIcon } from '../../../assets/SuccessIcon';
 import { WarningIcon } from '../../../assets/WarningIcon';
 import { AppearContainer } from '../../../components/appear-container/AppearContainer';
 import SquircleSpinner from '../../../components/squircle-spinner/SquircleSpinner';
-import { DELAY_HIDE } from '../../../constants';
+import { DISCONNECT_WIDGET_HIDE_DELAY } from '../../../constants';
 import { outline, shake } from '../../../styles/animations';
 import { CONNECT_STATES, ConnectLogoProps } from '../types';
 
@@ -30,14 +30,14 @@ const LogoSection = styled(m.div, {
         animation: `${shake} 240ms ease-out both`,
         '&:before': {
           background: '#FFC34D',
-          animation: `${outline} 240ms ease-out ${DELAY_HIDE - 50}ms both`,
+          animation: `${outline} 240ms ease-out ${DISCONNECT_WIDGET_HIDE_DELAY - 50}ms both`,
         },
       };
     if (connected)
       return {
         '&:before': {
           background: '#52E08D',
-          animation: `${outline} 240ms ease-out ${DELAY_HIDE - 50}ms both`,
+          animation: `${outline} 240ms ease-out ${DISCONNECT_WIDGET_HIDE_DELAY - 50}ms both`,
         },
       };
   },

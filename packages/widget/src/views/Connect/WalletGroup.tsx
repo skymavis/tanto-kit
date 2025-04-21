@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { FC } from 'react';
 
 import { Wallet } from '../../types/wallet';
 import { WalletItem } from './WalletItem';
@@ -18,7 +17,7 @@ const Container = styled.div({
   gap: 1,
 });
 
-export const WalletGroup: FC<WalletGroupProps> = ({ wallets, className }) => {
+export const WalletGroup = ({ wallets, className }: WalletGroupProps) => {
   return (
     <Container className={className}>
       {wallets.map(wallet => (

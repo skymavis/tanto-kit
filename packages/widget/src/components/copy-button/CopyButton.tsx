@@ -28,9 +28,16 @@ export function CopyButton({ intent = 'secondary', size = 'xsmall', value, child
     } catch {}
   }, [value, copied]);
 
+  const conditionalChildrenStyles = children
+    ? {
+        gap: 4,
+        mx: -2,
+      }
+    : {};
+
   return (
     <Button intent={intent} size={size} disabled={!value} onClick={handleCopy} {...rest}>
-      <Box align="center" gap={4}>
+      <Box align="center" {...conditionalChildrenStyles}>
         <AnimatePresence mode="popLayout" initial={false}>
           <m.div
             key={copied ? 'check' : 'copy'}
@@ -55,7 +62,7 @@ export function CopyButton({ intent = 'secondary', size = 'xsmall', value, child
               damping: copied ? 20 : 30,
             }}
           >
-            {copied ? <CheckCircleFillIcon color="#52E08D" /> : <CopyIcon />}
+            {copied ? <CheckCircleFillIcon color="#52E08D" size={18} /> : <CopyIcon size={18} />}
           </m.div>
         </AnimatePresence>
         <div>{children}</div>

@@ -1,4 +1,5 @@
 import { detect } from 'detect-browser';
+import { formatUnits } from 'viem';
 import { Connector, CreateConnectorFn } from 'wagmi';
 
 import { WEB_WALLET_LINK } from '../constants';
@@ -49,4 +50,15 @@ export const generateRoninMobileWCLink = (uri: string): string => {
 
 export const isRoninExtensionInstalled = (connectors: readonly Connector<CreateConnectorFn>[]) => {
   return connectors.some(connector => connector.id === 'com.roninchain.wallet');
+};
+
+export const truncate = (value?: string, prefixChar = 8, suffixChar = 6, bridge = '...') => {
+  if (!value) return '';
+  if (value.length <= prefixChar + suffixChar + bridge.length) return value;
+  return `${value.slice(0, prefixChar)}${bridge}${value.slice(-suffixChar)}`;
+};
+
+export const formatBalance = (amount: bigint) => {
+  const remainder = amount % BigInt(1e14);
+  return formatUnits(amount - remainder, 18);
 };

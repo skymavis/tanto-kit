@@ -32,6 +32,7 @@ export const WidgetProvider = ({ children }: { children: ReactNode }) => {
   const hide = useCallback(() => setOpen(false), []);
 
   const goTo = useCallback((route: Route, options: Omit<View, 'route'> = {}) => {
+    show();
     setNavigation(prev => {
       const { history, view: currentView } = prev;
       const isSameView = route === currentView.route;

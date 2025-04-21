@@ -3,11 +3,12 @@ import { useAccountEffect } from 'wagmi';
 
 import { FlexModal } from './components/flex-modal/FlexModal';
 import { TransitionContainer } from './components/transition-container/TransitionContainer';
-import { DELAY_HIDE } from './constants';
+import { DISCONNECT_WIDGET_HIDE_DELAY } from './constants';
 import { useWidget } from './hooks/useWidget';
 import { Route } from './types/route';
 import { ConnectInjector } from './views/Connect/ConnectInjector';
-import { ConnectQRCode } from './views/Connect/ConnectQRCode';
+import { ConnectWC } from './views/Connect/ConnectWC';
+import { Profile } from './views/Profile';
 import { WalletList } from './views/WalletList';
 
 export function TantoWidget() {
@@ -16,14 +17,15 @@ export function TantoWidget() {
   const views = {
     [Route.WALLETS]: <WalletList />,
     [Route.CONNECT_INJECTOR]: <ConnectInjector />,
-    [Route.CONNECT_QRCODE]: <ConnectQRCode />,
+    [Route.CONNECT_WC]: <ConnectWC />,
+    [Route.PROFILE]: <Profile />,
   };
 
   const { hide } = useWidget();
 
   useAccountEffect({
     onConnect() {
-      setTimeout(hide, DELAY_HIDE);
+      setTimeout(hide, DISCONNECT_WIDGET_HIDE_DELAY);
     },
   });
 

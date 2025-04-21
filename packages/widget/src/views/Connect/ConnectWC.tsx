@@ -14,7 +14,7 @@ import { ConnectLogo } from './components/ConnectLogo';
 import { ScanGuideline } from './components/ScanGuideline';
 import { CONNECT_STATES, ConnectState } from './types';
 
-export function ConnectQRCode() {
+export function ConnectWC() {
   const mobile = isMobile();
   const [status, setStatus] = useState<ConnectState>(() =>
     mobile ? CONNECT_STATES.OPENING_WALLET : CONNECT_STATES.CONNECTING,
