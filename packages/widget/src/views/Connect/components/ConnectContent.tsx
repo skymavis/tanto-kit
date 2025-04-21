@@ -4,6 +4,7 @@ import { memo } from 'react';
 import { Box } from '../../../components/box/Box';
 import { Button } from '../../../components/button/Button';
 import { TransitionContainer } from '../../../components/transition-container/TransitionContainer';
+import { generateRoninMobileWCLink } from '../../../utils';
 import { CONNECT_STATES, ConnectContentProps } from '../types';
 
 const ContentSection = styled(Box)({
@@ -23,7 +24,7 @@ const Description = styled.p({
   color: 'rgba(205, 213, 229, 0.75)',
 });
 
-export const ConnectContent = memo(({ walletName, status, onRetry }: ConnectContentProps) => {
+export const ConnectContent = memo(({ walletName, status, wcUri, onRetry }: ConnectContentProps) => {
   const views = {
     [CONNECT_STATES.CONNECTING]: (
       <ContentSection>
@@ -49,6 +50,25 @@ export const ConnectContent = memo(({ walletName, status, onRetry }: ConnectCont
         <Title>Success</Title>
         <Description>{`Connected to ${walletName} successfully.`}</Description>
       </ContentSection>
+    ),
+    [CONNECT_STATES.CONNECTED]: (
+      <ContentSection>
+        <Title>Success</Title>
+        <Description>{`Connected to ${walletName} successfully.`}</Description>
+      </ContentSection>
+    ),
+    [CONNECT_STATES.OPENING_WALLET]: (
+      <Box fullWidth vertical gap={32}>
+        <ContentSection>
+          <Title>{walletName}</Title>
+          <Description>{wcUri ? "Tap 'Open' to continue." : 'Preparing connection'}</Description>
+        </ContentSection>
+        {wcUri && (
+          <a href={generateRoninMobileWCLink(wcUri)}>
+            <Button fullWidth>Open {walletName}</Button>
+          </a>
+        )}
+      </Box>
     ),
   };
 

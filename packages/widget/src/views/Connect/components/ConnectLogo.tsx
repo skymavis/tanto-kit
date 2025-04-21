@@ -52,7 +52,10 @@ const StatusIconSection = styled.div({
 
 export const ConnectLogo = memo(({ walletIcon, status }: ConnectLogoProps) => (
   <LogoSection failed={status === CONNECT_STATES.FAILED} connected={status === CONNECT_STATES.CONNECTED}>
-    <SquircleSpinner logo={walletIcon} connecting={status === CONNECT_STATES.CONNECTING} />
+    <SquircleSpinner
+      logo={walletIcon}
+      connecting={[CONNECT_STATES.CONNECTING, CONNECT_STATES.OPENING_WALLET].includes(status)}
+    />
     <StatusIconSection>
       {status === CONNECT_STATES.FAILED && (
         <AppearContainer>

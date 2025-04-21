@@ -1,6 +1,8 @@
 import { detect } from 'detect-browser';
 import { Connector, CreateConnectorFn } from 'wagmi';
 
+import { WEB_WALLET_LINK } from '../constants';
+
 export const notEmpty = <T>(value: T): value is NonNullable<T> => typeof value !== 'undefined' && value !== null;
 
 export const isClient = () => {
@@ -37,8 +39,12 @@ export const isMobile = () => {
 
 export const isDesktop = () => !isMobile();
 
-export const generateInAppBrowserLink = (url: string) => {
-  return `roninwallet://in_app_browser?url=${encodeURIComponent(url)}`;
+export const generateInAppBrowserRoninMobileLink = (uri: string) => {
+  return `roninwallet://in_app_browser?url=${encodeURIComponent(uri)}`;
+};
+
+export const generateRoninMobileWCLink = (uri: string): string => {
+  return `${WEB_WALLET_LINK}/auth-connect?uri=${encodeURIComponent(uri)}`;
 };
 
 export const isRoninExtensionInstalled = (connectors: readonly Connector<CreateConnectorFn>[]) => {

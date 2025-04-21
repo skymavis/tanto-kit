@@ -3,6 +3,7 @@ import { useConnectors } from 'wagmi';
 
 import { RoninExtensionCustomSquareLogo } from '../assets/RoninExtensionCustomSquareLogo';
 import { RoninMobileCustomLogo } from '../assets/RoninMobileCustomLogo';
+import { RoninMobileCustomSquareLogo } from '../assets/RoninMobileCustomSquareLogo';
 import { walletConfigs } from '../configs/walletConfigs';
 import { Wallet } from '../types/wallet';
 import { isDesktop, isMobile, isRoninExtensionInstalled, isRoninWallet, notEmpty } from '../utils';
@@ -71,7 +72,7 @@ export function useWallets(): {
         name: 'Ronin Wallet',
         descriptionOnList: 'Sign in with the app',
         isInstalled: true,
-        icon: <RoninExtensionCustomSquareLogo />,
+        icon: <RoninMobileCustomSquareLogo />,
         iconOnList: <RoninMobileCustomLogo />,
       }
     : null;
