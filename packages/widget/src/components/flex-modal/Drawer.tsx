@@ -21,7 +21,7 @@ const Content = styled(DrawerPrimitive.Content, {
   width: '100%',
   flexDirection: 'column',
   borderRadius: '20px 20px 0 0',
-  padding: '16px 20px 20px 20px',
+  padding: '16px 20px 40px 20px',
 });
 
 export { Close, Content, Description, Overlay, Portal, Root, Title, Trigger };

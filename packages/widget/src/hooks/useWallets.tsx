@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { useConnectors } from 'wagmi';
 
+import { roninMobileCustomLogoUri } from '../assets/data-uris';
 import { walletConfigs } from '../configs/walletConfigs';
 import { Wallet } from '../types/wallet';
 import {
@@ -12,14 +13,16 @@ import {
   notEmpty,
 } from '../utils';
 
-const WalletIcon = styled.img({
-  width: 32,
-  height: 32,
+const WalletIcon = styled('img', {
+  shouldForwardProp: propName => propName !== 'size',
+})<{ size: number }>(({ size }) => ({
+  width: size,
+  height: size,
   borderRadius: 8,
   objectFit: 'contain',
-});
+}));
 
-const createWalletIcon = (src: string, alt: string) => <WalletIcon src={src} alt={alt} />;
+const createWalletIcon = (src: string, alt: string, size = 32) => <WalletIcon src={src} alt={alt} size={size} />;
 
 export function useWallets(): {
   wallets: Wallet[];
@@ -69,11 +72,12 @@ export function useWallets(): {
   );
 
   const roninNavigateToInApp: Wallet = {
-    id: 'ronin-navigate-to-in-app',
+    id: 'custom::ronin-open-in-app',
     name: 'Ronin Wallet',
-    // TODO
-    icon: <div>icon</div>,
+    descriptionOnList: 'Sign in with the app',
+    isInstalled: true,
     connector: null,
+    icon: createWalletIcon(roninMobileCustomLogoUri, 'Ronin Wallet', 38),
     alternativeConnectAction: () => {
       if (isClient()) {
         window.open(generateInAppBrowserLink('https://wallet.roninchain.com/app'), '_self');
@@ -84,10 +88,11 @@ export function useWallets(): {
   const inAppWallet = roninExtensionWallet
     ? {
         ...roninExtensionWallet,
-        id: 'ronin-in-app',
+        id: 'custom::ronin-in-app',
         name: 'Ronin Wallet',
-        // TODO
-        icon: <div>icon</div>,
+        descriptionOnList: 'Sign in with the app',
+        isInstalled: true,
+        icon: createWalletIcon(roninMobileCustomLogoUri, 'Ronin Wallet', 38),
       }
     : null;
 

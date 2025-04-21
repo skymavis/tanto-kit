@@ -10,7 +10,7 @@ interface TransitionContainerProps {
 }
 
 const animationProps: AnimationProps = {
-  initial: { opacity: 0, y: 0, scale: 1 },
+  initial: { opacity: 0, y: 0, scale: 0.95 },
   animate: { opacity: 1, y: 0, scale: 1 },
   exit: { opacity: 0, y: 4, scale: 0.95 },
   transition: { duration: 0.15 },
