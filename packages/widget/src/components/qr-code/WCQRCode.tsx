@@ -22,13 +22,13 @@ const Container = styled.div({
 
 export const WCQRCode = memo(({ value }: WCQRCodeProps) => (
   <Container>
-    <AnimatePresence initial={false}>
+    <AnimatePresence initial={false} mode="popLayout">
       {value ? (
         <m.div
           key={`qr-${value}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0, position: 'absolute', inset: [0, 0] }}
+          exit={{ opacity: 0 }}
           transition={TRANSITION}
         >
           <QRCode value={value} />
@@ -36,9 +36,9 @@ export const WCQRCode = memo(({ value }: WCQRCodeProps) => (
       ) : (
         <m.div
           key="placeholder"
-          initial={{ opacity: 0 }}
+          initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0, position: 'absolute', inset: [0, 0] }}
+          exit={{ opacity: 0 }}
           transition={TRANSITION}
         >
           <QRCodePlaceholder />

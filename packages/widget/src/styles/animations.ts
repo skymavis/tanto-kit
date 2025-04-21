@@ -71,6 +71,6 @@ export const outline = keyframes`
 `;
 
 export const shine = keyframes`
-0%{ background-position: 100% 0; }
-100%{ background-position: -100% 0; }
+0%{ background-position: 0% 0; }
+100%{ background-position: -200% 0; }
 `;
