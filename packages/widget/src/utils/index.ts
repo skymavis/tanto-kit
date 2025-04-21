@@ -35,6 +35,8 @@ export const isMobile = () => {
   return isAndroid() || isIOS();
 };
 
+export const isDesktop = () => !isMobile();
+
 export const generateInAppBrowserLink = (url: string) => {
   return `roninwallet://in_app_browser?url=${encodeURIComponent(url)}`;
 };

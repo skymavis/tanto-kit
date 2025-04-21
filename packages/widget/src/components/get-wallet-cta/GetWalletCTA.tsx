@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 
-import { RoninLogo } from '../../../assets/RoninLogo';
-import { Box } from '../../../components/box/Box';
-import { Button } from '../../../components/button/Button';
-import { WEB_WALLET_LINK } from '../../../constants';
+import { RoninLogo } from '../../assets/RoninLogo';
+import { WEB_WALLET_LINK } from '../../constants';
+import { Box } from '../box/Box';
+import { Button } from '../button/Button';
 
 const Container = styled(Box)({
   backgroundColor: 'rgba(205, 213, 229, 0.07)',

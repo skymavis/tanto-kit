@@ -15,7 +15,7 @@ export const getDefaultConfig = (): Config => {
     connectors: [
       roninWallet(),
       waypoint({
-        clientId: 'id',
+        clientId: 'c2345990-c094-4028-91e1-e24138429a59',
         chainId: 2021,
       }),
       walletConnect({

@@ -4,14 +4,7 @@ import { useConnectors } from 'wagmi';
 import { roninMobileCustomLogoUri } from '../assets/data-uris';
 import { walletConfigs } from '../configs/walletConfigs';
 import { Wallet } from '../types/wallet';
-import {
-  generateInAppBrowserLink,
-  isClient,
-  isMobile,
-  isRoninExtensionInstalled,
-  isRoninWallet,
-  notEmpty,
-} from '../utils';
+import { isDesktop, isMobile, isRoninExtensionInstalled, isRoninWallet, notEmpty } from '../utils';
 
 const WalletIcon = styled('img', {
   shouldForwardProp: propName => propName !== 'size',
@@ -31,7 +24,7 @@ export function useWallets(): {
 } {
   const connectors = useConnectors();
   const isMobileDevice = isMobile();
-  const isDesktopDevice = !isMobileDevice;
+  const isDesktopDevice = isDesktop();
   const isInApp = isRoninWallet();
 
   const wallets = connectors.map((connector): Wallet => {
@@ -71,34 +64,29 @@ export function useWallets(): {
     wallet => wallet.connector?.type === 'injected' && !['RONIN_WALLET', 'com.roninchain.wallet'].includes(wallet.id),
   );
 
-  const roninNavigateToInApp: Wallet = {
-    id: 'custom::ronin-open-in-app',
-    name: 'Ronin Wallet',
-    descriptionOnList: 'Sign in with the app',
-    isInstalled: true,
-    connector: null,
-    icon: createWalletIcon(roninMobileCustomLogoUri, 'Ronin Wallet', 38),
-    alternativeConnectAction: () => {
-      if (isClient()) {
-        window.open(generateInAppBrowserLink('https://wallet.roninchain.com/app'), '_self');
+  const roninMobileWallet = wcWallet
+    ? {
+        ...wcWallet,
+        name: 'Ronin Wallet',
+        descriptionOnList: 'Sign in with the app',
+        isInstalled: true,
+        iconOnList: createWalletIcon(roninMobileCustomLogoUri, 'Ronin Wallet', 38),
       }
-    },
-  };
+    : null;
 
   const inAppWallet = roninExtensionWallet
     ? {
         ...roninExtensionWallet,
-        id: 'custom::ronin-in-app',
         name: 'Ronin Wallet',
         descriptionOnList: 'Sign in with the app',
         isInstalled: true,
-        icon: createWalletIcon(roninMobileCustomLogoUri, 'Ronin Wallet', 38),
+        iconOnList: createWalletIcon(roninMobileCustomLogoUri, 'Ronin Wallet', 38),
       }
     : null;
 
   const primaryWallets = ((): Wallet[] => {
     if (isDesktopDevice) return [waypointWallet, roninExtensionWallet].filter(notEmpty);
-    if (isMobileDevice && !isInApp) return [waypointWallet, roninNavigateToInApp].filter(notEmpty);
+    if (isMobileDevice && !isInApp) return [waypointWallet, roninMobileWallet].filter(notEmpty);
     if (isInApp) return [inAppWallet].filter(notEmpty);
     return [];
   })();

@@ -27,8 +27,8 @@ const Logo = styled(m.div)(({ theme }) => ({
   zIndex: 2,
   position: 'absolute',
   overflow: 'hidden',
-  inset: '6px',
-  borderRadius: '24px',
+  inset: 6,
+  borderRadius: 20,
   background: theme.modalBackgroundColor,
   '& svg, & img': {
     pointerEvents: 'none',

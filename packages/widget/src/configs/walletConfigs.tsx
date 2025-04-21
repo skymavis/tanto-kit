@@ -11,10 +11,12 @@ export const walletConfigs: {
   WAYPOINT: {
     name: 'Email & Social',
     highlightOnList: true,
+    icon: <RoninWaypointCustomLogo />,
     iconOnList: <RoninWaypointCustomLogo />,
   },
   'RONIN_WALLET, com.roninchain.wallet': {
     name: 'Ronin Extension',
+    icon: <RoninExtensionCustomLogo />,
     iconOnList: <RoninExtensionCustomLogo />,
     downloadUrl: WEB_WALLET_LINK,
   },

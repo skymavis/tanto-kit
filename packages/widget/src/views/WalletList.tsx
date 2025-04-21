@@ -1,10 +1,15 @@
 import { Box } from '../components/box/Box';
 import { DashedDivider } from '../components/dashed-divider/DashedDivider';
 import { Disclaimer } from '../components/disclaimer/Disclaimer';
+import { GetWalletCTA } from '../components/get-wallet-cta/GetWalletCTA';
 import { useWallets } from '../hooks/useWallets';
+import { isMobile, isRoninWallet } from '../utils';
 import { WalletGroup } from './Connect/WalletGroup';
 
 export function WalletList() {
+  const isMobileDevice = isMobile();
+  const isInApp = isRoninWallet();
+
   const { primaryWallets, secondaryWallets } = useWallets();
 
   return (
@@ -16,6 +21,7 @@ export function WalletList() {
           <WalletGroup wallets={secondaryWallets} />
         </Box>
       )}
+      {isMobileDevice && !isInApp && <GetWalletCTA />}
       <Disclaimer />
     </Box>
   );
