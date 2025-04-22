@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 
 import { AppearContainer } from '../../../components/appear-container/AppearContainer';
 import { Box } from '../../../components/box/Box';
@@ -26,52 +26,48 @@ const Description = styled.p({
 });
 
 export const ConnectContent = memo(({ walletName, status, wcUri, onRetry }: ConnectContentProps) => {
-  const views = {
-    [CONNECT_STATES.CONNECTING]: (
-      <ContentSection>
-        <Title>{`Opening ${walletName}`}</Title>
-        <Description>{`Confirm connection in ${walletName}.`}</Description>
-      </ContentSection>
-    ),
-    [CONNECT_STATES.FAILED]: (
-      <Box fullWidth vertical gap={32}>
+  const views = useMemo(() => {
+    return {
+      [CONNECT_STATES.CONNECTING]: (
         <ContentSection>
-          <Title>Could not connect</Title>
-          <Description>There is a problem with connecting your wallet.</Description>
+          <Title>{`Opening ${walletName}`}</Title>
+          <Description>{`Confirm connection in ${walletName}.`}</Description>
         </ContentSection>
-        {onRetry && (
-          <Button fullWidth intent="secondary" onClick={onRetry}>
-            Try again
-          </Button>
-        )}
-      </Box>
-    ),
-    [CONNECT_STATES.CONNECTED]: (
-      <ContentSection>
-        <Title>Success</Title>
-        <Description>{`Connected to ${walletName} successfully.`}</Description>
-      </ContentSection>
-    ),
-    [CONNECT_STATES.CONNECTED]: (
-      <ContentSection>
-        <Title>Success</Title>
-        <Description>{`Connected to ${walletName} successfully.`}</Description>
-      </ContentSection>
-    ),
-    [CONNECT_STATES.OPENING_WALLET]: (
-      <Box fullWidth vertical gap={32}>
+      ),
+      [CONNECT_STATES.FAILED]: (
+        <Box fullWidth vertical gap={32}>
+          <ContentSection>
+            <Title>Could not connect</Title>
+            <Description>There is a problem with connecting your wallet.</Description>
+          </ContentSection>
+          {onRetry && (
+            <Button fullWidth intent="secondary" onClick={onRetry}>
+              Try again
+            </Button>
+          )}
+        </Box>
+      ),
+      [CONNECT_STATES.CONNECTED]: (
         <ContentSection>
-          <Title>{walletName}</Title>
-          <Description>{wcUri ? "Tap 'Open' to continue." : 'Preparing connection'}</Description>
+          <Title>Success</Title>
+          <Description>{`Connected to ${walletName} successfully.`}</Description>
         </ContentSection>
-        <AppearContainer show={Boolean(wcUri)} initial={{ opacity: 0, scale: 0.85 }}>
-          <a href={generateRoninMobileWCLink(wcUri!)}>
-            <Button fullWidth>Open {walletName}</Button>
-          </a>
-        </AppearContainer>
-      </Box>
-    ),
-  };
+      ),
+      [CONNECT_STATES.OPENING_WALLET]: (
+        <Box fullWidth vertical gap={32}>
+          <ContentSection>
+            <Title>{walletName}</Title>
+            <Description>{wcUri ? "Tap 'Open' to continue." : 'Preparing connection'}</Description>
+          </ContentSection>
+          <AppearContainer show={Boolean(wcUri)} initial={{ opacity: 0, scale: 0.85 }}>
+            <a href={generateRoninMobileWCLink(wcUri!)}>
+              <Button fullWidth>Open {walletName}</Button>
+            </a>
+          </AppearContainer>
+        </Box>
+      ),
+    };
+  }, [walletName, wcUri, onRetry]);
 
   return <TransitionContainer viewKey={status}>{views[status]}</TransitionContainer>;
 });

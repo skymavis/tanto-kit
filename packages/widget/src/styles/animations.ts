@@ -65,12 +65,7 @@ export const shake = keyframes`
   100%{ transform:none; }
 `;
 
-export const outline = keyframes`
-  0%{ opacity:1; }
-  100%{ opacity:0; }
-`;
-
 export const shine = keyframes`
-0%{ background-position: 0% 0; }
-100%{ background-position: -200% 0; }
+  0%{ background-position: 0% 0; }
+  100%{ background-position: -200% 0; }
 `;

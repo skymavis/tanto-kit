@@ -12,7 +12,9 @@ import styled from '@emotion/styled';
 import { AnimatePresence } from 'motion/react';
 import * as m from 'motion/react-m';
 
-const LogoContainer = styled(m.div)({
+import { spin } from '../../styles/animations';
+
+const LogoContainer = styled.div({
   zIndex: 4,
   position: 'relative',
   overflow: 'hidden',
@@ -23,7 +25,7 @@ const LogoContainer = styled(m.div)({
   },
 });
 
-const Logo = styled(m.div)(({ theme }) => ({
+const Logo = styled.div(({ theme }) => ({
   zIndex: 2,
   position: 'absolute',
   overflow: 'hidden',
@@ -38,7 +40,7 @@ const Logo = styled(m.div)(({ theme }) => ({
   },
 }));
 
-const SpinnerContainer = styled(m.div)({
+const SpinnerContainer = styled.div({
   position: 'absolute',
   inset: '1px',
   overflow: 'hidden',
@@ -55,22 +57,14 @@ const Spinner = styled(m.div)(({ theme }) => ({
     position: 'absolute',
     inset: 0,
     background: `conic-gradient(from -90deg, transparent, transparent, transparent, transparent, transparent, ${theme.spinnerColor})`,
-    animation: 'rotateSpinner 1200ms linear infinite',
-  },
-  '@keyframes rotateSpinner': {
-    '0%': {
-      transform: 'rotate(0deg)',
-    },
-    '100%': {
-      transform: 'rotate(360deg)',
-    },
+    animation: `${spin} 1200ms linear infinite`,
   },
 }));
 
 const SquircleSpinner = ({ logo, connecting = true }: { logo?: React.ReactNode; connecting?: boolean }) => {
   const theme = useTheme();
   return (
-    <LogoContainer transition={{ duration: 0.5, ease: [0.175, 0.885, 0.32, 0.98] }}>
+    <LogoContainer>
       <Logo>{logo}</Logo>
       <SpinnerContainer>
         <AnimatePresence>

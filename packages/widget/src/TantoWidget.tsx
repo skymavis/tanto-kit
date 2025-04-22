@@ -8,7 +8,7 @@ import { useWidget } from './hooks/useWidget';
 import { Route } from './types/route';
 import { ConnectInjector } from './views/Connect/ConnectInjector';
 import { ConnectWC } from './views/Connect/ConnectWC';
-import { Profile } from './views/Profile';
+import { Profile } from './views/Profile/Profile';
 import { WalletList } from './views/WalletList';
 
 export function TantoWidget() {
