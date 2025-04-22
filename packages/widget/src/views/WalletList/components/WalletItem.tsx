@@ -1,14 +1,14 @@
 import styled from '@emotion/styled';
 import { useCallback } from 'react';
 
-import { highlightedWalletItemBackgroundUri } from '../../assets/data-uris';
-import { Badge } from '../../components/badge/Badge';
-import { Box } from '../../components/box/Box';
-import { useIsMobileView } from '../../hooks/useIsMobileView';
-import { useTanto } from '../../hooks/useTanto';
-import { useWidget } from '../../hooks/useWidget';
-import { Route } from '../../types/route';
-import { Wallet } from '../../types/wallet';
+import { highlightedWalletItemBackgroundUri } from '../../../assets/data-uris';
+import { Badge } from '../../../components/badge/Badge';
+import { Box } from '../../../components/box/Box';
+import { useIsMobileView } from '../../../hooks/useIsMobileView';
+import { useTanto } from '../../../hooks/useTanto';
+import { useWidget } from '../../../hooks/useWidget';
+import { Route } from '../../../types/route';
+import { Wallet } from '../../../types/wallet';
 
 interface WalletItemProps {
   wallet: Wallet;
@@ -26,10 +26,11 @@ const Container = styled('div', {
     padding: 16,
     backgroundColor: 'rgba(205, 213, 229, 0.07)',
     cursor: 'pointer',
+    outline: 'none',
   },
   ({ highlight }) =>
     highlight && {
-      background: `url("${highlightedWalletItemBackgroundUri}")`,
+      backgroundImage: `url(${highlightedWalletItemBackgroundUri})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
@@ -50,31 +51,33 @@ const WalletDescription = styled.p({
 });
 
 export const WalletItem = ({ wallet }: WalletItemProps) => {
-  const { name, icon, iconOnList, descriptionOnList, isInstalled, downloadUrl, highlightOnList = false } = wallet;
+  const {
+    name,
+    icon,
+    iconOnList,
+    descriptionOnList,
+    isInstalled,
+    downloadUrl,
+    highlightOnList = false,
+    connector,
+    id,
+  } = wallet;
   const { setWallet } = useTanto();
   const { goTo } = useWidget();
   const isMobile = useIsMobileView();
 
   const walletLogo = iconOnList ?? icon;
-  const isInjected = wallet.connector?.type === 'injected' ? 'Detected' : undefined;
-  const highlighContent = highlightOnList ? (isMobile ? 'Fastest' : 'Fastest to start') : undefined;
+  const isInjected = connector?.type === 'injected';
+  const highlightContent = highlightOnList ? (isMobile ? 'Fastest' : 'Fastest to start') : undefined;
 
   const handleClick = useCallback(() => {
     if (!isInstalled) {
-      window.open(downloadUrl, '_blank');
-      return;
-    }
-    if (typeof wallet.alternativeConnectAction === 'function') {
-      wallet.alternativeConnectAction();
+      window.open(downloadUrl, '_blank', 'noopener,noreferrer');
       return;
     }
     setWallet(wallet);
-    if (wallet.id === 'walletConnect') {
-      goTo(Route.CONNECT_WC, { title: name });
-      return;
-    }
-    goTo(Route.CONNECT_INJECTOR, { title: name });
-  }, [wallet, setWallet, goTo, name]);
+    goTo(id === 'walletConnect' ? Route.CONNECT_WC : Route.CONNECT_INJECTOR, { title: name });
+  }, [wallet, setWallet, goTo, isInstalled, downloadUrl, id, name]);
 
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent) => {
@@ -94,13 +97,13 @@ export const WalletItem = ({ wallet }: WalletItemProps) => {
       onClick={handleClick}
       onKeyDown={handleKeyDown}
     >
-      <div>{walletLogo}</div>
+      {walletLogo && <div>{walletLogo}</div>}
       <Box vertical flex={1}>
         <WalletName>{name}</WalletName>
         {descriptionOnList && <WalletDescription>{descriptionOnList}</WalletDescription>}
       </Box>
       {isInjected && <Badge>Detected</Badge>}
-      {highlighContent && <Badge intent="highlight">{highlighContent}</Badge>}
+      {highlightContent && <Badge intent="highlight">{highlightContent}</Badge>}
     </Container>
   );
 };

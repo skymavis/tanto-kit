@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { Wallet } from '../../types/wallet';
+import { Wallet } from '../../../types/wallet';
 import { WalletItem } from './WalletItem';
 
 interface WalletGroupProps {

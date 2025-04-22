@@ -9,7 +9,7 @@ import { Route } from './types/route';
 import { ConnectInjector } from './views/Connect/ConnectInjector';
 import { ConnectWC } from './views/Connect/ConnectWC';
 import { Profile } from './views/Profile/Profile';
-import { WalletList } from './views/WalletList';
+import { WalletList } from './views/WalletList/WalletList';
 
 export function TantoWidget() {
   const { open, view, setOpen, goBack } = useWidget();
