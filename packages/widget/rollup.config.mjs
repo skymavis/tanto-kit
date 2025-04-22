@@ -40,7 +40,7 @@ const config = defineConfig({
       'motion',
       'viem',
       'wagmi',
-    ].some(pkg => id === pkg || id.startsWith(`${pkg}/`)),
+    ].some(pkg => id === pkg || id.startsWith(`${pkg}/`) || id.startsWith(`@${pkg}/`)),
   plugins: [
     json(),
     typescript({

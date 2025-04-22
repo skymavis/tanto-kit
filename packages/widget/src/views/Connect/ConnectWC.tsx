@@ -1,63 +1,48 @@
-import { useState } from 'react';
-import { useAccountEffect } from 'wagmi';
+import { memo } from 'react';
 
 import { Box } from '../../components/box/Box';
 import { CopyButton } from '../../components/copy-button/CopyButton';
 import { GetWalletCTA } from '../../components/get-wallet-cta/GetWalletCTA';
 import { WCQRCode } from '../../components/qr-code/WCQRCode';
 import { TransitionContainer } from '../../components/transition-container/TransitionContainer';
+import { useConnectStatus } from '../../hooks/useConnectStatus';
 import { useTanto } from '../../hooks/useTanto';
 import { useWalletConnectUri } from '../../hooks/useWalletConnectUri';
+import { CONNECT_STATES } from '../../types';
 import { isMobile } from '../../utils';
-import { ConnectContent } from './components/ConnectContent';
-import { ConnectLogo } from './components/ConnectLogo';
+import { ConnectLayout } from './components/ConnectLayout';
 import { ScanGuideline } from './components/ScanGuideline';
-import { CONNECT_STATES, ConnectState } from './types';
+
+const ScanQRCode = memo(({ uri }: { uri: string | undefined }) => {
+  return (
+    <Box vertical align="center" justify="center" gap={20} pt={20}>
+      <Box vertical align="center" justify="center" gap={16}>
+        <CopyButton value={uri}>Copy link</CopyButton>
+        <WCQRCode value={uri} />
+        <ScanGuideline />
+      </Box>
+      <GetWalletCTA />
+    </Box>
+  );
+});
 
 export function ConnectWC() {
   const mobile = isMobile();
-  const [status, setStatus] = useState<ConnectState>(() =>
-    mobile ? CONNECT_STATES.OPENING_WALLET : CONNECT_STATES.CONNECTING,
-  );
   const { wallet, connector } = useTanto();
   const { uri } = useWalletConnectUri({ connector });
-
-  useAccountEffect({
-    onConnect() {
-      setStatus(CONNECT_STATES.CONNECTED);
-    },
-  });
+  const { status } = useConnectStatus({ connector });
 
   if (!wallet || !connector) return null;
 
-  if (mobile)
-    return (
-      <Box vertical align="center" justify="center" gap={20} pt={20}>
-        <ConnectLogo walletIcon={wallet.icon} status={status} />
-        <ConnectContent walletName={wallet.name} status={status} wcUri={uri} />
-      </Box>
-    );
+  if (mobile) return <ConnectLayout status={status} walletIcon={wallet.icon} walletName={wallet.name} wcUri={uri} />;
 
   return (
     <TransitionContainer viewKey={status}>
-      <Box vertical align="center" justify="center" gap={20} pt={20}>
-        {status === 'connected' && (
-          <>
-            <ConnectLogo walletIcon={wallet.icon} status={status} />
-            <ConnectContent walletName={wallet.name} status={status} />
-          </>
-        )}
-        {status === 'connecting' && (
-          <>
-            <Box vertical align="center" justify="center" gap={16}>
-              <CopyButton value={uri}>Copy link</CopyButton>
-              <WCQRCode value={uri} />
-              <ScanGuideline />
-            </Box>
-            <GetWalletCTA />
-          </>
-        )}
-      </Box>
+      {status === CONNECT_STATES.CONNECTED ? (
+        <ConnectLayout status={status} walletIcon={wallet.icon} walletName={wallet.name} wcUri={uri} />
+      ) : (
+        <ScanQRCode uri={uri} />
+      )}
     </TransitionContainer>
   );
 }

@@ -1,30 +1,13 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useConnect } from 'wagmi';
+import { useEffect } from 'react';
 
-import { Box } from '../../components/box/Box';
 import { DELAY_CONNECT } from '../../constants';
+import { useConnectStatus } from '../../hooks/useConnectStatus';
 import { useTanto } from '../../hooks/useTanto';
-import { ConnectContent } from './components/ConnectContent';
-import { ConnectLogo } from './components/ConnectLogo';
-import { CONNECT_STATES, ConnectState } from './types';
+import { ConnectLayout } from './components/ConnectLayout';
 
 export function ConnectInjector() {
-  const [status, setStatus] = useState<ConnectState>(CONNECT_STATES.CONNECTING);
   const { wallet, connector } = useTanto();
-
-  const triggerConnect = useCallback(() => {
-    if (connector) {
-      connect({ connector });
-    }
-  }, [connector]);
-
-  const { connect } = useConnect({
-    mutation: {
-      onMutate: () => setStatus(CONNECT_STATES.CONNECTING),
-      onError: () => setStatus(CONNECT_STATES.FAILED),
-      onSuccess: () => setStatus(CONNECT_STATES.CONNECTED),
-    },
-  });
+  const { status, triggerConnect } = useConnectStatus({ connector });
 
   useEffect(() => {
     const timer = setTimeout(triggerConnect, DELAY_CONNECT);
@@ -33,10 +16,5 @@ export function ConnectInjector() {
 
   if (!wallet || !connector) return null;
 
-  return (
-    <Box vertical align="center" justify="center" gap={32} pt={20}>
-      <ConnectLogo walletIcon={wallet.icon} status={status} />
-      <ConnectContent walletName={wallet.name} status={status} onRetry={triggerConnect} />
-    </Box>
-  );
+  return <ConnectLayout status={status} walletIcon={wallet.icon} walletName={wallet.name} onRetry={triggerConnect} />;
 }

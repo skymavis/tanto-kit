@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import * as m from 'motion/react-m';
-import { memo } from 'react';
+import { memo, ReactNode } from 'react';
 
 import { SuccessIcon } from '../../../assets/SuccessIcon';
 import { WarningIcon } from '../../../assets/WarningIcon';
@@ -8,11 +8,14 @@ import { AppearContainer } from '../../../components/appear-container/AppearCont
 import SquircleSpinner from '../../../components/squircle-spinner/SquircleSpinner';
 import { CONNECT_WIDGET_HIDE_DELAY } from '../../../constants';
 import { fadeIn, fadeOut, shake } from '../../../styles/animations';
-import { CONNECT_STATES, ConnectLogoProps } from '../types';
+import { CONNECT_STATES, ConnectState } from '../../../types';
 
-const LogoSection = styled(m.div, {
-  shouldForwardProp: propName => propName !== 'failed' && propName !== 'success',
-})<{ failed: boolean; success: boolean }>(
+interface ConnectLogoProps {
+  walletIcon: ReactNode;
+  status: ConnectState;
+}
+
+const LogoSection = styled(m.div)<{ status: ConnectState }>(
   {
     width: 'fit-content',
     userSelect: 'none',
@@ -24,8 +27,8 @@ const LogoSection = styled(m.div, {
       opacity: 0,
     },
   },
-  ({ failed, success }) => {
-    if (failed)
+  ({ status }) => {
+    if (status === CONNECT_STATES.FAILED) {
       return {
         animation: `${shake} 240ms ease-out both`,
         '&:before': {
@@ -33,13 +36,16 @@ const LogoSection = styled(m.div, {
           animation: `${fadeOut} 240ms ease-out ${CONNECT_WIDGET_HIDE_DELAY}ms both`,
         },
       };
-    if (success)
+    }
+    if (status === CONNECT_STATES.CONNECTED) {
       return {
         '&:before': {
           background: '#52E08D',
           animation: `${fadeIn} 150ms linear forwards`,
         },
       };
+    }
+    return {};
   },
 );
 
@@ -50,21 +56,32 @@ const StatusIconSection = styled.div({
   zIndex: 5,
 });
 
+interface ConnectLogoProps {
+  walletIcon: ReactNode;
+  status: ConnectState;
+}
+
+const StatusIcon = memo<{ status: ConnectState }>(({ status }) => {
+  return (
+    <>
+      <AppearContainer show={status === CONNECT_STATES.FAILED}>
+        <WarningIcon />
+      </AppearContainer>
+      <AppearContainer show={status === CONNECT_STATES.CONNECTED}>
+        <SuccessIcon />
+      </AppearContainer>
+    </>
+  );
+});
+
 export const ConnectLogo = memo(({ walletIcon, status }: ConnectLogoProps) => {
-  const isFailed = status === CONNECT_STATES.FAILED;
-  const isConnected = status === CONNECT_STATES.CONNECTED;
   const isConnecting = [CONNECT_STATES.CONNECTING, CONNECT_STATES.OPENING_WALLET].includes(status);
 
   return (
-    <LogoSection failed={isFailed} success={isConnected}>
+    <LogoSection status={status}>
       <SquircleSpinner logo={walletIcon} connecting={isConnecting} />
       <StatusIconSection>
-        <AppearContainer show={isFailed}>
-          <WarningIcon />
-        </AppearContainer>
-        <AppearContainer show={isConnected}>
-          <SuccessIcon />
-        </AppearContainer>
+        <StatusIcon status={status} />
       </StatusIconSection>
     </LogoSection>
   );

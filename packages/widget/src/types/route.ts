@@ -6,4 +6,4 @@ export enum Route {
 }
 
 export const publicRotues = [Route.WALLETS, Route.CONNECT_INJECTOR, Route.CONNECT_WC];
-export const privateRotues = [Route.PROFILE];
+export const privateRoutes = [Route.PROFILE];

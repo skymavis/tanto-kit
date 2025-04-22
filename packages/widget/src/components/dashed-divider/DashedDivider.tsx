@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { memo } from 'react';
 
 const StyledDivider = styled.div({
   display: 'flex',
@@ -20,6 +21,6 @@ const StyledDivider = styled.div({
   },
 });
 
-export const DashedDivider = ({ text }: { text: string }) => {
+export const DashedDivider = memo(({ text }: { text: string }) => {
   return <StyledDivider>{text}</StyledDivider>;
-};
+});

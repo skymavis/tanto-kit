@@ -1,11 +1,11 @@
-import { ReactNode, useCallback, useState } from 'react';
+import { ReactNode, useCallback, useMemo, useState } from 'react';
 import { useAccount } from 'wagmi';
 
 import { TantoWidget } from '../../TantoWidget';
-import { privateRotues, Route } from '../../types/route';
+import { privateRoutes, Route } from '../../types/route';
 import { View, WidgetContext, WidgetState } from './WidgetContext';
 
-const walletsView: View = {
+const WALLETS_VIEW: View = {
   route: Route.WALLETS,
   title: (
     <p
@@ -22,7 +22,7 @@ const walletsView: View = {
   ),
 };
 
-const profileView: View = {
+const PROFILE_VIEW: View = {
   route: Route.PROFILE,
   title: <p css={{ textAlign: 'center' }}>Connected</p>,
 };
@@ -30,19 +30,18 @@ const profileView: View = {
 export const WidgetProvider = ({ children }: { children: ReactNode }) => {
   const { isConnected } = useAccount();
   const [open, setOpen] = useState(false);
-
-  const initialView = isConnected ? profileView : walletsView;
-  const [navigation, setNavigation] = useState({
-    view: initialView,
-    history: [initialView],
-  });
+  const [navigation, setNavigation] = useState(() => ({
+    view: isConnected ? PROFILE_VIEW : WALLETS_VIEW,
+    history: [isConnected ? PROFILE_VIEW : WALLETS_VIEW],
+  }));
 
   const reset = useCallback(() => {
+    const initialView = isConnected ? PROFILE_VIEW : WALLETS_VIEW;
     setNavigation({
       view: initialView,
       history: [initialView],
     });
-  }, [initialView]);
+  }, [isConnected]);
 
   const show = useCallback(() => {
     reset();
@@ -51,30 +50,32 @@ export const WidgetProvider = ({ children }: { children: ReactNode }) => {
 
   const hide = useCallback(() => setOpen(false), []);
 
-  const goTo = useCallback((route: Route, options: Omit<View, 'route'> = {}) => {
-    setOpen(true);
-    setNavigation(prev => {
-      const { history, view: currentView } = prev;
-      if (!isConnected && privateRotues.includes(route)) return prev;
-      const isSameView = route === currentView.route;
-      const newView: View = {
-        route,
-        title: options.title ?? currentView.title,
-        showBackButton: options.showBackButton ?? (!isSameView && history.length > 0),
-        ...options,
-      };
-      const newHistory = isSameView ? history : [...history, newView];
-      return {
-        view: newView,
-        history: newHistory,
-      };
-    });
-  }, []);
+  const goTo = useCallback(
+    (route: Route, options: Omit<View, 'route'> = {}) => {
+      setOpen(true);
+      setNavigation(({ view: currentView, history }) => {
+        if (!isConnected && privateRoutes.includes(route)) return { view: currentView, history };
+
+        const isSameView = route === currentView.route;
+        const newView: View = {
+          route,
+          title: options.title ?? currentView.title,
+          showBackButton: options.showBackButton ?? (!isSameView && history.length > 0),
+          ...options,
+        };
+
+        return {
+          view: newView,
+          history: isSameView ? history : [...history, newView],
+        };
+      });
+    },
+    [isConnected],
+  );
 
   const goBack = useCallback(() => {
-    setNavigation(prev => {
-      const { history } = prev;
-      if (history.length <= 1) return prev;
+    setNavigation(({ history, view }) => {
+      if (history.length <= 1) return { history, view };
       const newHistory = history.slice(0, -1);
       return {
         view: newHistory[newHistory.length - 1],
@@ -83,17 +84,20 @@ export const WidgetProvider = ({ children }: { children: ReactNode }) => {
     });
   }, []);
 
-  const contextValue: WidgetState = {
-    open,
-    view: navigation.view,
-    history: navigation.history,
-    setOpen,
-    show,
-    hide,
-    goTo,
-    goBack,
-    reset,
-  };
+  const contextValue = useMemo<WidgetState>(
+    () => ({
+      open,
+      view: navigation.view,
+      history: navigation.history,
+      setOpen,
+      show,
+      hide,
+      goTo,
+      goBack,
+      reset,
+    }),
+    [open, navigation, show, hide, goTo, goBack, reset],
+  );
 
   return (
     <WidgetContext.Provider value={contextValue}>

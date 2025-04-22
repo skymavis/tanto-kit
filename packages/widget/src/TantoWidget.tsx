@@ -1,5 +1,6 @@
 import { domAnimation, LazyMotion } from 'motion/react';
-import { useAccountEffect } from 'wagmi';
+import { useEffect } from 'react';
+import { useAccount, useAccountEffect } from 'wagmi';
 
 import { FlexModal } from './components/flex-modal/FlexModal';
 import { TransitionContainer } from './components/transition-container/TransitionContainer';
@@ -11,23 +12,26 @@ import { ConnectWC } from './views/Connect/ConnectWC';
 import { Profile } from './views/Profile/Profile';
 import { WalletList } from './views/WalletList/WalletList';
 
+const views = {
+  [Route.WALLETS]: <WalletList />,
+  [Route.CONNECT_INJECTOR]: <ConnectInjector />,
+  [Route.CONNECT_WC]: <ConnectWC />,
+  [Route.PROFILE]: <Profile />,
+};
+
 export function TantoWidget() {
-  const { open, view, setOpen, goBack } = useWidget();
-
-  const views = {
-    [Route.WALLETS]: <WalletList />,
-    [Route.CONNECT_INJECTOR]: <ConnectInjector />,
-    [Route.CONNECT_WC]: <ConnectWC />,
-    [Route.PROFILE]: <Profile />,
-  };
-
-  const { hide } = useWidget();
+  const { isConnected } = useAccount();
+  const { view, open, setOpen, hide, goBack, reset } = useWidget();
 
   useAccountEffect({
     onConnect() {
       setTimeout(hide, CONNECT_WIDGET_HIDE_DELAY);
     },
   });
+
+  useEffect(() => {
+    if (isConnected && view.route === Route.WALLETS) reset();
+  }, [isConnected, view.route]);
 
   return (
     <FlexModal
