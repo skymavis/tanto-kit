@@ -2,7 +2,7 @@ import { ReactNode, useCallback, useMemo, useState } from 'react';
 import { useAccount } from 'wagmi';
 
 import { TantoWidget } from '../../TantoWidget';
-import { privateRoutes, Route } from '../../types/route';
+import { authenticatedRoutes, Route } from '../../types/route';
 import { View, WidgetContext, WidgetState } from './WidgetContext';
 
 const WALLETS_VIEW: View = {
@@ -54,7 +54,7 @@ export const WidgetProvider = ({ children }: { children: ReactNode }) => {
     (route: Route, options: Omit<View, 'route'> = {}) => {
       setOpen(true);
       setNavigation(({ view: currentView, history }) => {
-        if (!isConnected && privateRoutes.includes(route)) return { view: currentView, history };
+        if (!isConnected && authenticatedRoutes.includes(route)) return { view: currentView, history };
 
         const isSameView = route === currentView.route;
         const newView: View = {

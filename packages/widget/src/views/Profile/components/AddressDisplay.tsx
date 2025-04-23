@@ -19,7 +19,7 @@ export function AddressDisplay({ address }: AddressDisplayProps) {
 
   return (
     <Box align="center" gap={4} ml={30}>
-      <AddressText>{truncate(normalizedAddress)}</AddressText>
+      <AddressText>{normalizedAddress ? truncate(normalizedAddress) : '--'}</AddressText>
       <CopyButton variant="plain" value={address} />
     </Box>
   );

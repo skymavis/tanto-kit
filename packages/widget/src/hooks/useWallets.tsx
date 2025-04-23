@@ -6,7 +6,15 @@ import { RoninMobileCustomLogo } from '../assets/RoninMobileCustomLogo';
 import { RoninMobileCustomSquareLogo } from '../assets/RoninMobileCustomSquareLogo';
 import { walletConfigs } from '../configs/walletConfigs';
 import { Wallet } from '../types/wallet';
-import { isDesktop, isMobile, isRoninExtensionInstalled, isRoninWallet, notEmpty } from '../utils';
+import {
+  isDesktop,
+  isInjectedConnector,
+  isMobile,
+  isRoninExtensionInstalled,
+  isRoninWallet,
+  isWCConnector,
+  notEmpty,
+} from '../utils';
 
 const WalletIcon = styled('img', {
   shouldForwardProp: propName => propName !== 'size',
@@ -38,8 +46,8 @@ export function useWallets(): {
       isInstalled:
         (connector.id === 'RONIN_WALLET' && isRoninExtensionInstalled(connectors)) ||
         connector.id === 'WAYPOINT' ||
-        connector.id === 'walletConnect' ||
-        connector.type === 'injected',
+        isWCConnector(connector.id) ||
+        isInjectedConnector(connector.type),
       connector,
     };
 
@@ -63,7 +71,8 @@ export function useWallets(): {
   const roninExtensionWallet = walletMap.get('RONIN_WALLET') ?? walletMap.get('com.roninchain.wallet');
   const wcWallet = walletMap.get('walletConnect');
   const injectedWallets = wallets.filter(
-    wallet => wallet.connector?.type === 'injected' && !['RONIN_WALLET', 'com.roninchain.wallet'].includes(wallet.id),
+    wallet =>
+      isInjectedConnector(wallet.connector?.type) && !['RONIN_WALLET', 'com.roninchain.wallet'].includes(wallet.id),
   );
 
   const roninMobileWallet = wcWallet
@@ -97,7 +106,7 @@ export function useWallets(): {
 
   const secondaryWallets = ((): Wallet[] => {
     const wallets = isDesktopDevice ? [wcWallet, ...injectedWallets].filter(notEmpty) : [];
-    return wallets.sort(a => (a.id === 'walletConnect' ? -1 : 1));
+    return wallets.sort(a => (isWCConnector(a.id) ? -1 : 1));
   })();
 
   return {

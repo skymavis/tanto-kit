@@ -1,10 +1,10 @@
 export * from './theme';
 
-export type ConnectState = 'connected' | 'connecting' | 'failed' | 'opening_wallet';
+export type ConnectState = 'pending' | 'error' | 'success' | 'opening_wallet';
 
 export const CONNECT_STATES: Record<Uppercase<ConnectState>, ConnectState> = {
-  CONNECTED: 'connected',
-  CONNECTING: 'connecting',
-  FAILED: 'failed',
+  PENDING: 'pending',
+  SUCCESS: 'success',
+  ERROR: 'error',
   OPENING_WALLET: 'opening_wallet',
 } as const;

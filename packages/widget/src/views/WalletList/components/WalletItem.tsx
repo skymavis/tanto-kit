@@ -4,11 +4,13 @@ import { useCallback } from 'react';
 import { highlightedWalletItemBackgroundUri } from '../../../assets/data-uris';
 import { Badge } from '../../../components/badge/Badge';
 import { Box } from '../../../components/box/Box';
+import { WALLET_ITEM_HEIGHT } from '../../../constants';
 import { useIsMobileView } from '../../../hooks/useIsMobileView';
 import { useTanto } from '../../../hooks/useTanto';
 import { useWidget } from '../../../hooks/useWidget';
 import { Route } from '../../../types/route';
 import { Wallet } from '../../../types/wallet';
+import { isInjectedConnector, isWCConnector } from '../../../utils';
 
 interface WalletItemProps {
   wallet: Wallet;
@@ -21,7 +23,7 @@ const Container = styled('div', {
     position: 'relative',
     display: 'flex',
     alignItems: 'center',
-    height: 68,
+    minHeight: WALLET_ITEM_HEIGHT,
     gap: 12,
     padding: 16,
     backgroundColor: 'rgba(205, 213, 229, 0.07)',
@@ -30,7 +32,7 @@ const Container = styled('div', {
   },
   ({ highlight }) =>
     highlight && {
-      backgroundImage: `url(${highlightedWalletItemBackgroundUri})`,
+      backgroundImage: `url("${highlightedWalletItemBackgroundUri}")`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
@@ -67,7 +69,7 @@ export const WalletItem = ({ wallet }: WalletItemProps) => {
   const isMobile = useIsMobileView();
 
   const walletLogo = iconOnList ?? icon;
-  const isInjected = connector?.type === 'injected';
+  const isInjected = isInjectedConnector(connector?.type);
   const highlightContent = highlightOnList ? (isMobile ? 'Fastest' : 'Fastest to start') : undefined;
 
   const handleClick = useCallback(() => {
@@ -76,7 +78,7 @@ export const WalletItem = ({ wallet }: WalletItemProps) => {
       return;
     }
     setWallet(wallet);
-    goTo(id === 'walletConnect' ? Route.CONNECT_WC : Route.CONNECT_INJECTOR, { title: name });
+    goTo(isWCConnector(id) ? Route.CONNECT_WC : Route.CONNECT_INJECTOR, { title: name });
   }, [wallet, setWallet, goTo, isInstalled, downloadUrl, id, name]);
 
   const handleKeyDown = useCallback(

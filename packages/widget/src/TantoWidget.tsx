@@ -6,7 +6,7 @@ import { FlexModal } from './components/flex-modal/FlexModal';
 import { TransitionContainer } from './components/transition-container/TransitionContainer';
 import { CONNECT_WIDGET_HIDE_DELAY } from './constants';
 import { useWidget } from './hooks/useWidget';
-import { Route } from './types/route';
+import { authenticatedRoutes, publicRoutes, Route } from './types/route';
 import { ConnectInjector } from './views/Connect/ConnectInjector';
 import { ConnectWC } from './views/Connect/ConnectWC';
 import { Profile } from './views/Profile/Profile';
@@ -30,7 +30,11 @@ export function TantoWidget() {
   });
 
   useEffect(() => {
-    if (isConnected && view.route === Route.WALLETS) reset();
+    if (
+      (isConnected && publicRoutes.includes(view.route)) ||
+      (!isConnected && authenticatedRoutes.includes(view.route))
+    )
+      reset();
   }, [isConnected, view.route]);
 
   return (

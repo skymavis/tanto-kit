@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 
 import { AppearContainer } from '../../../components/appear-container/AppearContainer';
 import { Box } from '../../../components/box/Box';
@@ -7,25 +7,6 @@ import { Button } from '../../../components/button/Button';
 import { TransitionContainer } from '../../../components/transition-container/TransitionContainer';
 import { CONNECT_STATES, ConnectState } from '../../../types';
 import { generateRoninMobileWCLink } from '../../../utils';
-
-const STATUS_CONTENT = {
-  [CONNECT_STATES.CONNECTING]: {
-    title: (walletName: string) => `Opening ${walletName}`,
-    description: (walletName: string) => `Confirm connection in ${walletName}.`,
-  },
-  [CONNECT_STATES.FAILED]: {
-    title: 'Could not connect',
-    description: 'There is a problem with connecting your wallet.',
-  },
-  [CONNECT_STATES.CONNECTED]: {
-    title: 'Success',
-    description: (walletName: string) => `Connected to ${walletName} successfully.`,
-  },
-  [CONNECT_STATES.OPENING_WALLET]: {
-    title: (walletName: string) => walletName,
-    description: (wcUri?: string) => (wcUri ? "Tap 'Open' to continue." : 'Preparing connection'),
-  },
-};
 
 const ContentSection = styled(Box)({
   textAlign: 'center',
@@ -45,17 +26,36 @@ const Description = styled.p({
 });
 
 const StatusContent = memo<{
-  title: string | ((walletName: string) => string);
-  description: string | ((walletName: string) => string);
+  status: ConnectState;
   walletName: string;
-}>(({ title, description, walletName }) => {
-  const titleText = typeof title === 'function' ? title(walletName) : title;
-  const descText = typeof description === 'function' ? description(walletName) : description;
+  wcUri?: string;
+}>(({ status, walletName, wcUri }) => {
+  const content = useMemo(
+    () => ({
+      [CONNECT_STATES.PENDING]: {
+        title: `Opening ${walletName}`,
+        description: `Confirm connection in ${walletName}.`,
+      },
+      [CONNECT_STATES.ERROR]: {
+        title: 'Could not connect',
+        description: 'There is a problem with connecting your wallet.',
+      },
+      [CONNECT_STATES.SUCCESS]: {
+        title: 'Success',
+        description: `Connected to ${walletName} successfully.`,
+      },
+      [CONNECT_STATES.OPENING_WALLET]: {
+        title: walletName,
+        description: wcUri ? "Tap 'Open' to continue" : 'Preparing connection',
+      },
+    }),
+    [walletName, wcUri],
+  );
 
   return (
     <ContentSection>
-      <Title>{titleText}</Title>
-      <Description>{descText}</Description>
+      <Title>{content[status]?.title}</Title>
+      <Description>{content[status]?.description}</Description>
     </ContentSection>
   );
 });
@@ -66,7 +66,7 @@ const ActionButton = memo<{
   wcUri?: string;
   onRetry?: () => void;
 }>(({ status, walletName, wcUri, onRetry }) => {
-  if (status === CONNECT_STATES.FAILED && onRetry) {
+  if (status === CONNECT_STATES.ERROR && onRetry) {
     return (
       <Button fullWidth intent="secondary" onClick={onRetry}>
         Try again
@@ -95,12 +95,10 @@ interface ConnectContentProps {
 }
 
 export const ConnectContent = memo(({ walletName, status, wcUri, onRetry }: ConnectContentProps) => {
-  const content = STATUS_CONTENT[status];
-
   return (
     <TransitionContainer viewKey={status}>
       <Box fullWidth vertical gap={32}>
-        <StatusContent title={content.title} description={content.description} walletName={walletName} />
+        <StatusContent status={status} walletName={walletName} wcUri={wcUri} />
         <ActionButton status={status} walletName={walletName} wcUri={wcUri} onRetry={onRetry} />
       </Box>
     </TransitionContainer>

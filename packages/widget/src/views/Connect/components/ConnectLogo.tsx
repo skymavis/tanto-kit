@@ -28,7 +28,7 @@ const LogoSection = styled(m.div)<{ status: ConnectState }>(
     },
   },
   ({ status }) => {
-    if (status === CONNECT_STATES.FAILED) {
+    if (status === CONNECT_STATES.ERROR) {
       return {
         animation: `${shake} 240ms ease-out both`,
         '&:before': {
@@ -37,7 +37,7 @@ const LogoSection = styled(m.div)<{ status: ConnectState }>(
         },
       };
     }
-    if (status === CONNECT_STATES.CONNECTED) {
+    if (status === CONNECT_STATES.SUCCESS) {
       return {
         '&:before': {
           background: '#52E08D',
@@ -64,10 +64,10 @@ interface ConnectLogoProps {
 const StatusIcon = memo<{ status: ConnectState }>(({ status }) => {
   return (
     <>
-      <AppearContainer show={status === CONNECT_STATES.FAILED}>
+      <AppearContainer show={status === CONNECT_STATES.ERROR}>
         <WarningIcon />
       </AppearContainer>
-      <AppearContainer show={status === CONNECT_STATES.CONNECTED}>
+      <AppearContainer show={status === CONNECT_STATES.SUCCESS}>
         <SuccessIcon />
       </AppearContainer>
     </>
@@ -75,7 +75,7 @@ const StatusIcon = memo<{ status: ConnectState }>(({ status }) => {
 });
 
 export const ConnectLogo = memo(({ walletIcon, status }: ConnectLogoProps) => {
-  const isConnecting = [CONNECT_STATES.CONNECTING, CONNECT_STATES.OPENING_WALLET].includes(status);
+  const isConnecting = [CONNECT_STATES.PENDING, CONNECT_STATES.OPENING_WALLET].includes(status);
 
   return (
     <LogoSection status={status}>

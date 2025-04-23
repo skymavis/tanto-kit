@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Connector, useConnect } from 'wagmi';
+import { Connector } from 'wagmi';
 
 import { DELAY_CONNECT } from '../constants';
+import { useTriggerConnect } from './useTriggerConnect';
 
 interface WalletConnectUriOptions {
   connector: Connector | null;
-  expireTime?: number;
 }
 
 interface WalletConnectMessage {
@@ -15,7 +15,7 @@ interface WalletConnectMessage {
 
 export function useWalletConnectUri({ connector }: WalletConnectUriOptions) {
   const [uri, setUri] = useState<string | undefined>(undefined);
-  const { connect } = useConnect();
+  const { connect, status } = useTriggerConnect({ connector });
 
   const generateConnectUri = useCallback(() => {
     if (!connector) return;
@@ -29,7 +29,7 @@ export function useWalletConnectUri({ connector }: WalletConnectUriOptions) {
     };
 
     connector.emitter.on('message', handleDisplayUri);
-    connect({ connector });
+    connect();
   }, [connector, connect]);
 
   useEffect(() => {
@@ -37,5 +37,9 @@ export function useWalletConnectUri({ connector }: WalletConnectUriOptions) {
     return () => clearTimeout(timer);
   }, [generateConnectUri]);
 
-  return { uri };
+  return {
+    uri,
+    status,
+    generateConnectUri,
+  };
 }

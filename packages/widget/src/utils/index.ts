@@ -40,6 +40,10 @@ export const isMobile = () => {
 
 export const isDesktop = () => !isMobile();
 
+export const isWCConnector = (connectorId?: string) => connectorId === 'walletConnect';
+
+export const isInjectedConnector = (connectorType?: string) => connectorType === 'injected';
+
 export const generateInAppBrowserRoninMobileLink = (uri: string) => {
   return `roninwallet://in_app_browser?url=${encodeURIComponent(uri)}`;
 };
@@ -52,7 +56,15 @@ export const isRoninExtensionInstalled = (connectors: readonly Connector<CreateC
   return connectors.some(connector => connector.id === 'com.roninchain.wallet');
 };
 
-export const truncate = (value?: string, prefixChar = 8, suffixChar = 6, bridge = '...') => {
+export const truncate = (
+  value?: string,
+  options?: {
+    prefixChar?: number;
+    suffixChar?: number;
+    bridge?: string;
+  },
+) => {
+  const { prefixChar = 8, suffixChar = 6, bridge = '•••' } = options ?? {};
   if (!value) return '';
   if (value.length <= prefixChar + suffixChar + bridge.length) return value;
   return `${value.slice(0, prefixChar)}${bridge}${value.slice(-suffixChar)}`;

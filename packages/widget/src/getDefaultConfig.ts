@@ -17,7 +17,8 @@ export const getDefaultConfig = (): Config => {
     connectors: [
       roninWallet(),
       waypoint({
-        clientId: 'c2345990-c094-4028-91e1-e24138429a59',
+        waypointOrigin: 'https://id.skymavis.one',
+        clientId: 'dbe1e3ff-e145-422f-84c4-e0beb4972f69',
         chainId: 2021,
       }),
       walletConnect({

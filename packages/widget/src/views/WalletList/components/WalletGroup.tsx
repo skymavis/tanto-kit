@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 
+import { MAX_WALLET_ITEM_PER_GROUP, WALLET_ITEM_HEIGHT } from '../../../constants';
 import { Wallet } from '../../../types/wallet';
 import { WalletItem } from './WalletItem';
 
@@ -15,6 +16,8 @@ const Container = styled.div({
   overflow: 'hidden',
   borderRadius: 16,
   gap: 1,
+  overflowY: 'auto',
+  maxHeight: MAX_WALLET_ITEM_PER_GROUP * WALLET_ITEM_HEIGHT + (MAX_WALLET_ITEM_PER_GROUP - 1),
 });
 
 export const WalletGroup = ({ wallets, className }: WalletGroupProps) => {
