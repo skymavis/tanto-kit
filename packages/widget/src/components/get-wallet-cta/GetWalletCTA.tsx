@@ -25,7 +25,7 @@ export const GetWalletCTA = memo(() => {
   return (
     <Container fullWidth align="center" gap={8} p={12} radius={12}>
       <RoninLogo />
-      <Description>Don't have Ronin Mobile wallet?</Description>
+      <Description>Don't have Ronin Wallet Mobile?</Description>
       <a target="_blank" href={WEB_WALLET_LINK}>
         <DownloadButton size="xsmall">Get</DownloadButton>
       </a>

@@ -7,8 +7,8 @@ import { BalanceDisplay } from './components/BalanceDisplay';
 import { DisconnectButton } from './components/DisconnectButton';
 
 export function Profile() {
-  const { address, isConnected } = useAccount();
-  const { data: balanceData, isLoading } = useBalance({ address });
+  const { isConnected, address, chainId } = useAccount();
+  const { data: balanceData, isLoading } = useBalance({ address, chainId });
   const normalizedAddress = address?.toLowerCase();
 
   return (

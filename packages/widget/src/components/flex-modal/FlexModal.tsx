@@ -13,11 +13,12 @@ import { createContext, ElementRef, forwardRef, memo, ReactNode, useContext, use
 
 import { ArrowLeftIcon } from '../../assets/ArrowLeftIcon';
 import { XIcon } from '../../assets/XIcon';
-import { useAnimatedResize } from '../../hooks/useAnimatedResize';
 import { useIsMobileView } from '../../hooks/useIsMobileView';
+import { useSmoothHeightResize } from '../../hooks/useSmoothHeightResize';
 import { fadeIn, fadeOut } from '../../styles/animations';
 import { Box } from '../box/Box';
 import { IconButton } from '../button/Button';
+import { CSSResetContainer } from '../css-reset-container/CSSResetContainer';
 import * as Dialog from './Dialog';
 import * as Drawer from './Drawer';
 
@@ -89,13 +90,13 @@ const Content = memo(
   forwardRef<ElementRef<typeof Dialog.Content>, Dialog.DialogContentProps>(({ children, ...rest }, ref) => {
     const { isMobile, isEmbedded } = useFlexModalContext();
     const ContentComponent = isEmbedded ? Dialog.Content : isMobile ? Drawer.Content : Dialog.Content;
-    const { ResizableContainer } = useAnimatedResize();
+    const { ResizableContainer } = useSmoothHeightResize();
     const theme = useTheme();
     return (
       <ContentComponent ref={ref} css={{ backgroundColor: theme.modalBackgroundColor }} {...rest}>
         <ResizableContainer>
           <Description />
-          {children}
+          <CSSResetContainer>{children}</CSSResetContainer>
         </ResizableContainer>
       </ContentComponent>
     );

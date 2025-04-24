@@ -27,33 +27,6 @@ export function ThemeProvider(props: ThemeProviderProps) {
           }
         `}
       />
-      <Global
-        styles={css`
-          * {
-            font-family: ${theme.fontFamily};
-            color: ${theme.textColor};
-          }
-        `}
-      />
-      <Global
-        styles={css`
-          ::-webkit-scrollbar {
-            -webkit-appearance: none;
-            background-color: ${theme.backgroundColor};
-            width: 4px;
-            height: 4px;
-          }
-
-          ::-webkit-scrollbar-thumb {
-            background-color: ${theme.thumbBackgroundColor};
-            border-radius: 10px;
-          }
-
-          ::-webkit-scrollbar-corner {
-            background-color: transparent;
-          }
-        `}
-      />
       {children}
     </EmotionThemeProvider>
   );

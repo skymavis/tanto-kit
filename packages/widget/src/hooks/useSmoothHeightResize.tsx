@@ -6,7 +6,7 @@ import useResizeObserver from 'use-resize-observer';
 
 type ResizableContainerProps = HTMLAttributes<HTMLDivElement>;
 
-export function useAnimatedResize() {
+export function useSmoothHeightResize() {
   const containerRef = useCallbackRef<HTMLDivElement>(null, container => {
     if (container) container.style.height = `${container.clientHeight}px`;
   });

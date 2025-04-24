@@ -24,7 +24,6 @@ const TransitionContainerComponent = forwardRef<HTMLDivElement, TransitionContai
         ref={ref}
         css={{
           width: '100%',
-          color: 'inherit',
         }}
         {...animationProps}
         onAnimationComplete={onAnimationComplete}

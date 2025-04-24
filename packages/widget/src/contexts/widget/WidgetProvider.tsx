@@ -51,14 +51,15 @@ export const WidgetProvider = ({ children }: { children: ReactNode }) => {
   const hide = useCallback(() => setOpen(false), []);
 
   const goTo = useCallback(
-    (route: Route, options: Omit<View, 'route'> = {}) => {
+    (nextRoute: Route, options: Omit<View, 'route'> = {}) => {
       setOpen(true);
-      setNavigation(({ view: currentView, history }) => {
-        if (!isConnected && authenticatedRoutes.includes(route)) return { view: currentView, history };
+      setNavigation(state => {
+        const { view: currentView, history } = state;
+        if (!isConnected && authenticatedRoutes.includes(nextRoute)) return state;
 
-        const isSameView = route === currentView.route;
+        const isSameView = nextRoute === currentView.route;
         const newView: View = {
-          route,
+          route: nextRoute,
           title: options.title ?? currentView.title,
           showBackButton: options.showBackButton ?? (!isSameView && history.length > 0),
           ...options,

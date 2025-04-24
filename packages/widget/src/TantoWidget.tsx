@@ -1,6 +1,6 @@
 import { domAnimation, LazyMotion } from 'motion/react';
 import { useEffect } from 'react';
-import { useAccount, useAccountEffect } from 'wagmi';
+import { useAccount, useAccountEffect, useBalance } from 'wagmi';
 
 import { FlexModal } from './components/flex-modal/FlexModal';
 import { TransitionContainer } from './components/transition-container/TransitionContainer';
@@ -20,9 +20,10 @@ const views = {
 };
 
 export function TantoWidget() {
-  const { isConnected } = useAccount();
   const { view, open, setOpen, hide, goBack, reset } = useWidget();
+  const { isConnected, address, chainId } = useAccount();
 
+  useBalance({ address, chainId });
   useAccountEffect({
     onConnect() {
       setTimeout(hide, CONNECT_WIDGET_HIDE_DELAY);

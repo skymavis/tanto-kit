@@ -7,9 +7,6 @@ import { isMobile, isRoninWallet } from '../../utils';
 import { WalletGroup } from './components/WalletGroup';
 
 export function WalletList() {
-  const isMobileDevice = isMobile();
-  const isInApp = isRoninWallet();
-
   const { primaryWallets, secondaryWallets } = useWallets();
 
   return (
@@ -17,11 +14,11 @@ export function WalletList() {
       <WalletGroup wallets={primaryWallets} />
       {secondaryWallets.length > 0 && (
         <Box vertical gap={12}>
-          <DashedDivider text="Other wallets" />
+          {primaryWallets.length > 0 && <DashedDivider text="Other wallets" />}
           <WalletGroup wallets={secondaryWallets} />
         </Box>
       )}
-      {isMobileDevice && !isInApp && <GetWalletCTA />}
+      {isMobile() && !isRoninWallet() && <GetWalletCTA />}
       <Disclaimer />
     </Box>
   );

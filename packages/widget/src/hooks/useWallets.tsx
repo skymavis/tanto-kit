@@ -27,11 +27,13 @@ const WalletIcon = styled('img', {
 
 const createWalletIcon = (src: string, alt: string, size = 32) => <WalletIcon src={src} alt={alt} size={size} />;
 
-export function useWallets(): {
+interface UseConnectReturnType {
   wallets: Wallet[];
   primaryWallets: Wallet[];
   secondaryWallets: Wallet[];
-} {
+}
+
+export function useWallets(): UseConnectReturnType {
   const connectors = useConnectors();
   const isMobileDevice = isMobile();
   const isDesktopDevice = isDesktop();
@@ -51,25 +53,24 @@ export function useWallets(): {
       connector,
     };
 
-    if (!walletId) return baseWallet;
+    if (!walletId || !walletConfigs[walletId]) return baseWallet;
 
     const walletOverrides = walletConfigs[walletId];
-    if (!walletOverrides) return baseWallet;
-
     return {
       ...baseWallet,
       ...walletOverrides,
-      ...(typeof walletOverrides.icon === 'string'
-        ? { icon: createWalletIcon(walletOverrides.icon, connector.name) }
-        : {}),
+      icon: walletOverrides.icon
+        ? typeof walletOverrides.icon === 'string'
+          ? createWalletIcon(walletOverrides.icon, connector.name)
+          : walletOverrides.icon
+        : baseWallet.icon,
     };
   });
 
   const walletMap = new Map(wallets.map(wallet => [wallet.id, wallet]));
-
   const waypointWallet = walletMap.get('WAYPOINT');
-  const roninExtensionWallet = walletMap.get('RONIN_WALLET') ?? walletMap.get('com.roninchain.wallet');
   const wcWallet = walletMap.get('walletConnect');
+  const roninExtensionWallet = walletMap.get('RONIN_WALLET') ?? walletMap.get('com.roninchain.wallet');
   const injectedWallets = wallets.filter(
     wallet =>
       isInjectedConnector(wallet.connector?.type) && !['RONIN_WALLET', 'com.roninchain.wallet'].includes(wallet.id),
@@ -78,35 +79,35 @@ export function useWallets(): {
   const roninMobileWallet = wcWallet
     ? {
         ...wcWallet,
-        name: 'Ronin Wallet',
+        name: 'Ronin Wallet Mobile',
         descriptionOnList: 'Sign in with the app',
         isInstalled: true,
         icon: <RoninMobileCustomSquareLogo />,
         iconOnList: <RoninMobileCustomLogo />,
       }
-    : null;
+    : undefined;
 
   const inAppWallet = roninExtensionWallet
     ? {
         ...roninExtensionWallet,
-        name: 'Ronin Wallet',
+        name: 'Ronin Wallet Mobile',
         descriptionOnList: 'Sign in with the app',
         isInstalled: true,
         icon: <RoninExtensionCustomSquareLogo />,
         iconOnList: <RoninMobileCustomLogo />,
       }
-    : null;
+    : undefined;
 
-  const primaryWallets = ((): Wallet[] => {
+  const primaryWallets = (() => {
     if (isDesktopDevice) return [waypointWallet, roninExtensionWallet].filter(notEmpty);
     if (isMobileDevice && !isInApp) return [waypointWallet, roninMobileWallet].filter(notEmpty);
     if (isInApp) return [inAppWallet].filter(notEmpty);
     return [];
   })();
 
-  const secondaryWallets = ((): Wallet[] => {
-    const wallets = isDesktopDevice ? [wcWallet, ...injectedWallets].filter(notEmpty) : [];
-    return wallets.sort(a => (isWCConnector(a.id) ? -1 : 1));
+  const secondaryWallets = (() => {
+    const filteredWallets = isDesktopDevice ? [wcWallet, ...injectedWallets].filter(notEmpty) : [];
+    return filteredWallets.sort(wallet => (isWCConnector(wallet.id) ? -1 : 1));
   })();
 
   return {
