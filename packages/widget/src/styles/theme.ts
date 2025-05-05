@@ -1,13 +1,13 @@
 import type { Theme } from '@emotion/react';
 
-export const dark: Theme = {
+export const tantoDarkTheme: Theme = {
   /* ------------------ INFO ----------------- */
-  name: 'dark',
+  name: 'tanto-dark',
 
   /* ------------------ GENERAL ----------------- */
-  fontFamily: "'Work Sans', sans-serif, 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial",
-  textColor: '#fff',
-  neutralTextColor: 'rgba(205, 213, 229, 0.75)',
+  fontFamily: "'Work Sans', 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+  foregroundColor: '#fff',
+  neutralColor: 'rgba(205, 213, 229, 0.75)',
   linkTextColor: '#5294F8',
   linkTextSecondaryColor: '#136AEC',
   borderColor: '#353A45',
@@ -87,14 +87,14 @@ export const dark: Theme = {
   tooltipBoxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.10),  0px 4px 20px 0px rgba(0, 0, 0, 0.40)',
 };
 
-export const light: Theme = {
+export const tantoLightTheme: Theme = {
   /* ------------------ INFO ----------------- */
-  name: 'light',
+  name: 'tanto-light',
 
   /* ------------------ GENERAL ----------------- */
-  fontFamily: "'Work Sans', sans-serif, 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial",
-  textColor: '#000',
-  neutralTextColor: 'rgba(0, 0, 0, 0.75)',
+  fontFamily: "'Work Sans', 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+  foregroundColor: '#000',
+  neutralColor: 'rgba(0, 0, 0, 0.75)',
   linkTextColor: '#1D4ED8',
   linkTextSecondaryColor: '#1E40AF',
   borderColor: '#D1D5DB',

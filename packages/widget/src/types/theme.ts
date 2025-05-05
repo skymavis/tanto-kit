@@ -1,12 +1,10 @@
-export type ThemeMode = 'light' | 'dark';
-
 export interface WidgetTheme {
   /* ------------------ INFO ----------------- */
-  name: ThemeMode;
+  name: string;
   /* ------------------ GENERAL ----------------- */
   fontFamily: string;
-  textColor: string;
-  neutralTextColor: string;
+  foregroundColor: string;
+  neutralColor: string;
   linkTextColor: string;
   linkTextSecondaryColor: string;
   borderColor: string;

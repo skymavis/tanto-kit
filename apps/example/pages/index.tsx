@@ -17,7 +17,7 @@ const HomePage: NextPage = () => {
         <WalletConnectors />
       </div>
 
-      <div className="flex flex-col max-w-screen-sm p-6  min-h-screen flex-grow">
+      <div className="flex flex-col flex-grow max-w-screen-sm min-h-screen p-6">
         <WalletActions key={connector?.id} />
       </div>
     </div>

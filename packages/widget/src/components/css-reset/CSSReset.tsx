@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 export const CSSReset = styled.div(({ theme }) => ({
   fontFamily: `${theme.fontFamily}, 'Work Sans', sans-serif`,
-  color: theme.textColor,
+  color: theme.foregroundColor,
   fontSize: 16,
 
   '& *': {

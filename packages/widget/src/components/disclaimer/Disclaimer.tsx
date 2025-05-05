@@ -3,20 +3,20 @@ import styled from '@emotion/styled';
 import { WEB_WALLET_LINK } from '../../constants';
 import { Box } from '../box/Box';
 
-const Container = styled.div({
+const Container = styled.div(props => ({
   maxWidth: 378,
   fontSize: 12,
   fontWeight: 400,
   lineHeight: '16px',
   textAlign: 'center',
-  color: 'rgba(205, 213, 229, 0.75)',
+  color: props.theme.neutralColor,
   '& > a': {
-    color: '#5294F8',
+    color: props.theme.linkTextColor,
     '&:hover': {
       opacity: 0.8,
     },
   },
-});
+}));
 
 export const Disclaimer = () => {
   return (

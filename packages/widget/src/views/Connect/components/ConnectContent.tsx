@@ -19,11 +19,11 @@ const Title = styled.h3({
   fontWeight: 500,
 });
 
-const Description = styled.p({
+const Description = styled.p(props => ({
   fontSize: 14,
   fontWeight: 400,
-  color: 'rgba(205, 213, 229, 0.75)',
-});
+  color: props.theme.neutralColor,
+}));
 
 interface StatusContentProps {
   status: ConnectState;

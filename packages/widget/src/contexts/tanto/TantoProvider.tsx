@@ -1,15 +1,15 @@
+import type { Theme } from '@emotion/react';
 import { domAnimation, LazyMotion } from 'motion/react';
 import type { ReactNode } from 'react';
 import { useMemo, useState } from 'react';
 
-import { ThemeMode } from '../../types';
-import { Wallet } from '../../types/wallet';
+import type { Wallet } from '../../types/wallet';
 import { ThemeProvider } from '../theme/ThemeProvider';
 import { WidgetProvider } from '../widget/WidgetProvider';
 import { TantoContext } from './TantoContext';
 
 interface TantoProviderProps {
-  theme?: ThemeMode;
+  theme?: Theme;
   children: ReactNode;
 }
 

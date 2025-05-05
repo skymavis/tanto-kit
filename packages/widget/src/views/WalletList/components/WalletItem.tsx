@@ -56,12 +56,12 @@ const WalletName = styled.p({
   margin: 0,
 });
 
-const WalletDescription = styled.p({
+const WalletDescription = styled.p(props => ({
   fontSize: 12,
   lineHeight: '16px',
-  color: 'rgba(205, 213, 229, 0.75)',
+  color: props.theme.neutralColor,
   margin: 0,
-});
+}));
 
 export const WalletItem = ({ wallet }: WalletItemProps) => {
   const { id, name, icon, connector, homepage, isInstalled, displayOptions = {} } = wallet;

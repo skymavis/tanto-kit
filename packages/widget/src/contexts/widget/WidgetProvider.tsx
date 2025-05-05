@@ -3,19 +3,19 @@ import { useAccount } from 'wagmi';
 
 import { TantoWidget } from '../../TantoWidget';
 import { authenticatedRoutes, Route } from '../../types/route';
-import { View, WidgetContext, WidgetState } from './WidgetContext';
+import { type View, type WidgetState, WidgetContext } from './WidgetContext';
 
 const WALLETS_VIEW: View = {
   route: Route.WALLETS,
   title: (
     <p
-      css={{
+      css={theme => ({
         fontSize: 11,
         fontWeight: 500,
-        color: 'rgba(205, 213, 229, 0.75)',
+        color: theme.neutralColor,
         textTransform: 'uppercase',
         textAlign: 'center',
-      }}
+      })}
     >
       Powered by Ronin Wallet
     </p>
