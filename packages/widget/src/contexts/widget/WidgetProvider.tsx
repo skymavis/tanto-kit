@@ -13,6 +13,7 @@ const WALLETS_VIEW: View = {
         fontSize: 11,
         fontWeight: 500,
         color: theme.neutralColor,
+        transform: 'translateY(6px)',
         textTransform: 'uppercase',
         textAlign: 'center',
       })}

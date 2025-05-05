@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useCallback } from 'react';
 
-import { getHighlightedWalletItemBackgroundUri } from '../../../assets/data-uris';
+import { highlightedWalletItemBackgroundUri, highlightedWalletItemHoverBackgroundUri } from '../../../assets/data-uris';
 import { Badge } from '../../../components/badge/Badge';
 import { Box } from '../../../components/box/Box';
 import { WALLET_ITEM_HEIGHT } from '../../../constants';
@@ -39,13 +39,13 @@ const Container = styled('div', {
   ({ highlight }) =>
     highlight && {
       backgroundColor: 'unset',
-      backgroundImage: `url("${getHighlightedWalletItemBackgroundUri()}")`,
+      backgroundImage: `url("${highlightedWalletItemBackgroundUri}")`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
       '&:hover': {
         backgroundColor: 'unset',
-        backgroundImage: `url("${getHighlightedWalletItemBackgroundUri(true)}")`,
+        backgroundImage: `url("${highlightedWalletItemHoverBackgroundUri}")`,
       },
     },
 );

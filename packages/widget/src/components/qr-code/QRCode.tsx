@@ -10,6 +10,7 @@ interface QRCode {
 }
 
 const SIZE = 236;
+const RADIUS = 24;
 const DEFAULT_OPTIONS: Options = {
   type: 'svg',
   dotsOptions: {
@@ -88,7 +89,7 @@ export const QRCode = memo(({ value, size = SIZE, logo = blueFilledWCLogoUri }: 
       css={{
         width: size,
         height: size,
-        borderRadius: 12,
+        borderRadius: RADIUS,
         overflow: 'hidden',
       }}
     />

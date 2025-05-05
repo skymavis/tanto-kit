@@ -24,7 +24,7 @@ export const tantoDarkTheme: Theme = {
   modalOverlayColor: 'rgba(12, 12, 13, 0.6)',
   modalBackgroundColor: '#15181E',
   modalShadow: '0px 0px 1px 0px rgba(0, 0, 0, 0.20), 0px 24px 64px 0px #000',
-  modalBorderRadius: 12,
+  modalBorderRadius: 20,
   modalBorder: '1px solid #272B34',
   modalPadding: 24,
 
@@ -111,7 +111,7 @@ export const tantoLightTheme: Theme = {
   modalOverlayColor: 'rgba(12, 12, 13, 0.8)',
   modalBackgroundColor: '#FFFFFF',
   modalShadow: '0px 0px 1px 0px rgba(0, 0, 0, 0.10), 0px 12px 24px 0px rgba(0, 0, 0, 0.20)',
-  modalBorderRadius: 12,
+  modalBorderRadius: 20,
   modalBorder: '1px solid #272B34',
   modalPadding: 24,
 

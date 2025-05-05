@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
 import { useAccount, useAccountEffect, useBalance } from 'wagmi';
 
+import * as dataUris from './assets/data-uris';
 import { TransitionedView } from './components/animated-containers/TransitionedView';
 import { FlexModal, FlexModalProps } from './components/flex-modal/FlexModal';
 import { CONNECT_WIDGET_HIDE_DELAY } from './constants';
+import { usePreloadImages } from './hooks/usePreloadImages';
 import { useWalletConnectListener } from './hooks/useWalletConnectListener';
 import { useWidget } from './hooks/useWidget';
 import { authenticatedRoutes, publicRoutes, Route } from './types/route';
@@ -51,6 +53,21 @@ export function TantoWidget(props: TantoWidgetProps) {
     )
       reset();
   }, [isConnected, view.route]);
+
+  usePreloadImages([
+    dataUris.blueFilledWCLogoUri,
+    dataUris.highlightedWalletItemBackgroundUri,
+    dataUris.highlightedWalletItemHoverBackgroundUri,
+    dataUris.blueFilledWCLogoUri,
+    dataUris.roninExtensionCustomLogoUri,
+    dataUris.roninExtensionCustomSquareLogoUri,
+    dataUris.roninLogoUri,
+    dataUris.roninMobileCustomLogoUri,
+    dataUris.roninMobileCustomSquareLogoUri,
+    dataUris.roninWaypointCustomLogoUri,
+    dataUris.roninWaypointCustomSquareLogoUri,
+    dataUris.scanWalletsIconUri,
+  ]);
 
   return (
     <FlexModal

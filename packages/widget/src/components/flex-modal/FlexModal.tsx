@@ -91,10 +91,12 @@ const Content = forwardRef<ElementRef<typeof Dialog.Content>, Dialog.DialogConte
     const theme = useTheme();
     return (
       <ContentComponent ref={ref} css={{ backgroundColor: theme.modalBackgroundColor }} {...rest}>
-        <SmoothHeight>
-          <Description />
-          <CSSReset>{children}</CSSReset>
-        </SmoothHeight>
+        <CSSReset>
+          <SmoothHeight>
+            <Description />
+            {children}
+          </SmoothHeight>
+        </CSSReset>
       </ContentComponent>
     );
   },
@@ -130,10 +132,10 @@ const Close = (props: DialogCloseProps) => {
 };
 
 const ActionSecion = styled(m.div)({
-  minWidth: 36,
-  minHeight: 36,
-  width: 36,
-  height: 36,
+  minWidth: 44,
+  minHeight: 44,
+  width: 44,
+  height: 44,
 });
 
 export interface FlexModalProps {
@@ -171,14 +173,13 @@ export const FlexModal = (props: FlexModalProps) => {
         <Portal container={container}>
           {showOverlay && <Overlay />}
           <Content forceMount isEmbedded={isEmbedded} onCloseAutoFocus={onAfterClose}>
-            <Box align="center" gap={8} mb={12}>
+            <Box align="center" gap={8} mb={8}>
               <ActionSecion>
                 {showBackButton && (
                   <IconButton
                     aria-label="Back"
                     intent="secondary"
                     variant="plain"
-                    size="small"
                     icon={<ArrowLeftIcon />}
                     onClick={onBack}
                   />
@@ -188,7 +189,7 @@ export const FlexModal = (props: FlexModalProps) => {
               <ActionSecion>
                 {showCloseButton && (
                   <Close asChild aria-label="Close">
-                    <IconButton intent="secondary" variant="plain" size="small" icon={<XIcon />} />
+                    <IconButton intent="secondary" variant="plain" icon={<XIcon />} />
                   </Close>
                 )}
               </ActionSecion>

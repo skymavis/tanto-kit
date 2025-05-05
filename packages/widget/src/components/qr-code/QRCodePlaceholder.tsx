@@ -7,6 +7,7 @@ import { shine } from '../../styles/animations';
 const SIZE = 236;
 const INSET = 8;
 const SVG_SIZE = SIZE - INSET * 2;
+const RADIUS = 24;
 const BACKGROUND = '#F1F3F9';
 const DOT_COLOR = 'rgba(32, 31, 29, 0.4)';
 
@@ -19,7 +20,7 @@ const corners = [
 const Container = styled.div({
   position: 'absolute',
   overflow: 'hidden',
-  borderRadius: 12,
+  borderRadius: RADIUS,
   width: SIZE,
   height: SIZE,
   background: BACKGROUND,

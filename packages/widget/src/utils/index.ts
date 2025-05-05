@@ -74,3 +74,12 @@ export const formatBalance = (amount: bigint) => {
   const remainder = amount % BigInt(1e14);
   return formatUnits(amount - remainder, 18);
 };
+
+export const isValidURL = (url: string) => {
+  try {
+    new URL(url);
+    return true;
+  } catch {
+    return false;
+  }
+};

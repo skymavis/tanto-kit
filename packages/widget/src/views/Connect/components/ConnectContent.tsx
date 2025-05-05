@@ -11,7 +11,7 @@ import { generateRoninMobileWCLink } from '../../../utils';
 const ContentSection = styled(Box)({
   textAlign: 'center',
   flexDirection: 'column',
-  gap: 16,
+  gap: 4,
 });
 
 const Title = styled.h3({

@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { memo } from 'react';
 
 import { RoninLogo } from '../../assets/RoninLogo';
 import { WEB_WALLET_LINK } from '../../constants';
@@ -19,7 +20,7 @@ const DownloadButton = styled(Button)({
   width: 48,
 });
 
-export const GetWalletCTA = () => {
+export const GetWalletCTA = memo(() => {
   return (
     <Container fullWidth align="center" gap={8} p={12} radius={12}>
       <RoninLogo />
@@ -29,4 +30,4 @@ export const GetWalletCTA = () => {
       </a>
     </Container>
   );
-};
+});

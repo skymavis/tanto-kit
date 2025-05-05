@@ -29,6 +29,7 @@ const DialogContent = styled(DialogPrimitive.Content, {
   shouldForwardProp: propName => propName !== 'isEmbedded',
 })<{ isEmbedded?: boolean }>(
   {
+    boxSizing: 'border-box',
     outline: 'none',
     display: 'grid',
     minWidth: 420,

@@ -18,7 +18,7 @@ export function TantoConnectButton() {
       <Button intent={isConnected ? 'secondary' : 'primary'} onClick={show}>
         <SmoothWidth>
           {isConnected ? (
-            <Box gap={8}>
+            <Box align="center" gap={8}>
               <Avatar seed={normalizedAddress} size={'S'} />
               <p>{truncate(normalizedAddress)}</p>
             </Box>
