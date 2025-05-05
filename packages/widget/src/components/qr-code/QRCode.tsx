@@ -49,7 +49,7 @@ const DEFAULT_OPTIONS: Options = {
   },
 };
 
-export const QRCode = memo(function ({ value, size = SIZE, logo = blueFilledWCLogoUri }: QRCode) {
+export const QRCode = memo(({ value, size = SIZE, logo = blueFilledWCLogoUri }: QRCode) => {
   const qrRef = useRef<HTMLDivElement>(null);
   const qrCodeRef = useRef<QRCodeStyling | null>(null);
 

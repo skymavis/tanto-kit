@@ -3,7 +3,7 @@ import { DashedDivider } from '../../components/dashed-divider/DashedDivider';
 import { Disclaimer } from '../../components/disclaimer/Disclaimer';
 import { GetWalletCTA } from '../../components/get-wallet-cta/GetWalletCTA';
 import { useWallets } from '../../hooks/useWallets';
-import { isMobile, isRoninWallet } from '../../utils';
+import { isMobile, isRoninInAppBrowser } from '../../utils';
 import { WalletGroup } from './components/WalletGroup';
 
 export function WalletList() {
@@ -18,7 +18,7 @@ export function WalletList() {
           <WalletGroup wallets={secondaryWallets} />
         </Box>
       )}
-      {isMobile() && !isRoninWallet() && <GetWalletCTA />}
+      {isMobile() && !isRoninInAppBrowser() && <GetWalletCTA />}
       <Disclaimer />
     </Box>
   );

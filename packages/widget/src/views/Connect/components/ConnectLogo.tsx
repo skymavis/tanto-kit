@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import * as m from 'motion/react-m';
-import { memo, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 import { SuccessIcon } from '../../../assets/SuccessIcon';
 import { WarningIcon } from '../../../assets/WarningIcon';
-import { AppearContainer } from '../../../components/appear-container/AppearContainer';
+import { Fade } from '../../../components/animated-containers/Fade';
 import SquircleSpinner from '../../../components/squircle-spinner/SquircleSpinner';
 import { CONNECT_WIDGET_HIDE_DELAY } from '../../../constants';
 import { fadeIn, fadeOut, shake } from '../../../styles/animations';
@@ -61,20 +61,20 @@ interface ConnectLogoProps {
   status: ConnectState;
 }
 
-const StatusIcon = memo<{ status: ConnectState }>(({ status }) => {
+const StatusIcon = ({ status }: { status: ConnectLogoProps['status'] }) => {
   return (
     <>
-      <AppearContainer show={status === CONNECT_STATES.ERROR}>
+      <Fade show={status === CONNECT_STATES.ERROR}>
         <WarningIcon />
-      </AppearContainer>
-      <AppearContainer show={status === CONNECT_STATES.SUCCESS}>
+      </Fade>
+      <Fade show={status === CONNECT_STATES.SUCCESS}>
         <SuccessIcon />
-      </AppearContainer>
+      </Fade>
     </>
   );
-});
+};
 
-export const ConnectLogo = memo(({ walletIcon, status }: ConnectLogoProps) => {
+export const ConnectLogo = ({ walletIcon, status }: ConnectLogoProps) => {
   const isConnecting = [CONNECT_STATES.PENDING, CONNECT_STATES.OPENING_WALLET].includes(status);
 
   return (
@@ -85,4 +85,4 @@ export const ConnectLogo = memo(({ walletIcon, status }: ConnectLogoProps) => {
       </StatusIconSection>
     </LogoSection>
   );
-});
+};

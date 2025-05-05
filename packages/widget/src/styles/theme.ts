@@ -21,7 +21,7 @@ export const dark: Theme = {
 
   /* ------------------- MODAL ------------------ */
   modalMaxWidth: 500,
-  modalOverlayColor: 'rgba(12, 12, 13, 0.8)',
+  modalOverlayColor: 'rgba(12, 12, 13, 0.6)',
   modalBackgroundColor: '#15181E',
   modalShadow: '0px 0px 1px 0px rgba(0, 0, 0, 0.20), 0px 24px 64px 0px #000',
   modalBorderRadius: 12,
@@ -55,8 +55,8 @@ export const dark: Theme = {
   onRampCardBorderRadius: 16,
   onRampCardBackgroundColor: 'rgba(205, 213, 229, 0.07)',
 
-  listItemBackgroundColor: 'transparent',
-  listItemHoverBackgroundColor: 'rgba(205, 213, 229, 0.10)',
+  listItemBackgroundColor: 'rgba(205, 213, 229, 0.07)',
+  listItemHoverBackgroundColor: 'rgba(205, 213, 229, 0.1)',
   listItemActiveBackgroundColor: 'rgba(205, 213, 229, 0.15)',
 
   listItemLargeBackgroundColor: 'rgba(205, 213, 229, 0.07)',

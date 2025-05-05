@@ -21,22 +21,22 @@ export const fadeOut = keyframes`
 export const fadeInUp = keyframes`
   from {
     opacity: 0;
-    transform: 'translateY(2%) scale(0.95)';
+    transform: scale(0.97);
   }
   to {
     opacity: 1;
-    transform: 'translateY(0%) scale(1)';
+    transform: scale(1);
   },
 `;
 
 export const fadeOutDown = keyframes`
   from {
     opacity: 1;
-    transform: 'translateY(0%) scale(1)';
+    transform: scale(1);
   }
   to {
     opacity: 0;
-    transform: 'translateY(2%) scale(0.95)';
+    transform: scale(0.97);
   },
 `;
 

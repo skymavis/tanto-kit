@@ -1,17 +1,29 @@
 import { ReactNode } from 'react';
 import { Connector } from 'wagmi';
 
+export type WalletId =
+  | string
+  | 'WAYPOINT'
+  | 'RONIN_WALLET'
+  | 'com.roninchain.wallet'
+  | 'walletConnect'
+  // Custom for Ronin
+  | 'CUSTOM_RONIN_MOBILE_WALLET'
+  | 'CUSTOM_RONIN_IN_APP_WALLET';
+
 export interface WalletConfig {
-  id: string;
+  icon: ReactNode;
   name: string;
-  icon: string | ReactNode;
-  iconOnList?: ReactNode;
-  descriptionOnList?: string;
-  highlightOnList?: boolean;
-  downloadUrl?: string;
+  homepage?: string;
+  displayOptions?: {
+    thumbnail?: ReactNode;
+    description?: string;
+    highlight?: boolean;
+  };
 }
 
 export type Wallet = WalletConfig & {
-  connector: Connector | null;
-  isInstalled?: boolean;
+  id: string;
+  isInstalled: boolean;
+  connector?: Connector;
 };

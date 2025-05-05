@@ -28,7 +28,7 @@ const Container = styled.div({
 const Dots = styled.div({
   position: 'absolute',
   inset: 9,
-  '&::before': {
+  '&:before': {
     pointerEvents: 'none',
     content: '""',
     position: 'absolute',
@@ -37,7 +37,7 @@ const Dots = styled.div({
     backgroundSize: '1.786% 1.786%',
     backgroundImage: `radial-gradient(${DOT_COLOR} 30%, transparent 30%)`,
   },
-  '&::after': {
+  '&:after': {
     content: '""',
     position: 'absolute',
     inset: 0,
@@ -47,7 +47,7 @@ const Dots = styled.div({
     backgroundSize: '200% 100%',
     backgroundImage: 'linear-gradient(90deg, transparent 50%, rgba(255, 255, 255, 0.9), transparent)',
     willChange: 'background-position',
-    animation: `${shine} 1100ms linear infinite both`,
+    animation: `${shine} 1150ms linear infinite both`,
     animationDelay: `${DELAY_CONNECT}ms`,
   },
 });
@@ -63,7 +63,7 @@ const CornerSvg = styled.svg<{
   transform: rotate ? `rotate(${rotate}deg)` : undefined,
 }));
 
-const CornerPath = memo(() => (
+const CornerPath = () => (
   <>
     <path d="M0 0h24v16a8 8 0 0 1-8 8H0z" fill={BACKGROUND} />
     <mask id="a" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
@@ -84,9 +84,9 @@ const CornerPath = memo(() => (
       <path d="M15 6H6v9h9z" fill={DOT_COLOR} />
     </g>
   </>
-));
+);
 
-const LogoOverlay = memo(() => (
+const LogoOverlay = () => (
   <svg
     css={{
       position: 'absolute',
@@ -116,7 +116,7 @@ const LogoOverlay = memo(() => (
       </clipPath>
     </defs>
   </svg>
-));
+);
 
 export const QRCodePlaceholder = memo(() => {
   return (

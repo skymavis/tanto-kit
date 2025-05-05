@@ -4,7 +4,7 @@ import { Connector, useConnect, UseConnectReturnType } from 'wagmi';
 import { CONNECT_STATES } from '../types';
 import { isMobile, isWCConnector } from '../utils';
 
-const normalizeConnectStatus = (status: UseConnectReturnType['status'], connector: Connector | null) => {
+const normalizeConnectStatus = (status: UseConnectReturnType['status'], connector?: Connector) => {
   switch (status) {
     case 'idle':
     case 'pending':
@@ -17,7 +17,7 @@ const normalizeConnectStatus = (status: UseConnectReturnType['status'], connecto
   }
 };
 
-export function useTriggerConnect({ connector }: { connector: Connector | null }) {
+export function useTriggerConnect({ connector }: { connector?: Connector }) {
   const { status, connect: wagmiConnect } = useConnect();
 
   const connect = useCallback(() => {

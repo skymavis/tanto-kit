@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const CSSResetContainer = styled.div(({ theme }) => ({
+export const CSSReset = styled.div(({ theme }) => ({
   fontFamily: `${theme.fontFamily}, 'Work Sans', sans-serif`,
   color: theme.textColor,
   fontSize: 16,

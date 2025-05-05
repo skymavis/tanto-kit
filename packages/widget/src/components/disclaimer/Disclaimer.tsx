@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { memo } from 'react';
 
 import { WEB_WALLET_LINK } from '../../constants';
 import { Box } from '../box/Box';
@@ -19,7 +18,7 @@ const Container = styled.div({
   },
 });
 
-export const Disclaimer = memo(() => {
+export const Disclaimer = () => {
   return (
     <Box fullWidth justify="center">
       <Container>
@@ -35,4 +34,4 @@ export const Disclaimer = memo(() => {
       </Container>
     </Box>
   );
-});
+};

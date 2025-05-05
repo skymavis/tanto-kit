@@ -1,3 +1,4 @@
+import { domAnimation, LazyMotion } from 'motion/react';
 import type { ReactNode } from 'react';
 import { useMemo, useState } from 'react';
 
@@ -18,8 +19,8 @@ export function TantoProvider(props: TantoProviderProps) {
   const contextValue = useMemo(
     () => ({
       wallet,
-      connector: wallet?.connector ?? null,
       setWallet,
+      connector: wallet?.connector,
     }),
     [wallet],
   );
@@ -27,7 +28,9 @@ export function TantoProvider(props: TantoProviderProps) {
   return (
     <TantoContext.Provider value={contextValue}>
       <ThemeProvider theme={theme}>
-        <WidgetProvider>{children}</WidgetProvider>
+        <LazyMotion features={domAnimation} strict>
+          <WidgetProvider>{children}</WidgetProvider>
+        </LazyMotion>
       </ThemeProvider>
     </TantoContext.Provider>
   );

@@ -10,7 +10,7 @@ export const isClient = () => {
   return typeof window !== 'undefined';
 };
 
-export const isRoninWallet = () => {
+export const isRoninInAppBrowser = () => {
   return isClient() && !!window.isWalletApp && window.ronin !== undefined && !!window.ethereum?.isRonin;
 };
 

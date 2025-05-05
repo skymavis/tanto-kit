@@ -5,7 +5,7 @@ import { DELAY_CONNECT } from '../constants';
 import { useTriggerConnect } from './useTriggerConnect';
 
 interface WalletConnectUriOptions {
-  connector: Connector | null;
+  connector?: Connector;
 }
 
 interface WalletConnectMessage {

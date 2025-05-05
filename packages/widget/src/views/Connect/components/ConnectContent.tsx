@@ -1,17 +1,17 @@
 import styled from '@emotion/styled';
-import { memo, useMemo } from 'react';
+import { useMemo } from 'react';
 
-import { AppearContainer } from '../../../components/appear-container/AppearContainer';
+import { Fade } from '../../../components/animated-containers/Fade';
+import { TransitionedView } from '../../../components/animated-containers/TransitionedView';
 import { Box } from '../../../components/box/Box';
 import { Button } from '../../../components/button/Button';
-import { TransitionContainer } from '../../../components/transition-container/TransitionContainer';
 import { CONNECT_STATES, ConnectState } from '../../../types';
 import { generateRoninMobileWCLink } from '../../../utils';
 
 const ContentSection = styled(Box)({
   textAlign: 'center',
   flexDirection: 'column',
-  gap: 4,
+  gap: 16,
 });
 
 const Title = styled.h3({
@@ -25,12 +25,14 @@ const Description = styled.p({
   color: 'rgba(205, 213, 229, 0.75)',
 });
 
-const StatusContent = memo<{
+interface StatusContentProps {
   status: ConnectState;
   walletName: string;
   wcUri?: string;
-}>(({ status, walletName, wcUri }) => {
-  const content = useMemo(
+}
+
+const StatusContent = ({ status, walletName, wcUri }: StatusContentProps) => {
+  const statusMessages = useMemo(
     () => ({
       [CONNECT_STATES.PENDING]: {
         title: `Opening ${walletName}`,
@@ -52,40 +54,46 @@ const StatusContent = memo<{
     [walletName, wcUri],
   );
 
+  const { title, description } = statusMessages[status] || {};
+
   return (
     <ContentSection>
-      <Title>{content[status]?.title}</Title>
-      <Description>{content[status]?.description}</Description>
+      {title && <Title>{title}</Title>}
+      {description && <Description>{description}</Description>}
     </ContentSection>
   );
-});
+};
 
-const ActionButton = memo<{
+interface ActionButtonProps {
   status: ConnectState;
   walletName: string;
   wcUri?: string;
   onRetry?: () => void;
-}>(({ status, walletName, wcUri, onRetry }) => {
+}
+
+const ActionButton = ({ status, walletName, wcUri, onRetry }: ActionButtonProps) => {
   if (status === CONNECT_STATES.ERROR && onRetry) {
     return (
-      <Button fullWidth intent="secondary" onClick={onRetry}>
-        Try again
-      </Button>
+      <Fade show initial={{ opacity: 0, scale: 0.85 }} transition={{ duration: 0.2 }}>
+        <Button fullWidth intent="secondary" onClick={onRetry}>
+          Try again
+        </Button>
+      </Fade>
     );
   }
 
   if (status === CONNECT_STATES.OPENING_WALLET && wcUri) {
     return (
-      <AppearContainer show initial={{ opacity: 0, scale: 0.85 }}>
+      <Fade show initial={{ opacity: 0, scale: 0.85 }} transition={{ duration: 0.2 }}>
         <a href={generateRoninMobileWCLink(wcUri)}>
           <Button fullWidth>Open {walletName}</Button>
         </a>
-      </AppearContainer>
+      </Fade>
     );
   }
 
   return null;
-});
+};
 
 interface ConnectContentProps {
   walletName: string;
@@ -94,13 +102,13 @@ interface ConnectContentProps {
   onRetry?: () => void;
 }
 
-export const ConnectContent = memo(({ walletName, status, wcUri, onRetry }: ConnectContentProps) => {
+export const ConnectContent = ({ walletName, status, wcUri, onRetry }: ConnectContentProps) => {
   return (
-    <TransitionContainer viewKey={status}>
+    <TransitionedView viewKey={status}>
       <Box fullWidth vertical gap={32}>
         <StatusContent status={status} walletName={walletName} wcUri={wcUri} />
         <ActionButton status={status} walletName={walletName} wcUri={wcUri} onRetry={onRetry} />
       </Box>
-    </TransitionContainer>
+    </TransitionedView>
   );
-});
+};

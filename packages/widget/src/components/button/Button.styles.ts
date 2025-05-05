@@ -116,6 +116,7 @@ export const StyledButton = styled.button<ButtonProps>(
         pointerEvents: 'none',
         cursor: 'not-allowed',
         '&, & *': {
+          transition: 'color 150ms ease',
           color: theme.buttonDisabledTextColor,
         },
       };

@@ -1,16 +1,22 @@
-import { domAnimation, LazyMotion } from 'motion/react';
 import { useEffect } from 'react';
 import { useAccount, useAccountEffect, useBalance } from 'wagmi';
 
-import { FlexModal } from './components/flex-modal/FlexModal';
-import { TransitionContainer } from './components/transition-container/TransitionContainer';
+import { TransitionedView } from './components/animated-containers/TransitionedView';
+import { FlexModal, FlexModalProps } from './components/flex-modal/FlexModal';
 import { CONNECT_WIDGET_HIDE_DELAY } from './constants';
+import { useWalletConnectListener } from './hooks/useWalletConnectListener';
 import { useWidget } from './hooks/useWidget';
 import { authenticatedRoutes, publicRoutes, Route } from './types/route';
+import { isMobile } from './utils';
+import { openWindow } from './utils/openWindow';
 import { ConnectInjector } from './views/Connect/ConnectInjector';
 import { ConnectWC } from './views/Connect/ConnectWC';
 import { Profile } from './views/Profile/Profile';
 import { WalletList } from './views/WalletList/WalletList';
+
+export interface TantoWidgetProps {
+  container?: FlexModalProps['container'];
+}
 
 const views = {
   [Route.WALLETS]: <WalletList />,
@@ -19,9 +25,17 @@ const views = {
   [Route.PROFILE]: <Profile />,
 };
 
-export function TantoWidget() {
+export function TantoWidget(props: TantoWidgetProps) {
+  const { container } = props;
   const { view, open, setOpen, hide, goBack, reset } = useWidget();
-  const { isConnected, address, chainId } = useAccount();
+  const { isConnected, address, chainId, connector } = useAccount();
+
+  useWalletConnectListener({
+    connector,
+    onSignRequest: () => {
+      if (isMobile()) openWindow('roninwallet://');
+    },
+  });
 
   useBalance({ address, chainId });
   useAccountEffect({
@@ -40,15 +54,14 @@ export function TantoWidget() {
 
   return (
     <FlexModal
+      container={container}
       title={view.title}
       open={open}
       showBackButton={view.showBackButton}
       onOpenChange={setOpen}
       onBack={goBack}
     >
-      <LazyMotion features={domAnimation} strict>
-        <TransitionContainer viewKey={view.route}>{views[view.route]}</TransitionContainer>
-      </LazyMotion>
+      <TransitionedView viewKey={view.route}>{views[view.route]}</TransitionedView>
     </FlexModal>
   );
 }

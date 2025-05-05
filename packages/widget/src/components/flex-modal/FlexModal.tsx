@@ -9,16 +9,16 @@ import type {
   DialogTriggerProps,
 } from '@radix-ui/react-dialog';
 import * as m from 'motion/react-m';
-import { createContext, ElementRef, forwardRef, memo, ReactNode, useContext, useMemo } from 'react';
+import { createContext, ElementRef, forwardRef, ReactNode, useContext, useMemo } from 'react';
 
 import { ArrowLeftIcon } from '../../assets/ArrowLeftIcon';
 import { XIcon } from '../../assets/XIcon';
 import { useIsMobileView } from '../../hooks/useIsMobileView';
-import { useSmoothHeightResize } from '../../hooks/useSmoothHeightResize';
 import { fadeIn, fadeOut } from '../../styles/animations';
+import { SmoothHeight } from '../animated-containers/SmoothHeight';
 import { Box } from '../box/Box';
 import { IconButton } from '../button/Button';
-import { CSSResetContainer } from '../css-reset-container/CSSResetContainer';
+import { CSSReset } from '../css-reset/CSSReset';
 import * as Dialog from './Dialog';
 import * as Drawer from './Drawer';
 
@@ -37,7 +37,7 @@ function useFlexModalContext() {
   return context;
 }
 
-const Root = memo(({ children, ...props }: DialogProps) => {
+const Root = ({ children, ...props }: DialogProps) => {
   const { isMobile, isEmbedded } = useFlexModalContext();
   const RootComponent = isEmbedded ? Dialog.Root : isMobile ? Drawer.Root : Dialog.Root;
   return (
@@ -45,66 +45,63 @@ const Root = memo(({ children, ...props }: DialogProps) => {
       {children}
     </RootComponent>
   );
-});
+};
 
-const Portal = memo((props: DialogPortalProps) => {
+const Portal = (props: DialogPortalProps) => {
   const { isMobile, isEmbedded } = useFlexModalContext();
   const PortalComponent = isEmbedded ? Dialog.Portal : isMobile ? Drawer.Portal : Dialog.Portal;
   return <PortalComponent {...props} />;
-});
+};
 
-const Description = memo((props: DialogDescriptionProps) => {
+const Description = (props: DialogDescriptionProps) => {
   const { isMobile, isEmbedded } = useFlexModalContext();
   const DescriptionComponent = isEmbedded ? Dialog.Description : isMobile ? Drawer.Description : Dialog.Description;
   return <DescriptionComponent {...props} />;
-});
+};
 
-const Overlay = memo(
-  forwardRef<ElementRef<typeof Dialog.Overlay>, Dialog.DialogOverlayProps>((props, ref) => {
-    const theme = useTheme();
-    const { isMobile, isEmbedded } = useFlexModalContext();
-    const OverlayComponent = isEmbedded ? Dialog.Overlay : isMobile ? Drawer.Overlay : Dialog.Overlay;
-    return (
-      <OverlayComponent
-        ref={ref}
-        css={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 49,
-          backgroundColor: theme.modalOverlayColor,
-          '&[data-state="open"]': {
-            animation: `${fadeIn} 0.15s ease-in`,
-          },
-          '&[data-state="closed"]': {
-            animation: `${fadeOut} 0.15s ease-out`,
-          },
-        }}
-        {...props}
-      />
-    );
-  }),
-);
+const Overlay = forwardRef<ElementRef<typeof Dialog.Overlay>, Dialog.DialogOverlayProps>((props, ref) => {
+  const theme = useTheme();
+  const { isMobile, isEmbedded } = useFlexModalContext();
+  const OverlayComponent = isEmbedded ? Dialog.Overlay : isMobile ? Drawer.Overlay : Dialog.Overlay;
+  return (
+    <OverlayComponent
+      ref={ref}
+      css={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 49,
+        backgroundColor: theme.modalOverlayColor,
+        '&[data-state="open"]': {
+          animation: `${fadeIn} 150ms ease-out`,
+        },
+        '&[data-state="closed"]': {
+          animation: `${fadeOut} 150ms ease-out`,
+        },
+      }}
+      {...props}
+    />
+  );
+});
 Overlay.displayName = Dialog.Overlay.displayName;
 
-const Content = memo(
-  forwardRef<ElementRef<typeof Dialog.Content>, Dialog.DialogContentProps>(({ children, ...rest }, ref) => {
+const Content = forwardRef<ElementRef<typeof Dialog.Content>, Dialog.DialogContentProps>(
+  ({ children, ...rest }, ref) => {
     const { isMobile, isEmbedded } = useFlexModalContext();
     const ContentComponent = isEmbedded ? Dialog.Content : isMobile ? Drawer.Content : Dialog.Content;
-    const { ResizableContainer } = useSmoothHeightResize();
     const theme = useTheme();
     return (
       <ContentComponent ref={ref} css={{ backgroundColor: theme.modalBackgroundColor }} {...rest}>
-        <ResizableContainer>
+        <SmoothHeight>
           <Description />
-          <CSSResetContainer>{children}</CSSResetContainer>
-        </ResizableContainer>
+          <CSSReset>{children}</CSSReset>
+        </SmoothHeight>
       </ContentComponent>
     );
-  }),
+  },
 );
 Content.displayName = Dialog.Content.displayName;
 
-const Title = memo((props: DialogTitleProps) => {
+const Title = (props: DialogTitleProps) => {
   const { isMobile, isEmbedded } = useFlexModalContext();
   const TitleComponent = isEmbedded ? Dialog.Title : isMobile ? Drawer.Title : Dialog.Title;
   return (
@@ -118,19 +115,19 @@ const Title = memo((props: DialogTitleProps) => {
       {...props}
     />
   );
-});
+};
 
-const Trigger = memo((props: DialogTriggerProps) => {
+const Trigger = (props: DialogTriggerProps) => {
   const { isMobile, isEmbedded } = useFlexModalContext();
   const TriggerComponent = isEmbedded ? Dialog.Trigger : isMobile ? Drawer.Trigger : Dialog.Trigger;
   return <TriggerComponent {...props} />;
-});
+};
 
-const Close = memo((props: DialogCloseProps) => {
+const Close = (props: DialogCloseProps) => {
   const { isMobile, isEmbedded } = useFlexModalContext();
   const CloseComponent = isEmbedded ? Dialog.Close : isMobile ? Drawer.Close : Dialog.Close;
   return <CloseComponent {...props} />;
-});
+};
 
 const ActionSecion = styled(m.div)({
   minWidth: 36,
@@ -151,7 +148,7 @@ export interface FlexModalProps {
   onAfterClose?: (event: Event) => void;
 }
 
-export const FlexModal = memo((props: FlexModalProps) => {
+export const FlexModal = (props: FlexModalProps) => {
   const { container, children, title, defaultOpen, open, showBackButton, onOpenChange, onBack, onAfterClose } = props;
   const isMobile = useIsMobileView();
   const isEmbedded = typeof container !== 'undefined' && container !== null;
@@ -174,7 +171,7 @@ export const FlexModal = memo((props: FlexModalProps) => {
         <Portal container={container}>
           {showOverlay && <Overlay />}
           <Content forceMount isEmbedded={isEmbedded} onCloseAutoFocus={onAfterClose}>
-            <Box align="center" gap={4} mb={16}>
+            <Box align="center" gap={8} mb={12}>
               <ActionSecion>
                 {showBackButton && (
                   <IconButton
@@ -202,6 +199,6 @@ export const FlexModal = memo((props: FlexModalProps) => {
       </Root>
     </FlexModalContext.Provider>
   );
-});
+};
 
 export { Close, Content, Overlay, Portal, Root, Title, Trigger };

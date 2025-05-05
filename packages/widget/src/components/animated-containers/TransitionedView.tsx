@@ -1,9 +1,9 @@
 import { AnimatePresence, AnimationDefinition, AnimationProps } from 'motion/react';
 import * as m from 'motion/react-m';
 import type { ReactNode } from 'react';
-import { forwardRef, memo } from 'react';
+import { forwardRef } from 'react';
 
-interface TransitionContainerProps {
+interface TransitionedViewProps {
   children: ReactNode;
   viewKey: string | number;
   onAnimationComplete?: (definition: AnimationDefinition) => void;
@@ -16,13 +16,13 @@ const animationProps: AnimationProps = {
   transition: { duration: 0.2 },
 };
 
-const TransitionContainerComponent = forwardRef<HTMLDivElement, TransitionContainerProps>(
+export const TransitionedView = forwardRef<HTMLDivElement, TransitionedViewProps>(
   ({ children, viewKey, onAnimationComplete }, ref) => (
     <AnimatePresence initial={false} mode="popLayout">
       <m.div
         key={viewKey}
         ref={ref}
-        css={{
+        style={{
           width: '100%',
         }}
         {...animationProps}
@@ -33,7 +33,3 @@ const TransitionContainerComponent = forwardRef<HTMLDivElement, TransitionContai
     </AnimatePresence>
   ),
 );
-
-TransitionContainerComponent.displayName = 'TransitionContainer';
-
-export const TransitionContainer = memo(TransitionContainerComponent);

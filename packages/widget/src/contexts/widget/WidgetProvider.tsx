@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useMemo, useState } from 'react';
+import { PropsWithChildren, useCallback, useMemo, useState } from 'react';
 import { useAccount } from 'wagmi';
 
 import { TantoWidget } from '../../TantoWidget';
@@ -27,7 +27,7 @@ const PROFILE_VIEW: View = {
   title: <p css={{ textAlign: 'center' }}>Connected</p>,
 };
 
-export const WidgetProvider = ({ children }: { children: ReactNode }) => {
+export const WidgetProvider = ({ children }: PropsWithChildren) => {
   const { isConnected } = useAccount();
   const [open, setOpen] = useState(false);
   const [navigation, setNavigation] = useState(() => ({

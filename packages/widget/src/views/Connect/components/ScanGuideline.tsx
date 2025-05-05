@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { memo } from 'react';
 
 import { ScanWalletsIcon } from '../../../assets/ScanWalletsIcon';
 import { SmallTransparentWC } from '../../../assets/SmallTransparentWC';
@@ -17,10 +16,10 @@ const Container = styled.div({
   },
 });
 
-export const ScanGuideline = memo(() => {
+export const ScanGuideline = () => {
   return (
     <Container>
       <ScanWalletsIcon /> Scan with a <SmallTransparentWC /> WalletConnect-supported wallet
     </Container>
   );
-});
+};

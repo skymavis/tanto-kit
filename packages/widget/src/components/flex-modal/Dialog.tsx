@@ -29,6 +29,7 @@ const DialogContent = styled(DialogPrimitive.Content, {
   shouldForwardProp: propName => propName !== 'isEmbedded',
 })<{ isEmbedded?: boolean }>(
   {
+    outline: 'none',
     display: 'grid',
     minWidth: 420,
     gap: '1rem',
@@ -36,10 +37,10 @@ const DialogContent = styled(DialogPrimitive.Content, {
     animationDuration: '150ms',
 
     '&[data-state="open"]': {
-      animation: `${fadeInUp} 0.15s ease-in`,
+      animation: `${fadeInUp} 150ms ease`,
     },
     '&[data-state="closed"]': {
-      animation: `${fadeOutDown} 0.15s ease-out`,
+      animation: `${fadeOutDown} 150ms ease`,
     },
   },
   ({ theme, isEmbedded }) =>

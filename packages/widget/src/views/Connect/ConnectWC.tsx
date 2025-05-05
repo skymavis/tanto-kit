@@ -1,18 +1,19 @@
-import { memo } from 'react';
+import { useEffect } from 'react';
 
+import { TransitionedView } from '../../components/animated-containers/TransitionedView';
 import { Box } from '../../components/box/Box';
 import { CopyButton } from '../../components/copy-button/CopyButton';
 import { GetWalletCTA } from '../../components/get-wallet-cta/GetWalletCTA';
 import { WCQRCode } from '../../components/qr-code/WCQRCode';
-import { TransitionContainer } from '../../components/transition-container/TransitionContainer';
 import { useTanto } from '../../hooks/useTanto';
 import { useWalletConnectUri } from '../../hooks/useWalletConnectUri';
 import { CONNECT_STATES } from '../../types';
 import { isMobile } from '../../utils';
+import { openWindow } from '../../utils/openWindow';
 import { ConnectLayout } from './components/ConnectLayout';
 import { ScanGuideline } from './components/ScanGuideline';
 
-const ScanQRCode = memo(({ uri }: { uri: string | undefined }) => {
+const ScanQRCode = ({ uri }: { uri: string | undefined }) => {
   return (
     <Box vertical align="center" justify="center" gap={20} pt={20}>
       <Box vertical align="center" justify="center" gap={16}>
@@ -23,12 +24,16 @@ const ScanQRCode = memo(({ uri }: { uri: string | undefined }) => {
       <GetWalletCTA />
     </Box>
   );
-});
+};
 
 export function ConnectWC() {
   const mobile = isMobile();
   const { wallet, connector } = useTanto();
   const { uri, status, generateConnectUri } = useWalletConnectUri({ connector });
+
+  useEffect(() => {
+    if (uri && mobile) openWindow(`roninwallet://auth-connect?uri=${encodeURIComponent(uri)}`);
+  }, [uri]);
 
   if (!wallet || !connector) return null;
 
@@ -44,7 +49,7 @@ export function ConnectWC() {
     );
 
   return (
-    <TransitionContainer viewKey={status}>
+    <TransitionedView viewKey={status}>
       {status === CONNECT_STATES.PENDING ? (
         <ScanQRCode uri={uri} />
       ) : (
@@ -56,6 +61,6 @@ export function ConnectWC() {
           onRetry={generateConnectUri}
         />
       )}
-    </TransitionContainer>
+    </TransitionedView>
   );
 }

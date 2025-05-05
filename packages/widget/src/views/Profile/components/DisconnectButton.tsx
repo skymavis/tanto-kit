@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useDisconnect } from 'wagmi';
 
 import { Button } from '../../../components/button/Button';
-import { DISCONNECT_WIDGET_HIDE_DELAY } from '../../../constants';
+import { MODAL_ANIMATION_DURATION } from '../../../constants';
 import { useWidget } from '../../../hooks/useWidget';
 
 export function DisconnectButton() {
@@ -11,7 +11,7 @@ export function DisconnectButton() {
 
   const handleDisconnect = useCallback(() => {
     hide();
-    setTimeout(disconnect, DISCONNECT_WIDGET_HIDE_DELAY);
+    setTimeout(disconnect, MODAL_ANIMATION_DURATION);
   }, [hide, disconnect]);
 
   return (
