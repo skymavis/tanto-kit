@@ -1,38 +1,86 @@
+import { IWaypointProviderConfigs } from '@sky-mavis/tanto-connect';
 import { roninWallet, waypoint } from '@sky-mavis/tanto-wagmi';
-import { ronin, saigon } from 'viem/chains';
-import { Config, createConfig, http } from 'wagmi';
+import { Chain, ronin, saigon } from 'viem/chains';
+import { Config, createConfig, CreateConfigParameters, CreateConnectorFn, http } from 'wagmi';
 import { walletConnect } from 'wagmi/connectors';
 
 import { WEB_WALLET_LINK } from './constants';
 
-// TODO: Add extra configuration options
-export const getDefaultConfig = (): Config => {
+const DEFAULT_WALLET_CONNECT_CONFIG = {
+  projectId: 'd2ef97836db7eb390bcb2c1e9847ecdc',
+  metadata: {
+    name: 'Ronin Wallet',
+    description: 'Your passport into a digital nation',
+    icons: ['https://cdn.skymavis.com/wallet/web-app/logo/ronin.png'],
+    url: WEB_WALLET_LINK,
+  },
+};
+
+interface DefaultConfig
+  extends Partial<Omit<CreateConfigParameters, 'client' | 'connectors' | 'transports' | 'chains'>> {
+  appName?: string;
+  appIcon?: string;
+  appDescription?: string;
+  appUrl?: string;
+  walletConnectProjectId?: string;
+  keylessWalletConfigs?: IWaypointProviderConfigs & { clientId: string };
+  chains?: readonly [Chain, ...Chain[]];
+}
+
+const createTransports = (chains: readonly [Chain, ...Chain[]]) =>
+  Object.fromEntries(chains.map(chain => [chain.id, http()]));
+
+const createConnectors = ({
+  appName = DEFAULT_WALLET_CONNECT_CONFIG.metadata.name,
+  appIcon = DEFAULT_WALLET_CONNECT_CONFIG.metadata.icons[0],
+  appDescription = DEFAULT_WALLET_CONNECT_CONFIG.metadata.description,
+  appUrl = DEFAULT_WALLET_CONNECT_CONFIG.metadata.url,
+  walletConnectProjectId = DEFAULT_WALLET_CONNECT_CONFIG.projectId,
+  keylessWalletConfigs,
+}: DefaultConfig) => {
+  const connectors: CreateConnectorFn[] = [
+    roninWallet(),
+    walletConnect({
+      projectId: walletConnectProjectId,
+      showQrModal: false,
+      metadata: {
+        name: appName,
+        description: appDescription,
+        url: appUrl,
+        icons: [appIcon],
+      },
+    }),
+  ];
+  if (keylessWalletConfigs) connectors.push(waypoint(keylessWalletConfigs));
+  return connectors;
+};
+
+export const getDefaultConfig = ({
+  appName,
+  appIcon,
+  appDescription,
+  appUrl,
+  walletConnectProjectId,
+  keylessWalletConfigs,
+  chains = [ronin, saigon],
+  multiInjectedProviderDiscovery = true,
+  ...rest
+}: DefaultConfig): Config => {
+  const configParams: CreateConfigParameters = {
+    chains,
+    transports: createTransports(chains),
+    connectors: createConnectors({
+      appName,
+      appIcon,
+      appDescription,
+      appUrl,
+      walletConnectProjectId,
+      keylessWalletConfigs,
+    }),
+    multiInjectedProviderDiscovery,
+    ...rest,
+  };
+
   // @ts-ignore
-  return createConfig({
-    chains: [ronin, saigon],
-    transports: {
-      [ronin.id]: http(),
-      [saigon.id]: http(),
-    },
-    connectors: [
-      roninWallet(),
-      waypoint({
-        waypointOrigin: 'https://id.skymavis.one',
-        clientId: 'dbe1e3ff-e145-422f-84c4-e0beb4972f69',
-        chainId: 2021,
-      }),
-      walletConnect({
-        showQrModal: false,
-        projectId: 'd2ef97836db7eb390bcb2c1e9847ecdc',
-        metadata: {
-          name: 'Ronin Wallet',
-          description: 'Your passport into a digital nation',
-          icons: ['https://cdn.skymavis.com/wallet/web-app/logo/ronin.png'],
-          url: WEB_WALLET_LINK,
-        },
-      }),
-    ],
-    multiInjectedProviderDiscovery: true,
-    ssr: true,
-  });
+  return createConfig(configParams);
 };

@@ -9,9 +9,8 @@ export const SmoothWidth = ({ children, ...rest }: HTMLAttributes<HTMLDivElement
         display: 'flex',
         justifyContent: 'center',
         boxSizing: 'border-box',
-        overflow: 'hidden',
-        transition: 'width 0.2s',
-        width: width ? `${width}px` : 'auto',
+        transition: 'width 150ms',
+        width: width ? width : 'auto',
       }}
       {...rest}
     >

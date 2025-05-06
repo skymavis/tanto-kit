@@ -5,7 +5,7 @@ import { forwardRef } from 'react';
 
 interface TransitionedViewProps {
   children: ReactNode;
-  viewKey: string | number;
+  viewKey: string | number | boolean;
   onAnimationComplete?: (definition: AnimationDefinition) => void;
 }
 
@@ -20,7 +20,7 @@ export const TransitionedView = forwardRef<HTMLDivElement, TransitionedViewProps
   ({ children, viewKey, onAnimationComplete }, ref) => (
     <AnimatePresence initial={false} mode="popLayout">
       <m.div
-        key={viewKey}
+        key={viewKey.toString()}
         ref={ref}
         style={{
           width: '100%',
