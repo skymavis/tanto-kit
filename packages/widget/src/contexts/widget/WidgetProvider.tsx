@@ -1,9 +1,9 @@
-import { PropsWithChildren, useCallback, useMemo, useState } from 'react';
+import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
 import { useAccount } from 'wagmi';
 
-import { TantoWidget } from '../../TantoWidget';
-import { authenticatedRoutes, Route } from '../../types/route';
-import { type View, type WidgetState, WidgetContext } from './WidgetContext';
+import { MODAL_ANIMATION_DURATION } from '../../constants';
+import { authenticatedRoutes, internalRoutes, publicRoutes, Route } from '../../types/route';
+import { View, WidgetContext, WidgetState } from './WidgetContext';
 
 const WALLETS_VIEW: View = {
   route: Route.WALLETS,
@@ -31,34 +31,40 @@ const PROFILE_VIEW: View = {
 export const WidgetProvider = ({ children }: PropsWithChildren) => {
   const { isConnected } = useAccount();
   const [open, setOpen] = useState(false);
-  const [navigation, setNavigation] = useState(() => ({
-    view: isConnected ? PROFILE_VIEW : WALLETS_VIEW,
-    history: [isConnected ? PROFILE_VIEW : WALLETS_VIEW],
-  }));
+
+  const getInitialView = useCallback(() => (isConnected ? PROFILE_VIEW : WALLETS_VIEW), [isConnected]);
+
+  const [navigation, setNavigation] = useState(() => {
+    const initialView = getInitialView();
+    return {
+      view: initialView,
+      history: [initialView],
+    };
+  });
+
+  const show = useCallback(() => setOpen(true), []);
+  const hide = useCallback(() => setOpen(false), []);
 
   const reset = useCallback(() => {
-    const initialView = isConnected ? PROFILE_VIEW : WALLETS_VIEW;
+    const initialView = getInitialView();
     setNavigation({
       view: initialView,
       history: [initialView],
     });
-  }, [isConnected]);
-
-  const show = useCallback(() => {
-    reset();
-    setOpen(true);
-  }, [reset]);
-
-  const hide = useCallback(() => setOpen(false), []);
+  }, [getInitialView]);
 
   const goTo = useCallback(
     (nextRoute: Route, options: Omit<View, 'route'> = {}) => {
+      if (!isConnected && authenticatedRoutes.includes(nextRoute)) {
+        return;
+      }
+
       setOpen(true);
+
       setNavigation(state => {
         const { view: currentView, history } = state;
-        if (!isConnected && authenticatedRoutes.includes(nextRoute)) return state;
-
         const isSameView = nextRoute === currentView.route;
+
         const newView: View = {
           route: nextRoute,
           title: options.title ?? currentView.title,
@@ -78,6 +84,7 @@ export const WidgetProvider = ({ children }: PropsWithChildren) => {
   const goBack = useCallback(() => {
     setNavigation(({ history, view }) => {
       if (history.length <= 1) return { history, view };
+
       const newHistory = history.slice(0, -1);
       return {
         view: newHistory[newHistory.length - 1],
@@ -85,6 +92,20 @@ export const WidgetProvider = ({ children }: PropsWithChildren) => {
       };
     });
   }, []);
+
+  useEffect(() => {
+    const currentRoute = navigation.view.route;
+    const shouldReset =
+      (isConnected && publicRoutes.includes(currentRoute)) ||
+      (!isConnected && authenticatedRoutes.includes(currentRoute));
+
+    if (shouldReset) reset();
+  }, [isConnected, navigation.view.route, reset]);
+
+  useEffect(() => {
+    const currentRoute = navigation.view.route;
+    if (!open && internalRoutes.includes(currentRoute)) setTimeout(reset, MODAL_ANIMATION_DURATION);
+  }, [open, navigation.view.route, reset]);
 
   const contextValue = useMemo<WidgetState>(
     () => ({
@@ -96,15 +117,9 @@ export const WidgetProvider = ({ children }: PropsWithChildren) => {
       hide,
       goTo,
       goBack,
-      reset,
     }),
-    [open, navigation, show, hide, goTo, goBack, reset],
+    [open, navigation, show, hide, goTo, goBack],
   );
 
-  return (
-    <WidgetContext.Provider value={contextValue}>
-      {children}
-      <TantoWidget />
-    </WidgetContext.Provider>
-  );
+  return <WidgetContext.Provider value={contextValue}>{children}</WidgetContext.Provider>;
 };

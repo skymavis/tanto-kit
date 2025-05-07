@@ -17,7 +17,6 @@ export interface WidgetState {
   setOpen: (open: boolean) => void;
   goTo: (route: Route, options?: Omit<View, 'route'>) => void;
   goBack: () => void;
-  reset: () => void;
 }
 
 export const WidgetContext = createContext<WidgetState | undefined>(undefined);

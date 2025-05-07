@@ -3,6 +3,7 @@ import { domAnimation, LazyMotion } from 'motion/react';
 import type { ReactNode } from 'react';
 import { useMemo, useState } from 'react';
 
+import { usePreloadTantoImages } from '../../hooks/usePreloadImages';
 import type { Wallet } from '../../types/wallet';
 import { ThemeProvider } from '../theme/ThemeProvider';
 import { WidgetProvider } from '../widget/WidgetProvider';
@@ -24,6 +25,8 @@ export function TantoProvider(props: TantoProviderProps) {
     }),
     [wallet],
   );
+
+  usePreloadTantoImages();
 
   return (
     <TantoContext.Provider value={contextValue}>

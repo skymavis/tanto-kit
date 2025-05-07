@@ -6,6 +6,7 @@ import { useTriggerConnect } from './useTriggerConnect';
 
 interface WalletConnectUriOptions {
   connector?: Connector;
+  onReceiveDisplayUri?: (url: string) => void;
 }
 
 interface WalletConnectMessage {
@@ -13,7 +14,7 @@ interface WalletConnectMessage {
   data?: unknown;
 }
 
-export function useWalletConnectUri({ connector }: WalletConnectUriOptions) {
+export function useWalletConnectUri({ connector, onReceiveDisplayUri }: WalletConnectUriOptions) {
   const [uri, setUri] = useState<string | undefined>(undefined);
   const { connect, status } = useTriggerConnect({ connector });
 
@@ -25,6 +26,7 @@ export function useWalletConnectUri({ connector }: WalletConnectUriOptions) {
     const handleDisplayUri = ({ type, data }: WalletConnectMessage) => {
       if (type !== 'display_uri' || typeof data !== 'string') return;
       setUri(data);
+      onReceiveDisplayUri?.(data);
       connector.emitter.off('message', handleDisplayUri);
     };
 

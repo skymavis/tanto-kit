@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+import * as dataUris from '../assets/data-uris';
 import { isValidURL } from '../utils';
 
 export const usePreloadImages = (imageSources: string[]) => {
@@ -11,4 +12,21 @@ export const usePreloadImages = (imageSources: string[]) => {
       return img;
     });
   }, [imageSources]);
+};
+
+export const usePreloadTantoImages = () => {
+  usePreloadImages([
+    dataUris.blueFilledWCLogoUri,
+    dataUris.highlightedWalletItemBackgroundUri,
+    dataUris.highlightedWalletItemHoverBackgroundUri,
+    dataUris.blueFilledWCLogoUri,
+    dataUris.roninExtensionCustomLogoUri,
+    dataUris.roninExtensionCustomSquareLogoUri,
+    dataUris.roninLogoUri,
+    dataUris.roninMobileCustomLogoUri,
+    dataUris.roninMobileCustomSquareLogoUri,
+    dataUris.roninWaypointCustomLogoUri,
+    dataUris.roninWaypointCustomSquareLogoUri,
+    dataUris.scanWalletsIconUri,
+  ]);
 };

@@ -7,6 +7,7 @@ import { Box } from './components/box/Box';
 import { Button } from './components/button/Button';
 import { CSSReset } from './components/css-reset/CSSReset';
 import { useWidget } from './hooks/useWidget';
+import { TantoWidget } from './TantoWidget';
 import { truncate } from './utils';
 
 export function TantoConnectButton() {
@@ -15,21 +16,24 @@ export function TantoConnectButton() {
   const normalizedAddress = address?.toLocaleLowerCase();
 
   return (
-    <CSSReset>
-      <Button intent={isConnected ? 'secondary' : 'primary'} onClick={show}>
-        <SmoothWidth>
-          <TransitionedView viewKey={isConnected}>
-            {isConnected ? (
-              <Box align="center" gap={8}>
-                <Avatar seed={normalizedAddress} size="S" />
-                <p>{truncate(normalizedAddress)}</p>
-              </Box>
-            ) : (
-              <p css={{ minWidth: 120 }}>Connect Wallet</p>
-            )}
-          </TransitionedView>
-        </SmoothWidth>
-      </Button>
-    </CSSReset>
+    <>
+      <CSSReset>
+        <Button intent={isConnected ? 'secondary' : 'primary'} onClick={show}>
+          <SmoothWidth>
+            <TransitionedView viewKey={isConnected}>
+              {isConnected ? (
+                <Box align="center" gap={8}>
+                  <Avatar seed={normalizedAddress} size="S" />
+                  <p>{truncate(normalizedAddress)}</p>
+                </Box>
+              ) : (
+                <p css={{ minWidth: 120 }}>Connect Wallet</p>
+              )}
+            </TransitionedView>
+          </SmoothWidth>
+        </Button>
+      </CSSReset>
+      <TantoWidget />
+    </>
   );
 }

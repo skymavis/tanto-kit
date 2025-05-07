@@ -48,8 +48,8 @@ export const generateInAppBrowserRoninMobileLink = (uri: string) => {
   return `roninwallet://in_app_browser?url=${encodeURIComponent(uri)}`;
 };
 
-export const generateRoninMobileWCLink = (uri: string): string => {
-  return `${WEB_WALLET_LINK}/auth-connect?uri=${encodeURIComponent(uri)}`;
+export const generateRoninMobileWCLink = (uri: string, prefix = `${WEB_WALLET_LINK}/`): string => {
+  return `${prefix}auth-connect?uri=${encodeURIComponent(uri)}`;
 };
 
 export const isRoninExtensionInstalled = (connectors: readonly Connector<CreateConnectorFn>[]) => {

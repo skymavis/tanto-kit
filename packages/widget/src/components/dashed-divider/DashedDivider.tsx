@@ -14,7 +14,7 @@ const StyledDivider = styled.div(props => ({
   '&:before, &:after': {
     content: "''",
     flex: 1,
-    borderTop: `solid 1.5px ${props.theme.borderColor}`,
+    border: `solid 1px ${props.theme.borderColor}`,
     margin: '0 0.5rem',
     borderStyle: 'dashed',
   },
