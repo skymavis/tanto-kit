@@ -1,39 +1,37 @@
 import type { Theme } from '@emotion/react';
-import { domAnimation, LazyMotion } from 'motion/react';
-import type { ReactNode } from 'react';
-import { useMemo, useState } from 'react';
+import { domAnimation, LazyMotion, MotionConfig } from 'motion/react';
+import { type ReactNode, useMemo } from 'react';
 
+import { useConnectCallback } from '../../hooks/useConnectCallback';
 import { usePreloadTantoImages } from '../../hooks/usePreloadImages';
-import type { Wallet } from '../../types/wallet';
+import { AccountConnectionCallback } from '../../types/connect';
 import { ThemeProvider } from '../theme/ThemeProvider';
-import { WidgetProvider } from '../widget/WidgetProvider';
-import { TantoContext } from './TantoContext';
+import { defaultTantoConfig, TantoConfig, TantoContext } from './TantoContext';
 
-interface TantoProviderProps {
+export type TantoProviderProps = AccountConnectionCallback & {
+  children?: ReactNode;
   theme?: Theme;
-  children: ReactNode;
-}
+  config?: TantoConfig;
+};
 
-export function TantoProvider(props: TantoProviderProps) {
-  const { theme, children } = props;
-  const [wallet, setWallet] = useState<Wallet | null>(null);
-  const contextValue = useMemo(
-    () => ({
-      wallet,
-      setWallet,
-      connector: wallet?.connector,
-    }),
-    [wallet],
-  );
-
+export function TantoProvider({ config: customConfig, theme, onConnect, onDisconnect, children }: TantoProviderProps) {
   usePreloadTantoImages();
+  useConnectCallback({
+    onConnect,
+    onDisconnect,
+  });
+
+  const config = useMemo<TantoConfig>(() => Object.assign({}, defaultTantoConfig, customConfig), [customConfig]);
+  const contextValue = useMemo(() => ({ config }), [config]);
 
   return (
     <TantoContext.Provider value={contextValue}>
       <ThemeProvider theme={theme}>
-        <LazyMotion features={domAnimation} strict>
-          <WidgetProvider>{children}</WidgetProvider>
-        </LazyMotion>
+        <MotionConfig reducedMotion={config.reducedMotion ? 'always' : 'never'}>
+          <LazyMotion features={domAnimation} strict>
+            {children}
+          </LazyMotion>
+        </MotionConfig>
       </ThemeProvider>
     </TantoContext.Provider>
   );

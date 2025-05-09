@@ -52,7 +52,11 @@ const Account = () => {
     <div className={'w-full min-h-screen flex items-center flex-col gap-4 p-10'}>
       <TantoConnectButton />
       <Button onClick={() => setShow(!show)}>Show/Hide embeded</Button>
-      {show && <TantoEmbeddedWidget />}
+      {show && (
+        <div className="w-full max-w-[500px]">
+          <TantoEmbeddedWidget />
+        </div>
+      )}
 
       <WillRender when={isConnected}>
         <User name={connector?.name} description={address} />

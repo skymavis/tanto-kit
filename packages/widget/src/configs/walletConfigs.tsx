@@ -6,7 +6,7 @@ import { RoninMobileCustomSquareLogo } from '../assets/RoninMobileCustomSquareLo
 import { RoninWaypointCustomLogo } from '../assets/RoninWaypointCustomLogo';
 import { RoninWaypointCustomSquareLogo } from '../assets/RoninWaypointCustomSquareLogo';
 import { WalletConnectLogo } from '../assets/WalletConnectLogo';
-import { WEB_WALLET_LINK } from '../constants';
+import { RONIN_WALLET_WEB_LINK } from '../constants';
 import { WalletConfig, WalletId } from '../types/wallet';
 
 export const walletConfigs: Record<WalletId, WalletConfig> = {
@@ -21,7 +21,7 @@ export const walletConfigs: Record<WalletId, WalletConfig> = {
   RONIN_WALLET: {
     name: 'Ronin Wallet Extension',
     icon: <RoninExtensionCustomSquareLogo />,
-    homepage: WEB_WALLET_LINK,
+    homepage: RONIN_WALLET_WEB_LINK,
     displayOptions: {
       thumbnail: <RoninExtensionCustomLogo />,
     },
@@ -29,7 +29,7 @@ export const walletConfigs: Record<WalletId, WalletConfig> = {
   'com.roninchain.wallet': {
     name: 'Ronin Wallet Extension',
     icon: <RoninExtensionCustomSquareLogo />,
-    homepage: WEB_WALLET_LINK,
+    homepage: RONIN_WALLET_WEB_LINK,
     displayOptions: {
       thumbnail: <RoninExtensionCustomLogo />,
     },

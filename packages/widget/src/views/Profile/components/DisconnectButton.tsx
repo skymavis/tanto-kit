@@ -1,18 +1,18 @@
-import { useCallback } from 'react';
+import { useCallback, useContext } from 'react';
 import { useDisconnect } from 'wagmi';
 
 import { Button } from '../../../components/button/Button';
-import { MODAL_ANIMATION_DURATION } from '../../../constants';
-import { useWidget } from '../../../hooks/useWidget';
+import { VISIBILITY_TRANSITION_DURATION } from '../../../constants';
+import { WidgetModalContext } from '../../../contexts/widget-modal/WidgetModalContext';
 
 export function DisconnectButton() {
-  const { hide } = useWidget();
   const { disconnect } = useDisconnect();
+  const widgetModalContext = useContext(WidgetModalContext);
 
   const handleDisconnect = useCallback(() => {
-    hide();
-    setTimeout(disconnect, MODAL_ANIMATION_DURATION);
-  }, [hide, disconnect]);
+    if (widgetModalContext) widgetModalContext.hide();
+    setTimeout(disconnect, VISIBILITY_TRANSITION_DURATION);
+  }, [widgetModalContext, disconnect]);
 
   return (
     <Button fullWidth intent="secondary" onClick={handleDisconnect}>

@@ -1,7 +1,7 @@
-export const WEB_WALLET_LINK = 'https://wallet.roninchain.com';
-export const RONIN_WALLET_DEEEPLINK = 'roninwallet://';
+export const RONIN_WALLET_WEB_LINK = 'https://wallet.roninchain.com';
+export const RONIN_WALLET_APP_DEEPLINK = 'roninwallet://';
 export const DELAY_CONNECT = 600;
-export const CONNECT_WIDGET_HIDE_DELAY = 1_200;
-export const MODAL_ANIMATION_DURATION = 150;
+export const CONNECT_SUCCESS_DELAY = 1_200;
+export const VISIBILITY_TRANSITION_DURATION = 150;
 export const WALLET_ITEM_HEIGHT = 68;
-export const MAX_WALLET_ITEM_PER_GROUP = 4;
+export const MAX_WALLET_ITEMS_PER_GROUP = 4;

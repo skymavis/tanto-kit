@@ -6,8 +6,8 @@ import { Badge } from '../../../components/badge/Badge';
 import { Box } from '../../../components/box/Box';
 import { WALLET_ITEM_HEIGHT } from '../../../constants';
 import { useIsMobileView } from '../../../hooks/useIsMobileView';
-import { useTanto } from '../../../hooks/useTanto';
-import { useWidget } from '../../../hooks/useWidget';
+import { useWidgetConnect } from '../../../hooks/useWidgetConnect';
+import { useWidgetRouter } from '../../../hooks/useWidgetRouter';
 import { Route } from '../../../types/route';
 import { Wallet } from '../../../types/wallet';
 import { isInjectedConnector, isWCConnector } from '../../../utils';
@@ -28,7 +28,7 @@ const Container = styled('div', {
     padding: 16,
     cursor: 'pointer',
     outline: 'none',
-    transition: 'background 150ms ease',
+    transition: 'background 100ms ease',
   },
   ({ theme }) => ({
     backgroundColor: theme.listItemBackgroundColor,
@@ -66,8 +66,8 @@ const WalletDescription = styled.p(props => ({
 export const WalletItem = ({ wallet }: WalletItemProps) => {
   const { id, name, icon, connector, homepage, isInstalled, displayOptions = {} } = wallet;
   const { thumbnail, description, highlight } = displayOptions;
-  const { setWallet } = useTanto();
-  const { goTo } = useWidget();
+  const { setSelectedWallet } = useWidgetConnect();
+  const { goTo } = useWidgetRouter();
   const isMobile = useIsMobileView();
 
   const walletLogo = thumbnail ?? icon;
@@ -79,9 +79,9 @@ export const WalletItem = ({ wallet }: WalletItemProps) => {
       window.open(homepage, '_blank', 'noopener,noreferrer');
       return;
     }
-    setWallet(wallet);
+    setSelectedWallet(wallet);
     goTo(isWCConnector(id) ? Route.CONNECT_WC : Route.CONNECT_INJECTOR, { title: name });
-  }, [wallet, setWallet, goTo, isInstalled, homepage, id, name]);
+  }, [wallet, setSelectedWallet, goTo, isInstalled, homepage, id, name]);
 
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent) => {
@@ -101,7 +101,7 @@ export const WalletItem = ({ wallet }: WalletItemProps) => {
       onClick={handleClick}
       onKeyDown={handleKeyDown}
     >
-      {walletLogo && <div>{walletLogo}</div>}
+      {walletLogo && walletLogo}
       <Box vertical flex={1}>
         <WalletName>{name}</WalletName>
         {description && <WalletDescription>{description}</WalletDescription>}

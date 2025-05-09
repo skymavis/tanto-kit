@@ -2,12 +2,12 @@ import { Box } from '../../components/box/Box';
 import { DashedDivider } from '../../components/dashed-divider/DashedDivider';
 import { Disclaimer } from '../../components/disclaimer/Disclaimer';
 import { GetWalletCTA } from '../../components/get-wallet-cta/GetWalletCTA';
-import { useWallets } from '../../hooks/useWallets';
+import { useWidgetConnect } from '../../hooks/useWidgetConnect';
 import { isMobile, isRoninInAppBrowser } from '../../utils';
 import { WalletGroup } from './components/WalletGroup';
 
 export function WalletList() {
-  const { primaryWallets, secondaryWallets } = useWallets();
+  const { primaryWallets, secondaryWallets } = useWidgetConnect();
 
   return (
     <Box vertical gap={20}>

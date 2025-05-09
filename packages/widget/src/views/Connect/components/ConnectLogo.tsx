@@ -6,9 +6,8 @@ import { SuccessIcon } from '../../../assets/SuccessIcon';
 import { WarningIcon } from '../../../assets/WarningIcon';
 import { Fade } from '../../../components/animated-containers/Fade';
 import SquircleSpinner from '../../../components/squircle-spinner/SquircleSpinner';
-import { CONNECT_WIDGET_HIDE_DELAY } from '../../../constants';
 import { fadeIn, fadeOut, shake } from '../../../styles/animations';
-import { CONNECT_STATES, ConnectState } from '../../../types';
+import { ConnectState } from '../../../types/connect';
 
 interface ConnectLogoProps {
   walletIcon: ReactNode;
@@ -28,16 +27,16 @@ const LogoSection = styled(m.div)<{ status: ConnectState }>(
     },
   },
   ({ status }) => {
-    if (status === CONNECT_STATES.ERROR) {
+    if (status === ConnectState.ERROR) {
       return {
         animation: `${shake} 240ms ease-out both`,
         '&:before': {
           background: '#FFC34D',
-          animation: `${fadeOut} 240ms ease-out ${CONNECT_WIDGET_HIDE_DELAY}ms both`,
+          animation: `${fadeOut} 240ms ease-out 1200ms both`,
         },
       };
     }
-    if (status === CONNECT_STATES.SUCCESS) {
+    if (status === ConnectState.SUCCESS) {
       return {
         '&:before': {
           background: '#52E08D',
@@ -64,10 +63,10 @@ interface ConnectLogoProps {
 const StatusIcon = ({ status }: { status: ConnectLogoProps['status'] }) => {
   return (
     <>
-      <Fade show={status === CONNECT_STATES.ERROR}>
+      <Fade show={status === ConnectState.ERROR}>
         <WarningIcon />
       </Fade>
-      <Fade show={status === CONNECT_STATES.SUCCESS}>
+      <Fade show={status === ConnectState.SUCCESS}>
         <SuccessIcon />
       </Fade>
     </>
@@ -75,7 +74,7 @@ const StatusIcon = ({ status }: { status: ConnectLogoProps['status'] }) => {
 };
 
 export const ConnectLogo = ({ walletIcon, status }: ConnectLogoProps) => {
-  const isConnecting = [CONNECT_STATES.PENDING, CONNECT_STATES.OPENING_WALLET].includes(status);
+  const isConnecting = [ConnectState.PENDING, ConnectState.OPENING_WALLET].includes(status);
 
   return (
     <LogoSection status={status}>

@@ -1,20 +1,20 @@
 import { useEffect } from 'react';
 
 import { DELAY_CONNECT } from '../../constants';
-import { useTanto } from '../../hooks/useTanto';
-import { useTriggerConnect } from '../../hooks/useTriggerConnect';
+import { useConnect } from '../../hooks/useConnect';
+import { useWidgetConnect } from '../../hooks/useWidgetConnect';
 import { ConnectLayout } from './components/ConnectLayout';
 
 export function ConnectInjector() {
-  const { wallet, connector } = useTanto();
-  const { connect, status } = useTriggerConnect({ connector });
+  const { selectedWallet: wallet, selectedConnector: connector } = useWidgetConnect();
+  const { status, connect } = useConnect({ connector });
 
   useEffect(() => {
     const timer = setTimeout(connect, DELAY_CONNECT);
     return () => clearTimeout(timer);
-  }, [connect, connector]);
+  }, [connect]);
 
-  if (!wallet || !connector) return null;
+  if (!wallet) return null;
 
   return <ConnectLayout status={status} walletIcon={wallet.icon} walletName={wallet.name} onRetry={connect} />;
 }

@@ -6,9 +6,11 @@ import { SmallTransparentWC } from '../../../assets/SmallTransparentWC';
 
 const Container = styled.div({
   display: 'flex',
+  flexWrap: 'wrap',
+  alignItems: 'center',
   gap: 8,
   fontSize: 14,
-  alignItems: 'center',
+  whiteSpace: 'nowrap',
   '& > img': {
     display: 'inline',
     transform: 'translateY(-4px)',

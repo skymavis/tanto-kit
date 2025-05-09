@@ -4,7 +4,7 @@ import { Chain, ronin, saigon } from 'viem/chains';
 import { Config, createConfig, CreateConfigParameters, CreateConnectorFn, http } from 'wagmi';
 import { walletConnect } from 'wagmi/connectors';
 
-import { WEB_WALLET_LINK } from './constants';
+import { RONIN_WALLET_WEB_LINK } from './constants';
 
 const DEFAULT_WALLET_CONNECT_CONFIG = {
   projectId: 'd2ef97836db7eb390bcb2c1e9847ecdc',
@@ -12,7 +12,7 @@ const DEFAULT_WALLET_CONNECT_CONFIG = {
     name: 'Ronin Wallet',
     description: 'Your passport into a digital nation',
     icons: ['https://cdn.skymavis.com/wallet/web-app/logo/ronin.png'],
-    url: WEB_WALLET_LINK,
+    url: RONIN_WALLET_WEB_LINK,
   },
 };
 

@@ -1,12 +1,19 @@
 import { createContext } from 'react';
-import { Connector } from 'wagmi';
 
-import { Wallet } from '../../types/wallet';
+export interface TantoConfig {
+  reducedMotion?: boolean;
+  disableProfile?: boolean;
+  hideConnectSuccessPrompt?: boolean;
+}
+
+export const defaultTantoConfig: TantoConfig = {
+  reducedMotion: false,
+  disableProfile: false,
+  hideConnectSuccessPrompt: false,
+};
 
 export interface TantoState {
-  wallet: Wallet | null;
-  connector?: Connector;
-  setWallet: (wallet: Wallet) => void;
+  config: TantoConfig;
 }
 
 export const TantoContext = createContext<TantoState | undefined>(undefined);

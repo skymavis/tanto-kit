@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 import { Box } from '../../../components/box/Box';
-import { ConnectState } from '../../../types';
+import { ConnectState } from '../../../types/connect';
 import { ConnectContent } from './ConnectContent';
 import { ConnectLogo } from './ConnectLogo';
 

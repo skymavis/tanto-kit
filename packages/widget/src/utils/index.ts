@@ -2,7 +2,7 @@ import { detect } from 'detect-browser';
 import { formatUnits } from 'viem';
 import { Connector, CreateConnectorFn } from 'wagmi';
 
-import { WEB_WALLET_LINK } from '../constants';
+import { RONIN_WALLET_WEB_LINK } from '../constants';
 
 export const notEmpty = <T>(value: T): value is NonNullable<T> => typeof value !== 'undefined' && value !== null;
 
@@ -48,7 +48,7 @@ export const generateInAppBrowserRoninMobileLink = (uri: string) => {
   return `roninwallet://in_app_browser?url=${encodeURIComponent(uri)}`;
 };
 
-export const generateRoninMobileWCLink = (uri: string, prefix = `${WEB_WALLET_LINK}/`): string => {
+export const generateRoninMobileWCLink = (uri: string, prefix = `${RONIN_WALLET_WEB_LINK}/`): string => {
   return `${prefix}auth-connect?uri=${encodeURIComponent(uri)}`;
 };
 

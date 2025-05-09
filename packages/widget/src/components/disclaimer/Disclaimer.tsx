@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { WEB_WALLET_LINK } from '../../constants';
+import { RONIN_WALLET_WEB_LINK } from '../../constants';
 import { Box } from '../box/Box';
 
 const Container = styled.div(props => ({
@@ -23,11 +23,11 @@ export const Disclaimer = () => {
     <Box fullWidth justify="center">
       <Container>
         By connecting a wallet, you agree to Ronin's{' '}
-        <a href={`${WEB_WALLET_LINK}/terms`} target="_blank" rel="noopener">
+        <a href={`${RONIN_WALLET_WEB_LINK}/terms`} target="_blank" rel="noopener">
           Terms of Service
         </a>{' '}
         and consent to its{' '}
-        <a href={`${WEB_WALLET_LINK}/privacy`} target="_blank" rel="noopener">
+        <a href={`${RONIN_WALLET_WEB_LINK}/privacy`} target="_blank" rel="noopener">
           Privacy Policy
         </a>
         .

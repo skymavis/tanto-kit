@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { memo } from 'react';
 
 import { RoninLogo } from '../../assets/RoninLogo';
-import { WEB_WALLET_LINK } from '../../constants';
+import { RONIN_WALLET_WEB_LINK } from '../../constants';
 import { Box } from '../box/Box';
 import { Button } from '../button/Button';
 
@@ -25,7 +25,7 @@ export const GetWalletCTA = memo(() => {
     <Container fullWidth align="center" gap={8} p={12} radius={12}>
       <RoninLogo />
       <Description>Don't have Ronin Wallet Mobile?</Description>
-      <a target="_blank" href={WEB_WALLET_LINK}>
+      <a target="_blank" href={RONIN_WALLET_WEB_LINK}>
         <DownloadButton size="xsmall">Get</DownloadButton>
       </a>
     </Container>

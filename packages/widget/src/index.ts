@@ -1,7 +1,9 @@
-export * from './contexts/tanto/TantoContext';
-export * from './contexts/tanto/TantoProvider';
-export * from './getDefaultConfig';
-export * from './styles/theme';
-export * from './TantoConnectButton';
-export * from './TantoEmbeddedWidget';
-export * from './TantoWidget';
+export type { TantoConnectButtonProps } from './ConnectButton';
+export { TantoConnectButton } from './ConnectButton';
+export type { TantoProviderProps } from './contexts/tanto/TantoProvider';
+export { TantoProvider } from './contexts/tanto/TantoProvider';
+export type { TantoEmbeddedWidgetProps } from './EmbeddedWidget';
+export { TantoEmbeddedWidget } from './EmbeddedWidget';
+export { getDefaultConfig } from './getDefaultConfig';
+export { tantoDarkTheme, tantoLightTheme } from './styles/theme';
+export type { WidgetTheme } from './types/theme';
