@@ -1,5 +1,5 @@
 export interface WidgetTheme {
-  name: string;
+  name: 'light' | 'dark';
   fontFamily: string;
   colors: {
     buttonPrimary: string;

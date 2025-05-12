@@ -28,7 +28,6 @@ const config = defineConfig({
       'react-dom',
       'react-is',
       'lodash.debounce',
-      'lodash.merge',
       'use-resize-observer',
       'vaul',
       'detect-browser',

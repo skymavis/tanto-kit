@@ -1,16 +1,16 @@
-import type { Theme } from '@emotion/react';
 import { domAnimation, LazyMotion, MotionConfig } from 'motion/react';
 import { type ReactNode, useMemo } from 'react';
 
 import { useConnectCallback } from '../../hooks/useConnectCallback';
 import { usePreloadTantoImages } from '../../hooks/usePreloadImages';
 import { AccountConnectionCallback } from '../../types/connect';
+import { WidgetTheme } from '../../types/theme';
 import { ThemeProvider } from '../theme/ThemeProvider';
 import { defaultTantoConfig, TantoConfig, TantoContext } from './TantoContext';
 
 export type TantoProviderProps = AccountConnectionCallback & {
   children?: ReactNode;
-  theme?: DeepPartial<Theme>;
+  theme?: WidgetTheme['name'];
   config?: TantoConfig;
 };
 

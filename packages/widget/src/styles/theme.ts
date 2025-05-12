@@ -1,7 +1,7 @@
 import type { Theme } from '@emotion/react';
 
 export const tantoDarkTheme: Theme = {
-  name: 'tanto-dark',
+  name: 'dark',
   fontFamily: "'Work Sans', 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
   colors: {
     buttonPrimary: '#F1F3F9',
@@ -32,7 +32,7 @@ export const tantoDarkTheme: Theme = {
 };
 
 export const tantoLightTheme: Theme = {
-  name: 'tanto-light',
+  name: 'light',
   fontFamily: "'Work Sans', 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
   colors: {
     buttonPrimary: '#000',

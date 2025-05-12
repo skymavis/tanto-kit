@@ -3,7 +3,6 @@ import {
   getDefaultConfig,
   TantoConnectButton,
   TantoEmbeddedWidget,
-  tantoLightTheme,
   TantoProvider,
 } from '@sky-mavis/tanto-widget';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -32,7 +31,7 @@ const WagmiExample: FC = () => {
             </TantoProvider>
           </div>
           <div className={'bg-white'}>
-            <TantoProvider theme={tantoLightTheme}>
+            <TantoProvider theme="light">
               <Account />
             </TantoProvider>
           </div>
