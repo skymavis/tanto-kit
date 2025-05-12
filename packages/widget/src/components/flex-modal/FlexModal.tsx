@@ -62,7 +62,7 @@ const Overlay = forwardRef<ElementRef<typeof Dialog.Overlay>, Dialog.DialogOverl
         position: 'fixed',
         inset: 0,
         zIndex: 49,
-        backgroundColor: theme.modalOverlayColor,
+        backgroundColor: theme.colors.overlay,
         '&[data-state="open"]': {
           animation: `${fadeIn} 150ms ease-out`,
         },
@@ -80,7 +80,7 @@ const Content = forwardRef<ElementRef<typeof Dialog.Content>, Dialog.DialogConte
   const { isMobile } = useFlexModalContext();
   const ContentComponent = isMobile ? Drawer.Content : Dialog.Content;
   const theme = useTheme();
-  return <ContentComponent ref={ref} css={{ backgroundColor: theme.modalBackgroundColor }} {...props} />;
+  return <ContentComponent ref={ref} css={{ backgroundColor: theme.colors.background }} {...props} />;
 });
 Content.displayName = Dialog.Content.displayName;
 

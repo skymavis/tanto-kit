@@ -15,7 +15,7 @@ export const viewConfigs: Record<Route, View> = {
         css={theme => ({
           fontSize: 11,
           fontWeight: 500,
-          color: theme.neutralColor,
+          color: theme.colors.neutral,
           transform: 'translateY(6px)',
           textTransform: 'uppercase',
           textAlign: 'center',

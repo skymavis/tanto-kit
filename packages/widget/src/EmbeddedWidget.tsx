@@ -13,7 +13,7 @@ import { WidgetContent } from './WidgetContent';
 const EmbeddedContainer = styled.div(({ theme }) => ({
   width: '100%',
   padding: '8px 20px 20px 20px',
-  backgroundColor: theme.modalBackgroundColor,
+  backgroundColor: theme.colors.background,
 }));
 
 export type TantoEmbeddedWidgetProps = AccountConnectionCallback & {

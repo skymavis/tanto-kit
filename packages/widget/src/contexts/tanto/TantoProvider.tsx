@@ -10,7 +10,7 @@ import { defaultTantoConfig, TantoConfig, TantoContext } from './TantoContext';
 
 export type TantoProviderProps = AccountConnectionCallback & {
   children?: ReactNode;
-  theme?: Theme;
+  theme?: DeepPartial<Theme>;
   config?: TantoConfig;
 };
 

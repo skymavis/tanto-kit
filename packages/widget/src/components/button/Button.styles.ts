@@ -23,24 +23,24 @@ export const StyledButton = styled.button<ButtonProps>(
     switch (intent) {
       case 'primary':
         return {
-          color: theme.buttonPrimaryTextColor,
-          backgroundColor: theme.buttonPrimaryBackgroundColor,
+          color: theme.colors.buttonPrimaryForeground,
+          backgroundColor: theme.colors.buttonPrimary,
           '&:hover': {
-            backgroundColor: theme.buttonPrimaryHoverBackgroundColor,
+            backgroundColor: theme.colors.buttonPrimaryHover,
           },
           '&:active': {
-            backgroundColor: theme.buttonPrimaryBackgroundColor,
+            backgroundColor: theme.colors.buttonPrimaryActive,
           },
         };
       case 'secondary':
         return {
-          color: theme.buttonSecondaryTextColor,
-          backgroundColor: theme.buttonSecondaryBackgroundColor,
+          color: theme.colors.buttonSecondaryForeground,
+          backgroundColor: theme.colors.buttonSecondary,
           '&:hover': {
-            backgroundColor: theme.buttonSecondaryHoverBackgroundColor,
+            backgroundColor: theme.colors.buttonSecondaryHover,
           },
           '&:active': {
-            backgroundColor: theme.buttonSecondaryActiveBackgroundColor,
+            backgroundColor: theme.colors.buttonSecondaryActive,
           },
         };
     }
@@ -50,13 +50,13 @@ export const StyledButton = styled.button<ButtonProps>(
     switch (variant) {
       case 'plain':
         return {
-          color: theme.buttonSecondaryTextColor,
+          color: theme.colors.buttonSecondaryForeground,
           backgroundColor: 'transparent',
           '&:hover': {
-            backgroundColor: theme.buttonSecondaryHoverBackgroundColor,
+            backgroundColor: theme.colors.buttonSecondaryHover,
           },
           '&:active': {
-            backgroundColor: theme.buttonSecondaryActiveBackgroundColor,
+            backgroundColor: theme.colors.buttonSecondaryActive,
           },
         };
     }
@@ -112,12 +112,12 @@ export const StyledButton = styled.button<ButtonProps>(
   ({ theme, disabled }) => {
     if (disabled) {
       return {
-        backgroundColor: theme.buttonDisabledBackgroundColor,
+        backgroundColor: theme.colors.buttonDisabled,
         pointerEvents: 'none',
         cursor: 'not-allowed',
         '&, & *': {
           transition: 'color 150ms ease',
-          color: theme.buttonDisabledTextColor,
+          color: theme.colors.buttonDisabledForeground,
         },
       };
     }

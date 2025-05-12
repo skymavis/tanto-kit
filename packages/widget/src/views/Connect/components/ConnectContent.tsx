@@ -22,7 +22,7 @@ const Title = styled.h3({
 const Description = styled.p(props => ({
   fontSize: 14,
   fontWeight: 400,
-  color: props.theme.neutralColor,
+  color: props.theme.colors.neutral,
 }));
 
 interface StatusContentProps {

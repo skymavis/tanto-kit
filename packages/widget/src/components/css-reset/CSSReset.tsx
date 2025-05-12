@@ -11,7 +11,7 @@ export const CSSReset = styled.div(({ theme }) => ({
   fontSize: 14,
   fontWeight: 400,
   lineHeight: '20px',
-  color: theme.foregroundColor,
+  color: theme.colors.foreground,
 
   '&, *': {
     fontFamily: `${theme.fontFamily}, 'Work Sans', sans-serif`,
@@ -47,16 +47,16 @@ export const CSSReset = styled.div(({ theme }) => ({
 
   '& [data-scrollable]': {
     scrollbarWidth: 'thin',
-    scrollbarColor: `${theme.thumbBackgroundColor} ${theme.backgroundColor}`,
+    scrollbarColor: `${theme.colors.scrollbarThumb} ${theme.colors.scrollbarTrack}`,
 
     '&::-webkit-scrollbar': {
       width: 4,
       height: 4,
-      backgroundColor: theme.backgroundColor,
+      backgroundColor: theme.colors.scrollbarTrack,
     },
 
     '&::-webkit-scrollbar-thumb': {
-      backgroundColor: theme.thumbBackgroundColor,
+      backgroundColor: theme.colors.scrollbarThumb,
       borderRadius: 10,
     },
 

@@ -31,9 +31,9 @@ const Container = styled('div', {
     transition: 'background 100ms ease',
   },
   ({ theme }) => ({
-    backgroundColor: theme.listItemBackgroundColor,
+    backgroundColor: theme.colors.listItem,
     '&:hover': {
-      backgroundColor: theme.listItemHoverBackgroundColor,
+      backgroundColor: theme.colors.listItemHover,
     },
   }),
   ({ highlight }) =>
@@ -59,7 +59,7 @@ const WalletName = styled.p({
 const WalletDescription = styled.p(props => ({
   fontSize: 12,
   lineHeight: '16px',
-  color: props.theme.neutralColor,
+  color: props.theme.colors.neutral,
   margin: 0,
 }));
 
