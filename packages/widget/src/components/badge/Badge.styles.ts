@@ -6,7 +6,7 @@ export const StyledBadge = styled.div<Pick<BadgeProps, 'intent'>>(
   {
     padding: '2px 8px',
     borderRadius: 32,
-    fontSize: 14,
+    fontSize: '0.875em',
   },
   ({ intent }) => {
     switch (intent) {

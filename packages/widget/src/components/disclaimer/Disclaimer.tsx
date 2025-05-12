@@ -5,9 +5,9 @@ import { Box } from '../box/Box';
 
 const Container = styled.div(props => ({
   maxWidth: 378,
-  fontSize: 12,
+  fontSize: '0.75em',
   fontWeight: 400,
-  lineHeight: '16px',
+  lineHeight: '1em',
   textAlign: 'center',
   color: props.theme.colors.neutral,
   '& > a': {

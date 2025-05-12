@@ -5,9 +5,9 @@ import { CopyButton } from '../../../components/copy-button/CopyButton';
 import { truncate } from '../../../utils';
 
 const AddressText = styled.p({
-  fontSize: 18,
+  fontSize: '1.125em',
   fontWeight: 500,
-  lineHeight: '28px',
+  lineHeight: '1.75em',
 });
 
 interface AddressDisplayProps {

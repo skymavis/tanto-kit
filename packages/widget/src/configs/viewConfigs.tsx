@@ -13,7 +13,7 @@ export const viewConfigs: Record<Route, View> = {
     title: (
       <p
         css={theme => ({
-          fontSize: 11,
+          fontSize: '0.6875em',
           fontWeight: 500,
           color: theme.colors.neutral,
           transform: 'translateY(6px)',

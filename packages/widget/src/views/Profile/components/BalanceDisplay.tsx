@@ -3,8 +3,8 @@ import styled from '@emotion/styled';
 import { formatBalance } from '../../../utils';
 
 const BalanceText = styled.p(({ theme }) => ({
-  fontSize: 16,
-  lineHeight: '22px',
+  fontSize: '1em',
+  lineHeight: '1.375em',
   color: theme.colors.neutral,
 }));
 

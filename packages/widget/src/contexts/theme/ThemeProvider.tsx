@@ -1,4 +1,4 @@
-import { css, Global, ThemeProvider as EmotionThemeProvider, useTheme } from '@emotion/react';
+import { css, Global, ThemeProvider as EmotionThemeProvider } from '@emotion/react';
 import { type ReactNode, useMemo } from 'react';
 
 import { tantoDarkTheme, tantoLightTheme } from '../../styles/theme';
@@ -22,12 +22,6 @@ export function ThemeProvider(props: ThemeProviderProps) {
 }
 
 function DefaultFontLoader() {
-  const theme = useTheme();
-
-  if (!theme.fontFamily.includes('Work Sans')) {
-    return null;
-  }
-
   return (
     <Global
       styles={css`

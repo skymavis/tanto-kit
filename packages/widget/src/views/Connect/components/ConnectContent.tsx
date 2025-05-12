@@ -15,12 +15,12 @@ const ContentSection = styled(Box)({
 });
 
 const Title = styled.h3({
-  fontSize: 20,
+  fontSize: '1.25em',
   fontWeight: 500,
 });
 
 const Description = styled.p(props => ({
-  fontSize: 14,
+  fontSize: '0.875em',
   fontWeight: 400,
   color: props.theme.colors.neutral,
 }));

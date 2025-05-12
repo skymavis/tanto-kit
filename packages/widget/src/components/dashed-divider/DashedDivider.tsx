@@ -5,9 +5,9 @@ const StyledDivider = styled.div(props => ({
   alignItems: 'center',
   textAlign: 'center',
   width: '100%',
-  fontSize: 11,
+  fontSize: '0.6875em',
   fontWeight: 500,
-  lineHeight: '14px',
+  lineHeight: '0.875em',
   textTransform: 'uppercase',
   color: props.theme.colors.neutral,
 

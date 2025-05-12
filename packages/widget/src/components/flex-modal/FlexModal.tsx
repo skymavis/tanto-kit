@@ -91,7 +91,7 @@ const Title = (props: DialogTitleProps) => {
     <TitleComponent
       css={{
         flex: 1,
-        fontSize: 20,
+        fontSize: '1.25em',
         fontWeight: 500,
         wordBreak: 'break-word',
       }}

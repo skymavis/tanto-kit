@@ -24,7 +24,7 @@ const ActionSection = styled.div({
 
 const Title = styled.h2({
   flex: 1,
-  fontSize: 20,
+  fontSize: '1.25em',
   fontWeight: 500,
   wordBreak: 'break-word',
 });

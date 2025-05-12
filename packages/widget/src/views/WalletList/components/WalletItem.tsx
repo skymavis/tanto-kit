@@ -51,14 +51,14 @@ const Container = styled('div', {
 );
 
 const WalletName = styled.p({
-  fontSize: 16,
-  lineHeight: '20px',
+  fontSize: '1em',
+  lineHeight: '1.25em',
   margin: 0,
 });
 
 const WalletDescription = styled.p(props => ({
-  fontSize: 12,
-  lineHeight: '16px',
+  fontSize: '0.75em',
+  lineHeight: '1em',
   color: props.theme.colors.neutral,
   margin: 0,
 }));

@@ -1,6 +1,7 @@
 export interface WidgetTheme {
   name: 'light' | 'dark';
   fontFamily: string;
+  fontSize: number | string;
   colors: {
     buttonPrimary: string;
     buttonPrimaryHover: string;

@@ -8,9 +8,9 @@ export const CSSReset = styled.div(({ theme }) => ({
   WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
   WebkitTextStroke: '0.001px transparent',
   textSizeAdjust: 'none',
-  fontSize: 14,
+  fontSize: theme.fontSize,
   fontWeight: 400,
-  lineHeight: '20px',
+  lineHeight: 1.25,
   color: theme.colors.foreground,
 
   '&, *': {

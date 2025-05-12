@@ -9,7 +9,7 @@ const Container = styled.div({
   flexWrap: 'wrap',
   alignItems: 'center',
   gap: 8,
-  fontSize: 14,
+  fontSize: '0.875em',
   whiteSpace: 'nowrap',
   '& > img': {
     display: 'inline',

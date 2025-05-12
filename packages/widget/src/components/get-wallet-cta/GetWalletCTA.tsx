@@ -12,7 +12,7 @@ const Container = styled(Box)({
 
 const Description = styled.p({
   flex: 1,
-  fontSize: 14,
+  fontSize: '0.875em',
   fontWeight: 400,
 });
 

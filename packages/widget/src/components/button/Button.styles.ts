@@ -68,25 +68,25 @@ export const StyledButton = styled.button<ButtonProps>(
         return {
           fontWeight: 500,
           height: 52,
-          fontSize: 16,
+          fontSize: '1em',
           padding: '0 16px',
         };
       case 'default':
         return {
           height: 44,
-          fontSize: 16,
+          fontSize: '1em',
           padding: '0 16px',
         };
       case 'small':
         return {
           height: 36,
-          fontSize: 16,
+          fontSize: '1em',
           padding: '0 16px',
         };
       case 'xsmall':
         return {
           height: 28,
-          fontSize: 14,
+          fontSize: '0.875em',
           padding: '0 8px',
         };
     }
