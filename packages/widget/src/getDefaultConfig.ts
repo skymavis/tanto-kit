@@ -16,15 +16,13 @@ const DEFAULT_WALLET_CONNECT_CONFIG = {
   },
 };
 
-interface DefaultConfig
-  extends Partial<Omit<CreateConfigParameters, 'client' | 'connectors' | 'transports' | 'chains'>> {
+interface DefaultConfig extends Partial<Omit<CreateConfigParameters, 'client' | 'connectors'>> {
   appName?: string;
   appIcon?: string;
   appDescription?: string;
   appUrl?: string;
   walletConnectProjectId?: string;
   keylessWalletConfig?: IWaypointProviderConfigs & { clientId: string };
-  chains?: readonly [Chain, ...Chain[]];
   initialChainId?: number;
 }
 
