@@ -67,7 +67,7 @@ const CornerSvg = styled.svg<{
 const CornerPath = () => (
   <>
     <path d="M0 0h24v16a8 8 0 0 1-8 8H0z" fill={BACKGROUND} />
-    <mask id="a" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
+    <mask id="qrcode-cornor-border" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -75,13 +75,13 @@ const CornerPath = () => (
         fill="#fff"
       />
     </mask>
-    <g mask="url(#a)">
+    <g mask="url(#qrcode-cornor-border)">
       <path d="M21 0H0v21h21z" fill={DOT_COLOR} />
     </g>
-    <mask id="b" maskUnits="userSpaceOnUse" x="6" y="6" width="9" height="9">
+    <mask id="qrcode-cornor-dot" maskUnits="userSpaceOnUse" x="6" y="6" width="9" height="9">
       <path d="M10.5 15a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9" fill="#fff" />
     </mask>
-    <g mask="url(#b)">
+    <g mask="url(#qrcode-cornor-dot)">
       <path d="M15 6H6v9h9z" fill={DOT_COLOR} />
     </g>
   </>

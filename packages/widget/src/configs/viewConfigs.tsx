@@ -11,18 +11,29 @@ export const viewConfigs: Record<Route, View> = {
     showBackButton: false,
     content: <WalletList />,
     title: (
-      <p
-        css={theme => ({
-          fontSize: '0.6875em',
-          fontWeight: 500,
-          color: theme.colors.neutral,
-          transform: 'translateY(6px)',
-          textTransform: 'uppercase',
-          textAlign: 'center',
-        })}
+      <div
+        css={{
+          flex: 1,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'flex-end',
+          height: '100%',
+          paddingBottom: 6,
+          paddingTop: 12,
+        }}
       >
-        Powered by Ronin Wallet
-      </p>
+        <p
+          css={theme => ({
+            fontSize: '0.55em',
+            fontWeight: 500,
+            color: theme.colors.neutral,
+            textTransform: 'uppercase',
+            textAlign: 'center',
+          })}
+        >
+          Powered by Ronin Wallet
+        </p>
+      </div>
     ),
   },
   [Route.CONNECT_INJECTOR]: {
@@ -36,7 +47,7 @@ export const viewConfigs: Record<Route, View> = {
   [Route.PROFILE]: {
     route: Route.PROFILE,
     content: <Profile />,
-    title: <p css={{ textAlign: 'center' }}>Connected</p>,
+    title: <p css={{ width: '100%', textAlign: 'center' }}>Connected</p>,
   },
 };
 

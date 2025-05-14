@@ -17,13 +17,13 @@ import { openWindow } from './utils/openWindow';
 
 const ActionSection = styled.div({
   minWidth: 44,
-  minHeight: 44,
   width: 44,
-  height: 44,
 });
 
-const Title = styled.h2({
+const Title = styled.div({
   flex: 1,
+  display: 'flex',
+  alignItems: 'center',
   fontSize: '1.25em',
   fontWeight: 500,
   wordBreak: 'break-word',
@@ -36,6 +36,11 @@ interface WidgetContentProps {
 export const WidgetContent = ({ close }: WidgetContentProps) => {
   const { view, goBack } = useWidgetRouter();
   const { address, chainId, connector } = useAccount();
+  const headerMarginBottom = (() => {
+    if (view.showBackButton || close) return 8;
+    if (!view.showBackButton && !close) return 6;
+    return 12;
+  })();
 
   useBalance({ address, chainId });
 
@@ -49,7 +54,7 @@ export const WidgetContent = ({ close }: WidgetContentProps) => {
   return (
     <CSSReset>
       <SmoothHeight>
-        <Box align="center" gap={8} mb={8}>
+        <Box align="stretch" gap={8} mb={headerMarginBottom}>
           <ActionSection>
             {view.showBackButton && (
               <IconButton

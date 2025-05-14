@@ -2,23 +2,28 @@ import styled from '@emotion/styled';
 import { useCallback } from 'react';
 
 import { highlightedWalletItemBackgroundUri, highlightedWalletItemHoverBackgroundUri } from '../../../assets/data-uris';
+import { RoninBadge as RoninBadgeSvg } from '../../../assets/RoninBadge';
 import { Badge } from '../../../components/badge/Badge';
 import { Box } from '../../../components/box/Box';
 import { WALLET_ITEM_HEIGHT } from '../../../constants';
 import { useIsMobileView } from '../../../hooks/useIsMobileView';
 import { useWidgetConnect } from '../../../hooks/useWidgetConnect';
 import { useWidgetRouter } from '../../../hooks/useWidgetRouter';
+import { useWidgetUIConfig } from '../../../hooks/useWidgetUIConfig';
 import { Route } from '../../../types/route';
 import { Wallet } from '../../../types/wallet';
-import { isInjectedConnector, isWCConnector } from '../../../utils';
+import { isInjectedConnector, isWaypointConnector, isWCConnector } from '../../../utils';
 
 interface WalletItemProps {
   wallet: Wallet;
 }
 
 const Container = styled('div', {
-  shouldForwardProp: propName => propName !== 'highlight',
-})<{ highlight?: boolean }>(
+  shouldForwardProp: propName => !['highlight', 'disabled'].includes(propName),
+})<{
+  highlight?: boolean;
+  disabled?: boolean;
+}>(
   {
     position: 'relative',
     display: 'flex',
@@ -36,25 +41,37 @@ const Container = styled('div', {
       backgroundColor: theme.colors.listItemHover,
     },
   }),
-  ({ highlight }) =>
-    highlight && {
-      backgroundColor: 'unset',
-      backgroundImage: `url("${highlightedWalletItemBackgroundUri}")`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      '&:hover': {
+  ({ disabled, highlight }) => {
+    if (disabled)
+      return {
+        pointerEvents: 'none',
+        backgroundColor: 'rgba(205, 213, 229, 0.03)',
+      };
+    if (highlight)
+      return {
         backgroundColor: 'unset',
-        backgroundImage: `url("${highlightedWalletItemHoverBackgroundUri}")`,
-      },
-    },
+        backgroundImage: `url("${highlightedWalletItemBackgroundUri}")`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        '&:hover': {
+          backgroundColor: 'unset',
+          backgroundImage: `url("${highlightedWalletItemHoverBackgroundUri}")`,
+        },
+      };
+  },
 );
 
-const WalletName = styled.p({
-  fontSize: '1em',
-  lineHeight: '1.25em',
-  margin: 0,
-});
+const WalletName = styled('p', {
+  shouldForwardProp: propName => propName !== 'disabled',
+})<{ disabled?: boolean }>(
+  {
+    fontSize: '1em',
+    lineHeight: '1.25em',
+    margin: 0,
+  },
+  ({ disabled, theme }) => disabled && { color: theme.colors.neutral },
+);
 
 const WalletDescription = styled.p(props => ({
   fontSize: '0.75em',
@@ -63,16 +80,28 @@ const WalletDescription = styled.p(props => ({
   margin: 0,
 }));
 
+const WalletLogoWrapper = styled.div({
+  position: 'relative',
+});
+
+const RoninBadge = styled(RoninBadgeSvg)({
+  position: 'absolute',
+  right: -6,
+  bottom: -6,
+});
+
 export const WalletItem = ({ wallet }: WalletItemProps) => {
   const { id, name, icon, connector, homepage, isInstalled, displayOptions = {} } = wallet;
-  const { thumbnail, description, highlight } = displayOptions;
+  const { thumbnail, description, highlightBackground, showRoninBadge } = displayOptions;
+  const { markKeylessWalletConnected } = useWidgetUIConfig();
   const { setSelectedWallet } = useWidgetConnect();
   const { goTo } = useWidgetRouter();
   const isMobile = useIsMobileView();
 
   const walletLogo = thumbnail ?? icon;
+  const markWaypointConnected = isWaypointConnector(connector?.id) && markKeylessWalletConnected;
   const isInjected = isInjectedConnector(connector?.type);
-  const highlightContent = highlight ? (isMobile ? 'Fastest' : 'Fastest to start') : undefined;
+  const highlightContent = highlightBackground ? (isMobile ? 'Fastest' : 'Fastest to start') : undefined;
 
   const handleClick = useCallback(() => {
     if (!isInstalled) {
@@ -97,17 +126,25 @@ export const WalletItem = ({ wallet }: WalletItemProps) => {
     <Container
       role="button"
       aria-label={`Connect to ${name}`}
-      highlight={highlight}
+      highlight={highlightBackground}
+      disabled={markWaypointConnected}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
     >
-      {walletLogo && walletLogo}
+      {walletLogo && (
+        <WalletLogoWrapper>
+          {walletLogo}
+          {showRoninBadge && <RoninBadge />}
+        </WalletLogoWrapper>
+      )}
+
       <Box vertical flex={1}>
-        <WalletName>{name}</WalletName>
+        <WalletName disabled={markWaypointConnected}>{name}</WalletName>
         {description && <WalletDescription>{description}</WalletDescription>}
       </Box>
+      {markWaypointConnected && <Badge>Connected</Badge>}
+      {!markWaypointConnected && highlightContent && <Badge intent="highlight">{highlightContent}</Badge>}
       {isInjected && <Badge>Detected</Badge>}
-      {highlightContent && <Badge intent="highlight">{highlightContent}</Badge>}
     </Container>
   );
 };

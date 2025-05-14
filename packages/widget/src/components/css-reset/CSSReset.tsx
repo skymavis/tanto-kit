@@ -5,6 +5,7 @@ export const CSSReset = styled.div(({ theme }) => ({
   textAlign: 'left',
   textRendering: 'optimizeLegibility',
   MozOsxFontSmoothing: 'grayscale',
+  WebkitFontSmoothing: 'antialiased',
   WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
   WebkitTextStroke: '0.001px transparent',
   textSizeAdjust: 'none',

@@ -15,7 +15,8 @@ export const walletConfigs: Record<WalletId, WalletConfig> = {
     icon: <RoninWaypointCustomSquareLogo />,
     displayOptions: {
       thumbnail: <RoninWaypointCustomLogo />,
-      highlight: true,
+      highlightBackground: true,
+      showRoninBadge: true,
     },
   },
   RONIN_WALLET: {
@@ -24,6 +25,7 @@ export const walletConfigs: Record<WalletId, WalletConfig> = {
     homepage: RONIN_WALLET_WEB_LINK,
     displayOptions: {
       thumbnail: <RoninExtensionCustomLogo />,
+      showRoninBadge: true,
     },
   },
   'com.roninchain.wallet': {
@@ -32,6 +34,7 @@ export const walletConfigs: Record<WalletId, WalletConfig> = {
     homepage: RONIN_WALLET_WEB_LINK,
     displayOptions: {
       thumbnail: <RoninExtensionCustomLogo />,
+      showRoninBadge: true,
     },
   },
   walletConnect: {
@@ -48,6 +51,7 @@ export const walletConfigs: Record<WalletId, WalletConfig> = {
     displayOptions: {
       thumbnail: <RoninMobileCustomLogo />,
       description: 'Sign in with the app',
+      showRoninBadge: true,
     },
   },
   CUSTOM_RONIN_IN_APP_WALLET: {
@@ -56,6 +60,7 @@ export const walletConfigs: Record<WalletId, WalletConfig> = {
     displayOptions: {
       thumbnail: <RoninMobileCustomLogo />,
       description: 'Sign in with the app',
+      showRoninBadge: true,
     },
   },
 };

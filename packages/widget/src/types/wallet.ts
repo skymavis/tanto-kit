@@ -18,7 +18,8 @@ export interface WalletConfig {
   displayOptions?: {
     thumbnail?: ReactNode;
     description?: string;
-    highlight?: boolean;
+    highlightBackground?: boolean;
+    showRoninBadge?: boolean;
   };
 }
 

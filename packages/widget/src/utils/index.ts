@@ -44,6 +44,8 @@ export const isWCConnector = (connectorId?: string) => connectorId === 'walletCo
 
 export const isInjectedConnector = (connectorType?: string) => connectorType === 'injected';
 
+export const isWaypointConnector = (connectorId?: string) => connectorId === 'WAYPOINT';
+
 export const generateInAppBrowserRoninMobileLink = (uri: string) => {
   return `roninwallet://in_app_browser?url=${encodeURIComponent(uri)}`;
 };

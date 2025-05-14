@@ -1,5 +1,7 @@
+import { ImgHTMLAttributes } from 'react';
+
 import { roninMobileCustomLogoUri } from './data-uris';
 
-export function RoninMobileCustomLogo() {
-  return <img width={38} height={38} src={roninMobileCustomLogoUri} />;
+export function RoninMobileCustomLogo(props: ImgHTMLAttributes<HTMLImageElement>) {
+  return <img width={32} height={32} src={roninMobileCustomLogoUri} {...props} />;
 }

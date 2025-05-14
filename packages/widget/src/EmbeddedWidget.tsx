@@ -4,6 +4,8 @@ import { useAccountEffect } from 'wagmi';
 
 import { CONNECT_SUCCESS_DELAY } from './constants';
 import { WidgetRouterProvider } from './contexts/widget-router/WidgetRouterProvider';
+import { WidgetUIConfigState } from './contexts/widget-ui-config/WidgetUIConfigContext';
+import { WidgetConfigProvider } from './contexts/widget-ui-config/WidgetUIConfigProvider';
 import { useConnectCallback } from './hooks/useConnectCallback';
 import { useTantoConfig } from './hooks/useTantoConfig';
 import { useWidgetRouter } from './hooks/useWidgetRouter';
@@ -16,12 +18,14 @@ const EmbeddedContainer = styled.div(({ theme }) => ({
   backgroundColor: theme.colors.background,
 }));
 
-export type TantoEmbeddedWidgetProps = AccountConnectionCallback & {
+export type EmbeddedWidgetProps = AccountConnectionCallback & {
   style?: CSSProperties;
   className?: string;
 };
 
-function EmbeddedWidget({ onConnect, onDisconnect, ...rest }: TantoEmbeddedWidgetProps) {
+export type TantoEmbeddedWidgetProps = EmbeddedWidgetProps & WidgetUIConfigState;
+
+function EmbeddedWidget({ onConnect, onDisconnect, ...rest }: EmbeddedWidgetProps) {
   const { reset } = useWidgetRouter();
   const { hideConnectSuccessPrompt } = useTantoConfig();
 
@@ -43,10 +47,12 @@ function EmbeddedWidget({ onConnect, onDisconnect, ...rest }: TantoEmbeddedWidge
   );
 }
 
-export function TantoEmbeddedWidget(props: TantoEmbeddedWidgetProps) {
+export function TantoEmbeddedWidget({ config, ...props }: TantoEmbeddedWidgetProps) {
   return (
     <WidgetRouterProvider>
-      <EmbeddedWidget {...props} />
+      <WidgetConfigProvider config={config}>
+        <EmbeddedWidget {...props} />
+      </WidgetConfigProvider>
     </WidgetRouterProvider>
   );
 }
