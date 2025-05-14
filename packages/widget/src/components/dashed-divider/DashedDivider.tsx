@@ -9,14 +9,13 @@ const StyledDivider = styled.div(props => ({
   fontWeight: 500,
   lineHeight: '0.875em',
   textTransform: 'uppercase',
-  color: props.theme.colors.neutral,
+  color: props.theme.mutedText,
 
   '&:before, &:after': {
     content: "''",
     flex: 1,
-    border: `solid 1px ${props.theme.colors.border}`,
+    border: props.theme.dividerBorder,
     margin: '0 0.5rem',
-    borderStyle: 'dashed',
   },
 }));
 

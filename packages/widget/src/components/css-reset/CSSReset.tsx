@@ -12,10 +12,10 @@ export const CSSReset = styled.div(({ theme }) => ({
   fontSize: theme.fontSize,
   fontWeight: 400,
   lineHeight: 1.25,
-  color: theme.colors.foreground,
+  color: theme.bodyText,
 
   '&, *': {
-    fontFamily: `${theme.fontFamily}, 'Work Sans', sans-serif`,
+    fontFamily: `${typeof theme.fontFamily === 'string' ? theme.fontFamily : theme.fontFamily.join(', ')}`,
     boxSizing: 'border-box',
     outline: 'none',
     border: 'none',
@@ -48,16 +48,16 @@ export const CSSReset = styled.div(({ theme }) => ({
 
   '& [data-scrollable]': {
     scrollbarWidth: 'thin',
-    scrollbarColor: `${theme.colors.scrollbarThumb} ${theme.colors.scrollbarTrack}`,
+    scrollbarColor: `${theme.scrollbarThumb} ${theme.scrollbarTrack}`,
 
     '&::-webkit-scrollbar': {
       width: 4,
       height: 4,
-      backgroundColor: theme.colors.scrollbarTrack,
+      backgroundColor: theme.scrollbarTrack,
     },
 
     '&::-webkit-scrollbar-thumb': {
-      backgroundColor: theme.colors.scrollbarThumb,
+      backgroundColor: theme.scrollbarThumb,
       borderRadius: 10,
     },
 

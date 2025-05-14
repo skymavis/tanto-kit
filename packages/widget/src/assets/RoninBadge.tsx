@@ -18,7 +18,7 @@ export const RoninBadge = (props: SVGProps<SVGSVGElement>) => {
         <path d="M13 1H7a6 6 0 0 0-6 6v6a6 6 0 0 0 6 6h6a6 6 0 0 0 6-6V7a6 6 0 0 0-6-6" fill="#007FF5" />
         <path
           d="M13 1H7a6 6 0 0 0-6 6v6a6 6 0 0 0 6 6h6a6 6 0 0 0 6-6V7a6 6 0 0 0-6-6Z"
-          stroke={theme.colors.background}
+          stroke={theme.modalBackground}
           strokeWidth="2"
         />
         <path

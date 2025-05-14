@@ -23,24 +23,36 @@ export const StyledButton = styled.button<ButtonProps>(
     switch (intent) {
       case 'primary':
         return {
-          color: theme.colors.buttonPrimaryForeground,
-          backgroundColor: theme.colors.buttonPrimary,
+          color: theme.buttonPrimaryColor,
+          backgroundColor: theme.buttonPrimaryBackground,
+          boxShadow: theme.buttonPrimaryShadow,
+          border: theme.buttonPrimaryBorder,
           '&:hover': {
-            backgroundColor: theme.colors.buttonPrimaryHover,
+            color: theme.buttonPrimaryHoverColor,
+            backgroundColor: theme.buttonPrimaryHoverBackground,
+            boxShadow: theme.buttonPrimaryHoverShadow,
           },
           '&:active': {
-            backgroundColor: theme.colors.buttonPrimaryActive,
+            color: theme.buttonPrimaryActiveColor,
+            backgroundColor: theme.buttonPrimaryActiveBackground,
+            boxShadow: theme.buttonPrimaryActiveShadow,
           },
         };
       case 'secondary':
         return {
-          color: theme.colors.buttonSecondaryForeground,
-          backgroundColor: theme.colors.buttonSecondary,
+          color: theme.buttonSecondaryColor,
+          backgroundColor: theme.buttonSecondaryBackground,
+          boxShadow: theme.buttonSecondaryShadow,
+          border: theme.buttonSecondaryBorder,
           '&:hover': {
-            backgroundColor: theme.colors.buttonSecondaryHover,
+            color: theme.buttonSecondaryHoverColor,
+            backgroundColor: theme.buttonSecondaryHoverBackground,
+            boxShadow: theme.buttonSecondaryHoverShadow,
           },
           '&:active': {
-            backgroundColor: theme.colors.buttonSecondaryActive,
+            color: theme.buttonSecondaryActiveColor,
+            backgroundColor: theme.buttonSecondaryActiveBackground,
+            boxShadow: theme.buttonSecondaryActiveShadow,
           },
         };
     }
@@ -50,13 +62,15 @@ export const StyledButton = styled.button<ButtonProps>(
     switch (variant) {
       case 'plain':
         return {
-          color: theme.colors.buttonSecondaryForeground,
+          color: theme.buttonSecondaryColor,
           backgroundColor: 'transparent',
           '&:hover': {
-            backgroundColor: theme.colors.buttonSecondaryHover,
+            color: theme.buttonSecondaryHoverColor,
+            backgroundColor: theme.buttonSecondaryHoverBackground,
           },
           '&:active': {
-            backgroundColor: theme.colors.buttonSecondaryActive,
+            color: theme.buttonSecondaryActiveColor,
+            backgroundColor: theme.buttonSecondaryActiveBackground,
           },
         };
     }
@@ -112,12 +126,12 @@ export const StyledButton = styled.button<ButtonProps>(
   ({ theme, disabled }) => {
     if (disabled) {
       return {
-        backgroundColor: theme.colors.buttonDisabled,
+        backgroundColor: theme.buttonDisabledBackground,
         pointerEvents: 'none',
         cursor: 'not-allowed',
         '&, & *': {
           transition: 'color 150ms ease',
-          color: theme.colors.buttonDisabledForeground,
+          color: theme.buttonDisabledColor,
         },
       };
     }

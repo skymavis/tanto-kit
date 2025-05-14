@@ -36,9 +36,9 @@ const Container = styled('div', {
     transition: 'background 100ms ease',
   },
   ({ theme }) => ({
-    backgroundColor: theme.colors.listItem,
+    backgroundColor: theme.listItemBackground,
     '&:hover': {
-      backgroundColor: theme.colors.listItemHover,
+      backgroundColor: theme.listItemHoverBackground,
     },
   }),
   ({ disabled, highlight }) => {
@@ -70,13 +70,13 @@ const WalletName = styled('p', {
     lineHeight: '1.25em',
     margin: 0,
   },
-  ({ disabled, theme }) => disabled && { color: theme.colors.neutral },
+  ({ disabled, theme }) => disabled && { color: theme.mutedText },
 );
 
-const WalletDescription = styled.p(props => ({
+const WalletDescription = styled.p(({ theme }) => ({
   fontSize: '0.75em',
   lineHeight: '1em',
-  color: props.theme.colors.neutral,
+  color: theme.mutedText,
   margin: 0,
 }));
 

@@ -15,7 +15,7 @@ import { WidgetContent } from './WidgetContent';
 const EmbeddedContainer = styled.div(({ theme }) => ({
   width: '100%',
   padding: '8px 20px 20px 20px',
-  backgroundColor: theme.colors.background,
+  backgroundColor: theme.modalBackground,
 }));
 
 export type EmbeddedWidgetProps = AccountConnectionCallback & {

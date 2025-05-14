@@ -1,65 +1,23 @@
-import { Button, User } from '@nextui-org/react';
-import { getDefaultConfig, TantoConnectButton, TantoEmbeddedWidget, TantoProvider } from '@sky-mavis/tanto-widget';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { FC, useState } from 'react';
-import { useAccount, useDisconnect, useSignMessage, WagmiProvider } from 'wagmi';
+import { TantoProvider } from '@sky-mavis/tanto-widget';
+import { useTheme } from 'next-themes';
 
-import WillRender from '../../components/will-render/WillRender';
+import { customThemeToken } from 'components/theme/customThemeToken';
 
-const config = getDefaultConfig({
-  ssr: true,
-  keylessWalletConfig: {
-    clientId: 'dbe1e3ff-e145-422f-84c4-e0beb4972f69',
-    waypointOrigin: 'https://id.skymavis.one',
-  },
-});
+import { Web3Provider } from '../../components/provider/Web3Provider';
+import { ThemeSwitcher } from '../../components/theme/ThemeSwitcher';
+import { WalletAccount } from '../../components/wallet-account/WalletAccount';
 
-const queryClient = new QueryClient();
-const WagmiExample: FC = () => {
-  return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <div className={'grid grid-cols-2 gap-4'}>
-          <div className={'bg-black'}>
-            <TantoProvider>
-              <Account />
-            </TantoProvider>
-          </div>
-          <div className={'bg-white'}>
-            <TantoProvider theme="light">
-              <Account />
-            </TantoProvider>
-          </div>
-        </div>
-      </QueryClientProvider>
-    </WagmiProvider>
-  );
-};
-
-const Account = () => {
-  const { address, chainId, isConnected, connector } = useAccount();
-  const { signMessage } = useSignMessage();
-  const { disconnect } = useDisconnect();
-  const [show, setShow] = useState(false);
+export default function WidgetExample() {
+  const { theme } = useTheme();
 
   return (
-    <div className={'w-full min-h-screen flex items-center flex-col gap-4 p-10'}>
-      <TantoConnectButton />
-      <Button onClick={() => setShow(!show)}>Show/Hide embeded</Button>
-      {show && (
-        <div className="w-full max-w-[500px]">
-          <TantoEmbeddedWidget />
-        </div>
-      )}
-
-      <WillRender when={isConnected}>
-        <User name={connector?.name} description={address} />
-        <p>ChainId: {chainId}</p>
-        <Button onClick={() => signMessage({ message: 'Hello Ronin Wallet!' })}>Sign Message</Button>
-        <Button onClick={() => disconnect()}>Disconnect</Button>
-      </WillRender>
-    </div>
+    <Web3Provider>
+      <div className={theme === 'dark' ? 'bg-black' : 'bg-white'}>
+        <ThemeSwitcher />
+        <TantoProvider theme={theme as 'dark'} customThemeToken={theme === 'custom' ? customThemeToken : undefined}>
+          <WalletAccount />
+        </TantoProvider>
+      </div>
+    </Web3Provider>
   );
-};
-
-export default WagmiExample;
+}

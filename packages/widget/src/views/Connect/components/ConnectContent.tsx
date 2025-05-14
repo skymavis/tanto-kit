@@ -19,10 +19,10 @@ const Title = styled.h3({
   fontWeight: 500,
 });
 
-const Description = styled.p(props => ({
+const Description = styled.p(({ theme }) => ({
   fontSize: '0.875em',
   fontWeight: 400,
-  color: props.theme.colors.neutral,
+  color: theme.mutedText,
 }));
 
 interface StatusContentProps {

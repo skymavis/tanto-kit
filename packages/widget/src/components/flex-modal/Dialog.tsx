@@ -46,8 +46,8 @@ const DialogContent = styled(DialogPrimitive.Content, {
   },
   ({ theme, isEmbedded }) =>
     !isEmbedded && {
-      borderRadius: '20px',
-      border: `1px solid ${theme.colors.modalBorder}`,
+      borderRadius: theme.modalBorderRadius,
+      border: theme.modalBorder,
     },
 );
 

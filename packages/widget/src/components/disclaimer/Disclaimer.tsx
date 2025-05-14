@@ -9,9 +9,9 @@ const Container = styled.div(props => ({
   fontWeight: 400,
   lineHeight: '1em',
   textAlign: 'center',
-  color: props.theme.colors.neutral,
+  color: props.theme.mutedText,
   '& > a': {
-    color: props.theme.colors.link,
+    color: props.theme.linkColor,
     '&:hover': {
       opacity: 0.8,
     },
