@@ -23,8 +23,9 @@ interface DefaultConfig
   appDescription?: string;
   appUrl?: string;
   walletConnectProjectId?: string;
-  keylessWalletConfigs?: IWaypointProviderConfigs & { clientId: string };
+  keylessWalletConfig?: IWaypointProviderConfigs & { clientId: string };
   chains?: readonly [Chain, ...Chain[]];
+  initialChainId?: number;
 }
 
 const createTransports = (chains: readonly [Chain, ...Chain[]]) =>
@@ -36,7 +37,7 @@ const createConnectors = ({
   appDescription = DEFAULT_WALLET_CONNECT_CONFIG.metadata.description,
   appUrl = DEFAULT_WALLET_CONNECT_CONFIG.metadata.url,
   walletConnectProjectId = DEFAULT_WALLET_CONNECT_CONFIG.projectId,
-  keylessWalletConfigs,
+  keylessWalletConfig,
 }: DefaultConfig) => {
   const connectors: CreateConnectorFn[] = [
     roninWallet(),
@@ -51,7 +52,7 @@ const createConnectors = ({
       },
     }),
   ];
-  if (keylessWalletConfigs) connectors.push(waypoint(keylessWalletConfigs));
+  if (keylessWalletConfig) connectors.push(waypoint(keylessWalletConfig));
   return connectors;
 };
 
@@ -61,7 +62,7 @@ export const getDefaultConfig = ({
   appDescription,
   appUrl,
   walletConnectProjectId,
-  keylessWalletConfigs,
+  keylessWalletConfig,
   chains = [ronin, saigon],
   multiInjectedProviderDiscovery = true,
   ...rest
@@ -75,7 +76,7 @@ export const getDefaultConfig = ({
       appDescription,
       appUrl,
       walletConnectProjectId,
-      keylessWalletConfigs,
+      keylessWalletConfig,
     }),
     multiInjectedProviderDiscovery,
     ...rest,

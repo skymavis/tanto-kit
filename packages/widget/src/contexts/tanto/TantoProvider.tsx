@@ -1,12 +1,14 @@
 import { domAnimation, LazyMotion, MotionConfig } from 'motion/react';
 import { type ReactNode, useMemo } from 'react';
+import { useChains } from 'wagmi';
 
 import { useConnectCallback } from '../../hooks/useConnectCallback';
 import { usePreloadTantoImages } from '../../hooks/usePreloadImages';
 import { AccountConnectionCallback } from '../../types/connect';
 import { WidgetTheme } from '../../types/theme';
 import { ThemeProvider } from '../theme/ThemeProvider';
-import { defaultTantoConfig, TantoConfig, TantoContext } from './TantoContext';
+import { WidgetModalProvider } from '../widget-modal/WidgetModalProvider';
+import { TantoConfig, TantoContext } from './TantoContext';
 
 export type TantoProviderProps = AccountConnectionCallback & {
   children?: ReactNode;
@@ -21,6 +23,15 @@ export function TantoProvider({ config: customConfig, theme, onConnect, onDiscon
     onDisconnect,
   });
 
+  const chains = useChains();
+
+  const defaultTantoConfig: TantoConfig = {
+    reducedMotion: false,
+    disableProfile: false,
+    hideConnectSuccessPrompt: false,
+    initialChainId: chains?.[0]?.id,
+  };
+
   const config = useMemo<TantoConfig>(() => Object.assign({}, defaultTantoConfig, customConfig), [customConfig]);
   const contextValue = useMemo(() => ({ config }), [config]);
 
@@ -29,7 +40,7 @@ export function TantoProvider({ config: customConfig, theme, onConnect, onDiscon
       <ThemeProvider theme={theme}>
         <MotionConfig reducedMotion={config.reducedMotion ? 'always' : 'never'}>
           <LazyMotion features={domAnimation} strict>
-            {children}
+            <WidgetModalProvider>{children}</WidgetModalProvider>
           </LazyMotion>
         </MotionConfig>
       </ThemeProvider>

@@ -11,14 +11,14 @@ interface UseConnectParameters {
 
 export function useConnect({ connector }: UseConnectParameters) {
   const { setState } = useConfig();
-  const { disableProfile, hideConnectSuccessPrompt } = useTantoConfig();
+  const { initialChainId, disableProfile, hideConnectSuccessPrompt } = useTantoConfig();
   const { status: wagmiStatus, connect: wagmiConnect } = useWagmiConnect();
   const [status, setStatus] = useState<ConnectState>(ConnectState.PENDING);
 
   const connect = useCallback(() => {
     if (!connector) return;
     if (disableProfile) setState(prev => ({ ...prev, current: null }));
-    wagmiConnect({ connector });
+    wagmiConnect({ connector, chainId: initialChainId });
   }, [connector, disableProfile, wagmiConnect]);
 
   useEffect(() => {

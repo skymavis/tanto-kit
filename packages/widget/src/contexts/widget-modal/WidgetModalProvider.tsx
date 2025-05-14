@@ -1,5 +1,6 @@
 import { PropsWithChildren, useCallback, useMemo, useState } from 'react';
 
+import { WidgetModal } from '../../WidgetModal';
 import { WidgetModalContext, WidgetModalState } from './WidgetModalContext';
 
 export const WidgetModalProvider = ({ children }: PropsWithChildren) => {
@@ -18,5 +19,10 @@ export const WidgetModalProvider = ({ children }: PropsWithChildren) => {
     [open, show, hide],
   );
 
-  return <WidgetModalContext.Provider value={contextValue}>{children}</WidgetModalContext.Provider>;
+  return (
+    <WidgetModalContext.Provider value={contextValue}>
+      {children}
+      <WidgetModal />
+    </WidgetModalContext.Provider>
+  );
 };

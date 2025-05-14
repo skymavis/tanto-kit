@@ -4,13 +4,8 @@ export interface TantoConfig {
   reducedMotion?: boolean;
   disableProfile?: boolean;
   hideConnectSuccessPrompt?: boolean;
+  initialChainId?: number;
 }
-
-export const defaultTantoConfig: TantoConfig = {
-  reducedMotion: false,
-  disableProfile: false,
-  hideConnectSuccessPrompt: false,
-};
 
 export interface TantoState {
   config: TantoConfig;

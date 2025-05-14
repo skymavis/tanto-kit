@@ -1,10 +1,5 @@
 import { Button, User } from '@nextui-org/react';
-import {
-  getDefaultConfig,
-  TantoConnectButton,
-  TantoEmbeddedWidget,
-  TantoProvider,
-} from '@sky-mavis/tanto-widget';
+import { getDefaultConfig, TantoConnectButton, TantoEmbeddedWidget, TantoProvider } from '@sky-mavis/tanto-widget';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { FC, useState } from 'react';
 import { useAccount, useDisconnect, useSignMessage, WagmiProvider } from 'wagmi';
@@ -13,7 +8,7 @@ import WillRender from '../../components/will-render/WillRender';
 
 const config = getDefaultConfig({
   ssr: true,
-  keylessWalletConfigs: {
+  keylessWalletConfig: {
     clientId: 'dbe1e3ff-e145-422f-84c4-e0beb4972f69',
     waypointOrigin: 'https://id.skymavis.one',
   },
