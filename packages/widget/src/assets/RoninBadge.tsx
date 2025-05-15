@@ -28,9 +28,9 @@ export const RoninBadge = (props: SVGProps<SVGSVGElement>) => {
       </g>
       <defs>
         <linearGradient id="c" x1="10" y1="5" x2="10" y2="15" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#fff" />
-          <stop offset=".458" stop-color="#fff" />
-          <stop offset="1" stop-color="#fff" />
+          <stop stopColor="#fff" />
+          <stop offset=".458" stopColor="#fff" />
+          <stop offset="1" stopColor="#fff" />
         </linearGradient>
         <clipPath id="a">
           <path fill="#fff" d="M0 0h20v20H0z" />
