@@ -19,7 +19,7 @@ interface FlexModalContextValue {
   isMobile: boolean;
 }
 
-export const FlexModalContext = createContext<FlexModalContextValue | null>(null);
+const FlexModalContext = createContext<FlexModalContextValue | null>(null);
 
 function useFlexModalContext() {
   const context = useContext(FlexModalContext);

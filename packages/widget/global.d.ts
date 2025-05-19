@@ -8,10 +8,4 @@ declare global {
     ethereum?: EIP1193Provider;
     isWalletApp?: boolean;
   }
-
-  type DeepPartial<T> = T extends object
-    ? {
-        [P in keyof T]?: DeepPartial<T[P]>;
-      }
-    : T;
 }

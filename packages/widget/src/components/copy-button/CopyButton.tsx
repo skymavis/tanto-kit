@@ -1,3 +1,4 @@
+import { useTheme } from '@emotion/react';
 import { AnimatePresence } from 'motion/react';
 import * as m from 'motion/react-m';
 import { useCallback, useState } from 'react';
@@ -15,6 +16,7 @@ type CopyButtonProps = ButtonProps & {
 const DEFAULT_ANIMATION_DURATION = 1_500;
 
 export function CopyButton({ intent = 'secondary', size = 'xsmall', value, children, ...rest }: CopyButtonProps) {
+  const theme = useTheme();
   const [copied, setCopied] = useState(false);
 
   const handleCopy = useCallback(async () => {
@@ -63,7 +65,7 @@ export function CopyButton({ intent = 'secondary', size = 'xsmall', value, child
               damping: copied ? 20 : 30,
             }}
           >
-            {copied ? <CheckCircleFillIcon color="#52E08D" size={18} /> : <CopyIcon size={18} />}
+            {copied ? <CheckCircleFillIcon color={theme.successColor} size={18} /> : <CopyIcon size={18} />}
           </m.div>
         </AnimatePresence>
         <div>{children}</div>

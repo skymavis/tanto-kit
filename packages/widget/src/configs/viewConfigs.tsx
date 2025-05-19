@@ -50,5 +50,3 @@ export const viewConfigs: Record<Route, View> = {
     title: <p css={{ width: '100%', textAlign: 'center' }}>Connected</p>,
   },
 };
-
-export const viewContents: View['content'][] = Object.values(viewConfigs).map(({ content }) => content);

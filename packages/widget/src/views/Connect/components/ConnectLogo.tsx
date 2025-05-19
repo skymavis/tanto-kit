@@ -26,12 +26,12 @@ const LogoSection = styled(m.div)<{ status: ConnectState }>(
       opacity: 0,
     },
   },
-  ({ status }) => {
+  ({ theme, status }) => {
     if (status === ConnectState.ERROR) {
       return {
         animation: `${shake} 240ms ease-out both`,
         '&:before': {
-          background: '#FFC34D',
+          background: theme.warningColor,
           animation: `${fadeOut} 240ms ease-out 1200ms both`,
         },
       };
@@ -39,7 +39,7 @@ const LogoSection = styled(m.div)<{ status: ConnectState }>(
     if (status === ConnectState.SUCCESS) {
       return {
         '&:before': {
-          background: '#52E08D',
+          background: theme.successColor,
           animation: `${fadeIn} 150ms linear forwards`,
         },
       };

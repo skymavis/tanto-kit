@@ -2,11 +2,11 @@ import { css, Global, ThemeProvider as EmotionThemeProvider } from '@emotion/rea
 import { type PropsWithChildren, useMemo } from 'react';
 
 import { tantoDarkTheme, tantoLightTheme } from '../../styles/theme';
-import type { WidgetTheme } from '../../types/theme';
+import type { TantoWidgetCustomTheme, TantoWidgetTheme } from '../../types/theme';
 
 export interface ThemeProviderProps {
-  theme?: WidgetTheme['mode'];
-  customThemeToken?: DeepPartial<WidgetTheme>;
+  theme?: TantoWidgetTheme['mode'];
+  customThemeToken?: TantoWidgetCustomTheme;
 }
 
 export function ThemeProvider(props: PropsWithChildren<ThemeProviderProps>) {
@@ -14,7 +14,7 @@ export function ThemeProvider(props: PropsWithChildren<ThemeProviderProps>) {
 
   const theme = useMemo(() => {
     const baseTheme = themeMode === 'dark' ? tantoDarkTheme : tantoLightTheme;
-    const theme = { ...baseTheme, ...customThemeToken } as WidgetTheme;
+    const theme: TantoWidgetTheme = { ...baseTheme, ...customThemeToken };
     return theme;
   }, [themeMode, customThemeToken]);
 

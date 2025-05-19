@@ -6,9 +6,9 @@ import { RONIN_WALLET_WEB_LINK } from '../../constants';
 import { Box } from '../box/Box';
 import { Button } from '../button/Button';
 
-const Container = styled(Box)({
-  backgroundColor: 'rgba(205, 213, 229, 0.07)',
-});
+const Container = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.listItemBackground,
+}));
 
 const Description = styled.p({
   flex: 1,

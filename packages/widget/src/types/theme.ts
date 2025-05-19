@@ -1,9 +1,15 @@
-export interface WidgetTheme {
+export type TantoWidgetCustomTheme = Partial<TantoWidgetTheme>;
+
+export interface TantoWidgetTheme {
   mode: 'auto' | 'light' | 'dark';
 
   /* General */
   fontFamily: string | Array<string>;
   fontSize: number | string;
+
+  /* Intent Colors */
+  warningColor: string;
+  successColor: string;
 
   /* Primary Button */
   buttonPrimaryColor: string;
@@ -66,4 +72,13 @@ export interface WidgetTheme {
   /* List Item */
   listItemBackground: string;
   listItemHoverBackground: string;
+
+  /* Badge */
+  badgeDefaultColor: string;
+  badgeDefaultBackground: string;
+  badgeHighlightColor: string;
+  badgeHighlightBackground: string;
+
+  /* QR Code */
+  qrcodeBackground: string;
 }

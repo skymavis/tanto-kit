@@ -8,4 +8,4 @@ export { getDefaultConfig } from './getDefaultConfig';
 export { useConnectedWallet } from './hooks/useConnectedWallet';
 export { useWidgetModal as useTantoModal } from './hooks/useWidgetModal';
 export { tantoDarkTheme, tantoLightTheme } from './styles/theme';
-export type { WidgetTheme } from './types/theme';
+export type { TantoWidgetCustomTheme, TantoWidgetTheme } from './types/theme';

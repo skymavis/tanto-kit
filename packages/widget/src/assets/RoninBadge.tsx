@@ -14,7 +14,7 @@ export const RoninBadge = (props: SVGProps<SVGSVGElement>) => {
       xmlnsXlink="http://www.w3.org/1999/xlink"
       {...props}
     >
-      <g clipPath="url(#a)">
+      <g clipPath="url(#ronin-badge-a)">
         <path d="M13 1H7a6 6 0 0 0-6 6v6a6 6 0 0 0 6 6h6a6 6 0 0 0 6-6V7a6 6 0 0 0-6-6" fill="#007FF5" />
         <path
           d="M13 1H7a6 6 0 0 0-6 6v6a6 6 0 0 0 6 6h6a6 6 0 0 0 6-6V7a6 6 0 0 0-6-6Z"
@@ -27,17 +27,9 @@ export const RoninBadge = (props: SVGProps<SVGSVGElement>) => {
         />
       </g>
       <defs>
-        <linearGradient id="c" x1="10" y1="5" x2="10" y2="15" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#fff" />
-          <stop offset=".458" stopColor="#fff" />
-          <stop offset="1" stopColor="#fff" />
-        </linearGradient>
-        <clipPath id="a">
+        <clipPath id="ronin-badge-a">
           <path fill="#fff" d="M0 0h20v20H0z" />
         </clipPath>
-        <pattern id="b" patternContentUnits="objectBoundingBox" width="1" height="1">
-          <use xlinkHref="#image0_118_44" transform="translate(-.034 -.003)scale(.00302)" />
-        </pattern>
       </defs>
     </svg>
   );

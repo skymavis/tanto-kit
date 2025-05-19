@@ -8,12 +8,8 @@ import { TransitionedView } from './components/animated-containers/TransitionedV
 import { Box } from './components/box/Box';
 import { IconButton } from './components/button/Button';
 import { CSSReset } from './components/css-reset/CSSReset';
-import { RONIN_WALLET_APP_DEEPLINK } from './constants';
 import { WidgetConnectProvider } from './contexts/widget-connect/WidgetConnectProvider';
-import { useWalletConnectListener } from './hooks/useWalletConnectListener';
 import { useWidgetRouter } from './hooks/useWidgetRouter';
-import { isMobile } from './utils';
-import { openWindow } from './utils/openWindow';
 
 const ActionSection = styled.div({
   minWidth: 44,
@@ -35,7 +31,7 @@ interface WidgetContentProps {
 
 export const WidgetContent = ({ close }: WidgetContentProps) => {
   const { view, goBack } = useWidgetRouter();
-  const { address, chainId, connector } = useAccount();
+  const { address, chainId } = useAccount();
   const headerMarginBottom = (() => {
     if (view.showBackButton || close) return 8;
     if (!view.showBackButton && !close) return 6;
@@ -43,13 +39,6 @@ export const WidgetContent = ({ close }: WidgetContentProps) => {
   })();
 
   useBalance({ address, chainId });
-
-  useWalletConnectListener({
-    connector,
-    onSignRequest: () => {
-      if (isMobile()) openWindow(RONIN_WALLET_APP_DEEPLINK);
-    },
-  });
 
   return (
     <CSSReset>

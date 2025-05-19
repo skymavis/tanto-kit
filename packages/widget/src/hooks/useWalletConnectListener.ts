@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { Connector } from 'wagmi';
+import { Connector, useAccount } from 'wagmi';
 
 import { isWCConnector } from '../utils';
 
@@ -41,7 +41,8 @@ const createSignerProxy = (signer: Signer, onRequest: (args: RequestArguments) =
   });
 };
 
-export const useWalletConnectListener = ({ connector, onSignRequest }: UseWalletConnectListenerParams) => {
+export const useWalletConnectListener = ({ onSignRequest }: UseWalletConnectListenerParams) => {
+  const { connector } = useAccount();
   const isListenerActive = useRef(false);
 
   const handleSignRequest = useCallback(

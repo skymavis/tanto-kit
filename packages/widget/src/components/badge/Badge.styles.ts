@@ -8,18 +8,17 @@ export const StyledBadge = styled.div<Pick<BadgeProps, 'intent'>>(
     borderRadius: 32,
     fontSize: '0.875em',
   },
-  ({ intent }) => {
+  ({ theme, intent }) => {
     switch (intent) {
       case 'highlight':
         return {
-          backgroundColor: 'rgba(115, 13, 55, 0.60)',
-          color: '#FBB2D0',
+          backgroundColor: theme.badgeHighlightBackground,
+          color: theme.badgeDefaultColor,
         };
-
       default:
         return {
-          backgroundColor: 'rgba(39, 43, 52, 0.60)',
-          color: '#F1F3F9',
+          backgroundColor: theme.badgeDefaultBackground,
+          color: theme.badgeDefaultColor,
         };
     }
   },

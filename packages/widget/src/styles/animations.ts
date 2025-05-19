@@ -46,17 +46,6 @@ export const spin = keyframes`
   }
 `;
 
-export const slideUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
 export const shake = keyframes`
   0% {
     transform: none;

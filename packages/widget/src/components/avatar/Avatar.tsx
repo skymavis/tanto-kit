@@ -1,6 +1,16 @@
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import BoringAvatar from 'boring-avatars';
+import BoringAvatarModule from 'boring-avatars';
+
+const BoringAvatar =
+  // BoringAvatarModule can be either a function (the component itself)
+  // or an object with a `.default` property depending on how the module is imported,
+  // especially when using Rollup with 'external' and consuming ESM-only packages.
+  // This check ensures compatibility across different bundlers and environments.
+  // @ts-expect-error
+  typeof BoringAvatarModule === 'function' ? BoringAvatarModule : BoringAvatarModule.default ?? BoringAvatarModule;
+
+export default BoringAvatar;
 
 const COLOR_GROUPS = [
   ['#2065EE', '#FFAEFC'],
@@ -89,8 +99,8 @@ export const Avatar = ({ className, seed, size = 'M', showDot = false }: AvatarP
         <DotContainer dotSize={dotSize}>
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
             <circle cx="10" cy="10" r="10" fill={theme.modalBackground} />
-            <circle opacity="0.3" cx="10.1429" cy="10.0003" r="8.00028" fill="#52E08D" />
-            <circle cx="10.1428" cy="10.0007" r="6.40022" fill="#52E08D" />
+            <circle opacity="0.3" cx="10.1429" cy="10.0003" r="8.00028" fill={theme.successColor} />
+            <circle cx="10.1428" cy="10.0007" r="6.40022" fill={theme.successColor} />
           </svg>
         </DotContainer>
       )}
