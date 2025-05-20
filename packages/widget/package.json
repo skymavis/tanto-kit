@@ -1,0 +1,113 @@
+{
+  "name": "@sky-mavis/tanto-widget",
+  "type": "module",
+  "version": "0.0.1-beta.2",
+  "description": "Tanto Widget",
+  "author": "SkyMavis",
+  "license": "MIT",
+  "homepage": "https://github.com/skymavis/tanto-kit",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:skymavis/tanto-kit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/skymavis/tanto-kit/issues"
+  },
+  "keywords": [
+    "Ronin",
+    "Waypoint",
+    "Tanto",
+    "Tanto Connect",
+    "Tanto Kit",
+    "Ronin Dapps",
+    "Ronin Wallet",
+    "Ronin Network",
+    "Ronin Waypoint",
+    "Ronin Wallet SDK",
+    "Ronin Provider",
+    "Ronin Connect",
+    "Widget",
+    "Ronin Widget"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/mjs/index.mjs",
+      "require": "./dist/cjs/index.cjs",
+      "default": "./dist/mjs/index.mjs"
+    },
+    "./package.json": "./package.json",
+    "./*": {
+      "types": "./dist/types/*.d.ts",
+      "import": "./dist/mjs/*.mjs",
+      "require": "./dist/cjs/*.cjs",
+      "default": "./dist/mjs/*.mjs"
+    }
+  },
+  "main": "dist/cjs/index.cjs",
+  "module": "dist/mjs/index.mjs",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && rollup -c",
+    "build:prod": "rm -rf dist && NODE_ENV=production rollup -c",
+    "dev": "rollup -c -w",
+    "lint": "node ./node_modules/eslint/bin/eslint ../.. --ext .js --fix",
+    "lint:fix": "eslint ../.. --ext .js,.tsx,.ts --fix",
+    "test": "jest"
+  },
+  "peerDependencies": {
+    "@tanstack/react-query": ">=5.0.0",
+    "@types/react": ">=18",
+    "@types/react-dom": ">=18",
+    "react": ">=18",
+    "react-dom": ">=18",
+    "viem": "2.x",
+    "wagmi": "2.x"
+  },
+  "dependencies": {
+    "@emotion/react": "11.14.0",
+    "@emotion/styled": "11.14.0",
+    "@radix-ui/react-dialog": "1.1.7",
+    "@radix-ui/react-visually-hidden": "1.2.2",
+    "@sky-mavis/tanto-connect": "0.0.18",
+    "@sky-mavis/tanto-wagmi": "0.0.8",
+    "boring-avatars": "1.11.2",
+    "detect-browser": "5.3.0",
+    "motion": "12.12.1",
+    "qr-code-styling": "1.9.2",
+    "use-resize-observer": "9.1.0",
+    "vaul": "1.1.2"
+  },
+  "devDependencies": {
+    "@emotion/babel-plugin": "11.13.5",
+    "@rollup/plugin-babel": "6.0.4",
+    "@rollup/plugin-commonjs": "28.0.3",
+    "@rollup/plugin-json": "6.1.0",
+    "@rollup/plugin-node-resolve": "16.0.1",
+    "@rollup/plugin-terser": "0.4.4",
+    "@types/jest": "29.5.11",
+    "@types/node": "22.7.5",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@typescript-eslint/eslint-plugin": "6.21.0",
+    "@typescript-eslint/parser": "6.21.0",
+    "eslint": "8.30.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-simple-import-sort": "8.0.0",
+    "jest": "29.7.0",
+    "prettier": "2.8.1",
+    "react-is": "18.3.1",
+    "rollup": "4.40.0",
+    "rollup-plugin-peer-deps-external": "2.2.4",
+    "rollup-plugin-polyfill-node": "0.13.0",
+    "rollup-plugin-typescript2": "0.36.0",
+    "ts-jest": "29.1.2",
+    "typescript": "5.8.3"
+  }
+}
