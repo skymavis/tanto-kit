@@ -39,3 +39,9 @@ jobs:
         if: ${{ true == startsWith(github.event.release.tag_name, 'tanto-wagmi') }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+
+      - name: Publish @sky-mavis/tanto-widget
+        run: cd packages/widget && npm publish --access=public
+        if: ${{ true == startsWith(github.event.release.tag_name, 'tanto-widget') }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
