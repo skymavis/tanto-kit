@@ -51,7 +51,9 @@ function App() {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <TantoProvider>{/* Your App Components */}</TantoProvider>
+        <TantoProvider appId="YOUR_APPLICATION_ID_HERE">
+          {/* Your App Components */}
+        </TantoProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
@@ -141,13 +143,9 @@ const customTheme: TantoWidgetCustomTheme = {
 
 function App() {
   return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <TantoProvider customThemeToken={customTheme}>
-          {/* Your App */}
-        </TantoProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <TantoProvider customThemeToken={customTheme}>
+      {/* Your App */}
+    </TantoProvider>
   );
 }
 ```
@@ -197,6 +195,7 @@ Customize the widget’s behavior with the `config` prop.
 
 ```tsx
 <TantoProvider
+  appId="YOUR_APPLICATION_ID_HERE"
   config={{
     disableProfile: true,
     hideConnectSuccessPrompt: true,

@@ -14,7 +14,11 @@ export default function WidgetExample() {
     <Web3Provider>
       <div className={theme === 'dark' ? 'bg-black' : 'bg-white'}>
         <ThemeSwitcher />
-        <TantoProvider theme={theme as 'dark'} customThemeToken={theme === 'custom' ? customThemeToken : undefined}>
+        <TantoProvider
+          appId="dbe1e3ff-e145-422f-84c4-e0beb4972f69"
+          theme={theme as 'dark'}
+          customThemeToken={theme === 'custom' ? customThemeToken : undefined}
+        >
           <WalletAccount />
         </TantoProvider>
       </div>

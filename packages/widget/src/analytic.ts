@@ -139,7 +139,6 @@ class Analytic {
     this.events = [];
     this.storage = AnalyticStorage.getInstance();
     this.platformDataCollector = PlatformDataCollector.getInstance();
-
     if (!localStorage.getItem(Analytic.DEVICE_FINGERPRINT_KEY)) {
       localStorage.setItem(Analytic.DEVICE_FINGERPRINT_KEY, v4());
     }
