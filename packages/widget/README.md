@@ -251,3 +251,7 @@ function ModalControl() {
   );
 }
 ```
+
+## Migrating from Ethers.js
+
+If your project currently uses Ethers.js, you can migrate to Viem (the default provider for Wagmi v2) by following the official [Wagmi migration guide](https://wagmi.sh/react/guides/ethers). This guide covers how to update your hooks and provider setup for compatibility with Wagmi.
