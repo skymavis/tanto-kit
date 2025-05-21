@@ -9,17 +9,27 @@ const config = defineConfig({
     {
       dir: 'dist/mjs',
       format: 'esm',
-      sourcemap: false,
+      preserveModulesRoot: 'src',
+      preserveModules: true,
       compact: true,
       minifyInternalExports: true,
+      entryFileNames: '[name].mjs',
     },
     {
       dir: 'dist/cjs',
       format: 'cjs',
-      sourcemap: false,
+      preserveModulesRoot: 'src',
+      preserveModules: true,
+      exports: 'named',
+      entryFileNames: '[name].cjs',
     },
   ],
-  external: ['ethers', 'ethers/lib/utils'],
+  external: [
+    '@walletconnect/ethereum-provider',
+    '@safe-global/safe-apps-sdk',
+    '@safe-global/safe-apps-provider',
+    '@sky-mavis/waypoint',
+  ],
   plugins: [
     json(),
     typescript({
