@@ -1,7 +1,8 @@
 import { domAnimation, LazyMotion, MotionConfig } from 'motion/react';
-import { type ReactNode, useMemo } from 'react';
+import { type ReactNode, useEffect, useMemo } from 'react';
 import { useChains } from 'wagmi';
 
+import { analytic } from '../../analytic';
 import { RONIN_WALLET_APP_DEEPLINK } from '../../constants';
 import { useConnectCallback } from '../../hooks/useConnectCallback';
 import { usePreloadTantoImages } from '../../hooks/usePreloadImages';
@@ -15,12 +16,14 @@ import { WidgetModalProvider } from '../widget-modal/WidgetModalProvider';
 import { TantoConfig, TantoContext } from './TantoContext';
 
 export type TantoProviderProps = AccountConnectionCallback & {
+  appId: string;
   children?: ReactNode;
   config?: TantoConfig;
 } & ThemeProviderProps;
 
 export function TantoProvider({
   config: customConfig,
+  appId,
   theme,
   customThemeToken,
   onConnect,
@@ -50,6 +53,11 @@ export function TantoProvider({
 
   const config = useMemo<TantoConfig>(() => Object.assign({}, defaultTantoConfig, customConfig), [customConfig]);
   const contextValue = useMemo(() => ({ config }), [config]);
+
+  /* Start Analytic Session */
+  useEffect(() => {
+    analytic.updateSession({ appId });
+  }, [appId]);
 
   return (
     <TantoContext.Provider value={contextValue}>
