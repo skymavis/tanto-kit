@@ -4068,12 +4068,15 @@
     "@sky-mavis/waypoint" "4.1.0"
     "@walletconnect/ethereum-provider" "2.17.2"
 
-"@sky-mavis/tanto-wagmi@0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@sky-mavis/tanto-wagmi/-/tanto-wagmi-0.0.8.tgz#c81ab1aa305abdcb5200581198a1f2ac4277362f"
-  integrity sha512-ZIrkEJEZC9/spd/TnVkz5I6Wvr5q8frjAhtmhrCfkvXYIveDbtrxFYqttHubSJGM41Kl1sE3IU7omAKwPI667g==
+"@sky-mavis/tanto-connect@0.0.18":
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/@sky-mavis/tanto-connect/-/tanto-connect-0.0.18.tgz#73bb38a1e30b8a7287b6263126d83f418d4b03bd"
+  integrity sha512-iolk/ytPBvgP0cMWut1b+O5pG2x64XUNN0nwY5VgoJb5bHKM51ZG5X/hVpR2Dwqul7waTHhQSQ9AP4PpVs36yQ==
   dependencies:
-    "@sky-mavis/tanto-connect" "0.0.17"
+    "@safe-global/safe-apps-provider" "0.18.3"
+    "@safe-global/safe-apps-sdk" "9.1.0"
+    "@sky-mavis/waypoint" "4.1.0"
+    "@walletconnect/ethereum-provider" "2.17.2"
 
 "@sky-mavis/waypoint@4.1.0":
   version "4.1.0"
