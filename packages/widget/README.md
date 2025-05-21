@@ -51,7 +51,9 @@ function App() {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <TantoProvider>{/* Your App Components */}</TantoProvider>
+        <TantoProvider appId="YOUR_APPLICATION_ID_HERE">
+          {/* Your App Components */}
+        </TantoProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
@@ -124,13 +126,9 @@ const customTheme: TantoWidgetCustomTheme = {
 
 function App() {
   return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <TantoProvider customThemeToken={customTheme}>
-          {/* Your App */}
-        </TantoProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <TantoProvider customThemeToken={customTheme}>
+      {/* Your App */}
+    </TantoProvider>
   );
 }
 ```
@@ -180,6 +178,7 @@ Customize the widget’s behavior with the `config` prop.
 
 ```tsx
 <TantoProvider
+  appId="YOUR_APPLICATION_ID_HERE"
   config={{
     disableProfile: true,
     hideConnectSuccessPrompt: true,
@@ -251,7 +250,3 @@ function ModalControl() {
   );
 }
 ```
-
-## Migrating from Ethers.js
-
-If your project currently uses Ethers.js, you can migrate to Viem (the default provider for Wagmi v2) by following the official [Wagmi migration guide](https://wagmi.sh/react/guides/ethers). This guide covers how to update your hooks and provider setup for compatibility with Wagmi.
