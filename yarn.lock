@@ -10952,23 +10952,6 @@ tr46@~0.0.3:
   resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
   integrity sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==
 
-tri-test-connect@0.0.19:
-  version "0.0.19"
-  resolved "https://registry.yarnpkg.com/tri-test-connect/-/tri-test-connect-0.0.19.tgz#793ef11b121f6beded5b98d4f593d653aab6957c"
-  integrity sha512-NGcSKG7hHG/oYAucqdz8f8tx5futYglwdAGDbBBf1AJXqAN6XepSv4z1WPp1L9YYWajhRzbD2E3MIrNaZyuYdw==
-  dependencies:
-    "@safe-global/safe-apps-provider" "0.18.3"
-    "@safe-global/safe-apps-sdk" "9.1.0"
-    "@sky-mavis/waypoint" "4.1.0"
-    "@walletconnect/ethereum-provider" "2.17.2"
-
-tri-test-wagmi@0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/tri-test-wagmi/-/tri-test-wagmi-0.0.8.tgz#a9705893cdf35ef35517d25d263bb1cad602be36"
-  integrity sha512-ZNUvOQ7/7xr1Yz1LAQ1EUbxz/hhJX016z+ZA609+Ncaa8wPwExx3+b56kpOr+xzmGLMERaIC2/T5HAu29XTIVA==
-  dependencies:
-    tri-test-connect "0.0.19"
-
 trim-newlines@^4.0.2:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/trim-newlines/-/trim-newlines-4.1.1.tgz#28c88deb50ed10c7ba6dc2474421904a00139125"
