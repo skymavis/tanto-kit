@@ -4,7 +4,7 @@ import { useChainId, useReadContract } from 'wagmi';
 import { RNS_PUBLIC_RESOLVER_ADDRESS } from '../constants';
 import { getReverseNode } from '../utils';
 
-interface UseRnsNameParameters {
+export interface UseRnsNameParameters {
   address?: Address;
   chainId?: number;
 }

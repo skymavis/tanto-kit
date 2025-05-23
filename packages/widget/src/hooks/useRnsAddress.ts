@@ -3,7 +3,7 @@ import { useChainId, useReadContract } from 'wagmi';
 
 import { RNS_UNIFIED_ADDRESS } from '../constants';
 
-interface UseRnsAddressParameters {
+export interface UseRnsAddressParameters {
   name?: string;
   chainId?: number;
 }
