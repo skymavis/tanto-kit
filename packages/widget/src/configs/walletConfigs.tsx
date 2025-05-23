@@ -11,7 +11,7 @@ import { WalletConfig, WalletId } from '../types/wallet';
 
 export const walletConfigs: Record<WalletId, WalletConfig> = {
   WAYPOINT: {
-    name: 'Email & Social',
+    name: 'Continue with Email',
     icon: <RoninWaypointCustomSquareLogo />,
     displayOptions: {
       thumbnail: <RoninWaypointCustomLogo />,

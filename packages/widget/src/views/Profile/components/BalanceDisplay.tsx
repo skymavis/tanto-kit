@@ -14,5 +14,5 @@ interface BalanceDisplayProps {
 }
 
 export function BalanceDisplay({ isLoading, balanceData }: BalanceDisplayProps) {
-  return <BalanceText>{`${isLoading || !balanceData ? '--' : formatBalance(balanceData.value)} RON`}</BalanceText>;
+  return <BalanceText>{`${isLoading ? '--' : !balanceData ? 0 : formatBalance(balanceData.value)} RON`}</BalanceText>;
 }

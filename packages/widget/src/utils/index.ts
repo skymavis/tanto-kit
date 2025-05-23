@@ -85,3 +85,8 @@ export const isValidURL = (url: string) => {
     return false;
   }
 };
+
+export const getReverseNode = (address: string): string => {
+  const node = address.startsWith('0x') ? address.substring(2) : address;
+  return `${node.toLowerCase()}.addr.reverse`;
+};

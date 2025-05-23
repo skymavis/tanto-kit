@@ -8,6 +8,7 @@ import { Box } from './components/box/Box';
 import { Button } from './components/button/Button';
 import { CSSReset } from './components/css-reset/CSSReset';
 import { useConnectCallback } from './hooks/useConnectCallback';
+import { useRnsName } from './hooks/useRnsName';
 import { useTantoConfig } from './hooks/useTantoConfig';
 import { useWidgetModal } from './hooks/useWidgetModal';
 import { AccountConnectionCallback } from './types/connect';
@@ -18,6 +19,7 @@ export type TantoConnectButtonProps = AccountConnectionCallback & {
   style?: CSSProperties;
   children?: (renderProps: {
     isConnected: boolean;
+    rns?: string;
     address?: string;
     chainId?: number | undefined;
     modalOpen: boolean;
@@ -30,6 +32,7 @@ export function TantoConnectButton({ onConnect, onDisconnect, children, ...rest 
   const { disableProfile } = useTantoConfig();
   const { address, chainId, isConnected } = useAccount();
   const { open, show, hide } = useWidgetModal();
+  const { data: rns, isSuccess: isRnsSuccess } = useRnsName({ address });
   const normalizedAddress = address?.toLowerCase();
 
   useConnectCallback({
@@ -44,6 +47,7 @@ export function TantoConnectButton({ onConnect, onDisconnect, children, ...rest 
           {children({
             isConnected,
             chainId,
+            rns,
             address: normalizedAddress,
             modalOpen: open,
             showModal: show,
@@ -53,11 +57,11 @@ export function TantoConnectButton({ onConnect, onDisconnect, children, ...rest 
       ) : (
         <Button intent={isConnected ? 'secondary' : 'primary'} onClick={show}>
           <SmoothWidth>
-            <TransitionedView viewKey={isConnected}>
+            <TransitionedView viewKey={isConnected && isRnsSuccess}>
               {isConnected && !disableProfile ? (
                 <Box align="center" gap={8}>
                   <Avatar seed={normalizedAddress} size="S" />
-                  <p>{truncate(normalizedAddress)}</p>
+                  <p>{rns ? rns : truncate(normalizedAddress)}</p>
                 </Box>
               ) : (
                 <p css={{ minWidth: 120 }}>Connect Wallet</p>

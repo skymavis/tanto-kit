@@ -4,30 +4,21 @@ import { ElementRef, forwardRef } from 'react';
 
 import { fadeInUp, fadeOutDown } from '../../styles/animations';
 
-export type DialogContentProps = DialogPrimitive.DialogContentProps & {
-  isEmbedded?: boolean;
-};
+export type DialogContentProps = DialogPrimitive.DialogContentProps;
 export type DialogOverlayProps = DialogPrimitive.DialogOverlayProps;
 
-const DialogContainer = styled.div<{ isEmbedded?: boolean }>(
-  {
-    width: '100%',
-    height: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  ({ isEmbedded }) =>
-    !isEmbedded && {
-      position: 'fixed',
-      inset: 0,
-      zIndex: 50,
-    },
-);
+const DialogContainer = styled.div({
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  position: 'fixed',
+  inset: 0,
+  zIndex: 50,
+});
 
-const DialogContent = styled(DialogPrimitive.Content, {
-  shouldForwardProp: propName => propName !== 'isEmbedded',
-})<{ isEmbedded?: boolean }>(
+const DialogContent = styled(DialogPrimitive.Content)(
   {
     boxSizing: 'border-box',
     outline: 'none',
@@ -44,11 +35,10 @@ const DialogContent = styled(DialogPrimitive.Content, {
       animation: `${fadeOutDown} 150ms ease`,
     },
   },
-  ({ theme, isEmbedded }) =>
-    !isEmbedded && {
-      borderRadius: theme.modalBorderRadius,
-      border: theme.modalBorder,
-    },
+  ({ theme }) => ({
+    borderRadius: theme.modalBorderRadius,
+    border: theme.modalBorder,
+  }),
 );
 
 const Root = DialogPrimitive.Root;
@@ -60,10 +50,10 @@ const Close = DialogPrimitive.Close;
 const Description = DialogPrimitive.Description;
 
 const Content = forwardRef<ElementRef<typeof DialogPrimitive.Content>, DialogContentProps>(
-  ({ children, isEmbedded, ...props }, ref) => {
+  ({ children, ...props }, ref) => {
     return (
-      <DialogContainer isEmbedded={isEmbedded}>
-        <DialogContent ref={ref} isEmbedded={isEmbedded} {...props}>
+      <DialogContainer>
+        <DialogContent ref={ref} {...props}>
           {children}
         </DialogContent>
       </DialogContainer>
