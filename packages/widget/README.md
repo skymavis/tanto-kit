@@ -103,6 +103,24 @@ For more hooks (e.g., `useAccount`, `useSendTransaction`), see the [Wagmi Docume
 
 ## Customization
 
+### Theme
+
+Tanto supports three themes out of the box:
+
+- `dark` – Dark mode
+- `light` – Light mode
+- `auto` – Automatically adapts to the user's system preference
+
+> **Default Theme**: `dark`
+
+To set the theme, wrap your application with the `TantoProvider` and pass the desired theme as a prop:
+
+```tsx
+import { TantoProvider } from '@tanto/widget';
+
+<TantoProvider theme="light">{/* Your App */}</TantoProvider>;
+```
+
 ### Custom Themes
 
 Customize the widget’s appearance by passing a `customThemeToken` to `TantoProvider`.
@@ -252,6 +270,22 @@ function ModalControl() {
 }
 ```
 
+## 🔗 RNS - Ronin Name Service
+
+Tanto Widget provides convenient hooks for working with **Ronin Name Service (RNS)**:
+
+- `useRnsName` – Retrieves the primary name associated with a given wallet address.
+- `useRnsAddress` – Resolves a Ronin name to its corresponding wallet address.
+
+```tsx
+const name = useRnsName({ address: '0x123...abc' }); // Returns e.g. "vitalik.ron"
+const address = useRnsAddress({ name: 'vitalik.ron' }); // Returns e.g. "0x123...abc"
+```
+
 ## Migrating from Ethers.js
 
 If your project currently uses Ethers.js, you can migrate to Viem (the default provider for Wagmi v2) by following the official [Wagmi migration guide](https://wagmi.sh/react/guides/ethers). This guide covers how to update your hooks and provider setup for compatibility with Wagmi.
+
+```
+
+```

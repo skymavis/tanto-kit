@@ -11,15 +11,16 @@ const AddressText = styled.p({
 });
 
 interface AddressDisplayProps {
+  rns?: string;
   address?: string;
 }
 
-export function AddressDisplay({ address }: AddressDisplayProps) {
+export function AddressDisplay({ rns, address }: AddressDisplayProps) {
   const normalizedAddress = address?.toLowerCase();
 
   return (
     <Box align="center" gap={4} ml={30}>
-      <AddressText>{normalizedAddress ? truncate(normalizedAddress) : '--'}</AddressText>
+      <AddressText>{rns ? rns : normalizedAddress ? truncate(normalizedAddress) : '--'}</AddressText>
       <CopyButton variant="plain" value={address} />
     </Box>
   );

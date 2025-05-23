@@ -60,19 +60,6 @@ interface ConnectLogoProps {
   status: ConnectState;
 }
 
-const StatusIcon = ({ status }: { status: ConnectLogoProps['status'] }) => {
-  return (
-    <>
-      <Fade show={status === ConnectState.ERROR}>
-        <WarningIcon />
-      </Fade>
-      <Fade show={status === ConnectState.SUCCESS}>
-        <SuccessIcon />
-      </Fade>
-    </>
-  );
-};
-
 export const ConnectLogo = ({ walletIcon, status }: ConnectLogoProps) => {
   const isConnecting = [ConnectState.PENDING, ConnectState.OPENING_WALLET].includes(status);
 
@@ -80,7 +67,12 @@ export const ConnectLogo = ({ walletIcon, status }: ConnectLogoProps) => {
     <LogoSection status={status}>
       <SquircleSpinner logo={walletIcon} connecting={isConnecting} />
       <StatusIconSection>
-        <StatusIcon status={status} />
+        <Fade show={status === ConnectState.ERROR}>
+          <WarningIcon />
+        </Fade>
+        <Fade show={status === ConnectState.SUCCESS}>
+          <SuccessIcon />
+        </Fade>
       </StatusIconSection>
     </LogoSection>
   );

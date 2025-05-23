@@ -37,29 +37,14 @@ export function ConnectWC() {
 
   if (!selectedWallet) return null;
 
-  if (mobile)
-    return (
-      <ConnectLayout
-        status={status}
-        walletIcon={selectedWallet.icon}
-        walletName={selectedWallet.name}
-        wcUri={uri}
-        onRetry={generateConnectUri}
-      />
-    );
+  if (mobile) return <ConnectLayout status={status} wallet={selectedWallet} wcUri={uri} onRetry={generateConnectUri} />;
 
   return (
     <TransitionedView viewKey={status}>
       {status === ConnectState.PENDING ? (
         <ScanQRCode uri={uri} />
       ) : (
-        <ConnectLayout
-          status={status}
-          walletIcon={selectedWallet.icon}
-          walletName={selectedWallet.name}
-          wcUri={uri}
-          onRetry={generateConnectUri}
-        />
+        <ConnectLayout status={status} wallet={selectedWallet} wcUri={uri} onRetry={generateConnectUri} />
       )}
     </TransitionedView>
   );

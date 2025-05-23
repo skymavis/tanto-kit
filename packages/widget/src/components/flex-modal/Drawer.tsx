@@ -9,9 +9,7 @@ const Trigger = DrawerPrimitive.Trigger;
 const Close = DrawerPrimitive.Close;
 const Description = DrawerPrimitive.Description;
 
-const Content = styled(DrawerPrimitive.Content, {
-  shouldForwardProp: propName => propName !== 'isEmbedded',
-})(({ theme }) => ({
+const Content = styled(DrawerPrimitive.Content)(({ theme }) => ({
   position: 'fixed',
   insetX: 0,
   bottom: 0,

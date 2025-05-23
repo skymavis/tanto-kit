@@ -3,7 +3,7 @@
   "display": "Default",
   "compilerOptions": {
     "incremental": true,
-    "composite": false,
+    "composite": true,
     "jsx": "react-jsx",
     "jsxImportSource": "@emotion/react",
     "declaration": true,

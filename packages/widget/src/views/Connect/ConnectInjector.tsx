@@ -6,15 +6,15 @@ import { useWidgetConnect } from '../../hooks/useWidgetConnect';
 import { ConnectLayout } from './components/ConnectLayout';
 
 export function ConnectInjector() {
-  const { selectedWallet: wallet, selectedConnector: connector } = useWidgetConnect();
-  const { status, connect } = useConnect({ connector });
+  const { selectedWallet, selectedConnector } = useWidgetConnect();
+  const { status, connect } = useConnect({ connector: selectedConnector });
 
   useEffect(() => {
     const timer = setTimeout(connect, DELAY_CONNECT);
     return () => clearTimeout(timer);
   }, [connect]);
 
-  if (!wallet) return null;
+  if (!selectedWallet) return null;
 
-  return <ConnectLayout status={status} walletIcon={wallet.icon} walletName={wallet.name} onRetry={connect} />;
+  return <ConnectLayout wallet={selectedWallet} status={status} onRetry={connect} />;
 }
