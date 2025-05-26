@@ -51,9 +51,7 @@ function App() {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <TantoProvider>
-          {/* Your App Components */}
-        </TantoProvider>
+        <TantoProvider>{/* Your App Components */}</TantoProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
@@ -143,9 +141,13 @@ const customTheme: TantoWidgetCustomTheme = {
 
 function App() {
   return (
-    <TantoProvider customThemeToken={customTheme}>
-      {/* Your App */}
-    </TantoProvider>
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <TantoProvider customThemeToken={customTheme}>
+          {/* Your App */}
+        </TantoProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   );
 }
 ```
