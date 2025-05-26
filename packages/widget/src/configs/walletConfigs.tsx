@@ -11,12 +11,14 @@ import { WalletConfig, WalletId } from '../types/wallet';
 
 export const walletConfigs: Record<WalletId, WalletConfig> = {
   WAYPOINT: {
-    name: 'Email & Social',
+    name: 'Continue with Email',
     icon: <RoninWaypointCustomSquareLogo />,
     displayOptions: {
       thumbnail: <RoninWaypointCustomLogo />,
       highlightBackground: true,
       showRoninBadge: true,
+      connectingTitle: 'Opening Ronin Keyless Wallet',
+      connectingDescription: 'Confirm connection in Ronin Keyless Wallet.',
     },
   },
   RONIN_WALLET: {

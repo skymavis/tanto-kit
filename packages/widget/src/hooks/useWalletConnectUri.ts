@@ -5,7 +5,7 @@ import { DELAY_CONNECT } from '../constants';
 import { isWCConnector } from '../utils';
 import { useConnect } from './useConnect';
 
-interface WalletConnectUriOptions {
+interface WalletConnectUriParameters {
   connector?: Connector;
   onReceiveDisplayUri?: (url: string) => void;
 }
@@ -15,7 +15,7 @@ interface WalletConnectMessage {
   data?: unknown;
 }
 
-export function useWalletConnectUri({ connector, onReceiveDisplayUri }: WalletConnectUriOptions) {
+export function useWalletConnectUri({ connector, onReceiveDisplayUri }: WalletConnectUriParameters) {
   const [uri, setUri] = useState<string | undefined>(undefined);
   const { status, connect } = useConnect({ connector });
 
