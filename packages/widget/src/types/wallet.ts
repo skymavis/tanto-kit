@@ -20,6 +20,8 @@ export interface WalletConfig {
     description?: string;
     highlightBackground?: boolean;
     showRoninBadge?: boolean;
+    connectingTitle?: string;
+    connectingDescription?: string;
   };
 }
 

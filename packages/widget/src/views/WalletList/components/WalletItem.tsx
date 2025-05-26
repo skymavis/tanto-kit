@@ -18,9 +18,7 @@ interface WalletItemProps {
   wallet: Wallet;
 }
 
-const Container = styled('div', {
-  shouldForwardProp: propName => !['highlight', 'disabled'].includes(propName),
-})<{
+const Container = styled.div<{
   highlight?: boolean;
   disabled?: boolean;
 }>(
@@ -62,9 +60,7 @@ const Container = styled('div', {
   },
 );
 
-const WalletName = styled('p', {
-  shouldForwardProp: propName => propName !== 'disabled',
-})<{ disabled?: boolean }>(
+const WalletName = styled.p<{ disabled?: boolean }>(
   {
     fontSize: '1em',
     lineHeight: '1.25em',

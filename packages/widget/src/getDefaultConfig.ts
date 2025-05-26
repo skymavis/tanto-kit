@@ -88,6 +88,5 @@ export const getDefaultConfig = ({
     ...rest,
   };
 
-  // @ts-ignore
   return createConfig(configParams);
 };
