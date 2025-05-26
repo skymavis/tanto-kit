@@ -4,8 +4,7 @@ export interface AnalyticBaseEventData {
   timestamp?: string;
   session_id?: string;
   offset?: number;
-  user_id?: string;
-  ronin_address?: string;
+  user_address?: string;
   event?: string;
 }
 
@@ -45,9 +44,7 @@ export interface AnalyticEventData {
 }
 
 export interface AnalyticOptions {
-  appId?: string;
-  userId?: string;
-  identifyAddress?: string;
+  userAddress?: string;
   sessionTimeout?: number; // second
   sessionId?: string;
   force?: boolean;
@@ -58,9 +55,7 @@ export interface AnalyticOptions {
 }
 
 export interface AnalyticStorageConfig {
-  appId?: string;
-  userId?: string;
-  identifyAddress?: string;
+  userAddress?: string;
   /**
    * as seconds
    */

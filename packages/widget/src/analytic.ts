@@ -14,8 +14,8 @@ import {
 
 class AnalyticStorage {
   private static instance: AnalyticStorage;
-  private static readonly MA_CONFIG = '__MA_CONFIG' as const;
-  private static readonly MA_DATA = '__MA_DATA' as const;
+  private static readonly MA_CONFIG = '__TANTO_MA_CONFIG' as const;
+  private static readonly MA_DATA = '__TANTO_MA_DATA' as const;
 
   private constructor() {}
 
@@ -118,6 +118,7 @@ class Analytic {
   private static readonly BATCH_SIZE = 20;
   private static readonly HEARTBEAT_INTERVAL = 2000;
   private static readonly DEVICE_FINGERPRINT_KEY = '__MA_DFP';
+  private static readonly FIRST_PARTY_DOMAINS = ['skymavis.com', 'skymavis.one', 'roninchain.com', 'axieinfinity.com'];
 
   private intervalId: ReturnType<typeof setInterval> | null = null;
   private apiKey: string;
@@ -139,21 +140,26 @@ class Analytic {
     }
   }
 
+  private isFirstPartyDomain(): boolean {
+    if (Analytic.FIRST_PARTY_DOMAINS.includes(window.location.hostname)) {
+      return true;
+    }
+
+    return Analytic.FIRST_PARTY_DOMAINS.some(domain => window.location.hostname.endsWith(`.${domain}`));
+  }
+
   updateSession(options?: AnalyticOptions): void {
-    const {
-      sessionId: currentSessionId,
-      userId: currentUser,
-      identifyAddress,
-      appId: currentClientId,
-    } = this.storage.getConfig();
+    if (this.isFirstPartyDomain()) {
+      return;
+    }
+
+    const { sessionId: currentSessionId, userAddress: currentUserAddress } = this.storage.getConfig();
     const data = this.storage.getData();
-    const shouldUseCurrentSessionId = !options?.force && !!currentSessionId && !!currentClientId;
+    const shouldUseCurrentSessionId = !options?.force && !!currentSessionId;
     const sessionId = shouldUseCurrentSessionId ? currentSessionId : options?.sessionId || v4();
 
     this.storage.setConfig({
-      appId: currentClientId || options?.appId,
-      userId: currentUser || options?.userId,
-      identifyAddress: identifyAddress || options?.identifyAddress,
+      userAddress: currentUserAddress || options?.userAddress,
       sessionTimeout: options?.sessionTimeout,
       sessionId,
     });
@@ -187,7 +193,10 @@ class Analytic {
               event: 'identify',
               ...this.platformDataCollector.getPlatformData(),
               build_version: options?.buildVersion,
-              user_properties: options?.commonProperties ?? {},
+              user_properties: {
+                ...(options?.commonProperties ?? {}),
+                app_origin: window.location.origin,
+              },
               ...this.storage.getData(),
               device_id: options?.deviceId || localStorage.getItem(Analytic.DEVICE_FINGERPRINT_KEY) || undefined,
             },
@@ -235,8 +244,7 @@ class Analytic {
             data: {
               action_properties: {
                 ...data,
-                href: window.location.href,
-                host: window.location.host,
+                app_origin: window.location.origin,
               },
               action: eventName,
               event: eventName,
@@ -261,8 +269,7 @@ class Analytic {
             screen,
             screen_properties: {
               ...data,
-              href: window.location.href,
-              host: window.location.host,
+              app_origin: window.location.origin,
             },
           },
         },
@@ -280,8 +287,7 @@ class Analytic {
       ref: data.lastEvent,
       timestamp: new Date().toISOString().slice(0, 19).replace('T', ' '),
       session_id: config.sessionId,
-      user_id: config.userId,
-      ronin_address: config.identifyAddress,
+      user_address: config.userAddress,
     };
   }
 

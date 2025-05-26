@@ -51,7 +51,7 @@ function App() {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <TantoProvider appId="YOUR_APPLICATION_ID_HERE">
+        <TantoProvider>
           {/* Your App Components */}
         </TantoProvider>
       </QueryClientProvider>
@@ -178,7 +178,6 @@ Customize the widget’s behavior with the `config` prop.
 
 ```tsx
 <TantoProvider
-  appId="YOUR_APPLICATION_ID_HERE"
   config={{
     disableProfile: true,
     hideConnectSuccessPrompt: true,
