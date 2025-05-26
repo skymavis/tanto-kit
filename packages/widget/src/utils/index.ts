@@ -1,4 +1,4 @@
-import { detect } from 'detect-browser';
+import { UAParser } from 'ua-parser-js';
 import { formatUnits } from 'viem';
 import { Connector, CreateConnectorFn } from 'wagmi';
 
@@ -15,13 +15,13 @@ export const isRoninInAppBrowser = () => {
 };
 
 export const detectBrowser = () => {
-  const browser = detect();
-  return browser?.name ?? '';
+  const parser = UAParser(navigator.userAgent);
+  return parser.browser.name ?? '';
 };
 
 export const detectOS = () => {
-  const browser = detect();
-  return browser?.os ?? '';
+  const parser = UAParser(navigator.userAgent);
+  return parser.os.name ?? '';
 };
 
 export const isIOS = () => {
