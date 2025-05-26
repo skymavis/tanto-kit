@@ -15,7 +15,6 @@ export default function WidgetExample() {
       <div className={theme === 'dark' ? 'bg-black' : 'bg-white'}>
         <ThemeSwitcher />
         <TantoProvider
-          appId="dbe1e3ff-e145-422f-84c4-e0beb4972f69"
           theme={theme as 'dark'}
           customThemeToken={theme === 'custom' ? customThemeToken : undefined}
         >
