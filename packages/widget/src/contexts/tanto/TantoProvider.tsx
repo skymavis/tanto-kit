@@ -16,14 +16,12 @@ import { WidgetModalProvider } from '../widget-modal/WidgetModalProvider';
 import { TantoConfig, TantoContext } from './TantoContext';
 
 export type TantoProviderProps = AccountConnectionCallback & {
-  appId: string;
   children?: ReactNode;
   config?: TantoConfig;
 } & ThemeProviderProps;
 
 export function TantoProvider({
   config: customConfig,
-  appId,
   theme,
   customThemeToken,
   onConnect,
