@@ -39,7 +39,7 @@ const config = defineConfig({
       'lodash.debounce',
       'use-resize-observer',
       'vaul',
-      'detect-browser',
+      'ua-parser-js',
       'qr-code-styling',
       '@sky-mavis/tanto-connect',
       '@sky-mavis/tanto-wagmi',
@@ -50,6 +50,7 @@ const config = defineConfig({
       'wagmi',
       'boring-avatars',
       '@tanstack/react-query',
+      'uuid',
     ].some(pkg => id === pkg || id.startsWith(`${pkg}/`) || id.startsWith(`@${pkg}/`)),
   plugins: [
     peerDepsExternal(),
