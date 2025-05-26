@@ -120,7 +120,7 @@ class Analytic {
   private static readonly DEVICE_FINGERPRINT_KEY = '__MA_DFP';
   private static readonly FIRST_PARTY_DOMAINS = ['skymavis.com', 'skymavis.one', 'roninchain.com', 'axieinfinity.com'];
 
-  private intervalId: ReturnType<typeof setInterval> | null = null;
+  private intervalId: NodeJS.Timeout | null = null;
   private apiKey: string;
   private events: Array<AnalyticEventData>;
   private storage: AnalyticStorage;
