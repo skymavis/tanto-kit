@@ -51,7 +51,6 @@ export const customThemeToken: TantoWidgetCustomTheme = {
   modalBorderRadius: '0.625rem',
   modalShadow: '0 2px 0 0 oklch(0.74 0.063 80.8)',
   modalBackground: 'oklch(0.92 0.042 83.6)',
-  modalColor: 'oklch(0.41 0.077 74.3)',
   modalBorder: '2px solid oklch(0.74 0.063 80.8)',
 
   spinnerColor: 'oklch(0.51 0.077 74.3)',

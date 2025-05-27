@@ -17,7 +17,7 @@ export const StyledBadge = styled.div<Pick<BadgeProps, 'intent'>>(
       case 'highlight':
         return {
           backgroundColor: theme.badgeHighlightBackground,
-          color: theme.badgeDefaultColor,
+          color: theme.badgeHighlightColor,
         };
       default:
         return {

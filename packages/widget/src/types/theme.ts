@@ -1,7 +1,7 @@
 export type TantoWidgetCustomTheme = Partial<TantoWidgetTheme>;
 
 export interface TantoWidgetTheme {
-  mode: 'auto' | 'light' | 'dark';
+  mode: 'light' | 'dark';
 
   /* General */
   fontFamily: string | Array<string>;
@@ -42,7 +42,6 @@ export interface TantoWidgetTheme {
 
   /* Modal */
   modalBackground: string;
-  modalColor: string;
   modalBorder: string;
   modalShadow: string;
   modalBorderRadius: number | string;

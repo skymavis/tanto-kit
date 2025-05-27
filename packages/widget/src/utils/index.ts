@@ -90,3 +90,8 @@ export const getReverseNode = (address: string): string => {
   const node = address.startsWith('0x') ? address.substring(2) : address;
   return `${node.toLowerCase()}.addr.reverse`;
 };
+
+export function svgToBase64(svgText: string): string {
+  const encoded = encodeURIComponent(svgText).replace(/'/g, '%27').replace(/"/g, '%22');
+  return `data:image/svg+xml;charset=utf-8,${encoded}`;
+}

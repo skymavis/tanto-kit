@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useCallback } from 'react';
 
-import { highlightedWalletItemBackgroundUri, highlightedWalletItemHoverBackgroundUri } from '../../../assets/data-uris';
+import { highlightedWalletItemBackgroundUri } from '../../../assets/data-uris';
 import { RoninBadge as RoninBadgeSvg } from '../../../assets/RoninBadge';
 import { Badge } from '../../../components/badge/Badge';
 import { Box } from '../../../components/box/Box';
@@ -39,7 +39,7 @@ const Container = styled.div<{
       backgroundColor: theme.listItemHoverBackground,
     },
   }),
-  ({ disabled, highlight }) => {
+  ({ disabled, highlight, theme }) => {
     if (disabled)
       return {
         pointerEvents: 'none',
@@ -48,13 +48,19 @@ const Container = styled.div<{
     if (highlight)
       return {
         backgroundColor: 'unset',
-        backgroundImage: `url("${highlightedWalletItemBackgroundUri}")`,
+        backgroundImage: `url("${
+          theme.mode === 'dark' ? highlightedWalletItemBackgroundUri.dark : highlightedWalletItemBackgroundUri.light
+        }")`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         '&:hover': {
           backgroundColor: 'unset',
-          backgroundImage: `url("${highlightedWalletItemHoverBackgroundUri}")`,
+          backgroundImage: `url("${
+            theme.mode === 'dark'
+              ? highlightedWalletItemBackgroundUri.darkHover
+              : highlightedWalletItemBackgroundUri.lightHover
+          }")`,
         },
       };
   },
