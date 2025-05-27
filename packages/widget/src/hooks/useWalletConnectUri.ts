@@ -17,7 +17,7 @@ interface WalletConnectMessage {
 
 export function useWalletConnectUri({ connector, onReceiveDisplayUri }: WalletConnectUriParameters) {
   const [uri, setUri] = useState<string | undefined>(undefined);
-  const { status, connect } = useConnect({ connector });
+  const { status, connect, error } = useConnect({ connector });
 
   const generateConnectUri = useCallback(() => {
     if (!connector || !isWCConnector(connector.id)) return;
@@ -45,5 +45,6 @@ export function useWalletConnectUri({ connector, onReceiveDisplayUri }: WalletCo
     uri,
     status,
     generateConnectUri,
+    error,
   };
 }

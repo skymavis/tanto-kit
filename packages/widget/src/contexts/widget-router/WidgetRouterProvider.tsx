@@ -1,6 +1,7 @@
 import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
 import { useAccount } from 'wagmi';
 
+import { analytic } from '../../analytic';
 import { viewConfigs } from '../../configs/viewConfigs';
 import { VISIBILITY_TRANSITION_DURATION } from '../../constants';
 import { useTantoConfig } from '../../hooks/useTantoConfig';
@@ -81,6 +82,10 @@ export const WidgetRouterProvider = ({ children }: PropsWithChildren) => {
   useUnmount(() => {
     if (internalRoutes.includes(routerState.view.route)) setTimeout(reset, VISIBILITY_TRANSITION_DURATION);
   });
+
+  useEffect(() => {
+    analytic.sendScreen(routerState.view.route);
+  }, [routerState.view.route]);
 
   const contextValue = useMemo<WidgetRouterState>(
     () => ({

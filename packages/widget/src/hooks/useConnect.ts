@@ -12,7 +12,11 @@ interface UseConnectParameters {
 export function useConnect({ connector }: UseConnectParameters) {
   const { setState } = useConfig();
   const { initialChainId, disableProfile, hideConnectSuccessPrompt } = useTantoConfig();
-  const { status: wagmiStatus, connect: wagmiConnect } = useWagmiConnect({
+  const {
+    status: wagmiStatus,
+    connect: wagmiConnect,
+    error,
+  } = useWagmiConnect({
     mutation: {
       onError(error) {
         console.debug(error);
@@ -43,5 +47,5 @@ export function useConnect({ connector }: UseConnectParameters) {
     });
   }, [wagmiStatus, connector?.id, disableProfile, hideConnectSuccessPrompt]);
 
-  return { status, connector, connect };
+  return { status, connector, connect, error };
 }

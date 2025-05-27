@@ -31,8 +31,25 @@ export function TantoProvider({
   useSolveRoninConnectionConflict();
   usePreloadTantoImages();
   useConnectCallback({
-    onConnect,
-    onDisconnect,
+    onConnect: data => {
+      onConnect?.(data);
+      analytic.updateSession({
+        userAddress: data.address,
+        force: true,
+      });
+      analytic.sendEvent('wallet_connect_success', {
+        wallet_id: data.connectorId,
+        address: data.address,
+        chain_id: data.chainId,
+      });
+    },
+    onDisconnect: () => {
+      onDisconnect?.();
+      analytic.updateSession({
+        userAddress: undefined,
+        force: true,
+      });
+    },
   });
   useWalletConnectListener({
     onSignRequest: () => {
@@ -54,9 +71,8 @@ export function TantoProvider({
 
   /* Start Analytic Session */
   useEffect(() => {
-    analytic.updateSession({
-      buildVersion: __sdkVersion,
-    });
+    analytic.updateSession({});
+    analytic.sendEvent('sdk_init');
   }, []);
 
   return (

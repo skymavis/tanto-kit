@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { useCallback } from 'react';
 
+import { analytic } from '../../../analytic';
 import { highlightedWalletItemBackgroundUri } from '../../../assets/data-uris';
 import { RoninBadge as RoninBadgeSvg } from '../../../assets/RoninBadge';
 import { Badge } from '../../../components/badge/Badge';
@@ -105,14 +106,24 @@ export const WalletItem = ({ wallet }: WalletItemProps) => {
   const isInjected = isInjectedConnector(connector?.type);
   const highlightContent = highlightBackground ? (isMobile ? 'Fastest' : 'Fastest to start') : undefined;
 
+  const sendAnalyticEvent = useCallback(() => {
+    analytic.sendEvent('wallet_open', {
+      wallet_id: id,
+      is_extension_detected: isInjected,
+      wallet_type: name,
+      chain_id: connector?.chainId,
+    });
+  }, [connector, id, isInjected, name]);
+
   const handleClick = useCallback(() => {
     if (!isInstalled) {
       window.open(homepage, '_blank', 'noopener,noreferrer');
       return;
     }
     setSelectedWallet(wallet);
+    sendAnalyticEvent();
     goTo(isWCConnector(id) ? Route.CONNECT_WC : Route.CONNECT_INJECTOR, { title: name });
-  }, [wallet, setSelectedWallet, goTo, isInstalled, homepage, id, name]);
+  }, [wallet, setSelectedWallet, goTo, isInstalled, homepage, id, name, sendAnalyticEvent]);
 
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent) => {
