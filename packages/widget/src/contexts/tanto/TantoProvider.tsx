@@ -54,7 +54,9 @@ export function TantoProvider({
 
   /* Start Analytic Session */
   useEffect(() => {
-    analytic.updateSession();
+    analytic.updateSession({
+      buildVersion: __sdkVersion,
+    });
   }, []);
 
   return (
