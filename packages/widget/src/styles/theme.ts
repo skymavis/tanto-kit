@@ -70,7 +70,7 @@ export const tantoDarkTheme: Theme = {
 export const tantoLightTheme: Theme = {
   mode: 'light',
   warningColor: '#DB6D00',
-  successColor: '#05C956 ',
+  successColor: '#05C956',
   buttonPrimaryBackground: '#15181E',
   buttonPrimaryColor: '#FFFFFF',
   buttonPrimaryHoverBackground: '#2B2F36',
