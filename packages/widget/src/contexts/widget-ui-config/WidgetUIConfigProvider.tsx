@@ -2,9 +2,9 @@ import { PropsWithChildren, useMemo } from 'react';
 
 import { WidgetUIConfig, WidgetUIConfigContext, WidgetUIConfigState } from './WidgetUIConfigContext';
 
-export type WidgetConfigProviderProps = PropsWithChildren<WidgetUIConfigState>;
+export type WidgetUIConfigProviderProps = PropsWithChildren<WidgetUIConfigState>;
 
-export const WidgetConfigProvider = ({ children, config: customConfig }: WidgetConfigProviderProps) => {
+export const WidgetUIConfigProvider = ({ children, config: customConfig }: WidgetUIConfigProviderProps) => {
   const defaultConfig: WidgetUIConfig = {
     markKeylessWalletConnected: false,
   };
