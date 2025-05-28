@@ -241,11 +241,11 @@ class Analytic {
     }
   }
 
-  sendEvent(eventName: string, data: Record<string, unknown> = {}): void {
+  async sendEvent(eventName: string, data: Record<string, unknown> = {}): Promise<void> {
     try {
       if (!this.validate()) return;
 
-      this.trackEvents(
+      await this.trackEvents(
         [
           {
             type: AnalyticEventType.TRACK,

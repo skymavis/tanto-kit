@@ -23,18 +23,18 @@ interface Provider {
 
 const createRequestProxy = (
   request: Request,
-  beforeRequest: (args: RequestArguments) => void,
-  afterRequest: (args: RequestArguments, error?: Error) => void,
+  beforeRequest: (args: RequestArguments) => Promise<void>,
+  afterRequest: (args: RequestArguments, error?: Error) => Promise<void>,
 ): Request => {
   return new Proxy(request, {
-    apply(target, thisArg, args: [RequestArguments, string | undefined, number | undefined]) {
+    async apply(target, thisArg, args: [RequestArguments, string | undefined, number | undefined]) {
       try {
-        beforeRequest(args[0]);
-        const result = Reflect.apply(target, thisArg, args);
-        afterRequest(args[0]);
+        await beforeRequest(args[0]);
+        const result = await Reflect.apply(target, thisArg, args);
+        await afterRequest(args[0]);
         return result;
       } catch (e) {
-        afterRequest(args[0], e as Error);
+        await afterRequest(args[0], e as Error);
         throw e;
       }
     },
@@ -43,8 +43,8 @@ const createRequestProxy = (
 
 const createSignerProxy = (
   signer: Signer,
-  beforeRequest: (args: RequestArguments) => void,
-  afterRequest: (args: RequestArguments, error?: Error) => void,
+  beforeRequest: (args: RequestArguments) => Promise<void>,
+  afterRequest: (args: RequestArguments, error?: Error) => Promise<void>,
 ): Signer => {
   return new Proxy(signer, {
     get(target, prop, receiver) {
@@ -60,32 +60,32 @@ export const useConnectorRequestAnalyticInterceptor = () => {
   const { connector } = useAccount();
   const isListenerActive = useRef(false);
 
-  const handleBeforeRequest = useCallback(({ method, params }: RequestArguments) => {
+  const handleBeforeRequest = useCallback(async ({ method, params }: RequestArguments) => {
     if (SIGN_METHODS.includes(method as typeof SIGN_METHODS[number])) {
-      analytic.sendEvent('sign_message_open', {
+      await analytic.sendEvent('sign_message_open', {
         method,
         params,
       });
     }
 
     if (method === 'eth_sendTransaction') {
-      analytic.sendEvent('send_transaction_open', {
+      await analytic.sendEvent('send_transaction_open', {
         method,
         params,
       });
     }
   }, []);
 
-  const handleAfterRequest = useCallback(({ method, params }: RequestArguments, error?: Error) => {
+  const handleAfterRequest = useCallback(async ({ method, params }: RequestArguments, error?: Error) => {
     if (SIGN_METHODS.includes(method as typeof SIGN_METHODS[number])) {
       if (error) {
-        analytic.sendEvent('sign_message_fail', {
+        await analytic.sendEvent('sign_message_fail', {
           method,
           params,
           error: error.message,
         });
       } else {
-        analytic.sendEvent('sign_message_success', {
+        await analytic.sendEvent('sign_message_success', {
           method,
           params,
         });
