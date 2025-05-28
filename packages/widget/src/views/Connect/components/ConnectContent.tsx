@@ -73,7 +73,7 @@ export const ConnectContent = ({ wallet, status, wcUri, onRetry }: ConnectConten
       [ConnectState.PENDING]: {
         title: wallet.displayOptions?.connectingTitle
           ? wallet.displayOptions.connectingTitle
-          : `Opening ${wallet.name}`,
+          : 'Waiting for connection',
         description: wallet.displayOptions?.connectingDescription
           ? wallet.displayOptions.connectingDescription
           : `Confirm connection in ${wallet.name}.`,
