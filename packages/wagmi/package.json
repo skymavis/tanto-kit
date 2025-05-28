@@ -9,7 +9,7 @@
   "scripts": {
     "gen-version": "genversion --semi --esm --property name,version src/version.ts",
     "build": "rm -rf dist && yarn gen-version && rollup -c",
-    "dev": "yarn gen-version && rollup -c -w",
+    "dev": "rollup -c -w",
     "lint": "node ./node_modules/eslint/bin/eslint ../.. --ext .js --fix",
     "lint:fix": "eslint ../.. --ext .js,.tsx,.ts --fix",
     "test": "jest"
