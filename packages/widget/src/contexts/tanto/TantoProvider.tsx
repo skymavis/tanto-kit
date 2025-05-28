@@ -5,6 +5,7 @@ import { useChains } from 'wagmi';
 import { analytic } from '../../analytic';
 import { RONIN_WALLET_APP_DEEPLINK } from '../../constants';
 import { useConnectCallback } from '../../hooks/useConnectCallback';
+import { useConnectorRequestAnalyticInterceptor } from '../../hooks/useConnectorRequestAnalyticInterceptor';
 import { usePreloadTantoImages } from '../../hooks/usePreloadImages';
 import { useSolveRoninConnectionConflict } from '../../hooks/useSolveRoninConnectionConflict';
 import { useWalletConnectListener } from '../../hooks/useWalletConnectListener';
@@ -56,6 +57,7 @@ export function TantoProvider({
       if (isMobile()) openWindow(RONIN_WALLET_APP_DEEPLINK);
     },
   });
+  useConnectorRequestAnalyticInterceptor();
 
   const chains = useChains();
 
