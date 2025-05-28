@@ -4,7 +4,7 @@ export interface AnalyticBaseEventData {
   timestamp?: string;
   session_id?: string;
   offset?: number;
-  user_address?: string;
+  user_id?: string;
   event?: string;
 }
 
@@ -48,7 +48,6 @@ export interface AnalyticOptions {
   sessionTimeout?: number; // second
   sessionId?: string;
   force?: boolean;
-  buildVersion?: string;
   deviceId?: string;
   commonProperties?: Record<string, unknown>;
   resetLastEventRef?: boolean;

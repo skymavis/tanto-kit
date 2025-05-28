@@ -11,6 +11,7 @@ import {
   type AnalyticStorageData,
   AnalyticEventType,
 } from './types/analytic';
+import { isClient } from './utils';
 
 class AnalyticStorage {
   private static instance: AnalyticStorage;
@@ -86,10 +87,12 @@ class AnalyticStorage {
 
 class PlatformDataCollector {
   private static instance: PlatformDataCollector;
-  private userAgent: UAParser;
+  private userAgent: UAParser | undefined;
 
   private constructor() {
-    this.userAgent = new UAParser(window.navigator.userAgent);
+    if (isClient()) {
+      this.userAgent = new UAParser(window.navigator.userAgent);
+    }
   }
 
   static getInstance(): PlatformDataCollector {
@@ -101,15 +104,15 @@ class PlatformDataCollector {
 
   getPlatformData(): AnalyticIdentifyEventData {
     return {
-      build_version: `${this.userAgent.getBrowser().name} - ${this.userAgent.getBrowser().version}`,
-      device_name: `${this.userAgent.getDevice().vendor} - ${this.userAgent.getDevice().model}`,
-      platform_name: this.userAgent.getOS().name,
-      platform_version: this.userAgent.getOS().version,
+      build_version:
+        [this.userAgent?.getBrowser().name, this.userAgent?.getBrowser().version].filter(Boolean).join(' - ') ||
+        'Unknown',
+      device_name:
+        [this.userAgent?.getDevice().vendor, this.userAgent?.getDevice().model].filter(Boolean).join(' - ') ||
+        'Unknown',
+      platform_name: this.userAgent?.getOS().name || 'Unknown',
+      platform_version: this.userAgent?.getOS().version || 'Unknown',
     };
-  }
-
-  getScreenType(): string {
-    return this.userAgent.getDevice().type || 'unknown';
   }
 }
 
@@ -117,7 +120,7 @@ class Analytic {
   private static readonly INTERNAL_EVENTS = ['heartbeat', 'identify'];
   private static readonly BATCH_SIZE = 20;
   private static readonly HEARTBEAT_INTERVAL = 2000;
-  private static readonly DEVICE_FINGERPRINT_KEY = '__MA_DFP';
+  private static readonly DEVICE_FINGERPRINT_KEY = '__TANTO_MA_DFP';
   private static readonly FIRST_PARTY_DOMAINS = ['skymavis.com', 'skymavis.one', 'roninchain.com', 'axieinfinity.com'];
 
   private intervalId: NodeJS.Timeout | null = null;
@@ -138,6 +141,10 @@ class Analytic {
   }
 
   private isFirstPartyDomain(): boolean {
+    if (!isClient()) {
+      return false;
+    }
+
     if (Analytic.FIRST_PARTY_DOMAINS.includes(window.location.hostname)) {
       return true;
     }
@@ -189,10 +196,10 @@ class Analytic {
             data: {
               event: 'identify',
               ...this.platformDataCollector.getPlatformData(),
-              build_version: options?.buildVersion,
               user_properties: {
                 ...(options?.commonProperties ?? {}),
-                app_origin: window.location.origin,
+                build_version: __sdkVersion,
+                app_origin: isClient() ? window.location.origin : undefined,
               },
               ...this.storage.getData(),
               device_id: options?.deviceId || localStorage.getItem(Analytic.DEVICE_FINGERPRINT_KEY) || undefined,
@@ -241,7 +248,8 @@ class Analytic {
             data: {
               action_properties: {
                 ...data,
-                app_origin: window.location.origin,
+                build_version: __sdkVersion,
+                app_origin: isClient() ? window.location.origin : undefined,
               },
               action: eventName,
               event: eventName,
@@ -266,7 +274,8 @@ class Analytic {
             screen,
             screen_properties: {
               ...data,
-              app_origin: window.location.origin,
+              build_version: __sdkVersion,
+              app_origin: isClient() ? window.location.origin : undefined,
             },
           },
         },
@@ -284,7 +293,7 @@ class Analytic {
       ref: data.lastEvent,
       timestamp: new Date().toISOString().slice(0, 19).replace('T', ' '),
       session_id: config.sessionId,
-      user_address: config.userAddress,
+      user_id: config.userAddress,
     };
   }
 
@@ -299,7 +308,6 @@ class Analytic {
           ...this.getBaseData(),
           ...this.platformDataCollector.getPlatformData(),
           ...event.data,
-          screen_type: this.platformDataCollector.getScreenType(),
           device_id: localStorage.getItem(Analytic.DEVICE_FINGERPRINT_KEY),
         },
       }));
