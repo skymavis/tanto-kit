@@ -90,9 +90,10 @@ class PlatformDataCollector {
   private userAgent: UAParser | undefined;
 
   private constructor() {
-    if (isClient()) {
-      this.userAgent = new UAParser(window.navigator.userAgent);
+    if (!isClient()) {
+      return;
     }
+    this.userAgent = new UAParser(window.navigator.userAgent);
   }
 
   static getInstance(): PlatformDataCollector {
@@ -124,12 +125,16 @@ class Analytic {
   private static readonly FIRST_PARTY_DOMAINS = ['skymavis.com', 'skymavis.one', 'roninchain.com', 'axieinfinity.com'];
 
   private intervalId: NodeJS.Timeout | null = null;
-  private apiKey: string;
-  private events: Array<AnalyticEventData>;
-  private storage: AnalyticStorage;
-  private platformDataCollector: PlatformDataCollector;
+  private apiKey!: string;
+  private events!: Array<AnalyticEventData>;
+  private storage!: AnalyticStorage;
+  private platformDataCollector!: PlatformDataCollector;
 
   constructor(apiKey: string) {
+    if (!isClient()) {
+      return;
+    }
+
     this.apiKey = apiKey;
     this.events = [];
     this.storage = AnalyticStorage.getInstance();
