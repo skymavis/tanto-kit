@@ -19,8 +19,7 @@ export const walletConfigs: Record<WalletId, WalletConfig> = {
       thumbnail: <RoninWaypointCustomLogo />,
       highlightBackground: true,
       showRoninBadge: true,
-      connectingTitle: 'Opening Ronin Keyless Wallet',
-      connectingDescription: 'Confirm connection in Ronin Keyless Wallet.',
+      connectingDescription: 'Confirm connection via pop-up windows',
     },
   },
   RONIN_WALLET: {
