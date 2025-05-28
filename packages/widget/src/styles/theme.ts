@@ -90,7 +90,7 @@ export const tantoLightTheme: Theme = {
   overlayBackground: 'rgba(240, 240, 240, 0.6)',
   modalBackground: '#F0F1F5',
   modalBorder: '1px solid #D0D6E1',
-  spinnerColor: '#15181E',
+  spinnerColor: '#0C48C0',
   skeletonColor: 'rgba(21, 24, 30, 0.07)',
   scrollbarTrack: '#F0F1F5',
   scrollbarThumb: '#C4C4C4',
