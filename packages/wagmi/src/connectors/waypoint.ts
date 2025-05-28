@@ -9,8 +9,10 @@ import { createConnector } from '@wagmi/core';
 import { getAddress } from 'viem';
 
 import { ConnectParams } from '../types';
+import { getVersionInfo } from '../utils';
 
-export function waypoint(params: IWaypointProviderConfigs) {
+export function waypoint(configs: IWaypointProviderConfigs) {
+  const params = { ...configs, source: configs.source ?? getVersionInfo() };
   const provider = requestWaypointProvider(params);
   const connector = new WaypointConnector({ provider, providerConfigs: params });
 
