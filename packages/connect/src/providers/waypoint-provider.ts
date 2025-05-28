@@ -2,6 +2,7 @@ import { WaypointProvider } from '@sky-mavis/waypoint';
 
 import { ChainIds } from '../common/chain';
 import { ConnectorError, ConnectorErrorType } from '../types/connector-error';
+import { getVersionInfo } from '../utils';
 
 export type WaypointScope = 'openid' | 'profile' | 'email' | 'wallet';
 
@@ -11,10 +12,11 @@ export interface IWaypointProviderConfigs {
   waypointOrigin?: string;
   scopes?: WaypointScope[];
   popupCloseDelay?: number;
+  source?: string;
 }
 
 export const requestWaypointProvider = (configs?: IWaypointProviderConfigs) => {
-  const { chainId, clientId, waypointOrigin, scopes, popupCloseDelay } = configs || {};
+  const { chainId, clientId, waypointOrigin, scopes, popupCloseDelay, source } = configs || {};
 
   const waypointProvider = WaypointProvider.create({
     clientId: clientId as string,
@@ -22,6 +24,7 @@ export const requestWaypointProvider = (configs?: IWaypointProviderConfigs) => {
     waypointOrigin,
     scopes,
     popupCloseDelay,
+    source: source ?? getVersionInfo(),
   });
 
   if (!waypointProvider) {
