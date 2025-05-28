@@ -18,7 +18,7 @@ const LogoContainer = styled.div({
   zIndex: 4,
   position: 'relative',
   overflow: 'hidden',
-  '& svg': {
+  '& > svg': {
     zIndex: 3,
     position: 'relative',
     display: 'block',
@@ -32,7 +32,7 @@ const Logo = styled.div(({ theme }) => ({
   inset: 6,
   borderRadius: 20,
   background: theme.modalBackground,
-  '& svg, & img': {
+  '& > svg, & > img': {
     pointerEvents: 'none',
     display: 'block',
     width: '100%',

@@ -109,7 +109,6 @@ Tanto supports three themes out of the box:
 
 - `dark` – Dark mode
 - `light` – Light mode
-- `auto` – Automatically adapts to the user's system preference
 
 > **Default Theme**: `dark`
 

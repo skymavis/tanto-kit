@@ -1,3 +1,4 @@
+import { useTheme } from '@emotion/react';
 import { useEffect } from 'react';
 
 import * as dataUris from '../assets/data-uris';
@@ -15,10 +16,9 @@ export const usePreloadImages = (imageSources: string[]) => {
 };
 
 export const usePreloadTantoImages = () => {
-  usePreloadImages([
+  const theme = useTheme();
+  const images = [
     dataUris.blueFilledWCLogoUri,
-    dataUris.highlightedWalletItemBackgroundUri,
-    dataUris.highlightedWalletItemHoverBackgroundUri,
     dataUris.blueFilledWCLogoUri,
     dataUris.roninExtensionCustomLogoUri,
     dataUris.roninExtensionCustomSquareLogoUri,
@@ -28,5 +28,18 @@ export const usePreloadTantoImages = () => {
     dataUris.roninWaypointCustomLogoUri,
     dataUris.roninWaypointCustomSquareLogoUri,
     dataUris.scanWalletsIconUri,
-  ]);
+  ];
+  if (theme.mode === 'light') {
+    usePreloadImages([
+      dataUris.highlightedWalletItemBackgroundUri.light,
+      dataUris.highlightedWalletItemBackgroundUri.lightHover,
+    ]);
+  }
+  if (theme.mode === 'dark') {
+    usePreloadImages([
+      dataUris.highlightedWalletItemBackgroundUri.dark,
+      dataUris.highlightedWalletItemBackgroundUri.darkHover,
+    ]);
+  }
+  usePreloadImages(images);
 };
