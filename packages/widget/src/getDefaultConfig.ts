@@ -5,6 +5,7 @@ import { Config, createConfig, CreateConfigParameters, CreateConnectorFn, http }
 import { walletConnect } from 'wagmi/connectors';
 
 import { RONIN_WALLET_WEB_LINK } from './constants';
+import { getVersionInfo } from './utils';
 
 const DEFAULT_WALLET_CONNECT_CONFIG = {
   projectId: 'd2ef97836db7eb390bcb2c1e9847ecdc',
@@ -58,7 +59,13 @@ const createConnectors = ({
       },
     }),
   ];
-  if (keylessWalletConfig) connectors.push(waypoint(keylessWalletConfig));
+  if (keylessWalletConfig)
+    connectors.push(
+      waypoint({
+        ...keylessWalletConfig,
+        source: getVersionInfo(),
+      }),
+    );
   return connectors;
 };
 
