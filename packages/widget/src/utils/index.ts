@@ -3,6 +3,7 @@ import { formatUnits } from 'viem';
 import { Connector, CreateConnectorFn } from 'wagmi';
 
 import { RONIN_WALLET_WEB_LINK } from '../constants';
+import { name, version } from '../version';
 
 export const notEmpty = <T>(value: T): value is NonNullable<T> => typeof value !== 'undefined' && value !== null;
 
@@ -90,3 +91,12 @@ export const getReverseNode = (address: string): string => {
   const node = address.startsWith('0x') ? address.substring(2) : address;
   return `${node.toLowerCase()}.addr.reverse`;
 };
+
+export function svgToBase64(svgText: string): string {
+  const encoded = encodeURIComponent(svgText).replace(/'/g, '%27').replace(/"/g, '%22');
+  return `data:image/svg+xml;charset=utf-8,${encoded}`;
+}
+
+export function getVersionInfo() {
+  return `${name}@${version}`;
+}

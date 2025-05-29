@@ -5,7 +5,7 @@ import { useAccountEffect } from 'wagmi';
 import { CONNECT_SUCCESS_DELAY } from './constants';
 import { WidgetRouterProvider } from './contexts/widget-router/WidgetRouterProvider';
 import { WidgetUIConfigState } from './contexts/widget-ui-config/WidgetUIConfigContext';
-import { WidgetConfigProvider } from './contexts/widget-ui-config/WidgetUIConfigProvider';
+import { WidgetUIConfigProvider } from './contexts/widget-ui-config/WidgetUIConfigProvider';
 import { useConnectCallback } from './hooks/useConnectCallback';
 import { useTantoConfig } from './hooks/useTantoConfig';
 import { useWidgetRouter } from './hooks/useWidgetRouter';
@@ -50,9 +50,9 @@ function EmbeddedWidget({ onConnect, onDisconnect, ...rest }: EmbeddedWidgetProp
 export function TantoEmbeddedWidget({ config, ...props }: TantoEmbeddedWidgetProps) {
   return (
     <WidgetRouterProvider>
-      <WidgetConfigProvider config={config}>
+      <WidgetUIConfigProvider config={config}>
         <EmbeddedWidget {...props} />
-      </WidgetConfigProvider>
+      </WidgetUIConfigProvider>
     </WidgetRouterProvider>
   );
 }

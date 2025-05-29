@@ -109,7 +109,6 @@ Tanto supports three themes out of the box:
 
 - `dark` – Dark mode
 - `light` – Light mode
-- `auto` – Automatically adapts to the user's system preference
 
 > **Default Theme**: `dark`
 
@@ -285,7 +284,3 @@ const address = useRnsAddress({ name: 'vitalik.ron' }); // Returns e.g. "0x123..
 ## Migrating from Ethers.js
 
 If your project currently uses Ethers.js, you can migrate to Viem (the default provider for Wagmi v2) by following the official [Wagmi migration guide](https://wagmi.sh/react/guides/ethers). This guide covers how to update your hooks and provider setup for compatibility with Wagmi.
-
-```
-
-```

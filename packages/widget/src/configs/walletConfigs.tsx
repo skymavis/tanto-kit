@@ -1,10 +1,12 @@
 import { BlueFilledWalletConnectLogo } from '../assets/BlueWalletConnectLogo';
+import {
+  RoninExtensionCustomSquareLogo,
+  RoninMobileCustomSquareLogo,
+  RoninWaypointCustomSquareLogo,
+} from '../assets/RoninCustomSquareLogo';
 import { RoninExtensionCustomLogo } from '../assets/RoninExtensionCustomLogo';
-import { RoninExtensionCustomSquareLogo } from '../assets/RoninExtensionCustomSquareLogo';
 import { RoninMobileCustomLogo } from '../assets/RoninMobileCustomLogo';
-import { RoninMobileCustomSquareLogo } from '../assets/RoninMobileCustomSquareLogo';
 import { RoninWaypointCustomLogo } from '../assets/RoninWaypointCustomLogo';
-import { RoninWaypointCustomSquareLogo } from '../assets/RoninWaypointCustomSquareLogo';
 import { WalletConnectLogo } from '../assets/WalletConnectLogo';
 import { RONIN_WALLET_WEB_LINK } from '../constants';
 import { WalletConfig, WalletId } from '../types/wallet';
@@ -17,8 +19,7 @@ export const walletConfigs: Record<WalletId, WalletConfig> = {
       thumbnail: <RoninWaypointCustomLogo />,
       highlightBackground: true,
       showRoninBadge: true,
-      connectingTitle: 'Opening Ronin Keyless Wallet',
-      connectingDescription: 'Confirm connection in Ronin Keyless Wallet.',
+      connectingDescription: 'Confirm connection via pop-up windows',
     },
   },
   RONIN_WALLET: {
