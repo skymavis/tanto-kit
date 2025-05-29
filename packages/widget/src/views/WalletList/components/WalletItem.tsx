@@ -85,6 +85,11 @@ const WalletDescription = styled.p(({ theme }) => ({
 
 const WalletLogoWrapper = styled.div({
   position: 'relative',
+  '> svg, > img': {
+    width: 32,
+    height: 32,
+    borderRadius: 8,
+  },
 });
 
 const RoninBadge = styled(RoninBadgeSvg)({
