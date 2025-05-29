@@ -114,7 +114,7 @@ export function useWallets(): UseWalletsResult {
 
   const secondaryWallets = useMemo(() => {
     const { injectedWallets, wcWallet, safeWallet } = walletsByType;
-    if (!deviceInfo.isDesktop) return [];
+    if (!deviceInfo.isDesktop) return [safeWallet].filter(notEmpty);
     const filteredWallets = [wcWallet, safeWallet, ...injectedWallets].filter(notEmpty);
     // Move WalletConnect to top
     return filteredWallets.sort(wallet => (isWCConnector(wallet.id) ? -1 : 1));
