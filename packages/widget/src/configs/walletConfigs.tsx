@@ -7,6 +7,7 @@ import {
 import { RoninExtensionCustomLogo } from '../assets/RoninExtensionCustomLogo';
 import { RoninMobileCustomLogo } from '../assets/RoninMobileCustomLogo';
 import { RoninWaypointCustomLogo } from '../assets/RoninWaypointCustomLogo';
+import { SafeLogo } from '../assets/SafeLogo';
 import { WalletConnectLogo } from '../assets/WalletConnectLogo';
 import { RONIN_WALLET_WEB_LINK } from '../constants';
 import { WalletConfig, WalletId } from '../types/wallet';
@@ -65,5 +66,9 @@ export const walletConfigs: Record<WalletId, WalletConfig> = {
       description: 'Sign in with the app',
       showRoninBadge: true,
     },
+  },
+  safe: {
+    name: 'Safe',
+    icon: <SafeLogo />,
   },
 };

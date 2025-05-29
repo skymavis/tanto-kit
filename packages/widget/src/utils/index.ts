@@ -1,3 +1,4 @@
+import { requestSafeProvider } from '@sky-mavis/tanto-connect';
 import { UAParser } from 'ua-parser-js';
 import { formatUnits } from 'viem';
 import { Connector, CreateConnectorFn } from 'wagmi';
@@ -13,6 +14,14 @@ export const isClient = () => {
 
 export const isRoninInAppBrowser = () => {
   return isClient() && !!window.isWalletApp && window.ronin !== undefined && !!window.ethereum?.isRonin;
+};
+
+export const isSafeWallet = async () => {
+  try {
+    return !!(await requestSafeProvider());
+  } catch {
+    return false;
+  }
 };
 
 export const detectBrowser = () => {
@@ -46,6 +55,8 @@ export const isWCConnector = (connectorId?: string) => connectorId === 'walletCo
 export const isInjectedConnector = (connectorType?: string) => connectorType === 'injected';
 
 export const isWaypointConnector = (connectorId?: string) => connectorId === 'WAYPOINT';
+
+export const isSafeConnector = (connectorId?: string) => connectorId === 'safe';
 
 export const generateInAppBrowserRoninMobileLink = (uri: string) => {
   return `roninwallet://in_app_browser?url=${encodeURIComponent(uri)}`;

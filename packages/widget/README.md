@@ -179,14 +179,14 @@ const config = getDefaultConfig({
 **Parameters**:
 
 - `appName` (optional): Name of your DApp (e.g., "My DApp").
-- `appIcon` (optional): URL to your DApp’s icon (e.g., "https://my-dapp.com/icon.png").
+- `appIcon` (optional): URL to your DApp’s icon (e.g., "<https://my-dapp.com/icon.png>").
 - `appDescription` (optional): Brief description of your DApp.
 - `appUrl` (optional): Your DApp’s URL.
 - `walletConnectProjectId` (optional): WalletConnect project ID from [WalletConnect Cloud](https://cloud.walletconnect.com/).
 - `keylessWalletConfig` (optional): Configuration for Keyless wallet:
   - `chainId` (optional): Blockchain chain ID (e.g., 2020 for Ronin Mainnet).
   - `clientId`: Your client ID for authentication.
-  - `waypointOrigin` (optional): Waypoint service URL (e.g., "https://waypoint.roninchain.com").
+  - `waypointOrigin` (optional): Waypoint service URL (e.g., "<https://waypoint.roninchain.com>").
   - `popupCloseDelay` (optional): Delay (ms) before closing the popup (e.g., 1000).
 
 See [Wagmi Configuration Docs](https://wagmi.sh/core/config) for advanced options.
@@ -284,3 +284,22 @@ const address = useRnsAddress({ name: 'vitalik.ron' }); // Returns e.g. "0x123..
 ## Migrating from Ethers.js
 
 If your project currently uses Ethers.js, you can migrate to Viem (the default provider for Wagmi v2) by following the official [Wagmi migration guide](https://wagmi.sh/react/guides/ethers). This guide covers how to update your hooks and provider setup for compatibility with Wagmi.
+
+## Troubleshooting
+
+### Resolving `Module not found: Can't resolve 'pino-pretty'` in Next.js and PNPM
+
+When using **Next.js** with **pnpm**, you may encounter the following error: Can't resolve 'pino-pretty'
+
+This error occurs due to optional dependencies such as `pino-pretty`, `lokijs`, and `encoding` included in WalletConnect packages. These dependencies are not required in a browser environment but can cause resolution issues during the build process.
+
+Update your Next.js configuration to exclude these modules by marking them as externals.
+
+```js
+const nextConfig = {
+  webpack: (config) => {
+    config.externals.push('pino-pretty', 'lokijs', 'encoding')
+    return config
+  }
+}
+```

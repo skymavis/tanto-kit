@@ -10,9 +10,12 @@ import {
   isMobile,
   isRoninExtensionInstalled,
   isRoninInAppBrowser,
+  isSafeConnector,
+  isWaypointConnector,
   isWCConnector,
   notEmpty,
 } from '../utils';
+import { useIsSafeWallet } from './useIsSafeWallet';
 
 const WalletIcon = styled.img({
   width: 32,
@@ -29,7 +32,7 @@ interface UseWalletsResult {
 
 export function useWallets(): UseWalletsResult {
   const connectors = useConnectors();
-
+  const { isSafe } = useIsSafeWallet();
   const deviceInfo = useMemo(
     () => ({
       isMobile: isMobile(),
@@ -48,7 +51,8 @@ export function useWallets(): UseWalletsResult {
           icon: connector.icon ? <WalletIcon src={connector.icon} alt={connector.name} /> : undefined,
           isInstalled:
             (connector.id === 'RONIN_WALLET' && isRoninExtensionInstalled(connectors)) ||
-            connector.id === 'WAYPOINT' ||
+            isSafeConnector(connector.id) ||
+            isWaypointConnector(connector.id) ||
             isWCConnector(connector.id) ||
             isInjectedConnector(connector.type),
           connector,
@@ -67,6 +71,7 @@ export function useWallets(): UseWalletsResult {
 
   const walletsByType = useMemo(() => {
     const walletMap = new Map(wallets.map(wallet => [wallet.id, wallet]));
+    const safeWallet = isSafe ? walletMap.get('safe') : null;
     const waypointWallet = walletMap.get('WAYPOINT');
     const wcWallet = walletMap.get('walletConnect');
     const roninExtensionWallet = walletMap.get('RONIN_WALLET') ?? walletMap.get('com.roninchain.wallet');
@@ -94,8 +99,9 @@ export function useWallets(): UseWalletsResult {
       roninInAppBrowserWallet,
       injectedWallets,
       wcWallet,
+      safeWallet,
     };
-  }, [wallets]);
+  }, [wallets, isSafe]);
 
   const primaryWallets = useMemo(() => {
     const { waypointWallet, roninExtensionWallet, roninMobileWallet, roninInAppBrowserWallet } = walletsByType;
@@ -107,9 +113,9 @@ export function useWallets(): UseWalletsResult {
   }, [walletsByType, deviceInfo]);
 
   const secondaryWallets = useMemo(() => {
-    const { injectedWallets, wcWallet } = walletsByType;
+    const { injectedWallets, wcWallet, safeWallet } = walletsByType;
     if (!deviceInfo.isDesktop) return [];
-    const filteredWallets = [wcWallet, ...injectedWallets].filter(notEmpty);
+    const filteredWallets = [wcWallet, safeWallet, ...injectedWallets].filter(notEmpty);
     // Move WalletConnect to top
     return filteredWallets.sort(wallet => (isWCConnector(wallet.id) ? -1 : 1));
   }, [walletsByType, deviceInfo]);

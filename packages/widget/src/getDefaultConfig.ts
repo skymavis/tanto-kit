@@ -2,7 +2,7 @@ import { WaypointScope } from '@sky-mavis/tanto-connect';
 import { roninWallet, waypoint } from '@sky-mavis/tanto-wagmi';
 import { Chain, ronin, saigon } from 'viem/chains';
 import { Config, createConfig, CreateConfigParameters, CreateConnectorFn, http } from 'wagmi';
-import { walletConnect } from 'wagmi/connectors';
+import { safe, walletConnect } from 'wagmi/connectors';
 
 import { RONIN_WALLET_WEB_LINK } from './constants';
 import { getVersionInfo } from './utils';
@@ -58,6 +58,7 @@ const createConnectors = ({
         icons: [appIcon],
       },
     }),
+    safe(),
   ];
   if (keylessWalletConfig)
     connectors.push(
