@@ -8,23 +8,34 @@ import {
 } from './data-uris';
 import { RoninBadge as RoninBadgeSvg } from './RoninBadge';
 
+const LOGO_SIZE = 90;
+
 const WalletLogoWrapper = styled.div({
   position: 'relative',
+  width: LOGO_SIZE,
+  height: LOGO_SIZE,
+});
+
+const RoninBadgeWrapper = styled.div({
+  position: 'absolute',
+  inset: 0,
+  width: '100%',
+  height: '100%',
 });
 
 const RoninBadge = styled(RoninBadgeSvg)({
-  position: 'absolute',
-  width: 28,
-  height: 28,
-  top: 6,
-  left: 6,
+  transform: 'translateX(22%) translateY(22%)',
+  width: '32%',
+  height: '32%',
 });
 
 export function RoninExtensionCustomSquareLogo(props: ImgHTMLAttributes<HTMLImageElement>) {
   return (
     <WalletLogoWrapper>
-      <img width={90} height={90} src={roninExtensionCustomSquareLogoUri} {...props} />
-      <RoninBadge />
+      <img src={roninExtensionCustomSquareLogoUri} {...props} />
+      <RoninBadgeWrapper>
+        <RoninBadge />
+      </RoninBadgeWrapper>
     </WalletLogoWrapper>
   );
 }
@@ -32,8 +43,10 @@ export function RoninExtensionCustomSquareLogo(props: ImgHTMLAttributes<HTMLImag
 export function RoninWaypointCustomSquareLogo(props: ImgHTMLAttributes<HTMLImageElement>) {
   return (
     <WalletLogoWrapper>
-      <img width={90} height={90} src={roninWaypointCustomSquareLogoUri} {...props} />
-      <RoninBadge />
+      <img src={roninWaypointCustomSquareLogoUri} {...props} />
+      <RoninBadgeWrapper>
+        <RoninBadge />
+      </RoninBadgeWrapper>
     </WalletLogoWrapper>
   );
 }
@@ -41,8 +54,10 @@ export function RoninWaypointCustomSquareLogo(props: ImgHTMLAttributes<HTMLImage
 export function RoninMobileCustomSquareLogo(props: ImgHTMLAttributes<HTMLImageElement>) {
   return (
     <WalletLogoWrapper>
-      <img width={90} height={90} src={roninMobileCustomSquareLogoUri} {...props} />
-      <RoninBadge />
+      <img src={roninMobileCustomSquareLogoUri} {...props} />
+      <RoninBadgeWrapper>
+        <RoninBadge />
+      </RoninBadgeWrapper>
     </WalletLogoWrapper>
   );
 }
