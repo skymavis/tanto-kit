@@ -48,6 +48,10 @@ export const isDesktop = () => !isMobile();
 
 export const isInjectedConnector = (connectorType?: string) => connectorType === 'injected';
 
+export const isRoninWallet = (connectorId?: string) => connectorId === WALLET_IDS.RONIN_WALLET;
+
+export const isRoninWalletInjected = (connectorId?: string) => connectorId === WALLET_IDS.RONIN_WALLET_INJECTED;
+
 export const isWCConnector = (connectorId?: string) => connectorId === WALLET_IDS.WALLET_CONNECT;
 
 export const isWaypointConnector = (connectorId?: string) => connectorId === WALLET_IDS.WAYPOINT;
