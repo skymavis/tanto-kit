@@ -1,4 +1,5 @@
 import { BlueFilledWalletConnectLogo } from '../assets/BlueWalletConnectLogo';
+import { CoinbaseLogo } from '../assets/CoinbaseLogo';
 import {
   RoninExtensionCustomSquareLogo,
   RoninMobileCustomSquareLogo,
@@ -10,10 +11,10 @@ import { RoninWaypointCustomLogo } from '../assets/RoninWaypointCustomLogo';
 import { SafeLogo } from '../assets/SafeLogo';
 import { WalletConnectLogo } from '../assets/WalletConnectLogo';
 import { RONIN_WALLET_WEB_LINK } from '../constants';
-import { WalletConfig, WalletId } from '../types/wallet';
+import { WALLET_IDS, WalletConfig, WalletId } from '../types/wallet';
 
 export const walletConfigs: Record<WalletId, WalletConfig> = {
-  WAYPOINT: {
+  [WALLET_IDS.WAYPOINT]: {
     name: 'Continue with Email',
     icon: <RoninWaypointCustomSquareLogo />,
     displayOptions: {
@@ -23,7 +24,7 @@ export const walletConfigs: Record<WalletId, WalletConfig> = {
       connectingDescription: 'Confirm connection via pop-up windows',
     },
   },
-  RONIN_WALLET: {
+  [WALLET_IDS.RONIN_WALLET]: {
     name: 'Ronin Wallet Extension',
     icon: <RoninExtensionCustomSquareLogo />,
     homepage: RONIN_WALLET_WEB_LINK,
@@ -32,7 +33,7 @@ export const walletConfigs: Record<WalletId, WalletConfig> = {
       showRoninBadge: true,
     },
   },
-  'com.roninchain.wallet': {
+  [WALLET_IDS.RONIN_WALLET_INJECTED]: {
     name: 'Ronin Wallet Extension',
     icon: <RoninExtensionCustomSquareLogo />,
     homepage: RONIN_WALLET_WEB_LINK,
@@ -41,7 +42,7 @@ export const walletConfigs: Record<WalletId, WalletConfig> = {
       showRoninBadge: true,
     },
   },
-  walletConnect: {
+  [WALLET_IDS.WALLET_CONNECT]: {
     name: 'WalletConnect',
     icon: <BlueFilledWalletConnectLogo />,
     displayOptions: {
@@ -49,7 +50,7 @@ export const walletConfigs: Record<WalletId, WalletConfig> = {
       description: 'Scan QR on mobile wallet to connect',
     },
   },
-  CUSTOM_RONIN_MOBILE_WALLET: {
+  [WALLET_IDS.CUSTOM_RONIN_MOBILE_WALLET]: {
     name: 'Ronin Wallet Mobile',
     icon: <RoninMobileCustomSquareLogo />,
     displayOptions: {
@@ -58,7 +59,7 @@ export const walletConfigs: Record<WalletId, WalletConfig> = {
       showRoninBadge: true,
     },
   },
-  CUSTOM_RONIN_IN_APP_WALLET: {
+  [WALLET_IDS.CUSTOM_RONIN_IN_APP_WALLET]: {
     name: 'Ronin Wallet Mobile',
     icon: <RoninMobileCustomSquareLogo />,
     displayOptions: {
@@ -67,8 +68,12 @@ export const walletConfigs: Record<WalletId, WalletConfig> = {
       showRoninBadge: true,
     },
   },
-  safe: {
+  [WALLET_IDS.SAFE]: {
     name: 'Safe',
     icon: <SafeLogo />,
+  },
+  [WALLET_IDS.COINBASE_WALLET]: {
+    name: 'Coinbase Wallet',
+    icon: <CoinbaseLogo />,
   },
 };

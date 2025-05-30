@@ -162,32 +162,47 @@ Customize wallet connection options via `getDefaultConfig`.
 import { getDefaultConfig } from '@sky-mavis/tanto-widget';
 
 const config = getDefaultConfig({
-  appName: 'My DApp',
-  appIcon: 'https://my-dapp.com/icon.png',
-  appDescription: 'A decentralized application for Web3 enthusiasts',
-  appUrl: 'https://my-dapp.com',
-  walletConnectProjectId: 'YOUR_WALLETCONNECT_PROJECT_ID',
-  keylessWalletConfig: {
+ appMetadata: {
+    appName: 'My DApp',
+    appIcon: '<https://my-dapp.com/icon.png>',
+    appDescription: 'A decentralized application for Web3 enthusiasts',
+    appUrl: '<https://my-dapp.com>',
+  },
+    keylessWalletConfig: {
     chainId: 2020, // Ronin Mainnet
     clientId: 'YOUR_CLIENT_ID',
-    waypointOrigin: 'https://waypoint.roninchain.com',
+    waypointOrigin: '<https://waypoint.roninchain.com>',
     popupCloseDelay: 1000,
+  },
+  walletConnectConfig: {
+    projectId: 'YOUR_WALLETCONNECT_PROJECT_ID',
+  },
+  coinbaseWalletConfig: {
+    enable: true,
   },
 });
 ```
 
 **Parameters**:
 
-- `appName` (optional): Name of your DApp (e.g., "My DApp").
-- `appIcon` (optional): URL to your DApp’s icon (e.g., "<https://my-dapp.com/icon.png>").
-- `appDescription` (optional): Brief description of your DApp.
-- `appUrl` (optional): Your DApp’s URL.
-- `walletConnectProjectId` (optional): WalletConnect project ID from [WalletConnect Cloud](https://cloud.walletconnect.com/).
-- `keylessWalletConfig` (optional): Configuration for Keyless wallet:
+- `appMetadata` (optional): Metadata for your DApp.
+  - `appName` (optional): Name of your DApp (e.g., "My DApp"). Defaults to "Ronin Wallet".
+  - `appIcon` (optional): URL to your DApp’s icon (e.g., "<https://my-dapp.com/icon.png>"). Defaults to Ronin Wallet icon.
+  - `appDescription` (optional): Brief description of your DApp. Defaults to "Your passport into a digital nation".
+  - `appUrl` (optional): Your DApp’s URL. Defaults to `https://wallet.roninchain.com`.
+- `walletConnectConfig` (optional): Configuration for WalletConnect.
+  - `projectId` (optional): WalletConnect project ID from [WalletConnect Cloud](https://cloud.walletconnect.com/). Defaults to a predefined Ronin project ID.
+  - `enable` (optional): Enable or disable WalletConnect (default: `true`).
+- `keylessWalletConfig` (optional): Configuration for Waypoint (keyless) wallet.
   - `chainId` (optional): Blockchain chain ID (e.g., 2020 for Ronin Mainnet).
-  - `clientId`: Your client ID for authentication.
+  - `clientId` (required): Your client ID for authentication.
   - `waypointOrigin` (optional): Waypoint service URL (e.g., "<https://waypoint.roninchain.com>").
   - `popupCloseDelay` (optional): Delay (ms) before closing the popup (e.g., 1000).
+  - `enable` (optional): Enable or disable Waypoint (default: `true`).
+- `coinbaseWalletConfig` (optional): Configuration for Coinbase Wallet.
+  - `enable` (optional): Enable or disable Coinbase Wallet (default: `false`).
+- `initialChainId` (optional): The default chain ID to use (e.g., 2020 for Ronin Mainnet).
+- `multiInjectedProviderDiscovery` (optional): Enable/disable multi-injected provider discovery (default: `true`).
 
 See [Wagmi Configuration Docs](https://wagmi.sh/core/config) for advanced options.
 
@@ -298,6 +313,7 @@ Update your Next.js configuration to exclude these modules by marking them as ex
 ```js
 const nextConfig = {
   webpack: (config) => {
+    config.resolve.fallback = { fs: false, net: false, tls: false };
     config.externals.push('pino-pretty', 'lokijs', 'encoding')
     return config
   }

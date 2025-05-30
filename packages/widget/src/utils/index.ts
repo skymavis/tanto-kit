@@ -3,18 +3,16 @@ import { UAParser } from 'ua-parser-js';
 import { formatUnits } from 'viem';
 import { Connector, CreateConnectorFn } from 'wagmi';
 
-import { RONIN_WALLET_WEB_LINK } from '../constants';
+import { RONIN_WALLET_APP_DEEPLINK, RONIN_WALLET_WEB_LINK } from '../constants';
+import { WALLET_IDS } from '../types/wallet';
 import { name, version } from '../version';
 
 export const notEmpty = <T>(value: T): value is NonNullable<T> => typeof value !== 'undefined' && value !== null;
 
-export const isClient = () => {
-  return typeof window !== 'undefined';
-};
+export const isClient = () => typeof window !== 'undefined';
 
-export const isRoninInAppBrowser = () => {
-  return isClient() && !!window.isWalletApp && window.ronin !== undefined && !!window.ethereum?.isRonin;
-};
+export const isRoninInAppBrowser = () =>
+  isClient() && !!window.isWalletApp && window.ronin !== undefined && !!window.ethereum?.isRonin;
 
 export const isSafeWallet = async () => {
   try {
@@ -44,31 +42,29 @@ export const isAndroid = () => {
   return os.toLowerCase().includes('android');
 };
 
-export const isMobile = () => {
-  return isAndroid() || isIOS();
-};
+export const isMobile = () => isAndroid() || isIOS();
 
 export const isDesktop = () => !isMobile();
 
-export const isWCConnector = (connectorId?: string) => connectorId === 'walletConnect';
-
 export const isInjectedConnector = (connectorType?: string) => connectorType === 'injected';
 
-export const isWaypointConnector = (connectorId?: string) => connectorId === 'WAYPOINT';
+export const isWCConnector = (connectorId?: string) => connectorId === WALLET_IDS.WALLET_CONNECT;
 
-export const isSafeConnector = (connectorId?: string) => connectorId === 'safe';
+export const isWaypointConnector = (connectorId?: string) => connectorId === WALLET_IDS.WAYPOINT;
+
+export const isSafeConnector = (connectorId?: string) => connectorId === WALLET_IDS.SAFE;
+
+export const isCoinbaseConnector = (connectorId?: string) => connectorId === WALLET_IDS.COINBASE_WALLET;
 
 export const generateInAppBrowserRoninMobileLink = (uri: string) => {
-  return `roninwallet://in_app_browser?url=${encodeURIComponent(uri)}`;
+  return `${RONIN_WALLET_APP_DEEPLINK}in_app_browser?url=${encodeURIComponent(uri)}`;
 };
 
-export const generateRoninMobileWCLink = (uri: string, prefix = `${RONIN_WALLET_WEB_LINK}/`): string => {
-  return `${prefix}auth-connect?uri=${encodeURIComponent(uri)}`;
-};
+export const generateRoninMobileWCLink = (uri: string, prefix = `${RONIN_WALLET_WEB_LINK}/`) =>
+  `${prefix}auth-connect?uri=${encodeURIComponent(uri)}`;
 
-export const isRoninExtensionInstalled = (connectors: readonly Connector<CreateConnectorFn>[]) => {
-  return connectors.some(connector => connector.id === 'com.roninchain.wallet');
-};
+export const isRoninExtensionInstalled = (connectors: readonly Connector<CreateConnectorFn>[]) =>
+  connectors.some(connector => connector.id === WALLET_IDS.RONIN_WALLET_INJECTED);
 
 export const truncate = (
   value?: string,
@@ -103,11 +99,9 @@ export const getReverseNode = (address: string): string => {
   return `${node.toLowerCase()}.addr.reverse`;
 };
 
-export function svgToBase64(svgText: string): string {
+export const svgToBase64 = (svgText: string) => {
   const encoded = encodeURIComponent(svgText).replace(/'/g, '%27').replace(/"/g, '%22');
   return `data:image/svg+xml;charset=utf-8,${encoded}`;
-}
+};
 
-export function getVersionInfo() {
-  return `${name}@${version}`;
-}
+export const getVersionInfo = () => `${name}@${version}`;
