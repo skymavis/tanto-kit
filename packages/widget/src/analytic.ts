@@ -302,6 +302,10 @@ class Analytic {
   }
 
   private async trackEvents(eventsData: Array<AnalyticEventData>, options?: { force?: boolean }): Promise<void> {
+    if (this.isFirstPartyDomain()) {
+      return;
+    }
+
     try {
       const { force = true } = options || {};
       const data = this.storage.getData();
