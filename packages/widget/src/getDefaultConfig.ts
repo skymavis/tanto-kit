@@ -70,7 +70,7 @@ export type DefaultConfig = Prettify<
 export const createTransports = (chains: readonly [Chain, ...Chain[]]) =>
   Object.fromEntries(chains.map(chain => [chain.id, http()]));
 
-export const createAppMetadata = (appMetadata?: AppMetadata) => {
+const createAppMetadata = (appMetadata?: AppMetadata) => {
   const defaults = RONIN_WALLET_METADATA.metadata;
   return {
     appName: appMetadata?.appName ?? defaults.name,
@@ -80,17 +80,17 @@ export const createAppMetadata = (appMetadata?: AppMetadata) => {
   };
 };
 
-export const createRoninConnector = (): CreateConnectorFn => roninWallet();
+const createRoninConnector = (): CreateConnectorFn => roninWallet();
 
-export const createSafeConnector = (): CreateConnectorFn => safe();
+const createSafeConnector = (): CreateConnectorFn => safe();
 
-export const createWaypointConnector = (config: DefaultConfig['keylessWalletConfig']): CreateConnectorFn =>
+const createWaypointConnector = (config: DefaultConfig['keylessWalletConfig']): CreateConnectorFn =>
   waypoint({
     source: getVersionInfo(),
     ...config,
   });
 
-export const createWalletConnectConnector = (
+const createWalletConnectConnector = (
   appMetadata: ReturnType<typeof createAppMetadata>,
   config?: DefaultConfig['walletConnectConfig'],
 ): CreateConnectorFn => {
@@ -109,7 +109,7 @@ export const createWalletConnectConnector = (
   });
 };
 
-export const createCoinbaseConnector = (
+const createCoinbaseConnector = (
   appMetadata: ReturnType<typeof createAppMetadata>,
   config?: DefaultConfig['coinbaseWalletConfig'],
 ): CreateConnectorFn =>
