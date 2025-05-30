@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
 import { useMemo } from 'react';
-import { useConnectors } from 'wagmi';
+import { Connector, CreateConnectorFn, useConnectors } from 'wagmi';
 
 import { walletConfigs } from '../configs/walletConfigs';
-import { Wallet } from '../types/wallet';
+import { Wallet, WALLET_IDS } from '../types/wallet';
 import {
+  isCoinbaseConnector,
   isDesktop,
   isInjectedConnector,
   isMobile,
@@ -30,6 +31,37 @@ interface UseWalletsResult {
   secondaryWallets: Wallet[];
 }
 
+const getWalletInstallationStatus = (
+  connector: Connector<CreateConnectorFn>,
+  connectors: readonly Connector<CreateConnectorFn>[],
+) => {
+  const { id, type } = connector;
+  if (id === WALLET_IDS.RONIN_WALLET) return isRoninExtensionInstalled(connectors);
+  return (
+    isSafeConnector(id) ||
+    isCoinbaseConnector(id) ||
+    isWaypointConnector(id) ||
+    isWCConnector(id) ||
+    isInjectedConnector(type)
+  );
+};
+
+const createBaseWallet = (
+  connector: Connector<CreateConnectorFn>,
+  connectors: readonly Connector<CreateConnectorFn>[],
+): Wallet => ({
+  id: connector.id,
+  name: connector.name ?? connector.id ?? connector.type,
+  icon: connector.icon ? <WalletIcon src={connector.icon} alt={connector.name} /> : undefined,
+  isInstalled: getWalletInstallationStatus(connector, connectors),
+  connector,
+});
+
+const createWalletWithConfig = (baseWallet: Wallet): Wallet => {
+  const walletConfig = walletConfigs[baseWallet.id];
+  return walletConfig ? { ...baseWallet, ...walletConfig } : baseWallet;
+};
+
 export function useWallets(): UseWalletsResult {
   const connectors = useConnectors();
   const { isSafe } = useIsSafeWallet();
@@ -43,41 +75,24 @@ export function useWallets(): UseWalletsResult {
   );
 
   const wallets = useMemo(
-    () =>
-      connectors.map(connector => {
-        const baseWallet: Wallet = {
-          id: connector.id,
-          name: connector.name ?? connector.id ?? connector.type,
-          icon: connector.icon ? <WalletIcon src={connector.icon} alt={connector.name} /> : undefined,
-          isInstalled:
-            (connector.id === 'RONIN_WALLET' && isRoninExtensionInstalled(connectors)) ||
-            isSafeConnector(connector.id) ||
-            isWaypointConnector(connector.id) ||
-            isWCConnector(connector.id) ||
-            isInjectedConnector(connector.type),
-          connector,
-        };
-
-        const walletConfig = walletConfigs[connector.id];
-        if (!walletConfig) return baseWallet;
-
-        return {
-          ...baseWallet,
-          ...walletConfig,
-        };
-      }),
+    () => connectors.map(connector => createBaseWallet(connector, connectors)).map(createWalletWithConfig),
     [connectors],
   );
 
   const walletsByType = useMemo(() => {
     const walletMap = new Map(wallets.map(wallet => [wallet.id, wallet]));
-    const safeWallet = isSafe ? walletMap.get('safe') : null;
-    const waypointWallet = walletMap.get('WAYPOINT');
-    const wcWallet = walletMap.get('walletConnect');
-    const roninExtensionWallet = walletMap.get('RONIN_WALLET') ?? walletMap.get('com.roninchain.wallet');
+    const safeWallet = isSafe ? walletMap.get(WALLET_IDS.SAFE) : null;
+    const waypointWallet = walletMap.get(WALLET_IDS.WAYPOINT);
+    const coinbaseWallet = walletMap.get(WALLET_IDS.COINBASE_WALLET);
+    const wcWallet = walletMap.get(WALLET_IDS.WALLET_CONNECT);
+    const roninExtensionWallet =
+      walletMap.get(WALLET_IDS.RONIN_WALLET) ?? walletMap.get(WALLET_IDS.RONIN_WALLET_INJECTED);
+
     const injectedWallets = wallets.filter(
       wallet =>
-        isInjectedConnector(wallet.connector?.type) && !['RONIN_WALLET', 'com.roninchain.wallet'].includes(wallet.id),
+        isInjectedConnector(wallet.connector?.type) &&
+        wallet.id !== WALLET_IDS.RONIN_WALLET &&
+        wallet.id !== WALLET_IDS.RONIN_WALLET_INJECTED,
     );
 
     const roninMobileWallet = wcWallet && {
@@ -100,6 +115,7 @@ export function useWallets(): UseWalletsResult {
       injectedWallets,
       wcWallet,
       safeWallet,
+      coinbaseWallet,
     };
   }, [wallets, isSafe]);
 
@@ -113,16 +129,21 @@ export function useWallets(): UseWalletsResult {
   }, [walletsByType, deviceInfo]);
 
   const secondaryWallets = useMemo(() => {
-    const { injectedWallets, wcWallet, safeWallet } = walletsByType;
-    if (!deviceInfo.isDesktop) return [safeWallet].filter(notEmpty);
-    const filteredWallets = [wcWallet, safeWallet, ...injectedWallets].filter(notEmpty);
+    const { injectedWallets, wcWallet, safeWallet, coinbaseWallet } = walletsByType;
+    if (!deviceInfo.isDesktop) return [coinbaseWallet, safeWallet].filter(notEmpty);
+    const filteredWallets = [wcWallet, safeWallet, coinbaseWallet, ...injectedWallets].filter(notEmpty);
     // Move WalletConnect to top
-    return filteredWallets.sort(wallet => (isWCConnector(wallet.id) ? -1 : 1));
+    const wcWallets = filteredWallets.filter(wallet => isWCConnector(wallet.id));
+    const otherWallets = filteredWallets.filter(wallet => !isWCConnector(wallet.id));
+    return [...wcWallets, ...otherWallets];
   }, [walletsByType, deviceInfo]);
 
-  return {
-    wallets: [...primaryWallets, ...secondaryWallets],
-    primaryWallets,
-    secondaryWallets,
-  };
+  return useMemo(
+    () => ({
+      wallets: [...primaryWallets, ...secondaryWallets],
+      primaryWallets,
+      secondaryWallets,
+    }),
+    [primaryWallets, secondaryWallets],
+  );
 }

@@ -4,7 +4,19 @@ export type { TantoProviderProps } from './contexts/tanto/TantoProvider';
 export { TantoProvider } from './contexts/tanto/TantoProvider';
 export type { TantoEmbeddedWidgetProps } from './EmbeddedWidget';
 export { TantoEmbeddedWidget } from './EmbeddedWidget';
-export { getDefaultConfig } from './getDefaultConfig';
+export type { AppMetadata, DefaultConfig, KeylessWalletConfig } from './getDefaultConfig';
+export {
+  createAppMetadata,
+  createCoinbaseConnector,
+  createConnectors,
+  createRoninConnector,
+  createSafeConnector,
+  createTransports,
+  createWalletConnectConnector,
+  createWaypointConnector,
+  getDefaultConfig,
+  RONIN_WALLET_METADATA,
+} from './getDefaultConfig';
 export { useConnectedWallet } from './hooks/useConnectedWallet';
 export type { UseRnsAddressParameters } from './hooks/useRnsAddress';
 export { useRnsAddress } from './hooks/useRnsAddress';
