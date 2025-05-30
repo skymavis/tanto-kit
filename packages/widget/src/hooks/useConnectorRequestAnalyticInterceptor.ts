@@ -94,12 +94,12 @@ export const useConnectorRequestAnalyticInterceptor = () => {
 
     if (method === 'eth_sendTransaction') {
       if (error) {
-        analytic.sendEvent('send_transaction_fail', {
+        await analytic.sendEvent('send_transaction_fail', {
           method,
           params,
         });
       } else {
-        analytic.sendEvent('send_transaction_success', {
+        await analytic.sendEvent('send_transaction_success', {
           method,
           params,
         });
