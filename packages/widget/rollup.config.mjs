@@ -1,7 +1,9 @@
+import fs from 'node:fs';
 import { babel } from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import resolve from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
 import terser from '@rollup/plugin-terser';
 import { defineConfig } from 'rollup';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
@@ -9,6 +11,12 @@ import nodePolyfills from 'rollup-plugin-polyfill-node';
 import typescript from 'rollup-plugin-typescript2';
 
 const production = !process.env.ROLLUP_WATCH && process.env.NODE_ENV === 'production';
+
+const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+
+if (!packageJson.version) {
+  throw new Error('package.json is missing version');
+}
 
 const config = defineConfig({
   input: ['src/index.ts'],
@@ -39,7 +47,7 @@ const config = defineConfig({
       'lodash.debounce',
       'use-resize-observer',
       'vaul',
-      'detect-browser',
+      'ua-parser-js',
       'qr-code-styling',
       '@sky-mavis/tanto-connect',
       '@sky-mavis/tanto-wagmi',
@@ -50,6 +58,7 @@ const config = defineConfig({
       'wagmi',
       'boring-avatars',
       '@tanstack/react-query',
+      'uuid',
     ].some(pkg => id === pkg || id.startsWith(`${pkg}/`) || id.startsWith(`@${pkg}/`)),
   plugins: [
     peerDepsExternal(),
@@ -73,6 +82,9 @@ const config = defineConfig({
       exclude: 'node_modules/**',
     }),
     production && terser(),
+    replace({
+      __sdkVersion: `'${packageJson.version}'`,
+    }),
   ].filter(Boolean),
 });
 

@@ -1,6 +1,7 @@
 import { useAccountEffect } from 'wagmi';
 
-import { AccountConnectionCallback } from '../types/connect';
+import { analytic } from '../analytic';
+import type { AccountConnectionCallback } from '../types/connect';
 
 export const useConnectCallback = ({ onConnect, onDisconnect }: AccountConnectionCallback) => {
   useAccountEffect({
@@ -12,7 +13,17 @@ export const useConnectCallback = ({ onConnect, onDisconnect }: AccountConnectio
           connectorId: connector?.id,
         });
       }
+      analytic.updateSession({
+        userAddress: address,
+        force: true,
+      });
     },
-    onDisconnect: () => onDisconnect?.(),
+    onDisconnect: () => {
+      onDisconnect?.();
+      analytic.updateSession({
+        userAddress: undefined,
+        force: true,
+      });
+    },
   });
 };

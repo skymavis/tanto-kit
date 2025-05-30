@@ -8,6 +8,7 @@ export const CONNECT_SUCCESS_DELAY = 1_200;
 export const VISIBILITY_TRANSITION_DURATION = 150;
 export const WALLET_ITEM_HEIGHT = 68;
 export const MAX_WALLET_ITEMS_PER_GROUP = 4;
+export const ANALYTIC_PUBLIC_KEY = '34cb0c94-cace-4e79-b708-96112181ddbb';
 export const RNS_PUBLIC_RESOLVER_ADDRESS: Record<number, Address> = {
   [saigon.id]: '0x803c459dcb8771e5354d1fc567ecc6885a9fd5e6',
   [ronin.id]: '0xadb077d236d9e81fb24b96ae9cb8089ab9942d48',
