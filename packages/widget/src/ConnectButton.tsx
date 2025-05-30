@@ -56,7 +56,7 @@ export function TantoConnectButton({ onConnect, onDisconnect, children, ...rest 
         </SmoothWidth>
       ) : (
         <Button intent={isConnected ? 'secondary' : 'primary'} onClick={show}>
-          <SmoothWidth>
+          <SmoothWidth css={{ minWidth: 120 }}>
             <TransitionedView viewKey={isConnected && isRnsSuccess}>
               {isConnected && !disableProfile ? (
                 <Box align="center" gap={8}>
@@ -64,7 +64,7 @@ export function TantoConnectButton({ onConnect, onDisconnect, children, ...rest 
                   <p>{rns ? rns : truncate(normalizedAddress)}</p>
                 </Box>
               ) : (
-                <p css={{ minWidth: 120 }}>Connect Wallet</p>
+                'Connect Wallet'
               )}
             </TransitionedView>
           </SmoothWidth>

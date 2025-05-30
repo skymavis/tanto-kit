@@ -45,6 +45,7 @@ const config = defineConfig({
       'react-dom',
       'react-is',
       'lodash.debounce',
+      'lodash.omit',
       'use-resize-observer',
       'vaul',
       'ua-parser-js',
