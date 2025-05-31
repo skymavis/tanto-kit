@@ -139,7 +139,6 @@ class Analytic {
     this.events = [];
     this.storage = AnalyticStorage.getInstance();
     this.platformDataCollector = PlatformDataCollector.getInstance();
-
     if (!localStorage.getItem(Analytic.DEVICE_FINGERPRINT_KEY)) {
       localStorage.setItem(Analytic.DEVICE_FINGERPRINT_KEY, v4());
     }
@@ -242,11 +241,11 @@ class Analytic {
     }
   }
 
-  sendEvent(eventName: string, data: Record<string, unknown> = {}): void {
+  async sendEvent(eventName: string, data: Record<string, unknown> = {}): Promise<void> {
     try {
       if (!this.validate()) return;
 
-      this.trackEvents(
+      await this.trackEvents(
         [
           {
             type: AnalyticEventType.TRACK,
@@ -303,6 +302,10 @@ class Analytic {
   }
 
   private async trackEvents(eventsData: Array<AnalyticEventData>, options?: { force?: boolean }): Promise<void> {
+    if (this.isFirstPartyDomain()) {
+      return;
+    }
+
     try {
       const { force = true } = options || {};
       const data = this.storage.getData();

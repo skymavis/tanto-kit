@@ -5,6 +5,7 @@ import { useChains } from 'wagmi';
 import { analytic } from '../../analytic';
 import { RONIN_WALLET_APP_DEEPLINK } from '../../constants';
 import { useConnectCallback } from '../../hooks/useConnectCallback';
+import { useConnectorRequestAnalyticInterceptor } from '../../hooks/useConnectorRequestAnalyticInterceptor';
 import { usePreloadTantoImages } from '../../hooks/usePreloadImages';
 import { useSolveRoninConnectionConflict } from '../../hooks/useSolveRoninConnectionConflict';
 import { useWalletConnectListener } from '../../hooks/useWalletConnectListener';
@@ -31,14 +32,32 @@ export function TantoProvider({
   useSolveRoninConnectionConflict();
   usePreloadTantoImages();
   useConnectCallback({
-    onConnect,
-    onDisconnect,
+    onConnect: data => {
+      onConnect?.(data);
+      analytic.updateSession({
+        userAddress: data.address,
+        force: true,
+      });
+      analytic.sendEvent('wallet_connect_success', {
+        wallet_id: data.connectorId,
+        address: data.address,
+        chain_id: data.chainId,
+      });
+    },
+    onDisconnect: () => {
+      onDisconnect?.();
+      analytic.updateSession({
+        userAddress: undefined,
+        force: true,
+      });
+    },
   });
   useWalletConnectListener({
     onSignRequest: () => {
       if (isMobile()) openWindow(RONIN_WALLET_APP_DEEPLINK);
     },
   });
+  useConnectorRequestAnalyticInterceptor();
 
   const chains = useChains();
 
@@ -54,7 +73,8 @@ export function TantoProvider({
 
   /* Start Analytic Session */
   useEffect(() => {
-    analytic.updateSession();
+    analytic.updateSession({});
+    analytic.sendEvent('sdk_init');
   }, []);
 
   return (
