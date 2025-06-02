@@ -22,14 +22,19 @@ export const isSafeWallet = async () => {
   }
 };
 
+export const getUserAgent = () => {
+  if (!isClient()) return undefined;
+  return UAParser(navigator.userAgent);
+};
+
 export const detectBrowser = () => {
-  const parser = UAParser(navigator.userAgent);
-  return parser.browser.name ?? '';
+  const parser = getUserAgent();
+  return parser?.browser.name ?? '';
 };
 
 export const detectOS = () => {
-  const parser = UAParser(navigator.userAgent);
-  return parser.os.name ?? '';
+  const parser = getUserAgent();
+  return parser?.os.name ?? '';
 };
 
 export const isIOS = () => {

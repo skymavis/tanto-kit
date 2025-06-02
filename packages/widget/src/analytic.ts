@@ -1,4 +1,3 @@
-import { UAParser } from 'ua-parser-js';
 import { v4 } from 'uuid';
 
 import { ANALYTIC_PUBLIC_KEY } from './constants';
@@ -11,7 +10,7 @@ import {
   type AnalyticStorageData,
   AnalyticEventType,
 } from './types/analytic';
-import { isClient } from './utils';
+import { getUserAgent, isClient } from './utils';
 
 class AnalyticStorage {
   private static instance: AnalyticStorage;
@@ -87,13 +86,10 @@ class AnalyticStorage {
 
 class PlatformDataCollector {
   private static instance: PlatformDataCollector;
-  private userAgent: UAParser | undefined;
+  private userAgent: UAParser.IResult | undefined;
 
   private constructor() {
-    if (!isClient()) {
-      return;
-    }
-    this.userAgent = new UAParser(window.navigator.userAgent);
+    this.userAgent = getUserAgent();
   }
 
   static getInstance(): PlatformDataCollector {
@@ -106,13 +102,11 @@ class PlatformDataCollector {
   getPlatformData(): AnalyticIdentifyEventData {
     return {
       build_version:
-        [this.userAgent?.getBrowser().name, this.userAgent?.getBrowser().version].filter(Boolean).join(' - ') ||
-        'Unknown',
+        [this.userAgent?.browser.name, this.userAgent?.browser.version].filter(Boolean).join(' - ') || 'Unknown',
       device_name:
-        [this.userAgent?.getDevice().vendor, this.userAgent?.getDevice().model].filter(Boolean).join(' - ') ||
-        'Unknown',
-      platform_name: this.userAgent?.getOS().name || 'Unknown',
-      platform_version: this.userAgent?.getOS().version || 'Unknown',
+        [this.userAgent?.device.vendor, this.userAgent?.device.model].filter(Boolean).join(' - ') || 'Unknown',
+      platform_name: this.userAgent?.os.name || 'Unknown',
+      platform_version: this.userAgent?.os.version || 'Unknown',
     };
   }
 }
