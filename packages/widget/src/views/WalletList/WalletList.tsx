@@ -11,9 +11,13 @@ import { isMobile, isRoninInAppBrowser } from '../../utils';
 import { WalletGroup } from './components/WalletGroup';
 
 const mapWalletData = (item: Wallet) => {
-  const { connector, ...data } = item;
+  const { connector, name, homepage, id, isInstalled } = item;
+
   return {
-    ...data,
+    id,
+    name,
+    homepage,
+    isInstalled,
     connector: {
       id: connector?.id,
       type: connector?.type,
