@@ -43,7 +43,7 @@ export const tantoDarkTheme: Theme = {
   buttonSecondaryHoverBackground: '#CDD5E51A',
   buttonSecondaryHoverColor: '#F1F3F9',
   buttonSecondaryActiveBackground: '#CDD5E526',
-  buttonSecondaryActiveColor: '#15181E',
+  buttonSecondaryActiveColor: '#F1F3F9',
   buttonDisabledBackground: '#CDD5E512',
   buttonDisabledColor: 'rgba(205, 213, 229, 0.7)',
   bodyText: '#fff',
