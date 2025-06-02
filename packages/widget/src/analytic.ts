@@ -30,7 +30,7 @@ class AnalyticStorage {
     try {
       sessionStorage.setItem(AnalyticStorage.MA_CONFIG, JSON.stringify(data));
     } catch (error) {
-      console.error('Failed to set config in session storage:', error);
+      console.debug('Failed to set config in session storage:', error);
     }
   }
 
@@ -42,7 +42,7 @@ class AnalyticStorage {
       }
       return JSON.parse(data);
     } catch (error) {
-      console.error('Failed to get config from session storage:', error);
+      console.debug('Failed to get config from session storage:', error);
       return this.getDefaultConfig();
     }
   }
@@ -51,7 +51,7 @@ class AnalyticStorage {
     try {
       sessionStorage.setItem(AnalyticStorage.MA_DATA, JSON.stringify(data));
     } catch (error) {
-      console.error('Failed to set data in session storage:', error);
+      console.debug('Failed to set data in session storage:', error);
     }
   }
 
@@ -63,7 +63,7 @@ class AnalyticStorage {
       }
       return JSON.parse(data);
     } catch (error) {
-      console.error('Failed to get data from session storage:', error);
+      console.debug('Failed to get data from session storage:', error);
       return {};
     }
   }
@@ -73,7 +73,7 @@ class AnalyticStorage {
       sessionStorage.removeItem(AnalyticStorage.MA_CONFIG);
       sessionStorage.removeItem(AnalyticStorage.MA_DATA);
     } catch (error) {
-      console.error('Failed to clear storage:', error);
+      console.debug('Failed to clear storage:', error);
     }
   }
 
@@ -211,7 +211,7 @@ class Analytic {
         this.storage.setData({ sessionCreatedAt: Date.now() });
       }
     } catch (error) {
-      console.error('Failed to handle new session:', error);
+      console.debug('Failed to handle new session:', error);
     }
   }
 
@@ -257,7 +257,7 @@ class Analytic {
         { force: eventName !== 'heartbeat' },
       );
     } catch (error) {
-      console.error('Failed to send event:', error);
+      console.debug('Failed to send event:', error);
     }
   }
 
@@ -279,7 +279,7 @@ class Analytic {
         },
       ]);
     } catch (error) {
-      console.error('Failed to send screen:', error);
+      console.debug('Failed to send screen:', error);
     }
   }
 
@@ -326,7 +326,7 @@ class Analytic {
         this.storage.setData({ ...data, lastEvent });
       }
     } catch (error) {
-      console.error('Failed to track events:', error);
+      console.debug('Failed to track events:', error);
     }
   }
 
