@@ -10,4 +10,5 @@ declare global {
   }
 
   const __sdkVersion: string;
+  const __sdkName: string;
 }

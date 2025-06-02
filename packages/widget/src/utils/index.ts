@@ -5,7 +5,6 @@ import { Connector, CreateConnectorFn } from 'wagmi';
 
 import { RONIN_WALLET_APP_DEEPLINK, RONIN_WALLET_WEB_LINK } from '../constants';
 import { WALLET_IDS } from '../types/wallet';
-import { name, version } from '../version';
 
 export const notEmpty = <T>(value: T): value is NonNullable<T> => typeof value !== 'undefined' && value !== null;
 
@@ -113,4 +112,4 @@ export const svgToBase64 = (svgText: string) => {
   return `data:image/svg+xml;charset=utf-8,${encoded}`;
 };
 
-export const getVersionInfo = () => `${name}@${version}`;
+export const getVersionInfo = () => `${__sdkName}@${__sdkVersion}`;
