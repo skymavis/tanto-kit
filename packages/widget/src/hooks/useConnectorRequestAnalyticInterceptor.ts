@@ -82,7 +82,7 @@ export const useConnectorRequestAnalyticInterceptor = () => {
         await analytic.sendEvent('sign_message_fail', {
           method,
           params,
-          error: error.message,
+          error_reason: error.message,
         });
       } else {
         await analytic.sendEvent('sign_message_success', {
@@ -97,6 +97,7 @@ export const useConnectorRequestAnalyticInterceptor = () => {
         await analytic.sendEvent('send_transaction_fail', {
           method,
           params,
+          error_reason: error.message,
         });
       } else {
         await analytic.sendEvent('send_transaction_success', {

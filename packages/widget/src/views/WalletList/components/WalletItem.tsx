@@ -85,6 +85,11 @@ const WalletDescription = styled.p(({ theme }) => ({
 
 const WalletLogoWrapper = styled.div({
   position: 'relative',
+  '> svg:not(.ronin-badge), > img': {
+    width: 32,
+    height: 32,
+    borderRadius: 8,
+  },
 });
 
 const RoninBadge = styled(RoninBadgeSvg)({
@@ -147,7 +152,7 @@ export const WalletItem = ({ wallet }: WalletItemProps) => {
       {walletLogo && (
         <WalletLogoWrapper>
           {walletLogo}
-          {showRoninBadge && <RoninBadge />}
+          {showRoninBadge && <RoninBadge className="ronin-badge" />}
         </WalletLogoWrapper>
       )}
 

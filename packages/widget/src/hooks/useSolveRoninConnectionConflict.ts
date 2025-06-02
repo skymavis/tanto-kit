@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { useConfig } from 'wagmi';
 
+import { isRoninWallet, isRoninWalletInjected } from '../utils';
+
 // Resolve conflicts caused by having two Ronin connectors with different IDs (RONIN_WALLET and com.roninchain.wallet)
 export const useSolveRoninConnectionConflict = () => {
   const { subscribe, setState } = useConfig();
@@ -13,10 +15,10 @@ export const useSolveRoninConnectionConflict = () => {
           if (!currentUID || connections.size <= 1) return state;
           const currentConnection = connections.get(currentUID);
           if (!currentConnection) return state;
-          if (currentConnection.connector.id === 'RONIN_WALLET') return state;
-          if (currentConnection.connector.id === 'com.roninchain.wallet') {
-            const tantoConnection = Array.from(connections.values()).find(
-              ({ connector }) => connector.id === 'RONIN_WALLET',
+          if (isRoninWallet(currentConnection.connector.id)) return state;
+          if (isRoninWalletInjected(currentConnection.connector.id)) {
+            const tantoConnection = Array.from(connections.values()).find(({ connector }) =>
+              isRoninWallet(connector.id),
             );
             if (!tantoConnection) return state;
             return prevState;

@@ -17,7 +17,7 @@ export const WidgetConnectProvider = ({ children }: PropsWithChildren) => {
       selectedWallet,
       setSelectedWallet,
     }),
-    [selectedConnector, selectedWallet],
+    [wallets, selectedConnector, selectedWallet],
   );
 
   return <WidgetConnectContext.Provider value={contextValue}>{children}</WidgetConnectContext.Provider>;
