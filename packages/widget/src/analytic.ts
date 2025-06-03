@@ -1,4 +1,3 @@
-import { UAParser } from 'ua-parser-js';
 import { v4 } from 'uuid';
 
 import { ANALYTIC_PUBLIC_KEY } from './constants';
@@ -11,7 +10,7 @@ import {
   type AnalyticStorageData,
   AnalyticEventType,
 } from './types/analytic';
-import { isClient } from './utils';
+import { getUserAgent, isClient } from './utils';
 
 class AnalyticStorage {
   private static instance: AnalyticStorage;
@@ -31,7 +30,7 @@ class AnalyticStorage {
     try {
       sessionStorage.setItem(AnalyticStorage.MA_CONFIG, JSON.stringify(data));
     } catch (error) {
-      console.error('Failed to set config in session storage:', error);
+      console.debug('Failed to set config in session storage:', error);
     }
   }
 
@@ -43,7 +42,7 @@ class AnalyticStorage {
       }
       return JSON.parse(data);
     } catch (error) {
-      console.error('Failed to get config from session storage:', error);
+      console.debug('Failed to get config from session storage:', error);
       return this.getDefaultConfig();
     }
   }
@@ -52,7 +51,7 @@ class AnalyticStorage {
     try {
       sessionStorage.setItem(AnalyticStorage.MA_DATA, JSON.stringify(data));
     } catch (error) {
-      console.error('Failed to set data in session storage:', error);
+      console.debug('Failed to set data in session storage:', error);
     }
   }
 
@@ -64,7 +63,7 @@ class AnalyticStorage {
       }
       return JSON.parse(data);
     } catch (error) {
-      console.error('Failed to get data from session storage:', error);
+      console.debug('Failed to get data from session storage:', error);
       return {};
     }
   }
@@ -74,7 +73,7 @@ class AnalyticStorage {
       sessionStorage.removeItem(AnalyticStorage.MA_CONFIG);
       sessionStorage.removeItem(AnalyticStorage.MA_DATA);
     } catch (error) {
-      console.error('Failed to clear storage:', error);
+      console.debug('Failed to clear storage:', error);
     }
   }
 
@@ -87,13 +86,10 @@ class AnalyticStorage {
 
 class PlatformDataCollector {
   private static instance: PlatformDataCollector;
-  private userAgent: UAParser | undefined;
+  private userAgent: UAParser.IResult | undefined;
 
   private constructor() {
-    if (!isClient()) {
-      return;
-    }
-    this.userAgent = new UAParser(window.navigator.userAgent);
+    this.userAgent = getUserAgent();
   }
 
   static getInstance(): PlatformDataCollector {
@@ -106,13 +102,11 @@ class PlatformDataCollector {
   getPlatformData(): AnalyticIdentifyEventData {
     return {
       build_version:
-        [this.userAgent?.getBrowser().name, this.userAgent?.getBrowser().version].filter(Boolean).join(' - ') ||
-        'Unknown',
+        [this.userAgent?.browser.name, this.userAgent?.browser.version].filter(Boolean).join(' - ') || 'Unknown',
       device_name:
-        [this.userAgent?.getDevice().vendor, this.userAgent?.getDevice().model].filter(Boolean).join(' - ') ||
-        'Unknown',
-      platform_name: this.userAgent?.getOS().name || 'Unknown',
-      platform_version: this.userAgent?.getOS().version || 'Unknown',
+        [this.userAgent?.device.vendor, this.userAgent?.device.model].filter(Boolean).join(' - ') || 'Unknown',
+      platform_name: this.userAgent?.os.name || 'Unknown',
+      platform_version: this.userAgent?.os.version || 'Unknown',
     };
   }
 }
@@ -217,7 +211,7 @@ class Analytic {
         this.storage.setData({ sessionCreatedAt: Date.now() });
       }
     } catch (error) {
-      console.error('Failed to handle new session:', error);
+      console.debug('Failed to handle new session:', error);
     }
   }
 
@@ -263,7 +257,7 @@ class Analytic {
         { force: eventName !== 'heartbeat' },
       );
     } catch (error) {
-      console.error('Failed to send event:', error);
+      console.debug('Failed to send event:', error);
     }
   }
 
@@ -285,7 +279,7 @@ class Analytic {
         },
       ]);
     } catch (error) {
-      console.error('Failed to send screen:', error);
+      console.debug('Failed to send screen:', error);
     }
   }
 
@@ -332,7 +326,7 @@ class Analytic {
         this.storage.setData({ ...data, lastEvent });
       }
     } catch (error) {
-      console.error('Failed to track events:', error);
+      console.debug('Failed to track events:', error);
     }
   }
 

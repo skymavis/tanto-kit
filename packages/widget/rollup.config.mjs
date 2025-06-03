@@ -85,6 +85,7 @@ const config = defineConfig({
     production && terser(),
     replace({
       __sdkVersion: `'${packageJson.version}'`,
+      __sdkName: `'${packageJson.name}'`,
     }),
   ].filter(Boolean),
 });
