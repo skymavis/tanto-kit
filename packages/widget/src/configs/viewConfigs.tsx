@@ -1,9 +1,9 @@
 import { View } from '../contexts/widget-router/WidgetRouterContext';
 import { Route } from '../types/route';
-import { ConnectInjector } from '../views/Connect/ConnectInjector';
-import { ConnectWC } from '../views/Connect/ConnectWC';
-import { Profile } from '../views/Profile/Profile';
-import { WalletList } from '../views/WalletList/WalletList';
+import { ConnectInjector } from '../views/connect/ConnectInjector';
+import { ConnectWC } from '../views/connect/ConnectWC';
+import { Profile } from '../views/profile/Profile';
+import { WalletList } from '../views/wallet-list/WalletList';
 
 export const viewConfigs: Record<Route, View> = {
   [Route.WALLETS]: {

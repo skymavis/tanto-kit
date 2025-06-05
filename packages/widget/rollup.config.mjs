@@ -7,7 +7,6 @@ import replace from '@rollup/plugin-replace';
 import terser from '@rollup/plugin-terser';
 import { defineConfig } from 'rollup';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
-import nodePolyfills from 'rollup-plugin-polyfill-node';
 import typescript from 'rollup-plugin-typescript2';
 
 const production = !process.env.ROLLUP_WATCH && process.env.NODE_ENV === 'production';
@@ -74,7 +73,6 @@ const config = defineConfig({
       dedupe: ['react', 'react-dom', 'use-sync-external-store'],
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
     }),
-    nodePolyfills(),
     commonjs(),
     babel({
       babelHelpers: 'bundled',

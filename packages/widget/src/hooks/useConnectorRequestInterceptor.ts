@@ -18,49 +18,70 @@ interface Signer {
 
 interface Provider {
   signer: Signer;
-  request: Request;
+  request?: Request;
 }
 
-const createRequestProxy = (
-  request: Request,
-  beforeRequest: (args: RequestArguments) => Promise<void>,
-  afterRequest: (args: RequestArguments, error?: Error) => Promise<void>,
-): Request => {
+interface UseConnectorRequestInterceptorParams {
+  beforeRequest?: (args: RequestArguments) => Promise<void> | void;
+  afterRequest?: (args: RequestArguments, error?: Error) => Promise<void> | void;
+}
+
+const createRequestProxy = ({
+  request,
+  beforeRequest,
+  afterRequest,
+}: {
+  request: Request;
+  beforeRequest?: (args: RequestArguments) => Promise<void>;
+  afterRequest?: (args: RequestArguments, error?: Error) => Promise<void>;
+}): Request => {
   return new Proxy(request, {
     async apply(target, thisArg, args: [RequestArguments, string | undefined, number | undefined]) {
       try {
-        await beforeRequest(args[0]);
+        await beforeRequest?.(args[0]);
         const result = await Reflect.apply(target, thisArg, args);
-        await afterRequest(args[0]);
+        await afterRequest?.(args[0]);
         return result;
       } catch (e) {
-        await afterRequest(args[0], e as Error);
+        await afterRequest?.(args[0], e as Error);
         throw e;
       }
     },
   });
 };
 
-const createSignerProxy = (
-  signer: Signer,
-  beforeRequest: (args: RequestArguments) => Promise<void>,
-  afterRequest: (args: RequestArguments, error?: Error) => Promise<void>,
-): Signer => {
+const createSignerProxy = ({
+  signer,
+  beforeRequest,
+  afterRequest,
+}: {
+  signer: Signer;
+  beforeRequest?: (args: RequestArguments) => Promise<void>;
+  afterRequest?: (args: RequestArguments, error?: Error) => Promise<void>;
+}): Signer => {
   return new Proxy(signer, {
     get(target, prop, receiver) {
       if (prop === 'request') {
-        return createRequestProxy(target.request, beforeRequest, afterRequest);
+        return createRequestProxy({
+          request: target.request,
+          beforeRequest,
+          afterRequest,
+        });
       }
       return Reflect.get(target, prop, receiver);
     },
   });
 };
 
-export const useConnectorRequestAnalyticInterceptor = () => {
+export const useConnectorRequestInterceptor = ({
+  beforeRequest,
+  afterRequest,
+}: UseConnectorRequestInterceptorParams = {}) => {
   const { connector } = useAccount();
   const isListenerActive = useRef(false);
 
   const handleBeforeRequest = useCallback(async ({ method, params }: RequestArguments) => {
+    await beforeRequest?.({ method, params });
     if (SIGN_METHODS.includes(method as typeof SIGN_METHODS[number])) {
       await analytic.sendEvent('sign_message_open', {
         method,
@@ -77,6 +98,7 @@ export const useConnectorRequestAnalyticInterceptor = () => {
   }, []);
 
   const handleAfterRequest = useCallback(async ({ method, params }: RequestArguments, error?: Error) => {
+    await afterRequest?.({ method, params }, error);
     if (SIGN_METHODS.includes(method as typeof SIGN_METHODS[number])) {
       if (error) {
         await analytic.sendEvent('sign_message_fail', {
@@ -117,11 +139,19 @@ export const useConnectorRequestAnalyticInterceptor = () => {
       try {
         const provider = (await connector.getProvider()) as Provider;
         if (provider.signer && typeof provider.signer.request === 'function') {
-          provider.signer = createSignerProxy(provider.signer, handleBeforeRequest, handleAfterRequest);
+          provider.signer = createSignerProxy({
+            signer: provider.signer,
+            beforeRequest: handleBeforeRequest,
+            afterRequest: handleAfterRequest,
+          });
           return;
         }
         if (provider.request && typeof provider.request === 'function') {
-          provider.request = createRequestProxy(provider.request, handleBeforeRequest, handleAfterRequest);
+          provider.request = createRequestProxy({
+            request: provider.request,
+            beforeRequest: handleBeforeRequest,
+            afterRequest: handleAfterRequest,
+          });
         }
       } catch {}
     };
