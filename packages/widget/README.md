@@ -11,13 +11,14 @@
   - WalletConnect
   - Injected Wallets (EIP-6963 compliant)
 - **Responsive Design**: Optimized for all screen sizes and devices.
-- **Customizable Themes**: Tailor the widget’s appearance to match your application’s branding.
-- **Powered by Wagmi**: Leverages Wagmi’s React hooks for wallet state management, signing, transactions, and blockchain interactions.
+- **Customizable Themes**: Tailor the widget's appearance to match your application's branding.
+- **Powered by Wagmi**: Leverages Wagmi's React hooks for wallet state management, signing, transactions, and blockchain interactions.
 
 ## Demo
 
 - **Live Demo**: [Tanto Widget Playground](https://tanto-widget-playground.vercel.app/)
-- **Source Code**: [GitHub Repository](https://github.com/nguyenhuugiatri/tanto-kit)
+- **Demo Source Code**: [GitHub Repository](https://github.com/nguyenhuugiatri/tanto-widget-playground)
+- **SDK Source Code**: [GitHub Repository](https://github.com/skymavis/tanto-kit/tree/main/packages/widget)
 
 ## Installation
 
@@ -77,7 +78,7 @@ function Page() {
 **Behavior**:
 
 - **Disconnected**: Displays a "Connect Wallet" button that opens a modal for wallet selection.
-- **Connected**: Shows the wallet’s avatar and address. Clicking it opens a **Profile Modal** with wallet details and a disconnect option.
+- **Connected**: Shows the wallet's avatar and address. Clicking it opens a **Profile Modal** with wallet details and a disconnect option.
 
 ### Blockchain Interactions
 
@@ -122,7 +123,7 @@ import { TantoProvider } from '@tanto/widget';
 
 ### Custom Themes
 
-Customize the widget’s appearance by passing a `customThemeToken` to `TantoProvider`.
+Customize the widget's appearance by passing a `customThemeToken` to `TantoProvider`.
 
 ```tsx
 import { TantoProvider } from '@sky-mavis/tanto-widget';
@@ -160,15 +161,16 @@ Customize wallet connection options via `getDefaultConfig`.
 
 ```tsx
 import { getDefaultConfig } from '@sky-mavis/tanto-widget';
+import { ronin, saigon } from 'viem/chains';
 
 const config = getDefaultConfig({
- appMetadata: {
+  appMetadata: {
     appName: 'My DApp',
     appIcon: '<https://my-dapp.com/icon.png>',
     appDescription: 'A decentralized application for Web3 enthusiasts',
     appUrl: '<https://my-dapp.com>',
   },
-    keylessWalletConfig: {
+  keylessWalletConfig: {
     chainId: 2020, // Ronin Mainnet
     clientId: 'YOUR_CLIENT_ID',
     waypointOrigin: '<https://waypoint.roninchain.com>',
@@ -180,16 +182,21 @@ const config = getDefaultConfig({
   coinbaseWalletConfig: {
     enable: true,
   },
+  chains: [ronin, saigon],
 });
 ```
 
 **Parameters**:
 
+- `chains` (optional): An array of supported blockchain networks.
+  - Default: `[ronin, saigon]`
+  - Type: `Chain[]` (from `viem/chains`)
+  - You can import and use any EVM-compatible chain from `viem/chains` or define your own custom chain object.
 - `appMetadata` (optional): Metadata for your DApp.
   - `appName` (optional): Name of your DApp (e.g., "My DApp"). Defaults to "Ronin Wallet".
-  - `appIcon` (optional): URL to your DApp’s icon (e.g., "<https://my-dapp.com/icon.png>"). Defaults to Ronin Wallet icon.
+  - `appIcon` (optional): URL to your DApp's icon (e.g., "<https://my-dapp.com/icon.png>"). Defaults to Ronin Wallet icon.
   - `appDescription` (optional): Brief description of your DApp. Defaults to "Your passport into a digital nation".
-  - `appUrl` (optional): Your DApp’s URL. Defaults to `https://wallet.roninchain.com`.
+  - `appUrl` (optional): Your DApp's URL. Defaults to `https://wallet.roninchain.com`.
 - `walletConnectConfig` (optional): Configuration for WalletConnect.
   - `projectId` (optional): WalletConnect project ID from [WalletConnect Cloud](https://cloud.walletconnect.com/). Defaults to a predefined Ronin project ID.
   - `enable` (optional): Enable or disable WalletConnect (default: `true`).
@@ -208,7 +215,7 @@ See [Wagmi Configuration Docs](https://wagmi.sh/core/config) for advanced option
 
 ### TantoProvider Configuration
 
-Customize the widget’s behavior with the `config` prop.
+Customize the widget's behavior with the `config` prop.
 
 ```tsx
 <TantoProvider
