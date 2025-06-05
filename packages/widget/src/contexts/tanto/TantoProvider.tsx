@@ -46,9 +46,11 @@ export function TantoProvider({
     },
     onDisconnect: () => {
       onDisconnect?.();
-      analytic.updateSession({
-        userAddress: undefined,
-        force: true,
+      analytic.sendEvent('sdk_disconnect').then(() => {
+        analytic.updateSession({
+          userAddress: undefined,
+          force: true,
+        });
       });
     },
   });
