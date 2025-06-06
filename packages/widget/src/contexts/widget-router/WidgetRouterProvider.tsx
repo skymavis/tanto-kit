@@ -3,7 +3,6 @@ import { useAccount } from 'wagmi';
 
 import { analytic } from '../../analytic';
 import { viewConfigs } from '../../configs/viewConfigs';
-import { VISIBILITY_TRANSITION_DURATION } from '../../constants';
 import { useTantoConfig } from '../../hooks/useTantoConfig';
 import { useUnmount } from '../../hooks/useUnmount';
 import { authenticatedRoutes, internalRoutes, publicRoutes, Route } from '../../types/route';
@@ -80,7 +79,7 @@ export const WidgetRouterProvider = ({ children }: PropsWithChildren) => {
   }, [isConnected, disableProfile, routerState.view.route, reset]);
 
   useUnmount(() => {
-    if (internalRoutes.includes(routerState.view.route)) setTimeout(reset, VISIBILITY_TRANSITION_DURATION);
+    if (internalRoutes.includes(routerState.view.route)) reset();
   });
 
   useEffect(() => {

@@ -108,7 +108,6 @@
     "react-is": "18.3.1",
     "rollup": "4.40.0",
     "rollup-plugin-peer-deps-external": "2.2.4",
-    "rollup-plugin-polyfill-node": "0.13.0",
     "rollup-plugin-typescript2": "0.34.0",
     "ts-jest": "29.1.2",
     "typescript": "5.8.3"
