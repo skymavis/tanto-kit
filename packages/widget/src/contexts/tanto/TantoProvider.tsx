@@ -1,16 +1,15 @@
 import { domAnimation, LazyMotion, MotionConfig } from 'motion/react';
 import { type ReactNode, useEffect, useMemo } from 'react';
-import { useChains } from 'wagmi';
+import { useAccount, useChains } from 'wagmi';
 
 import { analytic } from '../../analytic';
 import { RONIN_WALLET_APP_DEEPLINK } from '../../constants';
 import { useConnectCallback } from '../../hooks/useConnectCallback';
-import { useConnectorRequestAnalyticInterceptor } from '../../hooks/useConnectorRequestAnalyticInterceptor';
+import { useConnectorRequestInterceptor } from '../../hooks/useConnectorRequestInterceptor';
 import { usePreloadTantoImages } from '../../hooks/usePreloadImages';
 import { useSolveRoninConnectionConflict } from '../../hooks/useSolveRoninConnectionConflict';
-import { useWalletConnectListener } from '../../hooks/useWalletConnectListener';
 import { AccountConnectionCallback } from '../../types/connect';
-import { isMobile } from '../../utils';
+import { isMobile, isWCConnector } from '../../utils';
 import { openWindow } from '../../utils/openWindow';
 import { ThemeProvider, ThemeProviderProps } from '../theme/ThemeProvider';
 import { WidgetModalProvider } from '../widget-modal/WidgetModalProvider';
@@ -29,6 +28,7 @@ export function TantoProvider({
   onDisconnect,
   children,
 }: TantoProviderProps) {
+  const { connector } = useAccount();
   useSolveRoninConnectionConflict();
   usePreloadTantoImages();
   useConnectCallback({
@@ -54,12 +54,11 @@ export function TantoProvider({
       });
     },
   });
-  useWalletConnectListener({
-    onSignRequest: () => {
-      if (isMobile()) openWindow(RONIN_WALLET_APP_DEEPLINK);
+  useConnectorRequestInterceptor({
+    beforeRequest: () => {
+      if (isMobile() && !!connector && isWCConnector(connector.id)) openWindow(RONIN_WALLET_APP_DEEPLINK);
     },
   });
-  useConnectorRequestAnalyticInterceptor();
 
   const chains = useChains();
 
