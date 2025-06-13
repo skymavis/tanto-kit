@@ -5,7 +5,7 @@ providing seamless integration and enhanced user experience.
 ## Packages
 - [Connect](./packages/connect)
 - [Wagmi](./packages/wagmi)
-- React widget (coming soon)
+- [React widget](./packages/widget)
 
 ## Examples
 
