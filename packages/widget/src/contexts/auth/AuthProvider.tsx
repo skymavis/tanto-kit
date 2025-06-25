@@ -97,7 +97,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
       const message = createSiweMessage(address, chainId, nonce);
       const signature = await signMessageAsync({ message });
-
       const authData = await createAccount({ signature });
 
       authEventEmitter.emit('signInSuccess', {
