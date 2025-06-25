@@ -1,6 +1,5 @@
-import { useAccountEffect } from 'wagmi';
-
 import type { AccountConnectionCallback } from '../types/connect';
+import { useAccountEffect } from './useAccountEffect';
 
 export const useConnectCallback = ({ onConnect, onDisconnect }: AccountConnectionCallback) => {
   useAccountEffect({

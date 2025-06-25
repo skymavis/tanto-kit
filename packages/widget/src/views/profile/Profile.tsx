@@ -1,7 +1,8 @@
-import { useAccount, useBalance } from 'wagmi';
+import { useBalance } from 'wagmi';
 
 import { Avatar } from '../../components/avatar/Avatar';
 import { Box } from '../../components/box/Box';
+import { useAccount } from '../../hooks/useAccount';
 import { useRnsName } from '../../hooks/useRnsName';
 import { AddressDisplay } from './components/AddressDisplay';
 import { BalanceDisplay } from './components/BalanceDisplay';

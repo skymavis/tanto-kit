@@ -1,6 +1,5 @@
-import { useAccount } from 'wagmi';
-
 import { Wallet } from '../types/wallet';
+import { useAccount } from './useAccount';
 import { useWallets } from './useWallets';
 
 export function useConnectedWallet(): Wallet | undefined {

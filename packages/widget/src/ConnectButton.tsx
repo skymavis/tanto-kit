@@ -1,5 +1,4 @@
 import { CSSProperties, ReactNode } from 'react';
-import { useAccount } from 'wagmi';
 
 import { SmoothWidth } from './components/animated-containers/SmoothWidth';
 import { TransitionedView } from './components/animated-containers/TransitionedView';
@@ -7,6 +6,7 @@ import { Avatar } from './components/avatar/Avatar';
 import { Box } from './components/box/Box';
 import { Button } from './components/button/Button';
 import { CSSReset } from './components/css-reset/CSSReset';
+import { useAccount } from './hooks/useAccount';
 import { useConnectCallback } from './hooks/useConnectCallback';
 import { useRnsName } from './hooks/useRnsName';
 import { useTantoConfig } from './hooks/useTantoConfig';

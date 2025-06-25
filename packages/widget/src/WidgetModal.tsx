@@ -1,10 +1,9 @@
-import { useAccountEffect } from 'wagmi';
-
 import { XIcon } from './assets/XIcon';
 import { IconButton } from './components/button/Button';
 import { FlexModal } from './components/flex-modal/FlexModal';
 import { CONNECT_SUCCESS_DELAY } from './constants';
 import { WidgetRouterProvider } from './contexts/widget-router/WidgetRouterProvider';
+import { useAccountEffect } from './hooks/useAccountEffect';
 import { useTantoConfig } from './hooks/useTantoConfig';
 import { useWidgetModal } from './hooks/useWidgetModal';
 import { WidgetContent } from './WidgetContent';

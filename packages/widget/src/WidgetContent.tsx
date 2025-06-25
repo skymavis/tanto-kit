@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { ReactNode } from 'react';
-import { useAccount, useBalance } from 'wagmi';
+import { useBalance } from 'wagmi';
 
 import { ArrowLeftIcon } from './assets/ArrowLeftIcon';
 import { SmoothHeight } from './components/animated-containers/SmoothHeight';
@@ -9,6 +9,7 @@ import { Box } from './components/box/Box';
 import { IconButton } from './components/button/Button';
 import { CSSReset } from './components/css-reset/CSSReset';
 import { WidgetConnectProvider } from './contexts/widget-connect/WidgetConnectProvider';
+import { useAccount } from './hooks/useAccount';
 import { useWidgetRouter } from './hooks/useWidgetRouter';
 
 const ActionSection = styled.div({

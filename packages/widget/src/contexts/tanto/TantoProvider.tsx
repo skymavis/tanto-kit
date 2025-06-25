@@ -1,5 +1,5 @@
 import { domAnimation, LazyMotion, MotionConfig } from 'motion/react';
-import { type ReactNode, useEffect, useMemo } from 'react';
+import { type ReactNode, PropsWithChildren, useEffect, useMemo } from 'react';
 import { useAccount, useChains } from 'wagmi';
 
 import { analytic } from '../../analytic';
@@ -11,26 +11,83 @@ import { useSolveRoninConnectionConflict } from '../../hooks/useSolveRoninConnec
 import { AccountConnectionCallback } from '../../types/connect';
 import { isMobile, isWCConnector } from '../../utils';
 import { openWindow } from '../../utils/openWindow';
+import { AuthProvider } from '../auth/AuthProvider';
 import { ThemeProvider, ThemeProviderProps } from '../theme/ThemeProvider';
 import { WidgetModalProvider } from '../widget-modal/WidgetModalProvider';
 import { TantoConfig, TantoContext } from './TantoContext';
 
-export type TantoProviderProps = AccountConnectionCallback & {
-  children?: ReactNode;
-  config?: TantoConfig;
-} & ThemeProviderProps;
+export type TantoProviderProps = AccountConnectionCallback &
+  ThemeProviderProps & {
+    children?: ReactNode;
+    config?: TantoConfig;
+  };
+
+const DEFAULT_TANTO_CONFIG: Omit<TantoConfig, 'initialChainId'> = {
+  reducedMotion: false,
+  disableProfile: false,
+  hideConnectSuccessPrompt: false,
+  createAccountOnConnect: true,
+} as const;
 
 export function TantoProvider({
   config: customConfig,
   theme,
   customThemeToken,
+  children,
   onConnect,
   onDisconnect,
-  children,
 }: TantoProviderProps) {
-  const { connector } = useAccount();
+  const chains = useChains();
+
   useSolveRoninConnectionConflict();
   usePreloadTantoImages();
+
+  const config = useMemo<TantoConfig>(
+    () => ({
+      ...DEFAULT_TANTO_CONFIG,
+      initialChainId: chains?.[0]?.id,
+      ...customConfig,
+    }),
+    [customConfig, chains],
+  );
+
+  const contextValue = useMemo(() => ({ config }), [config]);
+
+  return (
+    <TantoContext.Provider value={contextValue}>
+      <ThemeProvider theme={theme} customThemeToken={customThemeToken}>
+        <MotionConfig reducedMotion={config.reducedMotion ? 'always' : 'never'}>
+          <LazyMotion features={domAnimation} strict>
+            <AuthProvider>
+              <TantoConnectionHandler onConnect={onConnect} onDisconnect={onDisconnect}>
+                {children}
+              </TantoConnectionHandler>
+            </AuthProvider>
+          </LazyMotion>
+        </MotionConfig>
+      </ThemeProvider>
+    </TantoContext.Provider>
+  );
+}
+
+const TantoConnectionHandler = ({
+  children,
+  onConnect,
+  onDisconnect,
+}: PropsWithChildren<Pick<TantoProviderProps, 'onConnect' | 'onDisconnect'>>) => {
+  const { connector } = useAccount();
+
+  useConnectorRequestInterceptor({
+    beforeRequest: () => {
+      if (isMobile() && !!connector && isWCConnector(connector.id)) openWindow(RONIN_WALLET_APP_DEEPLINK);
+    },
+  });
+
+  useEffect(() => {
+    analytic.updateSession({});
+    analytic.sendEvent('sdk_init');
+  }, []);
+
   useConnectCallback({
     onConnect: data => {
       onConnect?.(data);
@@ -54,39 +111,6 @@ export function TantoProvider({
       });
     },
   });
-  useConnectorRequestInterceptor({
-    beforeRequest: () => {
-      if (isMobile() && !!connector && isWCConnector(connector.id)) openWindow(RONIN_WALLET_APP_DEEPLINK);
-    },
-  });
 
-  const chains = useChains();
-
-  const defaultTantoConfig: TantoConfig = {
-    reducedMotion: false,
-    disableProfile: false,
-    hideConnectSuccessPrompt: false,
-    initialChainId: chains?.[0]?.id,
-  };
-
-  const config = useMemo<TantoConfig>(() => Object.assign({}, defaultTantoConfig, customConfig), [customConfig]);
-  const contextValue = useMemo(() => ({ config }), [config]);
-
-  /* Start Analytic Session */
-  useEffect(() => {
-    analytic.updateSession({});
-    analytic.sendEvent('sdk_init');
-  }, []);
-
-  return (
-    <TantoContext.Provider value={contextValue}>
-      <ThemeProvider theme={theme} customThemeToken={customThemeToken}>
-        <MotionConfig reducedMotion={config.reducedMotion ? 'always' : 'never'}>
-          <LazyMotion features={domAnimation} strict>
-            <WidgetModalProvider>{children}</WidgetModalProvider>
-          </LazyMotion>
-        </MotionConfig>
-      </ThemeProvider>
-    </TantoContext.Provider>
-  );
-}
+  return <WidgetModalProvider>{children}</WidgetModalProvider>;
+};

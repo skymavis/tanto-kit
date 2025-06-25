@@ -1,8 +1,8 @@
 import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
-import { useAccount } from 'wagmi';
 
 import { analytic } from '../../analytic';
 import { viewConfigs } from '../../configs/viewConfigs';
+import { useAccount } from '../../hooks/useAccount';
 import { useTantoConfig } from '../../hooks/useTantoConfig';
 import { useUnmount } from '../../hooks/useUnmount';
 import { authenticatedRoutes, internalRoutes, publicRoutes, Route } from '../../types/route';
