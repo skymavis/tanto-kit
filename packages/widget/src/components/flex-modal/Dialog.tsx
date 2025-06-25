@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { ElementRef, forwardRef } from 'react';
 
+import { DIALOG_VISIBILITY_TRANSITION_DURATION } from '../../constants';
 import { fadeInUp, fadeOutDown } from '../../styles/animations';
 
 export type DialogContentProps = DialogPrimitive.DialogContentProps;
@@ -26,13 +27,11 @@ const DialogContent = styled(DialogPrimitive.Content)(
     minWidth: 420,
     gap: '1rem',
     padding: '8px 20px 20px 20px',
-    animationDuration: '150ms',
-
     '&[data-state="open"]': {
-      animation: `${fadeInUp} 150ms ease`,
+      animation: `${fadeInUp} ${DIALOG_VISIBILITY_TRANSITION_DURATION}ms ease`,
     },
     '&[data-state="closed"]': {
-      animation: `${fadeOutDown} 150ms ease`,
+      animation: `${fadeOutDown} ${DIALOG_VISIBILITY_TRANSITION_DURATION}ms ease`,
     },
   },
   ({ theme }) => ({
