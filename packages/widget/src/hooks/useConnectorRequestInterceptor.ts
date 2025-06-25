@@ -143,9 +143,5 @@ export const useConnectorRequestInterceptor = ({
     }
 
     void setupProvider();
-
-    return () => {
-      isListenerActive.current = false;
-    };
   }, [connector, handleBeforeRequest, handleAfterRequest]);
 };

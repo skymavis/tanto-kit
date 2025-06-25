@@ -1,49 +1,37 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useAccountEffect as useWagmiAccountEffect, UseAccountEffectParameters } from 'wagmi';
 
 import { useAuthEvents } from '../contexts/auth/AuthProvider';
+import { WagmiOnConnectParameters } from '../types/connect';
 import { useAuth } from './useAuth';
-
-type AccountConnectData = Parameters<Required<UseAccountEffectParameters>['onConnect']>[0];
 
 export function useAccountEffect({ onConnect, onDisconnect }: UseAccountEffectParameters) {
   const { onSignInSuccess } = useAuthEvents();
   const { enable: enableAuth } = useAuth();
-  const pendingConnectionRef = useRef<AccountConnectData | null>(null);
+  const pendingConnectionRef = useRef<WagmiOnConnectParameters | null>(null);
 
-  const handleConnect = useCallback(
-    (data: AccountConnectData) => {
+  useWagmiAccountEffect({
+    onConnect: data => {
       if (!enableAuth) {
         onConnect?.(data);
         return;
       }
-
       pendingConnectionRef.current = data;
     },
-    [enableAuth, onConnect],
-  );
-
-  const handleDisconnect = useCallback(() => {
-    pendingConnectionRef.current = null;
-    onDisconnect?.();
-  }, [onDisconnect]);
-
-  const handleSignInSuccess = useCallback(() => {
-    const pendingConnection = pendingConnectionRef.current;
-
-    if (pendingConnection) {
-      onConnect?.(pendingConnection);
+    onDisconnect: () => {
       pendingConnectionRef.current = null;
-    }
-  }, [onConnect]);
-
-  useWagmiAccountEffect({
-    onConnect: handleConnect,
-    onDisconnect: handleDisconnect,
+      onDisconnect?.();
+    },
   });
 
   useEffect(() => {
-    const unsubscribe = onSignInSuccess(handleSignInSuccess);
+    const unsubscribe = onSignInSuccess(() => {
+      const pendingConnection = pendingConnectionRef.current;
+      if (pendingConnection) {
+        onConnect?.(pendingConnection);
+        pendingConnectionRef.current = null;
+      }
+    });
     return unsubscribe;
-  }, [onSignInSuccess, handleSignInSuccess]);
+  }, [onConnect]);
 }

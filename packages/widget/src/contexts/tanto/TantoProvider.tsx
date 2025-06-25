@@ -8,7 +8,8 @@ import { useConnectCallback } from '../../hooks/useConnectCallback';
 import { useConnectorRequestInterceptor } from '../../hooks/useConnectorRequestInterceptor';
 import { usePreloadTantoImages } from '../../hooks/usePreloadImages';
 import { useSolveRoninConnectionConflict } from '../../hooks/useSolveRoninConnectionConflict';
-import { AccountConnectionCallback } from '../../types/connect';
+import { useTantoConfig } from '../../hooks/useTantoConfig';
+import { AccountConnectData, AccountConnectionCallback } from '../../types/connect';
 import { isMobile, isWCConnector } from '../../utils';
 import { openWindow } from '../../utils/openWindow';
 import { AuthProvider } from '../auth/AuthProvider';
@@ -21,13 +22,6 @@ export type TantoProviderProps = AccountConnectionCallback &
     children?: ReactNode;
     config?: TantoConfig;
   };
-
-const DEFAULT_TANTO_CONFIG: Omit<TantoConfig, 'initialChainId'> = {
-  reducedMotion: false,
-  disableProfile: false,
-  hideConnectSuccessPrompt: false,
-  createAccountOnConnect: true,
-} as const;
 
 export function TantoProvider({
   config: customConfig,
@@ -44,7 +38,10 @@ export function TantoProvider({
 
   const config = useMemo<TantoConfig>(
     () => ({
-      ...DEFAULT_TANTO_CONFIG,
+      reducedMotion: false,
+      disableProfile: false,
+      hideConnectSuccessPrompt: false,
+      createAccountOnConnect: false,
       initialChainId: chains?.[0]?.id,
       ...customConfig,
     }),
@@ -75,21 +72,23 @@ const TantoConnectionHandler = ({
   onConnect,
   onDisconnect,
 }: PropsWithChildren<Pick<TantoProviderProps, 'onConnect' | 'onDisconnect'>>) => {
+  const tantoConfig = useTantoConfig();
   const { connector } = useAccount();
 
   useConnectorRequestInterceptor({
     beforeRequest: () => {
-      if (isMobile() && !!connector && isWCConnector(connector.id)) openWindow(RONIN_WALLET_APP_DEEPLINK);
+      const shouldOpenDeepLink = isMobile() && connector && isWCConnector(connector.id);
+      if (shouldOpenDeepLink) openWindow(RONIN_WALLET_APP_DEEPLINK);
     },
   });
 
   useEffect(() => {
     analytic.updateSession({});
-    analytic.sendEvent('sdk_init');
+    analytic.sendEvent('sdk_init', { tantoConfig });
   }, []);
 
   useConnectCallback({
-    onConnect: data => {
+    onConnect: (data: AccountConnectData) => {
       onConnect?.(data);
       analytic.updateSession({
         userAddress: data.address,

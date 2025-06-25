@@ -1,5 +1,7 @@
 export type { TantoConnectButtonProps } from './ConnectButton';
 export { TantoConnectButton } from './ConnectButton';
+export type { AuthEventCallback, AuthEventData, AuthEventType } from './contexts/auth/AuthProvider';
+export { useAuthEvents } from './contexts/auth/AuthProvider';
 export type { TantoProviderProps } from './contexts/tanto/TantoProvider';
 export { TantoProvider } from './contexts/tanto/TantoProvider';
 export type { TantoEmbeddedWidgetProps } from './EmbeddedWidget';

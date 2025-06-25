@@ -17,6 +17,7 @@ import { truncate } from './utils';
 export type TantoConnectButtonProps = AccountConnectionCallback & {
   className?: string;
   style?: CSSProperties;
+  text?: string;
   children?: (renderProps: {
     isConnected: boolean;
     rns?: string;
@@ -28,7 +29,13 @@ export type TantoConnectButtonProps = AccountConnectionCallback & {
   }) => ReactNode;
 };
 
-export function TantoConnectButton({ onConnect, onDisconnect, children, ...rest }: TantoConnectButtonProps) {
+export function TantoConnectButton({
+  onConnect,
+  onDisconnect,
+  children,
+  text = 'Connect Wallet',
+  ...rest
+}: TantoConnectButtonProps) {
   const { disableProfile } = useTantoConfig();
   const { address, chainId, isConnected } = useAccount();
   const { open, show, hide } = useWidgetModal();
@@ -64,7 +71,7 @@ export function TantoConnectButton({ onConnect, onDisconnect, children, ...rest 
                   <p>{rns ? rns : truncate(normalizedAddress)}</p>
                 </Box>
               ) : (
-                'Connect Wallet'
+                text
               )}
             </TransitionedView>
           </SmoothWidth>
