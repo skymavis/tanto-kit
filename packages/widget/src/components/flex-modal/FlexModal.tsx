@@ -12,6 +12,7 @@ import { createContext, ElementRef, forwardRef, ReactNode, useContext, useMemo }
 
 import { useIsMobileView } from '../../hooks/useIsMobileView';
 import { fadeIn, fadeOut } from '../../styles/animations';
+import { TantoWidgetError, TantoWidgetErrorCodes } from '../../utils/errors';
 import * as Dialog from './Dialog';
 import * as Drawer from './Drawer';
 
@@ -24,7 +25,10 @@ const FlexModalContext = createContext<FlexModalContextValue | null>(null);
 function useFlexModalContext() {
   const context = useContext(FlexModalContext);
   if (!context) {
-    throw new Error('FlexModal components cannot be rendered outside the FlexModal Context');
+    throw new TantoWidgetError(
+      TantoWidgetErrorCodes.CONTEXT_NOT_INITIALIZED,
+      'FlexModal components cannot be rendered outside the FlexModal Context',
+    );
   }
   return context;
 }

@@ -13,6 +13,7 @@ import {
 
 import { RONIN_WALLET_WEB_LINK } from './constants';
 import { getVersionInfo } from './utils';
+import { TantoWidgetError, TantoWidgetErrorCodes } from './utils/errors';
 
 export const RONIN_WALLET_METADATA = {
   projectId: 'd2ef97836db7eb390bcb2c1e9847ecdc',
@@ -144,6 +145,9 @@ const createConfigParameters = (config: DefaultConfig): CreateConfigParameters =
 
 export const getDefaultConfig = (config: DefaultConfig = {}): Config => {
   if (config.keylessWalletConfig?.enable !== false && !config.keylessWalletConfig?.clientId)
-    throw new Error('KeylessWalletConfig requires a clientId when enabled');
+    throw new TantoWidgetError(
+      TantoWidgetErrorCodes.KEYLESS_WALLET_CONFIG_MISSING_CLIENT_ID,
+      'KeylessWalletConfig requires a clientId when enabled',
+    );
   return createConfig(createConfigParameters(config));
 };

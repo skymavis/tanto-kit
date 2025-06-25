@@ -13,7 +13,7 @@ interface UseConnectParameters {
 export function useConnect({ connector }: UseConnectParameters) {
   const { setState } = useConfig();
   const { initialChainId, disableProfile, hideConnectSuccessPrompt } = useTantoConfig();
-  const { signIn, isSigningIn, enable: enableAuth, error: authError } = useAuth();
+  const { signIn, isSigningIn, enable: enableAuth, error: authError, resetError: resetAuthError } = useAuth();
 
   const {
     status: wagmiStatus,
@@ -34,9 +34,8 @@ export function useConnect({ connector }: UseConnectParameters) {
 
   const connect = useCallback(() => {
     if (!connector) return;
-
     if (disableProfile) setState(prev => ({ ...prev, current: null }));
-
+    resetAuthError();
     wagmiConnect({ connector, chainId: initialChainId });
   }, [connector, disableProfile, wagmiConnect, initialChainId]);
 

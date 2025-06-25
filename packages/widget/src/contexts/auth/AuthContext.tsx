@@ -5,6 +5,7 @@ export interface AuthState {
   error: Error | null;
   isSigningIn: boolean;
   signIn: () => Promise<void>;
+  resetError: () => void;
 }
 
 export const AuthContext = createContext<AuthState | undefined>(undefined);
