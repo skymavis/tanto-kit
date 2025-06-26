@@ -61,7 +61,6 @@ interface WalletEnableConfig {
 export type DefaultConfig = Prettify<
   Partial<Omit<CreateConfigParameters, 'client' | 'connectors'>> & {
     appMetadata?: AppMetadata;
-    initialChainId?: number;
     walletConnectConfig?: WalletEnableConfig & Partial<Omit<WalletConnectParameters, 'showQrModal'>>;
     keylessWalletConfig?: WalletEnableConfig & KeylessWalletConfig;
     coinbaseWalletConfig?: WalletEnableConfig & Partial<CoinbaseWalletParameters>;
