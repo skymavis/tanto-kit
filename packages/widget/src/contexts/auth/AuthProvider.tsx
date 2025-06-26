@@ -25,18 +25,21 @@ export type AuthEventCallback = (data: AuthEventData) => void;
 export const authEventEmitter = createEmitter('tanto-auth');
 
 export const useAuthEvents = () => {
-  const createEventHandler = (eventType: AuthEventType) => {
+  const createEventHandler = useCallback((eventType: AuthEventType) => {
     return (callback: AuthEventCallback) => {
-      const handler = ({ uid: _, ...data }: any) => callback(data);
+      const handler = ({ uid: _, ...data }: AuthEventData & { uid?: string }) => callback(data);
       authEventEmitter.on(eventType, handler);
       return () => authEventEmitter.off(eventType, handler);
     };
-  };
+  }, []);
 
-  return {
-    onSignInSuccess: createEventHandler('signInSuccess'),
-    onSignInError: createEventHandler('signInError'),
-  };
+  return useMemo(
+    () => ({
+      onSignInSuccess: createEventHandler('signInSuccess'),
+      onSignInError: createEventHandler('signInError'),
+    }),
+    [createEventHandler],
+  );
 };
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
@@ -48,11 +51,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
-  const {
-    data: nonce,
-    refetch: refetchNonce,
-    isLoading: isNonceLoading,
-  } = useQuery({
+  const { data: nonce, refetch: refetchNonce } = useQuery({
     ...query.nonce(),
     enabled: enableAuth,
   });
@@ -110,7 +109,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     chainId,
     isSigningIn,
     nonce,
-    isNonceLoading,
     signMessageAsync,
     disconnect,
     refetchNonce,
