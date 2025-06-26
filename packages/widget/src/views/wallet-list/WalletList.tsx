@@ -6,36 +6,28 @@ import { DashedDivider } from '../../components/dashed-divider/DashedDivider';
 import { Disclaimer } from '../../components/disclaimer/Disclaimer';
 import { GetWalletCTA } from '../../components/get-wallet-cta/GetWalletCTA';
 import { useWidgetConnect } from '../../hooks/useWidgetConnect';
-import { Wallet } from '../../types/wallet';
 import { isMobile, isRoninInAppBrowser } from '../../utils';
 import { WalletGroup } from './components/WalletGroup';
 
-const mapWalletData = (item: Wallet) => {
-  const { connector, name, homepage, id, isInstalled } = item;
-
-  return {
-    id,
-    name,
-    homepage,
-    isInstalled,
-    connector: {
-      id: connector?.id,
-      type: connector?.type,
-      name: connector?.name,
-      chainId: connector?.chainId,
-    },
-  };
-};
-
 export function WalletList() {
-  const { primaryWallets, secondaryWallets } = useWidgetConnect();
+  const { wallets, primaryWallets, secondaryWallets } = useWidgetConnect();
 
   useEffect(() => {
     analytic.sendEvent('walletlist_view', {
-      wallet_selected: primaryWallets.map(mapWalletData),
-      wallets_available: [...primaryWallets, ...secondaryWallets].map(mapWalletData),
+      wallets_available: wallets.map(({ connector, name, homepage, id, isInstalled }) => ({
+        id,
+        name,
+        homepage,
+        isInstalled,
+        connector: {
+          id: connector?.id,
+          type: connector?.type,
+          name: connector?.name,
+          chainId: connector?.chainId,
+        },
+      })),
     });
-  }, [primaryWallets, secondaryWallets]);
+  }, []);
 
   return (
     <Box vertical gap={20}>

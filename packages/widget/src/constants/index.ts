@@ -18,3 +18,5 @@ export const RNS_UNIFIED_ADDRESS: Record<number, Address> = {
   [saigon.id]: '0xf0c99c9677eda0d13291c093b27e6512e4acdf83',
   [ronin.id]: '0x67c409dab0ee741a1b1be874bd1333234cfdbf44',
 };
+export const SIWE_STATEMENT =
+  'I accept the Terms of Use (https://axieinfinity.com/terms-of-use) and the Privacy Policy (https://axieinfinity.com/privacy-policy)';

@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Connector, useConfig, useConnect as useWagmiConnect } from 'wagmi';
 
+import { analytic } from '../analytic';
 import { ConnectState } from '../types/connect';
 import { isMobile, isWCConnector } from '../utils';
 import { useAuth } from './useAuth';
@@ -14,6 +15,7 @@ export function useConnect({ connector }: UseConnectParameters) {
   const { setState } = useConfig();
   const { initialChainId, disableProfile, hideConnectSuccessPrompt } = useTantoConfig();
   const { signIn, isSigningIn, enable: enableAuth, error: authError, resetError: resetAuthError } = useAuth();
+  const [status, setStatus] = useState<ConnectState>(ConnectState.PENDING);
 
   const {
     status: wagmiStatus,
@@ -30,16 +32,21 @@ export function useConnect({ connector }: UseConnectParameters) {
     },
   });
 
-  const [status, setStatus] = useState<ConnectState>(ConnectState.PENDING);
-
   const connect = useCallback(() => {
     if (!connector) return;
     if (disableProfile) setState(prev => ({ ...prev, current: null }));
-    resetAuthError();
-    wagmiConnect({ connector, chainId: initialChainId });
-  }, [connector, disableProfile, wagmiConnect, initialChainId]);
 
-  const determineConnectionStatus = useCallback(
+    resetAuthError();
+
+    analytic.sendEvent('wallet_connect_attempt', {
+      chain_id: connector?.chainId,
+      wallet_type: connector?.name,
+    });
+
+    wagmiConnect({ connector, chainId: initialChainId });
+  }, [connector, disableProfile, resetAuthError, wagmiConnect, initialChainId]);
+
+  const getConnectionStatus = useCallback(
     (wagmiStatus: string, prevStatus: ConnectState): ConnectState => {
       if (authError) return ConnectState.ERROR;
 
@@ -62,11 +69,21 @@ export function useConnect({ connector }: UseConnectParameters) {
     [connector?.id, hideConnectSuccessPrompt, enableAuth, isSigningIn, authError],
   );
 
-  useEffect(() => {
-    setStatus(prevStatus => determineConnectionStatus(wagmiStatus, prevStatus));
-  }, [wagmiStatus, determineConnectionStatus]);
+  const error = useMemo(() => connectError || authError, [connectError, authError]);
 
-  const error = connectError || authError;
+  useEffect(() => {
+    setStatus(prevStatus => getConnectionStatus(wagmiStatus, prevStatus));
+  }, [wagmiStatus, getConnectionStatus]);
+
+  useEffect(() => {
+    if (status === ConnectState.ERROR && error) {
+      analytic.sendEvent('wallet_connect_fail', {
+        chain_id: connector?.chainId,
+        wallet_type: connector?.name,
+        error_reason: error.message,
+      });
+    }
+  }, [status, error]);
 
   return {
     status,

@@ -1,9 +1,10 @@
 import { requestSafeProvider } from '@sky-mavis/tanto-connect';
 import { UAParser } from 'ua-parser-js';
-import { formatUnits } from 'viem';
+import { Address, formatUnits } from 'viem';
+import { createSiweMessage } from 'viem/siwe';
 import { Connector, CreateConnectorFn } from 'wagmi';
 
-import { RONIN_WALLET_APP_DEEPLINK, RONIN_WALLET_WEB_LINK } from '../constants';
+import { RONIN_WALLET_APP_DEEPLINK, RONIN_WALLET_WEB_LINK, SIWE_STATEMENT } from '../constants';
 import { WALLET_IDS } from '../types/wallet';
 
 export const notEmpty = <T>(value: T): value is NonNullable<T> => typeof value !== 'undefined' && value !== null;
@@ -113,3 +114,26 @@ export const svgToBase64 = (svgText: string) => {
 };
 
 export const getVersionInfo = () => `${__sdkName}@${__sdkVersion}`;
+
+export const generateSiweMessage = ({
+  address,
+  chainId,
+  nonce,
+}: {
+  address: Address;
+  chainId: number;
+  nonce: string;
+}) => {
+  if (!isClient()) return '';
+  const ethMessage = createSiweMessage({
+    version: '1',
+    domain: window.location.host,
+    uri: window.location.origin,
+    address,
+    chainId,
+    nonce,
+    statement: SIWE_STATEMENT,
+  });
+  const roninMessage = ethMessage.replace('Ethereum', 'Ronin');
+  return roninMessage;
+};

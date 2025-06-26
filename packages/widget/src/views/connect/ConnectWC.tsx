@@ -1,6 +1,3 @@
-import { useEffect } from 'react';
-
-import { analytic } from '../../analytic';
 import { TransitionedView } from '../../components/animated-containers/TransitionedView';
 import { Box } from '../../components/box/Box';
 import { CopyButton } from '../../components/copy-button/CopyButton';
@@ -31,29 +28,12 @@ const ScanQRCode = ({ uri }: { uri: string | undefined }) => {
 export function ConnectWC() {
   const mobile = isMobile();
   const { selectedWallet, selectedConnector } = useWidgetConnect();
-  const { uri, status, generateConnectUri, error } = useWalletConnectUri({
+  const { uri, status, generateConnectUri } = useWalletConnectUri({
     connector: selectedConnector,
     onReceiveDisplayUri: uri => {
       if (mobile) openWindow(generateRoninMobileWCLink(uri, RONIN_WALLET_APP_DEEPLINK));
     },
   });
-
-  useEffect(() => {
-    analytic.sendEvent('wallet_connect_attempt', {
-      chain_id: selectedConnector?.chainId,
-      wallet_type: selectedConnector?.name,
-    });
-  }, [selectedConnector]);
-
-  useEffect(() => {
-    if (status === ConnectState.ERROR && error) {
-      analytic.sendEvent('wallet_connect_fail', {
-        chain_id: selectedConnector?.chainId,
-        wallet_type: selectedWallet?.name,
-        error_reason: error.message,
-      });
-    }
-  }, [status, error, selectedConnector, selectedWallet]);
 
   if (!selectedWallet) return null;
 
