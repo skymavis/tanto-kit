@@ -7,6 +7,7 @@ export type WidgetUIConfigProviderProps = PropsWithChildren<WidgetUIConfigState>
 export const WidgetUIConfigProvider = ({ children, config: customConfig }: WidgetUIConfigProviderProps) => {
   const defaultConfig: WidgetUIConfig = {
     markKeylessWalletConnected: false,
+    markWCConnected: false,
   };
 
   const config = useMemo<WidgetUIConfig>(() => Object.assign({}, defaultConfig, customConfig), [customConfig]);

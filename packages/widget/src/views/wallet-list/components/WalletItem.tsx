@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { analytic } from '../../../analytic';
 import { highlightedWalletItemBackgroundUri } from '../../../assets/data-uris';
@@ -101,68 +101,97 @@ const RoninBadge = styled(RoninBadgeSvg)({
 export const WalletItem = ({ wallet }: WalletItemProps) => {
   const { id, name, icon, connector, homepage, isInstalled, displayOptions = {} } = wallet;
   const { thumbnail, description, highlightBackground, showRoninBadge } = displayOptions;
-  const { markKeylessWalletConnected } = useWidgetUIConfig();
+  const { markKeylessWalletConnected, markWCConnected } = useWidgetUIConfig();
   const { setSelectedWallet } = useWidgetConnect();
   const { goTo } = useWidgetRouter();
   const isMobile = useIsMobileView();
 
-  const walletLogo = thumbnail ?? icon;
-  const markWaypointConnected = isWaypointConnector(connector?.id) && markKeylessWalletConnected;
-  const isInjected = isInjectedConnector(connector?.type);
-  const highlightContent = highlightBackground ? (isMobile ? 'Fastest' : 'Fastest to start') : undefined;
+  const walletState = useMemo(() => {
+    const isWaypointWallet = isWaypointConnector(connector?.id);
+    const isWCWallet = isWCConnector(connector?.id);
+    const isInjected = isInjectedConnector(connector?.type);
+    const isMarkedConnected = (isWaypointWallet && markKeylessWalletConnected) || (isWCWallet && markWCConnected);
+
+    return {
+      walletLogo: thumbnail ?? icon,
+      isMarkedConnected,
+      isInjected,
+      isWCWallet,
+      highlightContent: highlightBackground ? (isMobile ? 'Fastest' : 'Fastest to start') : undefined,
+    };
+  }, [
+    thumbnail,
+    icon,
+    connector?.id,
+    connector?.type,
+    markKeylessWalletConnected,
+    markWCConnected,
+    highlightBackground,
+    isMobile,
+  ]);
 
   const sendAnalyticEvent = useCallback(() => {
     analytic.sendEvent('wallet_open', {
       wallet_id: id,
-      is_extension_detected: isInjected,
+      is_extension_detected: walletState.isInjected,
       wallet_type: name,
       chain_id: connector?.chainId,
     });
-  }, [connector, id, isInjected, name]);
+  }, [id, walletState.isInjected, name, connector?.chainId]);
 
-  const handleClick = useCallback(() => {
+  const navigateToWallet = useCallback(() => {
     if (!isInstalled) {
       window.open(homepage, '_blank', 'noopener,noreferrer');
       return;
     }
     setSelectedWallet(wallet);
     sendAnalyticEvent();
-    goTo(isWCConnector(id) ? Route.CONNECT_WC : Route.CONNECT_INJECTOR, { title: name });
-  }, [wallet, setSelectedWallet, goTo, isInstalled, homepage, id, name, sendAnalyticEvent]);
+    const route = walletState.isWCWallet ? Route.CONNECT_WC : Route.CONNECT_INJECTOR;
+    goTo(route, { title: name });
+  }, [isInstalled, homepage, setSelectedWallet, wallet, sendAnalyticEvent, walletState.isWCWallet, goTo, name]);
 
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
-        handleClick();
+        navigateToWallet();
       }
     },
-    [handleClick],
+    [navigateToWallet],
   );
+
+  const renderBadge = () => {
+    if (walletState.isMarkedConnected) return <Badge key="connected">Connected</Badge>;
+    if (!walletState.isMarkedConnected && walletState.highlightContent)
+      return (
+        <Badge key="highlight" intent="highlight">
+          {walletState.highlightContent}
+        </Badge>
+      );
+    if (walletState.isInjected) return <Badge key="detected">Detected</Badge>;
+    return null;
+  };
 
   return (
     <Container
       role="button"
       aria-label={`Connect to ${name}`}
       highlight={highlightBackground}
-      disabled={markWaypointConnected}
-      onClick={handleClick}
+      disabled={walletState.isMarkedConnected}
+      onClick={navigateToWallet}
       onKeyDown={handleKeyDown}
     >
-      {walletLogo && (
+      {walletState.walletLogo && (
         <WalletLogoWrapper>
-          {walletLogo}
+          {walletState.walletLogo}
           {showRoninBadge && <RoninBadge className="ronin-badge" />}
         </WalletLogoWrapper>
       )}
-
       <Box vertical flex={1}>
-        <WalletName disabled={markWaypointConnected}>{name}</WalletName>
+        <WalletName disabled={walletState.isMarkedConnected}>{name}</WalletName>
         {description && <WalletDescription>{description}</WalletDescription>}
       </Box>
-      {markWaypointConnected && <Badge>Connected</Badge>}
-      {!markWaypointConnected && highlightContent && <Badge intent="highlight">{highlightContent}</Badge>}
-      {isInjected && <Badge>Detected</Badge>}
+      {renderBadge()}
     </Container>
   );
 };
