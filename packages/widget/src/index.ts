@@ -1,13 +1,13 @@
 export type { TantoConnectButtonProps } from './ConnectButton';
 export { TantoConnectButton } from './ConnectButton';
-export type { AuthEventCallback, AuthEventData, AuthEventType } from './contexts/auth/AuthProvider';
-export { useAuthEvents } from './contexts/auth/AuthProvider';
 export type { TantoProviderProps } from './contexts/tanto/TantoProvider';
 export { TantoProvider } from './contexts/tanto/TantoProvider';
 export type { TantoEmbeddedWidgetProps } from './EmbeddedWidget';
 export { TantoEmbeddedWidget } from './EmbeddedWidget';
 export type { AppMetadata, DefaultConfig, KeylessWalletConfig } from './getDefaultConfig';
 export { createConnectors, createTransports, getDefaultConfig, RONIN_WALLET_METADATA } from './getDefaultConfig';
+export type { AuthEventCallback, AuthEventData, AuthEventType } from './hooks/useAuthEvents';
+export { useAuthEvents } from './hooks/useAuthEvents';
 export { useConnectedWallet } from './hooks/useConnectedWallet';
 export type { UseRnsAddressParameters } from './hooks/useRnsAddress';
 export { useRnsAddress } from './hooks/useRnsAddress';

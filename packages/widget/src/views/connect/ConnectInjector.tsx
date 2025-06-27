@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 
 import { DELAY_CONNECT } from '../../constants';
-import { useConnect } from '../../hooks/useConnect';
+import { useConnectAndAuth } from '../../hooks/useConnectAndAuth';
 import { useWidgetConnect } from '../../hooks/useWidgetConnect';
 import { ConnectLayout } from './components/ConnectLayout';
 
 export function ConnectInjector() {
   const { selectedWallet, selectedConnector } = useWidgetConnect();
-  const { status, connect } = useConnect({ connector: selectedConnector });
+  const { status, connect } = useConnectAndAuth({ connector: selectedConnector });
 
   useEffect(() => {
     const timer = setTimeout(connect, DELAY_CONNECT);

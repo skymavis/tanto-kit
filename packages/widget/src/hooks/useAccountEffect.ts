@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { useAccountEffect as useWagmiAccountEffect, UseAccountEffectParameters } from 'wagmi';
 
-import { useAuthEvents } from '../contexts/auth/AuthProvider';
 import { WagmiOnConnectParameters } from '../types/connect';
 import { useAuth } from './useAuth';
+import { useAuthEvents } from './useAuthEvents';
 
 export function useAccountEffect({ onConnect, onDisconnect }: UseAccountEffectParameters) {
   const { onSignInSuccess } = useAuthEvents();

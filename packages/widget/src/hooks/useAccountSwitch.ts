@@ -6,9 +6,8 @@ export const useAccountSwitch = (callback: (newAddress: string, oldAddress: stri
   const previousAddress = useRef<string | undefined>(address);
 
   useEffect(() => {
-    if (isConnected && address && previousAddress.current && previousAddress.current !== address) {
+    if (isConnected && address && previousAddress.current && previousAddress.current !== address)
       callback(address, previousAddress.current);
-    }
     previousAddress.current = address;
   }, [address, isConnected, callback]);
 };

@@ -3,7 +3,7 @@ import { Connector } from 'wagmi';
 
 import { DELAY_CONNECT } from '../constants';
 import { isWCConnector } from '../utils';
-import { useConnect } from './useConnect';
+import { useConnectAndAuth } from './useConnectAndAuth';
 
 interface WalletConnectUriParameters {
   connector?: Connector;
@@ -17,7 +17,7 @@ interface WalletConnectMessage {
 
 export function useWalletConnectUri({ connector, onReceiveDisplayUri }: WalletConnectUriParameters) {
   const [uri, setUri] = useState<string | undefined>(undefined);
-  const { status, connect, error } = useConnect({ connector });
+  const { status, connect, error } = useConnectAndAuth({ connector });
 
   const generateConnectUri = useCallback(() => {
     if (!connector || !isWCConnector(connector.id)) return;

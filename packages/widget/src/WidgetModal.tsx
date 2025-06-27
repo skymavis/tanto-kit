@@ -3,6 +3,7 @@ import { IconButton } from './components/button/Button';
 import { FlexModal } from './components/flex-modal/FlexModal';
 import { CONNECT_SUCCESS_DELAY } from './constants';
 import { WidgetRouterProvider } from './contexts/widget-router/WidgetRouterProvider';
+import { WidgetUIConfigProvider } from './contexts/widget-ui-config/WidgetUIConfigProvider';
 import { useAccountEffect } from './hooks/useAccountEffect';
 import { useTantoConfig } from './hooks/useTantoConfig';
 import { useWidgetModal } from './hooks/useWidgetModal';
@@ -21,7 +22,9 @@ export function WidgetModal() {
   return (
     <FlexModal open={open} onOpenChange={setOpen}>
       <WidgetRouterProvider>
-        <WidgetContent close={<IconButton intent="secondary" variant="plain" icon={<XIcon />} onClick={hide} />} />
+        <WidgetUIConfigProvider>
+          <WidgetContent close={<IconButton intent="secondary" variant="plain" icon={<XIcon />} onClick={hide} />} />
+        </WidgetUIConfigProvider>
       </WidgetRouterProvider>
     </FlexModal>
   );

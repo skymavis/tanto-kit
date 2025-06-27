@@ -1,46 +1,14 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { createEmitter } from '@wagmi/core/internal';
 import { PropsWithChildren, useCallback, useMemo, useState } from 'react';
 import { useAccount, useDisconnect, useSignMessage } from 'wagmi';
 
 import { useAccountSwitch } from '../../hooks/useAccountSwitch';
+import { authEventEmitter } from '../../hooks/useAuthEvents';
 import { useTantoConfig } from '../../hooks/useTantoConfig';
 import { mutation, query } from '../../services/queries';
 import { generateSiweMessage, isWaypointConnector } from '../../utils';
 import { TantoWidgetError, TantoWidgetErrorCodes } from '../../utils/errors';
 import { AuthContext, AuthState } from './AuthContext';
-
-export type AuthEventType = 'signInSuccess' | 'signInError';
-
-export interface AuthEventData {
-  address?: string;
-  chainId?: number;
-  // TODO
-  data?: any;
-  error?: Error;
-}
-
-export type AuthEventCallback = (data: AuthEventData) => void;
-
-export const authEventEmitter = createEmitter('tanto-auth');
-
-export const useAuthEvents = () => {
-  const createEventHandler = useCallback((eventType: AuthEventType) => {
-    return (callback: AuthEventCallback) => {
-      const handler = ({ uid: _, ...data }: AuthEventData & { uid?: string }) => callback(data);
-      authEventEmitter.on(eventType, handler);
-      return () => authEventEmitter.off(eventType, handler);
-    };
-  }, []);
-
-  return useMemo(
-    () => ({
-      onSignInSuccess: createEventHandler('signInSuccess'),
-      onSignInError: createEventHandler('signInError'),
-    }),
-    [createEventHandler],
-  );
-};
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const { createAccountOnConnect: enableAuth = false } = useTantoConfig();
@@ -58,7 +26,8 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const { mutateAsync: createAccount } = useMutation(mutation.createAccount());
 
-  const resetError = useCallback(() => {
+  const reset = useCallback(() => {
+    setIsSigningIn(false);
     setError(null);
   }, []);
 
@@ -121,12 +90,12 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const contextValue = useMemo<AuthState>(
     () => ({
       enable: enableAuth,
-      isSigningIn,
       error,
+      isSigningIn,
       signIn,
-      resetError,
+      reset,
     }),
-    [enableAuth, isSigningIn, error, signIn, resetError],
+    [enableAuth, isSigningIn, error, signIn, reset],
   );
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
