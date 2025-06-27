@@ -1,13 +1,13 @@
-import { AnimatePresence, AnimationProps } from 'motion/react';
+import { AnimatePresence, MotionNodeAnimationOptions } from 'motion/react';
 import * as m from 'motion/react-m';
 import { ReactNode } from 'react';
 
-type FadeProps = AnimationProps & {
+type FadeProps = MotionNodeAnimationOptions & {
   children: ReactNode;
   show: boolean;
 };
 
-const defaultProps: AnimationProps = {
+const defaultProps: MotionNodeAnimationOptions = {
   initial: { opacity: 0, scale: 0 },
   animate: { opacity: 1, scale: 1 },
   exit: { opacity: 0, scale: 0 },

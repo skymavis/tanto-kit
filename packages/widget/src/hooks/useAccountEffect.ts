@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useAccountEffect as useWagmiAccountEffect, UseAccountEffectParameters } from 'wagmi';
 
-import { useAuth } from './useAuth';
+import { useAuth } from '../contexts/auth/useAuth';
 import { useAuthEvents } from './useAuthEvents';
 
 type WagmiAccountEffectOnConnectParameters = Parameters<Required<UseAccountEffectParameters>['onConnect']>[0];

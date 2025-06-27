@@ -3,9 +3,9 @@ import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 're
 import { analytic } from '../../analytic';
 import { viewConfigs } from '../../configs/viewConfigs';
 import { useAccount } from '../../hooks/useAccount';
-import { useTantoConfig } from '../../hooks/useTantoConfig';
 import { useUnmount } from '../../hooks/useUnmount';
 import { authenticatedRoutes, internalRoutes, publicRoutes, Route } from '../../types/route';
+import { useTantoConfig } from '../tanto/useTantoConfig';
 import { View, WidgetRouterContext, WidgetRouterState } from './WidgetRouterContext';
 
 export const WidgetRouterProvider = ({ children }: PropsWithChildren) => {

@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 
 import { DELAY_CONNECT } from '../../constants';
+import { useWidgetConnect } from '../../contexts/widget-connect/useWidgetConnect';
 import { useConnectAndAuth } from '../../hooks/useConnectAndAuth';
-import { useWidgetConnect } from '../../hooks/useWidgetConnect';
 import { ConnectLayout } from './components/ConnectLayout';
 
 export function ConnectInjector() {

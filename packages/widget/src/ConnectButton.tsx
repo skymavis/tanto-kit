@@ -6,11 +6,11 @@ import { Avatar } from './components/avatar/Avatar';
 import { Box } from './components/box/Box';
 import { Button } from './components/button/Button';
 import { CSSReset } from './components/css-reset/CSSReset';
+import { useTantoConfig } from './contexts/tanto/useTantoConfig';
+import { useWidgetModal } from './contexts/widget-modal/useWidgetModal';
 import { useAccount } from './hooks/useAccount';
 import { useConnectCallback } from './hooks/useConnectCallback';
 import { useRnsName } from './hooks/useRnsName';
-import { useTantoConfig } from './hooks/useTantoConfig';
-import { useWidgetModal } from './hooks/useWidgetModal';
 import { AccountConnectionCallback } from './types/connect';
 import { truncate } from './utils/string';
 

@@ -4,11 +4,11 @@ import { useAccount, useDisconnect, useSignMessage } from 'wagmi';
 
 import { useAccountSwitch } from '../../hooks/useAccountSwitch';
 import { authEventEmitter } from '../../hooks/useAuthEvents';
-import { useTantoConfig } from '../../hooks/useTantoConfig';
 import { mutation, query } from '../../services/queries';
 import { TantoWidgetError, TantoWidgetErrorCodes } from '../../utils/errors';
 import { generateSiweMessage } from '../../utils/siwe';
 import { isWaypointConnector } from '../../utils/walletDetection';
+import { useTantoConfig } from '../tanto/useTantoConfig';
 import { AuthContext, AuthState } from './AuthContext';
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {

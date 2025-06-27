@@ -1,15 +1,14 @@
 import { useContext } from 'react';
 
-import { WidgetModalContext, WidgetModalState } from '../contexts/widget-modal/WidgetModalContext';
-import { TantoWidgetError, TantoWidgetErrorCodes } from '../utils/errors';
+import { TantoWidgetError, TantoWidgetErrorCodes } from '../../utils/errors';
+import { WidgetModalContext } from './WidgetModalContext';
 
-export function useWidgetModal(): WidgetModalState {
+export function useWidgetModal() {
   const context = useContext(WidgetModalContext);
-  if (context === undefined) {
+  if (context === undefined)
     throw new TantoWidgetError(
       TantoWidgetErrorCodes.CONTEXT_NOT_INITIALIZED,
       'useWidgetModal must be used within a WidgetModalProvider',
     );
-  }
   return context;
 }

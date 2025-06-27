@@ -2,15 +2,13 @@ import styled from '@emotion/styled';
 import { AnimatePresence } from 'motion/react';
 import * as m from 'motion/react-m';
 
+import { SIZE, TRANSITION_DURATION } from './constants';
 import { QRCode } from './QRCode';
 import { QRCodePlaceholder } from './QRCodePlaceholder';
 
-interface WCQRCodeProps {
+interface AnimatedQRCodeProps {
   value?: string;
 }
-
-const SIZE = 236;
-const TRANSITION = { duration: 0.4 };
 
 const Container = styled.div({
   position: 'relative',
@@ -19,7 +17,7 @@ const Container = styled.div({
   height: SIZE,
 });
 
-export const WCQRCode = ({ value }: WCQRCodeProps) => {
+export const AnimatedQRCode = ({ value }: AnimatedQRCodeProps) => {
   return (
     <Container>
       <AnimatePresence initial={false} mode="popLayout">
@@ -29,7 +27,7 @@ export const WCQRCode = ({ value }: WCQRCodeProps) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={TRANSITION}
+            transition={{ duration: TRANSITION_DURATION }}
           >
             <QRCode value={value} />
           </m.div>
@@ -39,7 +37,7 @@ export const WCQRCode = ({ value }: WCQRCodeProps) => {
             initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={TRANSITION}
+            transition={{ duration: TRANSITION_DURATION }}
           >
             <QRCodePlaceholder />
           </m.div>

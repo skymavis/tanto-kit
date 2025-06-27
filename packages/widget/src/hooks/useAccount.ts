@@ -1,6 +1,6 @@
 import { useAccount as useWagmiAccount } from 'wagmi';
 
-import { useAuth } from './useAuth';
+import { useAuth } from '../contexts/auth/useAuth';
 
 export function useAccount() {
   const wagmiAccount = useWagmiAccount();

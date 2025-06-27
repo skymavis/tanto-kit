@@ -2,8 +2,8 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { Connector } from 'wagmi';
 
 import { analytic } from '../analytic';
+import { useAuth } from '../contexts/auth/useAuth';
 import { ConnectState } from '../types/connect';
-import { useAuth } from './useAuth';
 import { useConnect } from './useConnect';
 
 interface UseConnectAndAuthParameters {

@@ -1,7 +1,7 @@
 import { namehash } from 'viem';
 import { useChainId, useReadContract } from 'wagmi';
 
-import { RNS_UNIFIED_ADDRESS } from '../constants';
+import { RNS_OWNER_OF_ABI, RNS_UNIFIED_ADDRESS } from '../constants';
 
 export interface UseRnsAddressParameters {
   name?: string;
@@ -17,15 +17,7 @@ export function useRnsAddress({ name, chainId: targetChainId }: UseRnsAddressPar
     name && contractAddress
       ? {
           address: contractAddress,
-          abi: [
-            {
-              inputs: [{ internalType: 'uint256', name: 'tokenId', type: 'uint256' }],
-              name: 'ownerOf',
-              outputs: [{ internalType: 'address', name: '', type: 'address' }],
-              stateMutability: 'view',
-              type: 'function',
-            },
-          ],
+          abi: RNS_OWNER_OF_ABI,
           functionName: 'ownerOf',
           // Invalid contract type?
           args: [namehash(name) as unknown as bigint],

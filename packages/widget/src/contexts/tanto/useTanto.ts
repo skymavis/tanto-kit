@@ -1,15 +1,14 @@
 import { useContext } from 'react';
 
-import { TantoContext, TantoState } from '../contexts/tanto/TantoContext';
-import { TantoWidgetError, TantoWidgetErrorCodes } from '../utils/errors';
+import { TantoWidgetError, TantoWidgetErrorCodes } from '../../utils/errors';
+import { TantoContext } from './TantoContext';
 
-export function useTanto(): TantoState {
+export function useTanto() {
   const context = useContext(TantoContext);
-  if (context === undefined) {
+  if (context === undefined)
     throw new TantoWidgetError(
       TantoWidgetErrorCodes.CONTEXT_NOT_INITIALIZED,
       'useTanto must be used within a TantoProvider',
     );
-  }
   return context;
 }

@@ -5,12 +5,7 @@ import { memo, useMemo } from 'react';
 import { DELAY_CONNECT } from '../../constants';
 import { shine } from '../../styles/animations';
 import { hasOpacity } from '../../utils/color';
-
-const SIZE = 236;
-const INSET = 8;
-const SVG_SIZE = SIZE - INSET * 2;
-const RADIUS = 24;
-const DOT_COLOR = 'rgba(32, 31, 29, 0.4)';
+import { DOT_COLOR, INSET, RADIUS, SIZE, SVG_SIZE } from './constants';
 
 const corners = [
   { position: { top: 0, left: 0 }, rotate: 0 },

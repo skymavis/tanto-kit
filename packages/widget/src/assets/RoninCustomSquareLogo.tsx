@@ -5,7 +5,7 @@ import {
   roninExtensionCustomSquareLogoUri,
   roninMobileCustomSquareLogoUri,
   roninWaypointCustomSquareLogoUri,
-} from './data-uris';
+} from './dataUris';
 import { RoninBadge as RoninBadgeSvg } from './RoninBadge';
 
 const LOGO_SIZE = 90;

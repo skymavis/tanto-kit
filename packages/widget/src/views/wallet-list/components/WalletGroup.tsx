@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import { MAX_WALLET_ITEMS_PER_GROUP, WALLET_ITEM_HEIGHT } from '../../../constants';
 import { Wallet } from '../../../types/wallet';
-import { WalletItem } from './WalletItem';
+import { WalletItem } from './wallet-item/WalletItem';
 
 interface WalletGroupProps {
   className?: string;

@@ -25,6 +25,7 @@ export const DRAWER_VISIBILITY_TRANSITION_DURATION = 500;
 // UI
 export const WALLET_ITEM_HEIGHT = 68;
 export const MAX_WALLET_ITEMS_PER_GROUP = 4;
+export const MOBILE_BREAKPOINT = 576;
 
 // Analytics
 export const ANALYTIC_PUBLIC_KEY = '34cb0c94-cace-4e79-b708-96112181ddbb';
@@ -38,3 +39,21 @@ export const RNS_UNIFIED_ADDRESS: Record<number, Address> = {
   [saigon.id]: '0xf0c99c9677eda0d13291c093b27e6512e4acdf83',
   [ronin.id]: '0x67c409dab0ee741a1b1be874bd1333234cfdbf44',
 };
+export const RNS_NAME_ABI = [
+  {
+    inputs: [{ internalType: 'bytes32', name: 'node', type: 'bytes32' }],
+    name: 'name',
+    outputs: [{ internalType: 'string', name: '', type: 'string' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+] as const;
+export const RNS_OWNER_OF_ABI = [
+  {
+    inputs: [{ internalType: 'uint256', name: 'tokenId', type: 'uint256' }],
+    name: 'ownerOf',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+] as const;

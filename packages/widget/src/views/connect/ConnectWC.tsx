@@ -2,10 +2,10 @@ import { TransitionedView } from '../../components/animated-containers/Transitio
 import { Box } from '../../components/box/Box';
 import { CopyButton } from '../../components/copy-button/CopyButton';
 import { GetWalletCTA } from '../../components/get-wallet-cta/GetWalletCTA';
-import { WCQRCode } from '../../components/qr-code/WCQRCode';
+import { AnimatedQRCode } from '../../components/qr-code/AnimatedQRCode';
 import { RONIN_WALLET_APP_DEEPLINK } from '../../constants';
+import { useWidgetConnect } from '../../contexts/widget-connect/useWidgetConnect';
 import { useWalletConnectUri } from '../../hooks/useWalletConnectUri';
-import { useWidgetConnect } from '../../hooks/useWidgetConnect';
 import { ConnectState } from '../../types/connect';
 import { openWindow } from '../../utils/openWindow';
 import { generateRoninMobileWCLink } from '../../utils/url';
@@ -18,7 +18,7 @@ const ScanQRCode = ({ uri }: { uri: string | undefined }) => {
     <Box vertical align="center" justify="center" gap={20} pt={20}>
       <Box vertical align="center" justify="center" gap={16}>
         <CopyButton value={uri}>Copy link</CopyButton>
-        <WCQRCode value={uri} />
+        <AnimatedQRCode value={uri} />
         <ScanGuideline />
       </Box>
       <GetWalletCTA />

@@ -9,8 +9,8 @@ import { Box } from './components/box/Box';
 import { IconButton } from './components/button/Button';
 import { CSSReset } from './components/css-reset/CSSReset';
 import { WidgetConnectProvider } from './contexts/widget-connect/WidgetConnectProvider';
+import { useWidgetRouter } from './contexts/widget-router/useWidgetRouter';
 import { useAccount } from './hooks/useAccount';
-import { useWidgetRouter } from './hooks/useWidgetRouter';
 
 const ActionSection = styled.div({
   minWidth: 44,
