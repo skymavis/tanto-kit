@@ -2,15 +2,16 @@ import { useCallback, useEffect, useState } from 'react';
 import { Connector, useConfig, useConnect as useWagmiConnect } from 'wagmi';
 
 import { ConnectState } from '../types/connect';
-import { isMobile, isWCConnector } from '../utils';
+import { isMobile } from '../utils/userAgent';
+import { isWCConnector } from '../utils/walletDetection';
 import { useTantoConfig } from './useTantoConfig';
 
-type MutationHandlers = Pick<
+type WagmiConnectCallbacks = Pick<
   NonNullable<NonNullable<Parameters<typeof useWagmiConnect>[0]>['mutation']>,
   'onSuccess' | 'onError'
 >;
 
-type UseConnectParameters = MutationHandlers & {
+type UseConnectParameters = WagmiConnectCallbacks & {
   connector?: Connector;
 };
 

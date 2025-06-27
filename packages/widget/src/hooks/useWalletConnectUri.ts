@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Connector } from 'wagmi';
 
 import { DELAY_CONNECT } from '../constants';
-import { isWCConnector } from '../utils';
+import { isWCConnector } from '../utils/walletDetection';
 import { useConnectAndAuth } from './useConnectAndAuth';
 
 interface WalletConnectUriParameters {

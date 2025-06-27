@@ -12,7 +12,7 @@ import { useRnsName } from './hooks/useRnsName';
 import { useTantoConfig } from './hooks/useTantoConfig';
 import { useWidgetModal } from './hooks/useWidgetModal';
 import { AccountConnectionCallback } from './types/connect';
-import { truncate } from './utils';
+import { truncate } from './utils/string';
 
 export type TantoConnectButtonProps = AccountConnectionCallback & {
   className?: string;

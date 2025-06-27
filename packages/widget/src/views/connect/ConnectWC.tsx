@@ -7,8 +7,9 @@ import { RONIN_WALLET_APP_DEEPLINK } from '../../constants';
 import { useWalletConnectUri } from '../../hooks/useWalletConnectUri';
 import { useWidgetConnect } from '../../hooks/useWidgetConnect';
 import { ConnectState } from '../../types/connect';
-import { generateRoninMobileWCLink, isMobile } from '../../utils';
 import { openWindow } from '../../utils/openWindow';
+import { generateRoninMobileWCLink } from '../../utils/url';
+import { isMobile } from '../../utils/userAgent';
 import { ConnectLayout } from './components/ConnectLayout';
 import { ScanGuideline } from './components/ScanGuideline';
 

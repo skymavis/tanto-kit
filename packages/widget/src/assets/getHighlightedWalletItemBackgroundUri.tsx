@@ -1,4 +1,4 @@
-import { svgToBase64 } from '../utils';
+import { svgToBase64 } from '../utils/string';
 
 export const getHighlightedWalletItemBackgroundUri = ({ mode, hover }: { mode: 'light' | 'dark'; hover: boolean }) => {
   const hoverOffset = mode === 'dark' ? 2 : 1.2;

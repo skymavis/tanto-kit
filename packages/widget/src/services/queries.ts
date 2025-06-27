@@ -1,6 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
 
-import { delay } from '../utils/delay';
+import { delay } from '../utils/common';
 
 export const query = {
   nonce: () =>

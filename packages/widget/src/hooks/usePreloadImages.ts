@@ -2,7 +2,7 @@ import { useTheme } from '@emotion/react';
 import { useEffect } from 'react';
 
 import * as dataUris from '../assets/data-uris';
-import { isValidURL } from '../utils';
+import { isValidURL } from '../utils/url';
 
 export const usePreloadImages = (imageSources: string[]) => {
   useEffect(() => {

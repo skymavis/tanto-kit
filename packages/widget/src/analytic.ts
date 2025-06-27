@@ -11,7 +11,8 @@ import {
   type AnalyticStorageData,
   AnalyticEventType,
 } from './types/analytic';
-import { getUserAgent, isClient } from './utils';
+import { isClient } from './utils/common';
+import { getUserAgent } from './utils/userAgent';
 
 class AnalyticStorage {
   private static instance: AnalyticStorage;

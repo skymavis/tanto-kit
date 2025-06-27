@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { isMobile } from '../utils';
+import { isMobile } from '../utils/userAgent';
 
 const MOBILE_BREAKPOINT = 576;
 

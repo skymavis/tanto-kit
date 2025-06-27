@@ -2,7 +2,7 @@ import { Address, namehash } from 'viem';
 import { useChainId, useReadContract } from 'wagmi';
 
 import { RNS_PUBLIC_RESOLVER_ADDRESS } from '../constants';
-import { getReverseNode } from '../utils';
+import { getReverseNode } from '../utils/string';
 
 export interface UseRnsNameParameters {
   address?: Address;

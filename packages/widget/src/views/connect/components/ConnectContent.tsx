@@ -7,7 +7,7 @@ import { Box } from '../../../components/box/Box';
 import { Button } from '../../../components/button/Button';
 import { ConnectState } from '../../../types/connect';
 import { Wallet } from '../../../types/wallet';
-import { generateRoninMobileWCLink } from '../../../utils';
+import { generateRoninMobileWCLink } from '../../../utils/url';
 
 const TextSection = styled(Box)({
   textAlign: 'center',

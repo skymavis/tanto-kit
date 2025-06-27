@@ -3,19 +3,19 @@ import { useMemo } from 'react';
 import { Connector, CreateConnectorFn, useConnectors } from 'wagmi';
 
 import { walletConfigs } from '../configs/walletConfigs';
-import { Wallet, WALLET_IDS } from '../types/wallet';
+import { WALLET_IDS } from '../constants';
+import { Wallet } from '../types/wallet';
+import { notEmpty } from '../utils/common';
+import { isDesktop, isMobile } from '../utils/userAgent';
 import {
   isCoinbaseConnector,
-  isDesktop,
   isInjectedConnector,
-  isMobile,
   isRoninExtensionInstalled,
   isRoninInAppBrowser,
   isSafeConnector,
   isWaypointConnector,
   isWCConnector,
-  notEmpty,
-} from '../utils';
+} from '../utils/walletDetection';
 import { useIsSafeWallet } from './useIsSafeWallet';
 
 const WalletIcon = styled.img({

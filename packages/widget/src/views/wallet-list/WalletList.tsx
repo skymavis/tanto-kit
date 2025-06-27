@@ -6,7 +6,8 @@ import { DashedDivider } from '../../components/dashed-divider/DashedDivider';
 import { Disclaimer } from '../../components/disclaimer/Disclaimer';
 import { GetWalletCTA } from '../../components/get-wallet-cta/GetWalletCTA';
 import { useWidgetConnect } from '../../hooks/useWidgetConnect';
-import { isMobile, isRoninInAppBrowser } from '../../utils';
+import { isMobile } from '../../utils/userAgent';
+import { isRoninInAppBrowser } from '../../utils/walletDetection';
 import { WalletGroup } from './components/WalletGroup';
 
 export function WalletList() {

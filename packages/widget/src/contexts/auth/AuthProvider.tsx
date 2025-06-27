@@ -6,8 +6,9 @@ import { useAccountSwitch } from '../../hooks/useAccountSwitch';
 import { authEventEmitter } from '../../hooks/useAuthEvents';
 import { useTantoConfig } from '../../hooks/useTantoConfig';
 import { mutation, query } from '../../services/queries';
-import { generateSiweMessage, isWaypointConnector } from '../../utils';
 import { TantoWidgetError, TantoWidgetErrorCodes } from '../../utils/errors';
+import { generateSiweMessage } from '../../utils/siwe';
+import { isWaypointConnector } from '../../utils/walletDetection';
 import { AuthContext, AuthState } from './AuthContext';
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {

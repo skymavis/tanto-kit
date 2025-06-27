@@ -12,7 +12,7 @@ import {
 } from 'wagmi/connectors';
 
 import { RONIN_WALLET_WEB_LINK } from './constants';
-import { getVersionInfo } from './utils';
+import { getVersionInfo } from './utils/common';
 import { TantoWidgetError, TantoWidgetErrorCodes } from './utils/errors';
 
 export const RONIN_WALLET_METADATA = {

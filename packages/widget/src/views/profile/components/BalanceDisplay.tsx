@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { formatBalance } from '../../../utils';
+import { formatBalance } from '../../../utils/balance';
 
 const BalanceText = styled.p(({ theme }) => ({
   fontSize: '1em',

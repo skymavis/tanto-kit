@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useConfig } from 'wagmi';
 
-import { isRoninWallet, isRoninWalletInjected } from '../utils';
+import { isRoninWallet, isRoninWalletInjected } from '../utils/walletDetection';
 
 // Resolve conflicts caused by having two Ronin connectors with different IDs (RONIN_WALLET and com.roninchain.wallet)
 export const useSolveRoninConnectionConflict = () => {

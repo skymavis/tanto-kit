@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import { Box } from '../../../components/box/Box';
 import { CopyButton } from '../../../components/copy-button/CopyButton';
-import { truncate } from '../../../utils';
+import { truncate } from '../../../utils/string';
 
 const AddressText = styled.p({
   fontSize: '1.125em',

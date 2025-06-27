@@ -13,7 +13,7 @@ import { useWidgetRouter } from '../../../hooks/useWidgetRouter';
 import { useWidgetUIConfig } from '../../../hooks/useWidgetUIConfig';
 import { Route } from '../../../types/route';
 import { Wallet } from '../../../types/wallet';
-import { isInjectedConnector, isWaypointConnector, isWCConnector } from '../../../utils';
+import { isInjectedConnector, isWaypointConnector, isWCConnector } from '../../../utils/walletDetection';
 
 interface WalletItemProps {
   wallet: Wallet;
