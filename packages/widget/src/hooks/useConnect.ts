@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Connector, useConfig, useConnect as useWagmiConnect } from 'wagmi';
+import type { Connector } from 'wagmi';
+import { useConfig, useConnect as useWagmiConnect } from 'wagmi';
 
 import { useTantoConfig } from '../contexts/tanto/useTantoConfig';
 import { ConnectState } from '../types/connect';

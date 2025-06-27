@@ -1,7 +1,7 @@
-import { type HTMLAttributes } from 'react';
+import type { HTMLAttributes } from 'react';
 import useResizeObserver from 'use-resize-observer';
 
-export const SmoothWidth = ({ children, ...rest }: HTMLAttributes<HTMLDivElement>) => {
+export function SmoothWidth({ children, ...rest }: HTMLAttributes<HTMLDivElement>) {
   const { width, ref } = useResizeObserver();
   return (
     <div
@@ -10,7 +10,7 @@ export const SmoothWidth = ({ children, ...rest }: HTMLAttributes<HTMLDivElement
         justifyContent: 'center',
         boxSizing: 'border-box',
         transition: 'width 150ms',
-        width: width ? width : 'auto',
+        width: width || 'auto',
       }}
       {...rest}
     >
@@ -19,4 +19,4 @@ export const SmoothWidth = ({ children, ...rest }: HTMLAttributes<HTMLDivElement
       </div>
     </div>
   );
-};
+}

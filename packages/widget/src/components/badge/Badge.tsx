@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
-import { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 
 type BadgeIntent = 'default' | 'highlight';
 type BadgeProps = PropsWithChildren & {
   intent?: BadgeIntent;
 };
 
-export const StyledBadge = styled.div<Pick<BadgeProps, 'intent'>>(
+const StyledBadge = styled.div<Pick<BadgeProps, 'intent'>>(
   {
     padding: '2px 8px',
     borderRadius: 32,
@@ -28,7 +28,7 @@ export const StyledBadge = styled.div<Pick<BadgeProps, 'intent'>>(
   },
 );
 
-export const Badge = (props: BadgeProps) => {
+export function Badge(props: BadgeProps) {
   const { intent, children } = props;
   return <StyledBadge intent={intent}>{children}</StyledBadge>;
-};
+}

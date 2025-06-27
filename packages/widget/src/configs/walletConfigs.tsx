@@ -11,7 +11,7 @@ import { RoninWaypointCustomLogo } from '../assets/RoninWaypointCustomLogo';
 import { SafeLogo } from '../assets/SafeLogo';
 import { WalletConnectLogo } from '../assets/WalletConnectLogo';
 import { RONIN_WALLET_WEB_LINK, WALLET_IDS } from '../constants';
-import { WalletConfig, WalletId } from '../types/wallet';
+import type { WalletConfig, WalletId } from '../types/wallet';
 
 export const walletConfigs: Record<WalletId, WalletConfig> = {
   [WALLET_IDS.WAYPOINT]: {

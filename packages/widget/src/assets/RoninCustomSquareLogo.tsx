@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { ImgHTMLAttributes } from 'react';
+import type { ImgHTMLAttributes } from 'react';
 
 import {
   roninExtensionCustomSquareLogoUri,

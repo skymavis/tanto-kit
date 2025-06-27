@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { PropsWithChildren, useCallback, useMemo, useState } from 'react';
+import type { PropsWithChildren } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useAccount, useDisconnect, useSignMessage } from 'wagmi';
 
 import { useAccountSwitch } from '../../hooks/useAccountSwitch';
@@ -9,9 +10,10 @@ import { TantoWidgetError, TantoWidgetErrorCodes } from '../../utils/errors';
 import { generateSiweMessage } from '../../utils/siwe';
 import { isWaypointConnector } from '../../utils/walletDetection';
 import { useTantoConfig } from '../tanto/useTantoConfig';
-import { AuthContext, AuthState } from './AuthContext';
+import type { AuthState } from './AuthContext';
+import { AuthContext } from './AuthContext';
 
-export const AuthProvider = ({ children }: PropsWithChildren) => {
+export function AuthProvider({ children }: PropsWithChildren) {
   const { createAccountOnConnect: enableAuth = false } = useTantoConfig();
   const { address, chainId, connector } = useAccount();
   const { signMessageAsync } = useSignMessage();
@@ -100,4 +102,4 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   );
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
-};
+}

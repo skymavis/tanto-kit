@@ -1,7 +1,7 @@
-import { type HTMLAttributes } from 'react';
+import type { HTMLAttributes } from 'react';
 import useResizeObserver from 'use-resize-observer';
 
-export const SmoothHeight = ({ children, ...rest }: HTMLAttributes<HTMLDivElement>) => {
+export function SmoothHeight({ children, ...rest }: HTMLAttributes<HTMLDivElement>) {
   const { height, ref } = useResizeObserver();
   return (
     <div
@@ -16,4 +16,4 @@ export const SmoothHeight = ({ children, ...rest }: HTMLAttributes<HTMLDivElemen
       <div ref={ref}>{children}</div>
     </div>
   );
-};
+}

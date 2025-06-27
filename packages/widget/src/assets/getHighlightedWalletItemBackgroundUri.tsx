@@ -1,6 +1,6 @@
 import { svgToBase64 } from '../utils/string';
 
-export const getHighlightedWalletItemBackgroundUri = ({ mode, hover }: { mode: 'light' | 'dark'; hover: boolean }) => {
+export function getHighlightedWalletItemBackgroundUri({ mode, hover }: { mode: 'light' | 'dark'; hover: boolean }) {
   const hoverOffset = mode === 'dark' ? 2 : 1.2;
   const gradientOpacity = (mode === 'dark' ? 0.08 : 0.28) * (hover ? hoverOffset : 1);
   const pathOpacity = (mode === 'dark' ? 0.2 : 0.4) * (hover ? hoverOffset : 1);
@@ -73,4 +73,4 @@ export const getHighlightedWalletItemBackgroundUri = ({ mode, hover }: { mode: '
       </defs>
     </svg>`,
   );
-};
+}

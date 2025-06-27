@@ -60,7 +60,7 @@ const CornerSvg = styled.svg<{
   transform: rotate ? `rotate(${rotate}deg)` : undefined,
 }));
 
-const CornerPath = () => {
+function CornerPath() {
   const theme = useTheme();
   const showCorner = useMemo(() => !hasOpacity(theme.qrcodeBackground), [theme]);
 
@@ -88,9 +88,9 @@ const CornerPath = () => {
       </g>
     </>
   );
-};
+}
 
-const LogoOverlay = () => {
+function LogoOverlay() {
   const theme = useTheme();
   return (
     <svg
@@ -126,7 +126,7 @@ const LogoOverlay = () => {
       </defs>
     </svg>
   );
-};
+}
 
 export const QRCodePlaceholder = memo(() => {
   return (

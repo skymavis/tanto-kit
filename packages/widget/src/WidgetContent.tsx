@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { useBalance } from 'wagmi';
 
 import { ArrowLeftIcon } from './assets/ArrowLeftIcon';
@@ -30,7 +30,7 @@ interface WidgetContentProps {
   close?: ReactNode;
 }
 
-export const WidgetContent = ({ close }: WidgetContentProps) => {
+export function WidgetContent({ close }: WidgetContentProps) {
   const { view, goBack } = useWidgetRouter();
   const { address, chainId } = useAccount();
   const headerMarginBottom = (() => {
@@ -65,4 +65,4 @@ export const WidgetContent = ({ close }: WidgetContentProps) => {
       </SmoothHeight>
     </CSSReset>
   );
-};
+}

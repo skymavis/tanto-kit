@@ -1,7 +1,7 @@
 import type { AccountConnectionCallback } from '../types/connect';
 import { useAccountEffect } from './useAccountEffect';
 
-export const useConnectCallback = ({ onConnect, onDisconnect }: AccountConnectionCallback) => {
+export function useConnectCallback({ onConnect, onDisconnect }: AccountConnectionCallback) {
   useAccountEffect({
     onConnect: ({ address, chainId, connector, isReconnected }) => {
       if (!isReconnected) {
@@ -12,6 +12,6 @@ export const useConnectCallback = ({ onConnect, onDisconnect }: AccountConnectio
         });
       }
     },
-    onDisconnect: onDisconnect,
+    onDisconnect,
   });
-};
+}

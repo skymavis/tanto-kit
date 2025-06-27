@@ -2,15 +2,15 @@ import { v4 } from 'uuid';
 
 import { ANALYTIC_PUBLIC_KEY } from './constants';
 import { request } from './services/request';
-import {
-  type AnalyticBaseEventData,
-  type AnalyticEventData,
-  type AnalyticIdentifyEventData,
-  type AnalyticOptions,
-  type AnalyticStorageConfig,
-  type AnalyticStorageData,
-  AnalyticEventType,
+import type {
+  AnalyticBaseEventData,
+  AnalyticEventData,
+  AnalyticIdentifyEventData,
+  AnalyticOptions,
+  AnalyticStorageConfig,
+  AnalyticStorageData,
 } from './types/analytic';
+import { AnalyticEventType } from './types/analytic';
 import { isClient } from './utils/common';
 import { getUserAgent } from './utils/userAgent';
 

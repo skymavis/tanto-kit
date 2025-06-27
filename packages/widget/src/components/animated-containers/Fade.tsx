@@ -1,6 +1,7 @@
-import { AnimatePresence, MotionNodeAnimationOptions } from 'motion/react';
+import type { MotionNodeAnimationOptions } from 'motion/react';
+import { AnimatePresence } from 'motion/react';
 import * as m from 'motion/react-m';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 type FadeProps = MotionNodeAnimationOptions & {
   children: ReactNode;
@@ -14,7 +15,7 @@ const defaultProps: MotionNodeAnimationOptions = {
   transition: { duration: 0.15 },
 };
 
-export const Fade = ({ children, initial, animate, exit, transition, show }: FadeProps) => {
+export function Fade({ children, initial, animate, exit, transition, show }: FadeProps) {
   return (
     <AnimatePresence>
       {show && (
@@ -29,4 +30,4 @@ export const Fade = ({ children, initial, animate, exit, transition, show }: Fad
       )}
     </AnimatePresence>
   );
-};
+}

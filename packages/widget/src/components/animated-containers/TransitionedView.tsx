@@ -1,4 +1,5 @@
-import { AnimatePresence, AnimationDefinition, MotionNodeAnimationOptions } from 'motion/react';
+import type { AnimationDefinition, MotionNodeAnimationOptions } from 'motion/react';
+import { AnimatePresence } from 'motion/react';
 import * as m from 'motion/react-m';
 import type { ReactNode } from 'react';
 import { forwardRef } from 'react';

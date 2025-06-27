@@ -5,9 +5,10 @@ import * as m from 'motion/react-m';
 import { CheckCircleFillIcon } from '../../assets/CheckCircleFillIcon';
 import { CopyIcon } from '../../assets/CopyIcon';
 import { useClipboard } from '../../hooks/useClipboard';
-import { Box, BoxProps } from '../box/Box';
+import type { BoxProps } from '../box/Box';
+import { Box } from '../box/Box';
 import { Button } from '../button/Button';
-import { ButtonProps } from '../button/Button.types';
+import type { ButtonProps } from '../button/Button.types';
 
 const DEFAULT_ANIMATION_DURATION = 1_500;
 

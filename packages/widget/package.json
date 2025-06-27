@@ -1,7 +1,7 @@
 {
   "name": "@sky-mavis/tanto-widget",
   "type": "module",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Tanto Widget",
   "author": "SkyMavis",
   "license": "MIT",
@@ -54,8 +54,8 @@
   "scripts": {
     "build": "rm -rf dist && NODE_ENV=production && rollup -c",
     "dev": "rollup -c -w",
-    "lint": "node ./node_modules/eslint/bin/eslint ../.. --ext .js --fix",
-    "lint:fix": "eslint ../.. --ext .js,.tsx,.ts --fix",
+    "lint": "eslint . --ext .js,.tsx,.ts",
+    "lint:fix": "eslint . --ext .js,.tsx,.ts --fix",
     "test": "jest"
   },
   "peerDependencies": {

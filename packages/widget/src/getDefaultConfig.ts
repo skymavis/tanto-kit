@@ -1,15 +1,12 @@
-import { WaypointScope } from '@sky-mavis/tanto-connect';
+import type { WaypointScope } from '@sky-mavis/tanto-connect';
 import { roninWallet, waypoint } from '@sky-mavis/tanto-wagmi';
 import omit from 'lodash.omit';
-import { Chain, Prettify, ronin, saigon } from 'viem/chains';
-import { Config, createConfig, CreateConfigParameters, CreateConnectorFn, http } from 'wagmi';
-import {
-  coinbaseWallet,
-  CoinbaseWalletParameters,
-  safe,
-  walletConnect,
-  WalletConnectParameters,
-} from 'wagmi/connectors';
+import type { Chain, Prettify } from 'viem/chains';
+import { ronin, saigon } from 'viem/chains';
+import type { Config, CreateConfigParameters, CreateConnectorFn } from 'wagmi';
+import { createConfig, http } from 'wagmi';
+import type { CoinbaseWalletParameters, WalletConnectParameters } from 'wagmi/connectors';
+import { coinbaseWallet, safe, walletConnect } from 'wagmi/connectors';
 
 import { RONIN_WALLET_WEB_LINK } from './constants';
 import { getVersionInfo } from './utils/common';
@@ -67,10 +64,11 @@ export type DefaultConfig = Prettify<
   }
 >;
 
-export const createTransports = (chains: readonly [Chain, ...Chain[]]) =>
-  Object.fromEntries(chains.map(chain => [chain.id, http()]));
+export function createTransports(chains: readonly [Chain, ...Chain[]]) {
+  return Object.fromEntries(chains.map(chain => [chain.id, http()]));
+}
 
-const createAppMetadata = (appMetadata?: AppMetadata) => {
+function createAppMetadata(appMetadata?: AppMetadata) {
   const defaults = RONIN_WALLET_METADATA.metadata;
   return {
     appName: appMetadata?.appName ?? defaults.name,
@@ -78,22 +76,23 @@ const createAppMetadata = (appMetadata?: AppMetadata) => {
     appDescription: appMetadata?.appDescription ?? defaults.description,
     appUrl: appMetadata?.appUrl ?? defaults.url,
   };
-};
+}
 
 const createRoninConnector = (): CreateConnectorFn => roninWallet();
 
 const createSafeConnector = (): CreateConnectorFn => safe();
 
-const createWaypointConnector = (config: DefaultConfig['keylessWalletConfig']): CreateConnectorFn =>
-  waypoint({
+function createWaypointConnector(config: DefaultConfig['keylessWalletConfig']): CreateConnectorFn {
+  return waypoint({
     source: getVersionInfo(),
     ...config,
   });
+}
 
-const createWalletConnectConnector = (
+function createWalletConnectConnector(
   appMetadata: ReturnType<typeof createAppMetadata>,
   config?: DefaultConfig['walletConnectConfig'],
-): CreateConnectorFn => {
+): CreateConnectorFn {
   const { metadata = {}, ...restConfig } = config ?? {};
   return walletConnect({
     projectId: config?.projectId ?? RONIN_WALLET_METADATA.projectId,
@@ -107,18 +106,19 @@ const createWalletConnectConnector = (
     },
     ...restConfig,
   });
-};
+}
 
-const createCoinbaseConnector = (
+function createCoinbaseConnector(
   appMetadata: ReturnType<typeof createAppMetadata>,
   config?: DefaultConfig['coinbaseWalletConfig'],
-): CreateConnectorFn =>
-  coinbaseWallet({
+): CreateConnectorFn {
+  return coinbaseWallet({
     appName: config?.appName ?? appMetadata.appName,
     ...config,
   });
+}
 
-export const createConnectors = (config: DefaultConfig): CreateConnectorFn[] => {
+export function createConnectors(config: DefaultConfig): CreateConnectorFn[] {
   const appMetadata = createAppMetadata(config.appMetadata);
   const connectors: CreateConnectorFn[] = [createRoninConnector(), createSafeConnector()];
   const { keylessWalletConfig, walletConnectConfig, coinbaseWalletConfig } = config;
@@ -129,9 +129,9 @@ export const createConnectors = (config: DefaultConfig): CreateConnectorFn[] => 
   if (coinbaseWalletConfig?.enable)
     connectors.push(createCoinbaseConnector(appMetadata, omit(coinbaseWalletConfig, 'enable')));
   return connectors;
-};
+}
 
-const createConfigParameters = (config: DefaultConfig): CreateConfigParameters => {
+function createConfigParameters(config: DefaultConfig): CreateConfigParameters {
   const chains = config.chains ?? DEFAULT_CHAINS;
   return {
     chains,
@@ -140,13 +140,14 @@ const createConfigParameters = (config: DefaultConfig): CreateConfigParameters =
     multiInjectedProviderDiscovery: config.multiInjectedProviderDiscovery ?? true,
     ...omit(config, EXCLUDED_CONFIG_KEYS),
   };
-};
+}
 
-export const getDefaultConfig = (config: DefaultConfig = {}): Config => {
-  if (config.keylessWalletConfig?.enable !== false && !config.keylessWalletConfig?.clientId)
+export function getDefaultConfig(config: DefaultConfig = {}): Config {
+  if (config.keylessWalletConfig?.enable !== false && !config.keylessWalletConfig?.clientId) {
     throw new TantoWidgetError(
       TantoWidgetErrorCodes.KEYLESS_WALLET_CONFIG_MISSING_CLIENT_ID,
       'KeylessWalletConfig requires a clientId when enabled',
     );
+  }
   return createConfig(createConfigParameters(config));
-};
+}

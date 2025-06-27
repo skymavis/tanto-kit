@@ -4,9 +4,9 @@ import { useChains } from 'wagmi';
 import { analytic } from '../../analytic';
 import { usePreloadTantoImages } from '../../hooks/usePreloadImages';
 import { useSolveRoninConnectionConflict } from '../../hooks/useSolveRoninConnectionConflict';
-import { TantoConfig } from './TantoContext';
+import type { TantoConfig } from './TantoContext';
 
-export const useTantoSetup = (customConfig: TantoConfig) => {
+export function useTantoSetup(customConfig: TantoConfig) {
   const chains = useChains();
 
   useSolveRoninConnectionConflict();
@@ -27,4 +27,4 @@ export const useTantoSetup = (customConfig: TantoConfig) => {
   };
 
   return config;
-};
+}

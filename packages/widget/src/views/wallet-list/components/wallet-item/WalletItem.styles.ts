@@ -26,12 +26,13 @@ export const Container = styled.div<{
     },
   }),
   ({ disabled, highlight, theme }) => {
-    if (disabled)
+    if (disabled) {
       return {
         pointerEvents: 'none',
         backgroundColor: 'rgba(205, 213, 229, 0.03)',
       };
-    if (highlight)
+    }
+    if (highlight) {
       return {
         backgroundColor: 'unset',
         backgroundImage: `url("${
@@ -49,6 +50,7 @@ export const Container = styled.div<{
           }")`,
         },
       };
+    }
   },
 );
 

@@ -1,4 +1,4 @@
-import { Address } from 'viem';
+import type { Address } from 'viem';
 import { createSiweMessage } from 'viem/siwe';
 
 import { isClient } from './common';
@@ -6,15 +6,7 @@ import { isClient } from './common';
 const SIWE_STATEMENT =
   'I accept the Terms of Use (https://axieinfinity.com/terms-of-use) and the Privacy Policy (https://axieinfinity.com/privacy-policy)';
 
-export const generateSiweMessage = ({
-  address,
-  chainId,
-  nonce,
-}: {
-  address: Address;
-  chainId: number;
-  nonce: string;
-}) => {
+export function generateSiweMessage({ address, chainId, nonce }: { address: Address; chainId: number; nonce: string }) {
   if (!isClient()) return '';
   const ethMessage = createSiweMessage({
     version: '1',
@@ -27,4 +19,4 @@ export const generateSiweMessage = ({
   });
   const roninMessage = ethMessage.replace('Ethereum', 'Ronin');
   return roninMessage;
-};
+}

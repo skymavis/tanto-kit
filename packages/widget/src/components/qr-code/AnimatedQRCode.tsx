@@ -3,7 +3,7 @@ import { AnimatePresence } from 'motion/react';
 import * as m from 'motion/react-m';
 
 import { SIZE, TRANSITION_DURATION } from './constants';
-import { QRCode } from './QRCode';
+import { QRCodeProps } from './QRCode';
 import { QRCodePlaceholder } from './QRCodePlaceholder';
 
 interface AnimatedQRCodeProps {
@@ -17,7 +17,7 @@ const Container = styled.div({
   height: SIZE,
 });
 
-export const AnimatedQRCode = ({ value }: AnimatedQRCodeProps) => {
+export function AnimatedQRCode({ value }: AnimatedQRCodeProps) {
   return (
     <Container>
       <AnimatePresence initial={false} mode="popLayout">
@@ -29,7 +29,7 @@ export const AnimatedQRCode = ({ value }: AnimatedQRCodeProps) => {
             exit={{ opacity: 0 }}
             transition={{ duration: TRANSITION_DURATION }}
           >
-            <QRCode value={value} />
+            <QRCodeProps value={value} />
           </m.div>
         ) : (
           <m.div
@@ -45,4 +45,4 @@ export const AnimatedQRCode = ({ value }: AnimatedQRCodeProps) => {
       </AnimatePresence>
     </Container>
   );
-};
+}

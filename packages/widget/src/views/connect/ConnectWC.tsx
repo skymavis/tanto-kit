@@ -13,7 +13,7 @@ import { isMobile } from '../../utils/userAgent';
 import { ConnectLayout } from './components/ConnectLayout';
 import { ScanGuideline } from './components/ScanGuideline';
 
-const ScanQRCode = ({ uri }: { uri: string | undefined }) => {
+function ScanQRCode({ uri }: { uri: string | undefined }) {
   return (
     <Box vertical align="center" justify="center" gap={20} pt={20}>
       <Box vertical align="center" justify="center" gap={16}>
@@ -24,7 +24,7 @@ const ScanQRCode = ({ uri }: { uri: string | undefined }) => {
       <GetWalletCTA />
     </Box>
   );
-};
+}
 
 export function ConnectWC() {
   const mobile = isMobile();

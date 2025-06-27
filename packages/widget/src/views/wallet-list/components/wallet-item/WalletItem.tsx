@@ -5,7 +5,7 @@ import { Box } from '../../../../components/box/Box';
 import { useWidgetConnect } from '../../../../contexts/widget-connect/useWidgetConnect';
 import { useWidgetRouter } from '../../../../contexts/widget-router/useWidgetRouter';
 import { Route } from '../../../../types/route';
-import { Wallet } from '../../../../types/wallet';
+import type { Wallet } from '../../../../types/wallet';
 import { useWalletState } from './useWalletState';
 import { Container, RoninBadge, WalletDescription, WalletLogoWrapper, WalletName } from './WalletItem.styles';
 import { WalletItemBadge } from './WalletItemBadge';
@@ -14,7 +14,7 @@ interface WalletItemProps {
   wallet: Wallet;
 }
 
-export const WalletItem = function WalletItem({ wallet }: WalletItemProps) {
+export function WalletItem({ wallet }: WalletItemProps) {
   const { id, name, displayOptions = {}, isInstalled, homepage, connector } = wallet;
   const { showRoninBadge, description } = displayOptions;
   const { setSelectedWallet } = useWidgetConnect();
@@ -78,4 +78,4 @@ export const WalletItem = function WalletItem({ wallet }: WalletItemProps) {
       />
     </Container>
   );
-};
+}

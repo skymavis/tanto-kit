@@ -18,7 +18,7 @@ export class RequestError extends Error {
   }
 }
 
-export const request = async <T = unknown>(url: string, options: RequestOptions = {}): Promise<T> => {
+export async function request<T = unknown>(url: string, options: RequestOptions = {}): Promise<T> {
   const { method = 'GET', timeout = 15000, headers = {}, body } = options;
 
   const controller = new AbortController();
@@ -57,4 +57,4 @@ export const request = async <T = unknown>(url: string, options: RequestOptions 
   } finally {
     clearTimeout(timeoutId);
   }
-};
+}

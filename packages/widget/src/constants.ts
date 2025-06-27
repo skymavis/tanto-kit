@@ -1,5 +1,5 @@
 // Wallet
-import { Address } from 'viem';
+import type { Address } from 'viem';
 import { ronin, saigon } from 'viem/chains';
 
 export const WALLET_IDS = {

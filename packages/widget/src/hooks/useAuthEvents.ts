@@ -13,7 +13,7 @@ export type AuthEventCallback = (data: AuthEventData) => void;
 
 export const authEventEmitter = createEmitter('tanto-auth');
 
-export const useAuthEvents = () => {
+export function useAuthEvents() {
   const createEventHandler = (eventType: AuthEventType) => {
     return (callback: AuthEventCallback) => {
       const handler = ({ uid: _, ...data }: AuthEventData & { uid?: string }) => callback(data);
@@ -26,4 +26,4 @@ export const useAuthEvents = () => {
     onSignInSuccess: createEventHandler('signInSuccess'),
     onSignInError: createEventHandler('signInError'),
   };
-};
+}

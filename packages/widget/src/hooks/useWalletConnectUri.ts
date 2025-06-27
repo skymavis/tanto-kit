@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Connector } from 'wagmi';
+import type { Connector } from 'wagmi';
 
 import { DELAY_CONNECT } from '../constants';
 import { isWCConnector } from '../utils/walletDetection';

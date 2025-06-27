@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo } from 'react';
-import { Connector } from 'wagmi';
+import type { Connector } from 'wagmi';
 
 import { analytic } from '../analytic';
 import { useAuth } from '../contexts/auth/useAuth';

@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { useWidgetUIConfig } from '../../../../contexts/widget-ui-config/useWidgetUIConfig';
 import { useIsMobileView } from '../../../../hooks/useIsMobileView';
-import { Wallet } from '../../../../types/wallet';
+import type { Wallet } from '../../../../types/wallet';
 import { isInjectedConnector, isWaypointConnector, isWCConnector } from '../../../../utils/walletDetection';
 
 export function useWalletState(wallet: Wallet) {

@@ -1,7 +1,7 @@
-import { ReactNode } from 'react';
-import { Connector } from 'wagmi';
+import type { ReactNode } from 'react';
+import type { Connector } from 'wagmi';
 
-import { WALLET_IDS } from '../constants';
+import type { WALLET_IDS } from '../constants';
 
 export type WalletId = typeof WALLET_IDS[keyof typeof WALLET_IDS] | (string & {});
 

@@ -1,9 +1,11 @@
-import { PropsWithChildren, useCallback, useMemo, useState } from 'react';
+import type { PropsWithChildren } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { WidgetModal } from '../../WidgetModal';
-import { WidgetModalContext, WidgetModalState } from './WidgetModalContext';
+import type { WidgetModalState } from './WidgetModalContext';
+import { WidgetModalContext } from './WidgetModalContext';
 
-export const WidgetModalProvider = ({ children }: PropsWithChildren) => {
+export function WidgetModalProvider({ children }: PropsWithChildren) {
   const [open, setOpen] = useState(false);
 
   const show = useCallback(() => setOpen(true), []);
@@ -25,4 +27,4 @@ export const WidgetModalProvider = ({ children }: PropsWithChildren) => {
       <WidgetModal />
     </WidgetModalContext.Provider>
   );
-};
+}

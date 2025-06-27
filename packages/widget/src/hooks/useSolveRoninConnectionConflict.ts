@@ -4,7 +4,7 @@ import { useConfig } from 'wagmi';
 import { isRoninWallet, isRoninWalletInjected } from '../utils/walletDetection';
 
 // Resolve conflicts caused by having two Ronin connectors with different IDs (RONIN_WALLET and com.roninchain.wallet)
-export const useSolveRoninConnectionConflict = () => {
+export function useSolveRoninConnectionConflict() {
   const { subscribe, setState } = useConfig();
   useEffect(() => {
     const unsubscribe = subscribe(
@@ -29,4 +29,4 @@ export const useSolveRoninConnectionConflict = () => {
     );
     return () => unsubscribe();
   }, [subscribe]);
-};
+}

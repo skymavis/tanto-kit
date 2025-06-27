@@ -1,4 +1,4 @@
-import { Wallet } from '../types/wallet';
+import type { Wallet } from '../types/wallet';
 import { useAccount } from './useAccount';
 import { useWallets } from './useWallets';
 

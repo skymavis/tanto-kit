@@ -1,8 +1,8 @@
 import { analytic } from '../../analytic';
 import { useConnectCallback } from '../../hooks/useConnectCallback';
-import { AccountConnectData } from '../../types/connect';
+import type { AccountConnectData } from '../../types/connect';
 
-export const useConnectionAnalytics = () => {
+export function useConnectionAnalytics() {
   useConnectCallback({
     onConnect: (data: AccountConnectData) => {
       analytic.updateSession({
@@ -24,4 +24,4 @@ export const useConnectionAnalytics = () => {
       });
     },
   });
-};
+}

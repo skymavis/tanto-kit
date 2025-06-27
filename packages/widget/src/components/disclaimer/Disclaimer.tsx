@@ -18,7 +18,7 @@ const InnerContainer = styled.div(props => ({
   },
 }));
 
-export const Disclaimer = () => {
+export function Disclaimer() {
   return (
     <Box fullWidth justify="center">
       <InnerContainer>
@@ -34,4 +34,4 @@ export const Disclaimer = () => {
       </InnerContainer>
     </Box>
   );
-};
+}

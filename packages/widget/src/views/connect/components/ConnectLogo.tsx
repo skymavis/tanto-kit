@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import * as m from 'motion/react-m';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 import { SuccessIcon } from '../../../assets/SuccessIcon';
 import { WarningIcon } from '../../../assets/WarningIcon';
@@ -60,7 +60,7 @@ interface ConnectLogoProps {
   status: ConnectState;
 }
 
-export const ConnectLogo = ({ walletIcon, status }: ConnectLogoProps) => {
+export function ConnectLogo({ walletIcon, status }: ConnectLogoProps) {
   const isConnecting = [ConnectState.PENDING, ConnectState.OPENING_WALLET].includes(status);
 
   return (
@@ -76,4 +76,4 @@ export const ConnectLogo = ({ walletIcon, status }: ConnectLogoProps) => {
       </StatusIconSection>
     </LogoSection>
   );
-};
+}

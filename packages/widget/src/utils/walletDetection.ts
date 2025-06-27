@@ -1,18 +1,21 @@
 import { requestSafeProvider } from '@sky-mavis/tanto-connect';
-import { Connector, CreateConnectorFn } from 'wagmi';
+import type { Connector, CreateConnectorFn } from 'wagmi';
 
 import { WALLET_IDS } from '../constants';
 
-export const isRoninInAppBrowser = () =>
-  typeof window !== 'undefined' && !!window.isWalletApp && window.ronin !== undefined && !!window.ethereum?.isRonin;
+export function isRoninInAppBrowser() {
+  return (
+    typeof window !== 'undefined' && !!window.isWalletApp && window.ronin !== undefined && !!window.ethereum?.isRonin
+  );
+}
 
-export const isSafeWallet = async () => {
+export async function isSafeWallet() {
   try {
     return !!(await requestSafeProvider());
   } catch {
     return false;
   }
-};
+}
 
 export const isInjectedConnector = (connectorType?: string) => connectorType === 'injected';
 
@@ -28,5 +31,6 @@ export const isSafeConnector = (connectorId?: string) => connectorId === WALLET_
 
 export const isCoinbaseConnector = (connectorId?: string) => connectorId === WALLET_IDS.COINBASE_WALLET;
 
-export const isRoninExtensionInstalled = (connectors: readonly Connector<CreateConnectorFn>[]) =>
-  connectors.some(connector => connector.id === WALLET_IDS.RONIN_WALLET_INJECTED);
+export function isRoninExtensionInstalled(connectors: readonly Connector<CreateConnectorFn>[]) {
+  return connectors.some(connector => connector.id === WALLET_IDS.RONIN_WALLET_INJECTED);
+}

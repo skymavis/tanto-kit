@@ -6,7 +6,7 @@ import { openWindow } from '../../utils/openWindow';
 import { isMobile } from '../../utils/userAgent';
 import { isWCConnector } from '../../utils/walletDetection';
 
-export const useDeeplinkHandler = () => {
+export function useDeeplinkHandler() {
   const { connector } = useAccount();
 
   useConnectorRequestInterceptor({
@@ -15,4 +15,4 @@ export const useDeeplinkHandler = () => {
       if (shouldOpenDeepLink) openWindow(RONIN_WALLET_APP_DEEPLINK);
     },
   });
-};
+}

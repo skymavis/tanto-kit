@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useAccount } from 'wagmi';
 
-export const useAccountSwitch = (callback: (newAddress: string, oldAddress: string) => void) => {
+export function useAccountSwitch(callback: (newAddress: string, oldAddress: string) => void) {
   const { address, isConnected } = useAccount();
   const previousAddress = useRef<string | undefined>(address);
 
@@ -10,4 +10,4 @@ export const useAccountSwitch = (callback: (newAddress: string, oldAddress: stri
       callback(address, previousAddress.current);
     previousAddress.current = address;
   }, [address, isConnected, callback]);
-};
+}

@@ -20,7 +20,7 @@ export function AddressDisplay({ rns, address }: AddressDisplayProps) {
 
   return (
     <Box align="center" gap={4} ml={30}>
-      <AddressText>{rns ? rns : normalizedAddress ? truncate(normalizedAddress) : '--'}</AddressText>
+      <AddressText>{rns || (normalizedAddress ? truncate(normalizedAddress) : '--')}</AddressText>
       <CopyButton variant="plain" value={address} />
     </Box>
   );

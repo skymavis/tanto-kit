@@ -1,10 +1,12 @@
-import { PropsWithChildren, useMemo, useState } from 'react';
+import type { PropsWithChildren } from 'react';
+import { useMemo, useState } from 'react';
 
 import { useWallets } from '../../hooks/useWallets';
-import { Wallet } from '../../types/wallet';
-import { WidgetConnectContext, WidgetConnectState } from './WidgetConnectContext';
+import type { Wallet } from '../../types/wallet';
+import type { WidgetConnectState } from './WidgetConnectContext';
+import { WidgetConnectContext } from './WidgetConnectContext';
 
-export const WidgetConnectProvider = ({ children }: PropsWithChildren) => {
+export function WidgetConnectProvider({ children }: PropsWithChildren) {
   const { wallets, primaryWallets, secondaryWallets } = useWallets();
   const [selectedWallet, setSelectedWallet] = useState<Wallet>();
   const selectedConnector = useMemo(() => selectedWallet?.connector, [selectedWallet?.connector]);
@@ -21,4 +23,4 @@ export const WidgetConnectProvider = ({ children }: PropsWithChildren) => {
   );
 
   return <WidgetConnectContext.Provider value={contextValue}>{children}</WidgetConnectContext.Provider>;
-};
+}

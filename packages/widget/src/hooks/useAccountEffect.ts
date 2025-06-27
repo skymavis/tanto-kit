@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
-import { useAccountEffect as useWagmiAccountEffect, UseAccountEffectParameters } from 'wagmi';
+import type { UseAccountEffectParameters } from 'wagmi';
+import { useAccountEffect as useWagmiAccountEffect } from 'wagmi';
 
 import { useAuth } from '../contexts/auth/useAuth';
 import { useAuthEvents } from './useAuthEvents';

@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
 import { useMemo } from 'react';
-import { Connector, CreateConnectorFn, useConnectors } from 'wagmi';
+import type { Connector, CreateConnectorFn } from 'wagmi';
+import { useConnectors } from 'wagmi';
 
 import { walletConfigs } from '../configs/walletConfigs';
 import { WALLET_IDS } from '../constants';
-import { Wallet } from '../types/wallet';
+import type { Wallet } from '../types/wallet';
 import { notEmpty } from '../utils/common';
 import { isDesktop, isMobile } from '../utils/userAgent';
 import {
@@ -31,10 +32,10 @@ interface UseWalletsResult {
   secondaryWallets: Wallet[];
 }
 
-const getWalletInstallationStatus = (
+function getWalletInstallationStatus(
   connector: Connector<CreateConnectorFn>,
   connectors: readonly Connector<CreateConnectorFn>[],
-) => {
+) {
   const { id, type } = connector;
   if (id === WALLET_IDS.RONIN_WALLET) return isRoninExtensionInstalled(connectors);
   return (
@@ -44,23 +45,25 @@ const getWalletInstallationStatus = (
     isWCConnector(id) ||
     isInjectedConnector(type)
   );
-};
+}
 
-const createBaseWallet = (
+function createBaseWallet(
   connector: Connector<CreateConnectorFn>,
   connectors: readonly Connector<CreateConnectorFn>[],
-): Wallet => ({
-  id: connector.id,
-  name: connector.name ?? connector.id ?? connector.type,
-  icon: connector.icon ? <WalletIcon src={connector.icon} alt={connector.name} /> : undefined,
-  isInstalled: getWalletInstallationStatus(connector, connectors),
-  connector,
-});
+): Wallet {
+  return {
+    id: connector.id,
+    name: connector.name ?? connector.id ?? connector.type,
+    icon: connector.icon ? <WalletIcon src={connector.icon} alt={connector.name} /> : undefined,
+    isInstalled: getWalletInstallationStatus(connector, connectors),
+    connector,
+  };
+}
 
-const createWalletWithConfig = (baseWallet: Wallet): Wallet => {
+function createWalletWithConfig(baseWallet: Wallet): Wallet {
   const walletConfig = walletConfigs[baseWallet.id];
   return walletConfig ? { ...baseWallet, ...walletConfig } : baseWallet;
-};
+}
 
 export function useWallets(): UseWalletsResult {
   const connectors = useConnectors();

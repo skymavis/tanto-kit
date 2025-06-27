@@ -6,7 +6,7 @@ import { TransitionedView } from '../../../components/animated-containers/Transi
 import { Box } from '../../../components/box/Box';
 import { Button } from '../../../components/button/Button';
 import { ConnectState } from '../../../types/connect';
-import { Wallet } from '../../../types/wallet';
+import type { Wallet } from '../../../types/wallet';
 import { generateRoninMobileWCLink } from '../../../utils/url';
 
 const TextSection = styled(Box)({
@@ -43,7 +43,7 @@ const FADE_ANIMATION_CONFIG = {
   transition: { duration: 0.2 },
 };
 
-const ActionButton = ({ status, walletName, wcUri, onRetry }: ActionButtonProps) => {
+function ActionButton({ status, walletName, wcUri, onRetry }: ActionButtonProps) {
   if (status === ConnectState.ERROR && onRetry) {
     return (
       <Fade show {...FADE_ANIMATION_CONFIG}>
@@ -58,16 +58,19 @@ const ActionButton = ({ status, walletName, wcUri, onRetry }: ActionButtonProps)
     return (
       <Fade show {...FADE_ANIMATION_CONFIG}>
         <a href={generateRoninMobileWCLink(wcUri)}>
-          <Button fullWidth>Open {walletName}</Button>
+          <Button fullWidth>
+            Open
+            {walletName}
+          </Button>
         </a>
       </Fade>
     );
   }
 
   return null;
-};
+}
 
-export const ConnectContent = ({ wallet, status, wcUri, onRetry }: ConnectContentProps) => {
+export function ConnectContent({ wallet, status, wcUri, onRetry }: ConnectContentProps) {
   const connectTextMap = useMemo(
     () => ({
       [ConnectState.PENDING]: {
@@ -107,4 +110,4 @@ export const ConnectContent = ({ wallet, status, wcUri, onRetry }: ConnectConten
       </Box>
     </TransitionedView>
   );
-};
+}

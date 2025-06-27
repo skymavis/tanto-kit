@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 import { SmoothWidth } from './components/animated-containers/SmoothWidth';
 import { TransitionedView } from './components/animated-containers/TransitionedView';
@@ -11,7 +11,7 @@ import { useWidgetModal } from './contexts/widget-modal/useWidgetModal';
 import { useAccount } from './hooks/useAccount';
 import { useConnectCallback } from './hooks/useConnectCallback';
 import { useRnsName } from './hooks/useRnsName';
-import { AccountConnectionCallback } from './types/connect';
+import type { AccountConnectionCallback } from './types/connect';
 import { truncate } from './utils/string';
 
 export type TantoConnectButtonProps = AccountConnectionCallback & {
@@ -68,7 +68,7 @@ export function TantoConnectButton({
               {isConnected && !disableProfile ? (
                 <Box align="center" gap={8}>
                   <Avatar seed={normalizedAddress} size="S" />
-                  <p>{rns ? rns : truncate(normalizedAddress)}</p>
+                  <p>{rns || truncate(normalizedAddress)}</p>
                 </Box>
               ) : (
                 text

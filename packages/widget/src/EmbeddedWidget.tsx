@@ -1,15 +1,15 @@
 import styled from '@emotion/styled';
-import { CSSProperties } from 'react';
+import type { CSSProperties } from 'react';
 
 import { CONNECT_SUCCESS_DELAY } from './constants';
 import { useTantoConfig } from './contexts/tanto/useTantoConfig';
 import { useWidgetRouter } from './contexts/widget-router/useWidgetRouter';
 import { WidgetRouterProvider } from './contexts/widget-router/WidgetRouterProvider';
-import { WidgetUIConfigState } from './contexts/widget-ui-config/WidgetUIConfigContext';
+import type { WidgetUIConfigState } from './contexts/widget-ui-config/WidgetUIConfigContext';
 import { WidgetUIConfigProvider } from './contexts/widget-ui-config/WidgetUIConfigProvider';
 import { useAccountEffect } from './hooks/useAccountEffect';
 import { useConnectCallback } from './hooks/useConnectCallback';
-import { AccountConnectionCallback } from './types/connect';
+import type { AccountConnectionCallback } from './types/connect';
 import { WidgetContent } from './WidgetContent';
 
 const EmbeddedContainer = styled.div(({ theme }) => ({

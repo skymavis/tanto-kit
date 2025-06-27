@@ -8,12 +8,13 @@ interface WalletItemBadgeProps {
 
 export function WalletItemBadge({ isConnected, isDetected, highlightText }: WalletItemBadgeProps) {
   if (isConnected) return <Badge key="connected">Connected</Badge>;
-  if (!isConnected && highlightText)
+  if (!isConnected && highlightText) {
     return (
       <Badge key="highlight" intent="highlight">
         {highlightText}
       </Badge>
     );
+  }
   if (isDetected) return <Badge key="detected">Detected</Badge>;
   return null;
 }

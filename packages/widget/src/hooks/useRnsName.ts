@@ -1,4 +1,5 @@
-import { Address, namehash } from 'viem';
+import type { Address } from 'viem';
+import { namehash } from 'viem';
 import { useChainId, useReadContract } from 'wagmi';
 
 import { RNS_NAME_ABI, RNS_PUBLIC_RESOLVER_ADDRESS } from '../constants';
