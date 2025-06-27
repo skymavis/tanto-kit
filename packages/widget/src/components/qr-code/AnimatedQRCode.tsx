@@ -3,7 +3,7 @@ import { AnimatePresence } from 'motion/react';
 import * as m from 'motion/react-m';
 
 import { SIZE, TRANSITION_DURATION } from './constants';
-import { QRCodeProps } from './QRCode';
+import { QRCode } from './QRCode';
 import { QRCodePlaceholder } from './QRCodePlaceholder';
 
 interface AnimatedQRCodeProps {
@@ -29,7 +29,7 @@ export function AnimatedQRCode({ value }: AnimatedQRCodeProps) {
             exit={{ opacity: 0 }}
             transition={{ duration: TRANSITION_DURATION }}
           >
-            <QRCodeProps value={value} />
+            <QRCode value={value} />
           </m.div>
         ) : (
           <m.div
