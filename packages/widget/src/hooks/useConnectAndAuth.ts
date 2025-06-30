@@ -20,7 +20,7 @@ export function useConnectAndAuth({ connector }: UseConnectAndAuthParameters) {
   } = useConnect({
     connector,
     onError: error => {
-      console.debug('Wagmi connect error:', error);
+      console.debug('Connect error:', error);
     },
     onSuccess: () => {
       if (enableAuth) signIn();
@@ -43,8 +43,9 @@ export function useConnectAndAuth({ connector }: UseConnectAndAuthParameters) {
   }, [connector, resetAuth, baseConnect]);
 
   const status = useMemo(() => {
-    if (authError) return ConnectState.ERROR;
-    if (connectStatus === ConnectState.SUCCESS && enableAuth && isSigningIn) return ConnectState.PENDING;
+    if (isSigningIn) return ConnectState.AUTHENTICATING;
+    if (authError) return ConnectState.FAILED;
+    if (connectStatus === ConnectState.SUCCESS && enableAuth && isSigningIn) return ConnectState.AUTHENTICATING;
     return connectStatus;
   }, [connectStatus, enableAuth, isSigningIn, authError]);
 
@@ -53,7 +54,7 @@ export function useConnectAndAuth({ connector }: UseConnectAndAuthParameters) {
   }, [resetAuth]);
 
   useEffect(() => {
-    if (status === ConnectState.ERROR && error) {
+    if (status === ConnectState.FAILED && error) {
       analytic.sendEvent('wallet_connect_fail', {
         chain_id: connector?.chainId,
         wallet_type: connector?.name,

@@ -13,7 +13,11 @@ import { isMobile } from '../../utils/userAgent';
 import { ConnectLayout } from './components/ConnectLayout';
 import { ScanGuideline } from './components/ScanGuideline';
 
-function ScanQRCode({ uri }: { uri: string | undefined }) {
+interface ScanQRCodeProps {
+  uri: string | undefined;
+}
+
+function ScanQRCode({ uri }: ScanQRCodeProps) {
   return (
     <Box vertical align="center" justify="center" gap={20} pt={20}>
       <Box vertical align="center" justify="center" gap={16}>
@@ -29,6 +33,7 @@ function ScanQRCode({ uri }: { uri: string | undefined }) {
 export function ConnectWC() {
   const mobile = isMobile();
   const { selectedWallet, selectedConnector } = useWidgetConnect();
+
   const { uri, status, generateConnectUri } = useWalletConnectUri({
     connector: selectedConnector,
     onReceiveDisplayUri: uri => {
@@ -42,7 +47,7 @@ export function ConnectWC() {
 
   return (
     <TransitionedView viewKey={status}>
-      {status === ConnectState.PENDING ? (
+      {status === ConnectState.CONNECTING ? (
         <ScanQRCode uri={uri} />
       ) : (
         <ConnectLayout status={status} wallet={selectedWallet} wcUri={uri} onRetry={generateConnectUri} />

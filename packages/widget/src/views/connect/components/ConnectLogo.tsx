@@ -27,7 +27,7 @@ const LogoSection = styled(m.div)<{ status: ConnectState }>(
     },
   },
   ({ theme, status }) => {
-    if (status === ConnectState.ERROR) {
+    if (status === ConnectState.FAILED) {
       return {
         animation: `${shake} 240ms ease-out both`,
         '&:before': {
@@ -61,13 +61,15 @@ interface ConnectLogoProps {
 }
 
 export function ConnectLogo({ walletIcon, status }: ConnectLogoProps) {
-  const isConnecting = [ConnectState.PENDING, ConnectState.OPENING_WALLET].includes(status);
+  const isConnecting = [ConnectState.CONNECTING, ConnectState.OPEN_MOBILE_WALLET, ConnectState.AUTHENTICATING].includes(
+    status,
+  );
 
   return (
     <LogoSection status={status}>
       <SquircleSpinner logo={walletIcon} connecting={isConnecting} />
       <StatusIconSection>
-        <Fade show={status === ConnectState.ERROR}>
+        <Fade show={status === ConnectState.FAILED}>
           <WarningIcon />
         </Fade>
         <Fade show={status === ConnectState.SUCCESS}>

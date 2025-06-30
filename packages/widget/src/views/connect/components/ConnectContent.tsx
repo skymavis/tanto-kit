@@ -38,13 +38,20 @@ interface ConnectContentProps {
   onRetry?: () => void;
 }
 
+interface ConnectText {
+  title: string;
+  description: string;
+}
+
+type ConnectTextMap = Record<ConnectState, ConnectText>;
+
 const FADE_ANIMATION_CONFIG = {
   initial: { opacity: 0, scale: 0.85 },
   transition: { duration: 0.2 },
-};
+} as const;
 
 function ActionButton({ status, walletName, wcUri, onRetry }: ActionButtonProps) {
-  if (status === ConnectState.ERROR && onRetry) {
+  if (status === ConnectState.FAILED && onRetry) {
     return (
       <Fade show {...FADE_ANIMATION_CONFIG}>
         <Button fullWidth intent="secondary" onClick={onRetry}>
@@ -54,14 +61,11 @@ function ActionButton({ status, walletName, wcUri, onRetry }: ActionButtonProps)
     );
   }
 
-  if (status === ConnectState.OPENING_WALLET && wcUri) {
+  if (status === ConnectState.OPEN_MOBILE_WALLET && wcUri) {
     return (
       <Fade show {...FADE_ANIMATION_CONFIG}>
         <a href={generateRoninMobileWCLink(wcUri)}>
-          <Button fullWidth>
-            Open
-            {walletName}
-          </Button>
+          <Button fullWidth>Open {walletName}</Button>
         </a>
       </Fade>
     );
@@ -70,18 +74,27 @@ function ActionButton({ status, walletName, wcUri, onRetry }: ActionButtonProps)
   return null;
 }
 
+function getConnectingText(wallet: Wallet): ConnectText {
+  const defaultTitle = 'Waiting for connection';
+  const defaultDescription = `Confirm connection in ${wallet.name}.`;
+
+  return {
+    title: wallet.displayOptions?.connectingTitle ?? defaultTitle,
+    description: wallet.displayOptions?.connectingDescription ?? defaultDescription,
+  };
+}
+
 export function ConnectContent({ wallet, status, wcUri, onRetry }: ConnectContentProps) {
-  const connectTextMap = useMemo(
-    () => ({
-      [ConnectState.PENDING]: {
-        title: wallet.displayOptions?.connectingTitle
-          ? wallet.displayOptions.connectingTitle
-          : 'Waiting for connection',
-        description: wallet.displayOptions?.connectingDescription
-          ? wallet.displayOptions.connectingDescription
-          : `Confirm connection in ${wallet.name}.`,
+  const connectTextMap = useMemo<ConnectTextMap>(() => {
+    const connectingText = getConnectingText(wallet);
+
+    return {
+      [ConnectState.CONNECTING]: connectingText,
+      [ConnectState.AUTHENTICATING]: {
+        title: 'Sign to verify',
+        description: 'Confirm the request in your wallet to continue.',
       },
-      [ConnectState.ERROR]: {
+      [ConnectState.FAILED]: {
         title: 'Could not connect',
         description: 'There is a problem with connecting your wallet.',
       },
@@ -89,13 +102,12 @@ export function ConnectContent({ wallet, status, wcUri, onRetry }: ConnectConten
         title: 'Success',
         description: `Connected to ${wallet.name} successfully.`,
       },
-      [ConnectState.OPENING_WALLET]: {
+      [ConnectState.OPEN_MOBILE_WALLET]: {
         title: wallet.name,
         description: wcUri ? "Tap 'Open' to continue" : 'Preparing connection',
       },
-    }),
-    [wallet.name, wallet.displayOptions, wcUri],
-  );
+    };
+  }, [wallet, wcUri]);
 
   const { title, description } = connectTextMap[status];
 

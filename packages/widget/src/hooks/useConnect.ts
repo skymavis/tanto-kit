@@ -29,7 +29,7 @@ export function useConnect({ connector, onSuccess, onError }: UseConnectParamete
       onError,
     },
   });
-  const [status, setStatus] = useState<ConnectState>(ConnectState.PENDING);
+  const [status, setStatus] = useState<ConnectState>(ConnectState.CONNECTING);
 
   const connect = useCallback(() => {
     if (!connector) return;
@@ -42,13 +42,13 @@ export function useConnect({ connector, onSuccess, onError }: UseConnectParamete
       switch (wagmiStatus) {
         case 'idle':
         case 'pending':
-          return isWCConnector(connector?.id) && isMobile() ? ConnectState.OPENING_WALLET : ConnectState.PENDING;
+          return isWCConnector(connector?.id) && isMobile() ? ConnectState.OPEN_MOBILE_WALLET : ConnectState.CONNECTING;
         case 'success':
           return hideConnectSuccessPrompt ? prevStatus : ConnectState.SUCCESS;
         case 'error':
-          return ConnectState.ERROR;
+          return ConnectState.FAILED;
         default:
-          return ConnectState.PENDING;
+          return ConnectState.CONNECTING;
       }
     });
   }, [wagmiStatus, connector?.id, disableProfile, hideConnectSuccessPrompt]);
