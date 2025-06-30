@@ -5,7 +5,7 @@ import { formatBalance } from '../../../utils/balance';
 const BalanceText = styled.p(({ theme }) => ({
   fontSize: '1em',
   lineHeight: '1.375em',
-  color: theme.bodyText,
+  color: theme.mutedText,
 }));
 
 interface BalanceDisplayProps {

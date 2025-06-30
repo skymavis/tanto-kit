@@ -16,9 +16,9 @@ export function Profile() {
 
   return (
     <Box vertical align="center" gap={32}>
-      <Box vertical align="center" gap={20}>
+      <Box vertical align="center" gap={16}>
         <Avatar seed={normalizedAddress} size="XXL" showDot={isConnected} />
-        <Box vertical align="center" gap={8}>
+        <Box vertical align="center" gap={4}>
           <AddressDisplay rns={rns} address={address} />
           <BalanceDisplay isLoading={isLoading} balanceData={balanceData} />
         </Box>

@@ -13,7 +13,7 @@ interface ConnectLayoutProps {
 
 export function ConnectLayout({ status, wallet, wcUri, onRetry }: ConnectLayoutProps) {
   return (
-    <Box vertical align="center" justify="center" gap={20} pt={20}>
+    <Box vertical align="center" justify="center" gap={32} pt={20}>
       <ConnectLogo walletIcon={wallet.icon} status={status} />
       <ConnectContent wallet={wallet} status={status} wcUri={wcUri} onRetry={onRetry} />
     </Box>

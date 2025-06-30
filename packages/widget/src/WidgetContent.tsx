@@ -11,6 +11,7 @@ import { CSSReset } from './components/css-reset/CSSReset';
 import { WidgetConnectProvider } from './contexts/widget-connect/WidgetConnectProvider';
 import { useWidgetRouter } from './contexts/widget-router/useWidgetRouter';
 import { useAccount } from './hooks/useAccount';
+import { Route } from './types/route';
 
 const ActionSection = styled.div({
   minWidth: 44,
@@ -34,6 +35,7 @@ export function WidgetContent({ close }: WidgetContentProps) {
   const { view, goBack } = useWidgetRouter();
   const { address, chainId } = useAccount();
   const headerMarginBottom = (() => {
+    if (view.route === Route.PROFILE) return 32;
     if (view.showBackButton || close) return 8;
     if (!view.showBackButton && !close) return 6;
     return 12;
