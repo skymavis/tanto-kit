@@ -75,7 +75,7 @@ Add wallet connection functionality with the `TantoConnectButton` component.
 import { TantoConnectButton } from '@sky-mavis/tanto-widget';
 
 function Page() {
-  return <TantoConnectButton />;
+  return <TantoConnectButton label="Connect Wallet" />;
 }
 ```
 
@@ -127,13 +127,12 @@ import { TantoProvider } from '@tanto/widget';
 
 ### Custom Themes
 
-Customize the widget's appearance by passing a `customThemeToken` to `TantoProvider`.
+Customize the widget's appearance by extending from `lightTheme` or `darkTheme`.
 
 ```tsx
-import { TantoProvider } from '@sky-mavis/tanto-widget';
-import type { TantoWidgetCustomTheme } from '@sky-mavis/tanto-widget';
+import { TantoProvider, lightTheme } from '@sky-mavis/tanto-widget';
 
-const customTheme: TantoWidgetCustomTheme = {
+const customTheme = lightTheme({
   mode: 'light',
   fontFamily: ["'Nunito'", 'sans-serif'],
   fontSize: '1em',
@@ -142,13 +141,13 @@ const customTheme: TantoWidgetCustomTheme = {
   modalBackground: 'oklch(0.92 0.042 83.6)',
   modalBorderRadius: '0.625rem',
   // Add more theme tokens as needed
-};
+});
 
 function App() {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <TantoProvider customThemeToken={customTheme}>
+        <TantoProvider theme={customTheme}>
           {/* Your App */}
         </TantoProvider>
       </QueryClientProvider>
