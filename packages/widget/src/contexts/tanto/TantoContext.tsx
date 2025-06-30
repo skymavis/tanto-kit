@@ -5,6 +5,7 @@ export interface TantoConfig {
   disableProfile?: boolean;
   hideConnectSuccessPrompt?: boolean;
   initialChainId?: number;
+  createAccountOnConnect?: boolean;
 }
 
 export interface TantoState {

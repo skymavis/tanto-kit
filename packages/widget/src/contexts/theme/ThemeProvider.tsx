@@ -1,5 +1,6 @@
 import { css, Global, ThemeProvider as EmotionThemeProvider } from '@emotion/react';
-import { type PropsWithChildren, useMemo } from 'react';
+import type { PropsWithChildren } from 'react';
+import { useMemo } from 'react';
 
 import { tantoDarkTheme, tantoLightTheme } from '../../styles/theme';
 import type { TantoWidgetCustomTheme, TantoWidgetTheme } from '../../types/theme';

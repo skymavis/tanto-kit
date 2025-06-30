@@ -1,16 +1,18 @@
 import { v4 } from 'uuid';
 
 import { ANALYTIC_PUBLIC_KEY } from './constants';
-import {
-  type AnalyticBaseEventData,
-  type AnalyticEventData,
-  type AnalyticIdentifyEventData,
-  type AnalyticOptions,
-  type AnalyticStorageConfig,
-  type AnalyticStorageData,
-  AnalyticEventType,
+import { request } from './services/request';
+import type {
+  AnalyticBaseEventData,
+  AnalyticEventData,
+  AnalyticIdentifyEventData,
+  AnalyticOptions,
+  AnalyticStorageConfig,
+  AnalyticStorageData,
 } from './types/analytic';
-import { getUserAgent, isClient } from './utils';
+import { AnalyticEventType } from './types/analytic';
+import { isClient } from './utils/common';
+import { getUserAgent } from './utils/userAgent';
 
 class AnalyticStorage {
   private static instance: AnalyticStorage;
@@ -331,13 +333,12 @@ class Analytic {
   }
 
   private async send(events: Array<AnalyticEventData>): Promise<Response> {
-    return fetch('https://x.skymavis.com/track', {
+    return request('https://x.skymavis.com/track', {
       method: 'POST',
-      headers: [
-        ['Authorization', `Basic ${btoa(`${this.apiKey}:`)}`],
-        ['Content-Type', 'application/json'],
-      ],
-      body: JSON.stringify({ events }),
+      headers: {
+        Authorization: `Basic ${btoa(`${this.apiKey}:`)}`,
+      },
+      body: { events },
     });
   }
 

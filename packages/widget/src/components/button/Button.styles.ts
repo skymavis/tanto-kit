@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import type { ButtonProps } from './Button.types';
 
-const getIntentStyles = (theme: any, intent?: string) => {
+function getIntentStyles(theme: any, intent?: string) {
   const intentMap = {
     primary: {
       color: theme.buttonPrimaryColor,
@@ -39,9 +39,9 @@ const getIntentStyles = (theme: any, intent?: string) => {
   };
 
   return intentMap[intent as keyof typeof intentMap] || intentMap.primary;
-};
+}
 
-const getVariantStyles = (theme: any, variant?: string) => {
+function getVariantStyles(theme: any, variant?: string) {
   const variantMap = {
     plain: {
       color: theme.buttonSecondaryColor,
@@ -58,9 +58,9 @@ const getVariantStyles = (theme: any, variant?: string) => {
   };
 
   return variantMap[variant as keyof typeof variantMap] || {};
-};
+}
 
-const getSizeStyles = (size?: string) => {
+function getSizeStyles(size?: string) {
   const sizeMap = {
     large: {
       fontWeight: 500,
@@ -86,9 +86,9 @@ const getSizeStyles = (size?: string) => {
   };
 
   return sizeMap[size as keyof typeof sizeMap] || sizeMap.default;
-};
+}
 
-const getShapeStyles = (shape?: string) => {
+function getShapeStyles(shape?: string) {
   const shapeMap = {
     square: { borderRadius: 0 },
     lessrounded: { borderRadius: 8 },
@@ -96,9 +96,9 @@ const getShapeStyles = (shape?: string) => {
   };
 
   return shapeMap[shape as keyof typeof shapeMap] || {};
-};
+}
 
-const getDisabledStyles = (theme: any, disabled?: boolean) => {
+function getDisabledStyles(theme: any, disabled?: boolean) {
   if (!disabled) return {};
 
   return {
@@ -110,7 +110,7 @@ const getDisabledStyles = (theme: any, disabled?: boolean) => {
       color: theme.buttonDisabledColor,
     },
   };
-};
+}
 
 export const StyledButton = styled.button<ButtonProps>(
   {
