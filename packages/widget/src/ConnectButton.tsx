@@ -17,7 +17,7 @@ import { truncate } from './utils/string';
 export type TantoConnectButtonProps = AccountConnectionCallback & {
   className?: string;
   style?: CSSProperties;
-  text?: string;
+  label?: string;
   children?: (renderProps: {
     isConnected: boolean;
     rns?: string;
@@ -33,7 +33,7 @@ export function TantoConnectButton({
   onConnect,
   onDisconnect,
   children,
-  text = 'Connect Wallet',
+  label = 'Connect Wallet',
   ...rest
 }: TantoConnectButtonProps) {
   const { disableProfile } = useTantoConfig();
@@ -71,7 +71,7 @@ export function TantoConnectButton({
                   <p>{rns || truncate(normalizedAddress)}</p>
                 </Box>
               ) : (
-                text
+                label
               )}
             </TransitionedView>
           </SmoothWidth>

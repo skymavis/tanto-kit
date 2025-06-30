@@ -25,7 +25,6 @@ type ConnectionHandlerProps = PropsWithChildren<AccountConnectionCallback>;
 export function TantoProvider({
   config: customConfig = {},
   theme,
-  customThemeToken,
   children,
   onConnect,
   onDisconnect,
@@ -35,7 +34,7 @@ export function TantoProvider({
 
   return (
     <TantoContext.Provider value={contextValue}>
-      <ThemeProvider theme={theme} customThemeToken={customThemeToken}>
+      <ThemeProvider theme={theme}>
         <MotionConfig reducedMotion={config.reducedMotion ? 'always' : 'never'}>
           <LazyMotion features={domAnimation} strict>
             <AuthProvider>
