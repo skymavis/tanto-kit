@@ -1,27 +1,47 @@
-import { queryOptions } from '@tanstack/react-query';
+import { Address } from 'viem';
 
-import { delay } from '../utils/common';
+import { request } from './request';
 
-export const query = {
-  nonce: () =>
-    queryOptions({
-      queryKey: ['tantoGetNonce'],
-      // TODO
-      refetchInterval: 1000 * 60 * 5, // 5 minutes
-      queryFn: async () => {
-        // TODO
-        await delay(1_000);
-        return '1234567890';
-      },
-    }),
-} as const;
+export const query = {} as const;
 
 export const mutation = {
+  generateNonce: () => ({
+    mutationKey: ['tantoGenerateNonce'],
+    mutationFn: async ({ address }: { address: Address }) => {
+      return request<{
+        expirationTime: string;
+        issuedAt: string;
+        nonce: string;
+        notBefore: string;
+      }>('https://waypoint-api.skymavis.one/v1/rpc/public/siwe/init', {
+        method: 'POST',
+        body: {
+          address,
+        },
+      });
+    },
+  }),
   createAccount: () => ({
     mutationKey: ['tantoCreateAccount'],
-    mutationFn: async ({ signature }: { signature: string }) => {
-      await delay(2_000);
-      return `mock-success-${signature}`;
+    mutationFn: async ({
+      message,
+      signature,
+      clientId = '',
+    }: {
+      message: string;
+      signature: string;
+      clientId?: string;
+    }) => {
+      return request<string>('https://waypoint-api.skymavis.one/v1/rpc/public/siwe/authenticate', {
+        method: 'POST',
+        headers: {
+          'sm-client-id': clientId,
+        },
+        body: {
+          message,
+          signature,
+        },
+      });
     },
   }),
 } as const;

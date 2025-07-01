@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useMemo } from 'react';
-import type { Connector } from 'wagmi';
+import { type Connector, useDisconnect } from 'wagmi';
 
 import { analytic } from '../analytic';
 import { useAuth } from '../contexts/auth/useAuth';
 import { ConnectState } from '../types/connect';
 import { useConnect } from './useConnect';
+import { useUnmount } from './useUnmount';
 
 interface UseConnectAndAuthParameters {
   connector?: Connector;
@@ -12,6 +13,7 @@ interface UseConnectAndAuthParameters {
 
 export function useConnectAndAuth({ connector }: UseConnectAndAuthParameters) {
   const { signIn, isSigningIn, enable: enableAuth, error: authError, reset: resetAuth } = useAuth();
+  const { disconnect } = useDisconnect();
 
   const {
     status: connectStatus,
@@ -50,8 +52,13 @@ export function useConnectAndAuth({ connector }: UseConnectAndAuthParameters) {
   }, [connectStatus, enableAuth, isSigningIn, authError]);
 
   useEffect(() => {
-    return () => resetAuth();
-  }, [resetAuth]);
+    resetAuth();
+  }, []);
+
+  useUnmount(() => {
+    resetAuth();
+    if (isSigningIn) disconnect();
+  });
 
   useEffect(() => {
     if (status === ConnectState.FAILED && error) {

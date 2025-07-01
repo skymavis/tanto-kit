@@ -1,6 +1,7 @@
 import { createContext } from 'react';
 
 export interface TantoConfig {
+  clientId?: string;
   reducedMotion?: boolean;
   disableProfile?: boolean;
   hideConnectSuccessPrompt?: boolean;

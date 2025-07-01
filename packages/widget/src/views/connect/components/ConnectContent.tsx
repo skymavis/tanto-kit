@@ -91,8 +91,8 @@ export function ConnectContent({ wallet, status, wcUri, onRetry }: ConnectConten
     return {
       [ConnectState.CONNECTING]: connectingText,
       [ConnectState.AUTHENTICATING]: {
-        title: 'Sign to verify',
-        description: 'Confirm the request in your wallet to continue.',
+        title: 'Waiting for Signature',
+        description: 'Open your wallet and sign to verify you own this address.',
       },
       [ConnectState.FAILED]: {
         title: 'Could not connect',

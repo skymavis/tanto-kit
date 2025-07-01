@@ -1,11 +1,12 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import type { PropsWithChildren } from 'react';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
+import { v4 } from 'uuid';
 import { useAccount, useDisconnect, useSignMessage } from 'wagmi';
 
 import { useAccountSwitch } from '../../hooks/useAccountSwitch';
 import { authEventEmitter } from '../../hooks/useAuthEffect';
-import { mutation, query } from '../../services/queries';
+import { mutation } from '../../services/queries';
 import { delay } from '../../utils/common';
 import { TantoWidgetError, TantoWidgetErrorCodes } from '../../utils/errors';
 import { generateSiweMessage } from '../../utils/siwe';
@@ -16,7 +17,7 @@ import { AuthContext } from './AuthContext';
 import { useWaypointMessageHandler } from './useWaypointMessageHandler';
 
 export function AuthProvider({ children }: PropsWithChildren) {
-  const { createAccountOnConnect: enableAuth = false } = useTantoConfig();
+  const { createAccountOnConnect: enableAuth = false, clientId } = useTantoConfig();
   const { address, chainId, connector } = useAccount();
   const { signMessageAsync } = useSignMessage();
   const { disconnect } = useDisconnect();
@@ -24,16 +25,16 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
-  const { data: nonce, refetch: refetchNonce } = useQuery({
-    ...query.nonce(),
-    enabled: enableAuth,
-  });
+  // Use ref to track the current sign-in session to prevent race conditions
+  const currentSignInRef = useRef<string | null>(null);
 
+  const { mutateAsync: generateNonce } = useMutation(mutation.generateNonce());
   const { mutateAsync: createAccount } = useMutation(mutation.createAccount());
 
   const reset = useCallback(() => {
     setIsSigningIn(false);
     setError(null);
+    currentSignInRef.current = null;
   }, []);
 
   const signIn = useCallback(async (): Promise<void> => {
@@ -42,16 +43,28 @@ export function AuthProvider({ children }: PropsWithChildren) {
     setIsSigningIn(true);
     setError(null);
 
+    const sessionId = v4();
+    currentSignInRef.current = sessionId;
+
     try {
       if (isWCConnector(connector?.id)) await delay(1_000);
 
       if (isWaypointConnector(connector?.id)) return;
 
-      if (!nonce) throw new TantoWidgetError(TantoWidgetErrorCodes.NONCE_NOT_AVAILABLE, 'Nonce is not available');
-
-      const message = generateSiweMessage({ address, chainId, nonce });
+      const { nonce, expirationTime, issuedAt, notBefore } = await generateNonce({ address });
+      const message = generateSiweMessage({
+        address,
+        chainId,
+        nonce,
+        expirationTime,
+        issuedAt,
+        notBefore,
+      });
       const signature = await signMessageAsync({ message });
-      const token = await createAccount({ signature });
+
+      if (currentSignInRef.current !== sessionId) return;
+
+      const token = await createAccount({ message, signature, clientId });
 
       authEventEmitter.emit('success', {
         address,
@@ -59,39 +72,33 @@ export function AuthProvider({ children }: PropsWithChildren) {
         token,
       });
     } catch (error) {
-      handleSignInError(error);
+      if (currentSignInRef.current !== sessionId) return;
+
+      const authError =
+        error instanceof Error
+          ? error
+          : new TantoWidgetError(TantoWidgetErrorCodes.CREATE_ACCOUNT_FAILED, 'Failed to create account');
+
+      console.debug('Auth error:', authError);
+
+      setError(authError);
+      authEventEmitter.emit('failed', { error: authError });
+      disconnect();
     } finally {
-      cleanup();
+      setIsSigningIn(false);
     }
   }, [
     enableAuth,
     address,
     chainId,
     isSigningIn,
-    nonce,
+    generateNonce,
     signMessageAsync,
     disconnect,
-    refetchNonce,
     createAccount,
     connector?.id,
+    clientId,
   ]);
-
-  const handleSignInError = (error: unknown) => {
-    const authError =
-      error instanceof Error
-        ? error
-        : new TantoWidgetError(TantoWidgetErrorCodes.CREATE_ACCOUNT_FAILED, 'Failed to create account');
-
-    console.debug('Auth error:', authError);
-    setError(authError);
-    authEventEmitter.emit('failed', { error: authError });
-    disconnect();
-  };
-
-  const cleanup = () => {
-    refetchNonce();
-    setIsSigningIn(false);
-  };
 
   useAccountSwitch(signIn);
   useWaypointMessageHandler(enableAuth);
@@ -104,7 +111,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
       signIn,
       reset,
     }),
-    [enableAuth, isSigningIn, error, signIn, reset],
+    [enableAuth, error, isSigningIn, signIn, reset],
   );
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;

@@ -22,6 +22,7 @@ export default function WidgetExample() {
         <TantoProvider
           theme={getTheme()}
           config={{
+            clientId: '51623f93-6fa6-49d9-972f-c2d07bcab985',
             createAccountOnConnect: true,
           }}
         >
