@@ -24,7 +24,7 @@ export function useWaypointMessageHandler(enableAuth: boolean) {
     if (!enableAuth) return;
 
     const handleMessage = async ({ data, origin }: MessageEvent<WaypointMessageData>) => {
-      if (!WAYPOINT_ORIGINS.includes(origin as any)) return;
+      if (!WAYPOINT_ORIGINS.includes(origin)) return;
       if (data.method !== 'auth') return;
 
       const chainId = (await waypointConnector?.getChainId()) ?? 2020;
