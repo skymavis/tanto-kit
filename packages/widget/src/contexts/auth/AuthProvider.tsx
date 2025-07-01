@@ -48,7 +48,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
       if (isWaypointConnector(connector?.id)) return;
 
-      const { nonce, expirationTime, issuedAt, notBefore } = await generateNonce({ address });
+      const { nonce, expirationTime, issuedAt, notBefore } = await generateNonce({ address, clientId });
       const message = generateSiweMessage({
         address,
         chainId,

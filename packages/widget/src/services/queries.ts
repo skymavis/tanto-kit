@@ -7,7 +7,7 @@ export const query = {} as const;
 export const mutation = {
   generateNonce: () => ({
     mutationKey: ['tantoGenerateNonce'],
-    mutationFn: async ({ address }: { address: Address }) => {
+    mutationFn: async ({ address, clientId = '' }: { address: Address; clientId?: string }) => {
       return request<{
         expirationTime: string;
         issuedAt: string;
@@ -15,6 +15,9 @@ export const mutation = {
         notBefore: string;
       }>('https://waypoint-api.skymavis.one/v1/rpc/public/siwe/init', {
         method: 'POST',
+        headers: {
+          'sm-client-id': clientId,
+        },
         body: {
           address,
         },
