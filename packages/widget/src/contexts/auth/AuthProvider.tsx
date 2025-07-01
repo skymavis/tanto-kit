@@ -24,8 +24,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-
-  // Use ref to track the current sign-in session to prevent race conditions
   const currentSignInRef = useRef<string | null>(null);
 
   const { mutateAsync: generateNonce } = useMutation(mutation.generateNonce());
@@ -40,11 +38,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const signIn = useCallback(async (): Promise<void> => {
     if (!enableAuth || !address || !chainId || isSigningIn) return;
 
-    setIsSigningIn(true);
-    setError(null);
-
     const sessionId = v4();
     currentSignInRef.current = sessionId;
+    setIsSigningIn(true);
+    setError(null);
 
     try {
       if (isWCConnector(connector?.id)) await delay(1_000);
@@ -60,12 +57,12 @@ export function AuthProvider({ children }: PropsWithChildren) {
         issuedAt,
         notBefore,
       });
+
       const signature = await signMessageAsync({ message });
 
       if (currentSignInRef.current !== sessionId) return;
 
       const token = await createAccount({ message, signature, clientId });
-
       authEventEmitter.emit('success', {
         address,
         chainId,
@@ -80,7 +77,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
           : new TantoWidgetError(TantoWidgetErrorCodes.CREATE_ACCOUNT_FAILED, 'Failed to create account');
 
       console.debug('Auth error:', authError);
-
       setError(authError);
       authEventEmitter.emit('failed', { error: authError });
       disconnect();
@@ -92,12 +88,12 @@ export function AuthProvider({ children }: PropsWithChildren) {
     address,
     chainId,
     isSigningIn,
+    connector?.id,
     generateNonce,
     signMessageAsync,
-    disconnect,
     createAccount,
-    connector?.id,
     clientId,
+    disconnect,
   ]);
 
   useAccountSwitch(signIn);

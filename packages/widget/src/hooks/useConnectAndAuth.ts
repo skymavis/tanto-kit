@@ -31,6 +31,12 @@ export function useConnectAndAuth({ connector }: UseConnectAndAuthParameters) {
 
   const error = useMemo(() => connectError || authError, [connectError, authError]);
 
+  const status = useMemo(() => {
+    if (authError) return ConnectState.FAILED;
+    if (isSigningIn) return ConnectState.AUTHENTICATING;
+    return connectStatus;
+  }, [connectStatus, isSigningIn, authError]);
+
   const connect = useCallback(() => {
     if (!connector) return;
 
@@ -44,31 +50,26 @@ export function useConnectAndAuth({ connector }: UseConnectAndAuthParameters) {
     baseConnect();
   }, [connector, resetAuth, baseConnect]);
 
-  const status = useMemo(() => {
-    if (isSigningIn) return ConnectState.AUTHENTICATING;
-    if (authError) return ConnectState.FAILED;
-    if (connectStatus === ConnectState.SUCCESS && enableAuth && isSigningIn) return ConnectState.AUTHENTICATING;
-    return connectStatus;
-  }, [connectStatus, enableAuth, isSigningIn, authError]);
-
   useEffect(() => {
     resetAuth();
-  }, []);
-
-  useUnmount(() => {
-    resetAuth();
-    if (isSigningIn) disconnect();
-  });
+  }, [resetAuth]);
 
   useEffect(() => {
-    if (status === ConnectState.FAILED && error) {
+    if (status === ConnectState.FAILED && error && connector) {
       analytic.sendEvent('wallet_connect_fail', {
-        chain_id: connector?.chainId,
-        wallet_type: connector?.name,
+        chain_id: connector.chainId,
+        wallet_type: connector.name,
         error_reason: error.message,
       });
     }
   }, [status, error, connector]);
+
+  useUnmount(() => {
+    resetAuth();
+    if (isSigningIn) {
+      disconnect();
+    }
+  });
 
   return {
     status,
