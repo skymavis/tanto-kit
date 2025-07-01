@@ -9,8 +9,14 @@ export type { TantoEmbeddedWidgetProps } from './EmbeddedWidget';
 export { TantoEmbeddedWidget } from './EmbeddedWidget';
 export type { AppMetadata, DefaultConfig, KeylessWalletConfig } from './getDefaultConfig';
 export { createConnectors, createTransports, getDefaultConfig, RONIN_WALLET_METADATA } from './getDefaultConfig';
-export type { AuthEventCallback, AuthEventData, AuthEventType } from './hooks/useAuthEvents';
-export { useAuthEvents } from './hooks/useAuthEvents';
+export type {
+  AuthFailedCallback,
+  AuthFailedData,
+  AuthSuccessCallback,
+  AuthSuccessData,
+  UseAuthEffectParameters,
+} from './hooks/useAuthEffect';
+export { useAuthEffect } from './hooks/useAuthEffect';
 export { useConnectedWallet } from './hooks/useConnectedWallet';
 export type { UseRnsAddressParameters } from './hooks/useRnsAddress';
 export { useRnsAddress } from './hooks/useRnsAddress';

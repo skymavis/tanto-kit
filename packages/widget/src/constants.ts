@@ -1,7 +1,7 @@
-// Wallet
 import type { Address } from 'viem';
 import { ronin, saigon } from 'viem/chains';
 
+// Wallet
 export const WALLET_IDS = {
   WAYPOINT: 'WAYPOINT',
   RONIN_WALLET: 'RONIN_WALLET',
@@ -12,7 +12,6 @@ export const WALLET_IDS = {
   CUSTOM_RONIN_MOBILE_WALLET: 'CUSTOM_RONIN_MOBILE_WALLET',
   CUSTOM_RONIN_IN_APP_WALLET: 'CUSTOM_RONIN_IN_APP_WALLET',
 } as const;
-
 export const RONIN_WALLET_WEB_LINK = 'https://wallet.roninchain.com';
 export const RONIN_WALLET_APP_DEEPLINK = 'roninwallet://';
 
@@ -57,3 +56,6 @@ export const RNS_OWNER_OF_ABI = [
     type: 'function',
   },
 ] as const;
+
+// Waypoint
+export const WAYPOINT_ORIGINS = ['https://id.skymavis.one', 'https://waypoint.roninchain.com'];

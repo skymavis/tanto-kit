@@ -1,14 +1,13 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import type { UseAccountEffectParameters } from 'wagmi';
 import { useAccountEffect as useWagmiAccountEffect } from 'wagmi';
 
 import { useAuth } from '../contexts/auth/useAuth';
-import { useAuthEvents } from './useAuthEvents';
+import { useAuthEffect } from './useAuthEffect';
 
 type WagmiAccountEffectOnConnectParameters = Parameters<Required<UseAccountEffectParameters>['onConnect']>[0];
 
 export function useAccountEffect({ onConnect, onDisconnect }: UseAccountEffectParameters) {
-  const { onSignInSuccess } = useAuthEvents();
   const { enable: enableAuth } = useAuth();
   const pendingConnectionRef = useRef<WagmiAccountEffectOnConnectParameters | null>(null);
 
@@ -26,14 +25,13 @@ export function useAccountEffect({ onConnect, onDisconnect }: UseAccountEffectPa
     },
   });
 
-  useEffect(() => {
-    const unsubscribe = onSignInSuccess(() => {
+  useAuthEffect({
+    onSuccess: () => {
       const pendingConnection = pendingConnectionRef.current;
       if (pendingConnection) {
         onConnect?.(pendingConnection);
         pendingConnectionRef.current = null;
       }
-    });
-    return unsubscribe;
-  }, [onConnect]);
+    },
+  });
 }
