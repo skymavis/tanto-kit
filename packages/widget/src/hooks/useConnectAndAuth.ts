@@ -62,6 +62,13 @@ export function useConnectAndAuth({ connector }: UseConnectAndAuthParameters) {
         error_reason: error.message,
       });
     }
+
+    if (status === ConnectState.AUTHENTICATING && connector) {
+      analytic.sendEvent('wallet_authenticating', {
+        chain_id: connector.chainId,
+        wallet_type: connector.name,
+      });
+    }
   }, [status, error, connector]);
 
   useUnmount(() => {

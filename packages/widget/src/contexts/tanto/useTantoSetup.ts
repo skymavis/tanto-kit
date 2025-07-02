@@ -31,8 +31,8 @@ export function useTantoSetup(customConfig: TantoConfig) {
 
   useEffect(() => {
     analytic.updateSession({});
-    analytic.sendEvent('sdk_init', { tantoConfig: config });
-  }, [customConfig]);
+    analytic.sendEvent('sdk_init', { config });
+  }, []);
 
   return config;
 }

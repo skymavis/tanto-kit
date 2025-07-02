@@ -19,7 +19,6 @@ export function useConnectionAnalytics() {
       analytic.sendEvent('sdk_disconnect').then(() => {
         analytic.updateSession({
           userAddress: undefined,
-          force: true,
         });
       });
     },
