@@ -1,5 +1,6 @@
 import { Address } from 'viem';
 
+import { WAYPOINT_BASE_URL } from '../constants';
 import { request } from './request';
 
 export const query = {} as const;
@@ -7,13 +8,21 @@ export const query = {} as const;
 export const mutation = {
   generateNonce: () => ({
     mutationKey: ['tantoGenerateNonce'],
-    mutationFn: async ({ address, clientId = '' }: { address: Address; clientId?: string }) => {
+    mutationFn: async ({
+      baseUrl = WAYPOINT_BASE_URL,
+      clientId = '',
+      address,
+    }: {
+      baseUrl?: string;
+      clientId?: string;
+      address: Address;
+    }) => {
       return request<{
         expirationTime: string;
         issuedAt: string;
         nonce: string;
         notBefore: string;
-      }>('https://waypoint-api.skymavis.one/v1/rpc/public/siwe/init', {
+      }>(`${baseUrl}/siwe/init`, {
         method: 'POST',
         headers: {
           'sm-client-id': clientId,
@@ -27,19 +36,21 @@ export const mutation = {
   createAccount: () => ({
     mutationKey: ['tantoCreateAccount'],
     mutationFn: async ({
+      baseUrl = WAYPOINT_BASE_URL,
+      clientId = '',
       message,
       signature,
-      clientId = '',
     }: {
+      baseUrl?: string;
+      clientId?: string;
       message: string;
       signature: string;
-      clientId?: string;
     }) => {
       return request<{
         address: string;
         idToken: string;
         userID: string;
-      }>('https://waypoint-api.skymavis.one/v1/rpc/public/siwe/authenticate', {
+      }>(`${baseUrl}/siwe/authenticate`, {
         method: 'POST',
         headers: {
           'sm-client-id': clientId,

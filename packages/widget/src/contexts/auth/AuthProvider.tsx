@@ -17,7 +17,7 @@ import { AuthContext } from './AuthContext';
 import { useWaypointMessageHandler } from './useWaypointMessageHandler';
 
 export function AuthProvider({ children }: PropsWithChildren) {
-  const { createAccountOnConnect: enableAuth = false, clientId } = useTantoConfig();
+  const { createAccountOnConnect: enableAuth = false, clientId, __internal_customBaseUrl } = useTantoConfig();
   const { address, chainId, connector } = useAccount();
   const { signMessageAsync } = useSignMessage();
   const { disconnect } = useDisconnect();
@@ -49,7 +49,11 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
       if (isWaypointConnector(connector?.id)) return;
 
-      const { nonce, expirationTime, issuedAt, notBefore } = await generateNonce({ address, clientId });
+      const { nonce, expirationTime, issuedAt, notBefore } = await generateNonce({
+        baseUrl: __internal_customBaseUrl,
+        address,
+        clientId,
+      });
       const message = generateSiweMessage({
         address,
         chainId,
@@ -63,7 +67,12 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
       if (currentSignInRef.current !== sessionId) return;
 
-      const { idToken } = await createAccount({ message, signature, clientId });
+      const { idToken } = await createAccount({
+        baseUrl: __internal_customBaseUrl,
+        message,
+        signature,
+        clientId,
+      });
       authEventEmitter.emit('success', {
         address,
         chainId,

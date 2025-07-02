@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useChains } from 'wagmi';
 
 import { analytic } from '../../analytic';
+import { WAYPOINT_BASE_URL } from '../../constants';
 import { usePreloadTantoImages } from '../../hooks/usePreloadImages';
 import { useSolveRoninConnectionConflict } from '../../hooks/useSolveRoninConnectionConflict';
 import { TantoWidgetError, TantoWidgetErrorCodes } from '../../utils/errors';
@@ -19,6 +20,7 @@ export function useTantoSetup(customConfig: TantoConfig) {
     hideConnectSuccessPrompt: false,
     createAccountOnConnect: false,
     initialChainId: chains?.[0]?.id,
+    __internal_customBaseUrl: WAYPOINT_BASE_URL,
     ...customConfig,
   };
 
