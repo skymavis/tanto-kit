@@ -19,6 +19,6 @@ const StyledDivider = styled.div(props => ({
   },
 }));
 
-export const DashedDivider = ({ text }: { text: string }) => {
+export function DashedDivider({ text }: { text: string }) {
   return <StyledDivider>{text}</StyledDivider>;
-};
+}

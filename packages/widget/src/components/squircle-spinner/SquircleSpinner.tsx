@@ -61,7 +61,7 @@ const Spinner = styled(m.div)(({ theme }) => ({
   },
 }));
 
-const SquircleSpinner = ({ logo, connecting = true }: { logo?: React.ReactNode; connecting?: boolean }) => {
+function SquircleSpinner({ logo, connecting = true }: { logo?: React.ReactNode; connecting?: boolean }) {
   const theme = useTheme();
   return (
     <LogoContainer>
@@ -103,6 +103,6 @@ const SquircleSpinner = ({ logo, connecting = true }: { logo?: React.ReactNode; 
       </svg>
     </LogoContainer>
   );
-};
+}
 
 export default SquircleSpinner;
