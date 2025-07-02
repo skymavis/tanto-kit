@@ -44,6 +44,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     setError(null);
 
     try {
+      // Wait for WC (in case of connect to metamask) switch chain
       if (isWCConnector(connector?.id)) await delay(1_000);
 
       if (isWaypointConnector(connector?.id)) return;
@@ -62,11 +63,11 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
       if (currentSignInRef.current !== sessionId) return;
 
-      const token = await createAccount({ message, signature, clientId });
+      const { idToken } = await createAccount({ message, signature, clientId });
       authEventEmitter.emit('success', {
         address,
         chainId,
-        token,
+        token: idToken,
       });
     } catch (error) {
       if (currentSignInRef.current !== sessionId) return;

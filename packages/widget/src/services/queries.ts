@@ -35,7 +35,11 @@ export const mutation = {
       signature: string;
       clientId?: string;
     }) => {
-      return request<string>('https://waypoint-api.skymavis.one/v1/rpc/public/siwe/authenticate', {
+      return request<{
+        address: string;
+        idToken: string;
+        userID: string;
+      }>('https://waypoint-api.skymavis.one/v1/rpc/public/siwe/authenticate', {
         method: 'POST',
         headers: {
           'sm-client-id': clientId,
