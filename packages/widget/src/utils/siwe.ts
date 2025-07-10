@@ -1,3 +1,5 @@
+import { getAddress } from 'viem';
+
 export interface SigningMessageType {
   address: string;
   version?: number;
@@ -21,10 +23,10 @@ export function generateSiweMessage({
   domain = window.location.host,
   uri = window.location.origin,
 }: SigningMessageType) {
-  return `${domain} wants you to sign in with your Ronin account:
-${address.replace('0x', 'ronin:').toLowerCase()}
+  return `${domain} wants you to sign in with your Ethereum account:
+${getAddress(address)}
 
-I accept the Terms of Use (https://axieinfinity.com/terms-of-use) and the Privacy Policy (https://axieinfinity.com/privacy-policy)
+By signing, you confirm ownership of this wallet, agree to the Terms of Use (https://wallet.roninchain.com/terms) & Privacy Policy (https://wallet.roninchain.com/privacy), and proceed with login. This action does not initiate any transaction or incur fees.
 
 URI: ${uri}
 Version: ${version}
