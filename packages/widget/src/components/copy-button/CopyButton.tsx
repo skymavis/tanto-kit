@@ -1,13 +1,14 @@
 import { useTheme } from '@emotion/react';
 import { AnimatePresence } from 'motion/react';
 import * as m from 'motion/react-m';
-import { useCallback, useEffect, useState } from 'react';
 
 import { CheckCircleFillIcon } from '../../assets/CheckCircleFillIcon';
 import { CopyIcon } from '../../assets/CopyIcon';
-import { Box, BoxProps } from '../box/Box';
+import { useClipboard } from '../../hooks/useClipboard';
+import type { BoxProps } from '../box/Box';
+import { Box } from '../box/Box';
 import { Button } from '../button/Button';
-import { ButtonProps } from '../button/Button.types';
+import type { ButtonProps } from '../button/Button.types';
 
 const DEFAULT_ANIMATION_DURATION = 1_500;
 
@@ -15,29 +16,9 @@ type CopyButtonProps = ButtonProps & {
   value?: string;
 };
 
-function useClipboard(value?: string, duration = DEFAULT_ANIMATION_DURATION) {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = useCallback(async () => {
-    if (copied || !value) return;
-    try {
-      await navigator.clipboard.writeText(value.trim());
-      setCopied(true);
-    } catch {}
-  }, [value, copied]);
-
-  useEffect(() => {
-    if (!copied) return;
-    const timer = setTimeout(() => setCopied(false), duration);
-    return () => clearTimeout(timer);
-  }, [copied, duration]);
-
-  return { copied, handleCopy };
-}
-
 export function CopyButton({ intent = 'secondary', size = 'xsmall', value, children, ...rest }: CopyButtonProps) {
   const theme = useTheme();
-  const { copied, handleCopy } = useClipboard(value);
+  const { copied, handleCopy } = useClipboard(value, DEFAULT_ANIMATION_DURATION);
 
   const containerStyles: BoxProps = {
     align: 'center',

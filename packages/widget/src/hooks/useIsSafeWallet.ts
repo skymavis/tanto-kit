@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import { isSafeWallet } from '../utils';
+import { isSafeWallet } from '../utils/walletDetection';
 
-export const useIsSafeWallet = () => {
+export function useIsSafeWallet() {
   const [isSafe, setIsSafe] = useState(false);
 
   useEffect(() => {
@@ -15,4 +15,4 @@ export const useIsSafeWallet = () => {
   }, []);
 
   return { isSafe };
-};
+}

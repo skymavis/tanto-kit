@@ -1,7 +1,7 @@
 import { createContext } from 'react';
-import { Connector } from 'wagmi';
+import type { Connector } from 'wagmi';
 
-import { Wallet } from '../../types/wallet';
+import type { Wallet } from '../../types/wallet';
 
 export interface WidgetConnectState {
   wallets: Wallet[];

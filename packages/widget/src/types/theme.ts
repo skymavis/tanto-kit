@@ -1,7 +1,11 @@
-export type TantoWidgetCustomTheme = Partial<TantoWidgetTheme>;
+import { Prettify } from 'viem';
 
-export interface TantoWidgetTheme {
-  mode: 'light' | 'dark';
+export type TantoWidgetCustomThemeTokens = Prettify<Partial<Omit<TantoWidgetThemeTokens, 'mode'>>>;
+
+export type TantoWidgetThemeMode = 'light' | 'dark';
+
+export interface TantoWidgetThemeTokens {
+  mode: TantoWidgetThemeMode;
 
   /* General */
   fontFamily: string | Array<string>;
@@ -81,3 +85,5 @@ export interface TantoWidgetTheme {
   /* QR Code */
   qrcodeBackground: string;
 }
+
+export type TantoWidgetTheme = TantoWidgetThemeMode | TantoWidgetThemeTokens;

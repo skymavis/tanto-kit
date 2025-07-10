@@ -10,8 +10,6 @@ const BoringAvatar =
   // @ts-expect-error
   typeof BoringAvatarModule === 'function' ? BoringAvatarModule : BoringAvatarModule.default ?? BoringAvatarModule;
 
-export default BoringAvatar;
-
 const COLOR_GROUPS = [
   ['#2065EE', '#FFAEFC'],
   ['#5CFFFF', '#00D4FF'],
@@ -20,7 +18,7 @@ const COLOR_GROUPS = [
   ['#2B4DFF', '#0035FF'],
 ];
 
-const hashCode = (seed: string) => {
+function hashCode(seed: string) {
   let hash = 0;
   for (let i = 0; i < seed.length; i++) {
     const character = seed.charCodeAt(i);
@@ -28,14 +26,14 @@ const hashCode = (seed: string) => {
     hash &= hash;
   }
   return Math.abs(hash);
-};
+}
 
-const getColors = (seed: string): string[] => {
+function getColors(seed: string): string[] {
   return COLOR_GROUPS.map((colorGroup, index) => {
     const hash = hashCode(index + seed);
     return colorGroup[hash % colorGroup.length] as string;
   });
-};
+}
 
 export type AvatarSize = 'XXS' | 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL';
 
@@ -50,7 +48,7 @@ const AvatarSizeMap: Record<AvatarSize, number> = {
   XXXL: 160,
 };
 
-export interface AvatarProps {
+interface AvatarProps {
   className?: string;
   seed?: string;
   size?: AvatarSize;
@@ -87,7 +85,7 @@ const DotContainer = styled('div', {
   }),
 );
 
-export const Avatar = ({ className, seed, size = 'M', showDot = false }: AvatarProps) => {
+export function Avatar({ className, seed, size = 'M', showDot = false }: AvatarProps) {
   const theme = useTheme();
   const colors = seed ? getColors(seed) : [theme.skeletonColor];
   const dotSize = AvatarSizeMap[size] / 4;
@@ -106,4 +104,4 @@ export const Avatar = ({ className, seed, size = 'M', showDot = false }: AvatarP
       )}
     </Container>
   );
-};
+}

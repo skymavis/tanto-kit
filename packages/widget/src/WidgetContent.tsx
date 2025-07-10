@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import { ReactNode } from 'react';
-import { useAccount, useBalance } from 'wagmi';
+import type { ReactNode } from 'react';
+import { useBalance } from 'wagmi';
 
 import { ArrowLeftIcon } from './assets/ArrowLeftIcon';
 import { SmoothHeight } from './components/animated-containers/SmoothHeight';
@@ -9,7 +9,9 @@ import { Box } from './components/box/Box';
 import { IconButton } from './components/button/Button';
 import { CSSReset } from './components/css-reset/CSSReset';
 import { WidgetConnectProvider } from './contexts/widget-connect/WidgetConnectProvider';
-import { useWidgetRouter } from './hooks/useWidgetRouter';
+import { useWidgetRouter } from './contexts/widget-router/useWidgetRouter';
+import { useAccount } from './hooks/useAccount';
+import { Route } from './types/route';
 
 const ActionSection = styled.div({
   minWidth: 44,
@@ -29,10 +31,11 @@ interface WidgetContentProps {
   close?: ReactNode;
 }
 
-export const WidgetContent = ({ close }: WidgetContentProps) => {
+export function WidgetContent({ close }: WidgetContentProps) {
   const { view, goBack } = useWidgetRouter();
   const { address, chainId } = useAccount();
   const headerMarginBottom = (() => {
+    if (view.route === Route.PROFILE) return 32;
     if (view.showBackButton || close) return 8;
     if (!view.showBackButton && !close) return 6;
     return 12;
@@ -64,4 +67,4 @@ export const WidgetContent = ({ close }: WidgetContentProps) => {
       </SmoothHeight>
     </CSSReset>
   );
-};
+}

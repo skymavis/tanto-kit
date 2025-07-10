@@ -5,12 +5,7 @@ import { memo, useMemo } from 'react';
 import { DELAY_CONNECT } from '../../constants';
 import { shine } from '../../styles/animations';
 import { hasOpacity } from '../../utils/color';
-
-const SIZE = 236;
-const INSET = 8;
-const SVG_SIZE = SIZE - INSET * 2;
-const RADIUS = 24;
-const DOT_COLOR = 'rgba(32, 31, 29, 0.4)';
+import { DOT_COLOR, INSET, RADIUS, SIZE, SVG_SIZE } from './constants';
 
 const corners = [
   { position: { top: 0, left: 0 }, rotate: 0 },
@@ -65,7 +60,7 @@ const CornerSvg = styled.svg<{
   transform: rotate ? `rotate(${rotate}deg)` : undefined,
 }));
 
-const CornerPath = () => {
+function CornerPath() {
   const theme = useTheme();
   const showCorner = useMemo(() => !hasOpacity(theme.qrcodeBackground), [theme]);
 
@@ -93,9 +88,9 @@ const CornerPath = () => {
       </g>
     </>
   );
-};
+}
 
-const LogoOverlay = () => {
+function LogoOverlay() {
   const theme = useTheme();
   return (
     <svg
@@ -131,7 +126,7 @@ const LogoOverlay = () => {
       </defs>
     </svg>
   );
-};
+}
 
 export const QRCodePlaceholder = memo(() => {
   return (
