@@ -1,6 +1,6 @@
-import { SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
-export const CoinbaseLogo = (props: SVGProps<SVGSVGElement>) => {
+export function CoinbaseLogo(props: SVGProps<SVGSVGElement>) {
   return (
     <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <rect width="28" height="28" fill="#2C5FF6" />
@@ -12,4 +12,4 @@ export const CoinbaseLogo = (props: SVGProps<SVGSVGElement>) => {
       />
     </svg>
   );
-};
+}

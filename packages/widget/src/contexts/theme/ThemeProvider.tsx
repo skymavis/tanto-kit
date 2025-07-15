@@ -1,25 +1,26 @@
 import { css, Global, ThemeProvider as EmotionThemeProvider } from '@emotion/react';
-import { type PropsWithChildren, useMemo } from 'react';
+import type { PropsWithChildren } from 'react';
+import { useMemo } from 'react';
 
-import { tantoDarkTheme, tantoLightTheme } from '../../styles/theme';
-import type { TantoWidgetCustomTheme, TantoWidgetTheme } from '../../types/theme';
+import type { TantoWidgetTheme } from '../../types/theme';
+import { darkTheme } from './darkTheme';
+import { lightTheme } from './lightTheme';
 
 export interface ThemeProviderProps {
-  theme?: TantoWidgetTheme['mode'];
-  customThemeToken?: TantoWidgetCustomTheme;
+  theme?: TantoWidgetTheme;
 }
 
 export function ThemeProvider(props: PropsWithChildren<ThemeProviderProps>) {
-  const { children, theme: themeMode = 'dark', customThemeToken } = props;
+  const { children, theme = 'dark' } = props;
 
-  const theme = useMemo(() => {
-    const baseTheme = themeMode === 'dark' ? tantoDarkTheme : tantoLightTheme;
-    const theme: TantoWidgetTheme = { ...baseTheme, ...customThemeToken };
+  const normalizedTheme = useMemo(() => {
+    const isThemeString = typeof theme === 'string';
+    if (isThemeString) return theme === 'dark' ? darkTheme() : lightTheme();
     return theme;
-  }, [themeMode, customThemeToken]);
+  }, [theme]);
 
   return (
-    <EmotionThemeProvider theme={theme}>
+    <EmotionThemeProvider theme={normalizedTheme}>
       <DefaultFontLoader />
       {children}
     </EmotionThemeProvider>

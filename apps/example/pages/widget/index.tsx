@@ -1,4 +1,4 @@
-import { TantoProvider } from '@sky-mavis/tanto-widget';
+import { darkTheme, lightTheme, TantoProvider } from '@sky-mavis/tanto-widget';
 import { useTheme } from 'next-themes';
 
 import { customThemeToken } from 'components/theme/customThemeToken';
@@ -9,12 +9,24 @@ import { WalletAccount } from '../../components/wallet-account/WalletAccount';
 
 export default function WidgetExample() {
   const { theme } = useTheme();
+  const getTheme = () => {
+    if (theme === 'custom') return lightTheme(customThemeToken);
+    if (theme === 'dark') return darkTheme();
+    return lightTheme();
+  };
 
   return (
     <Web3Provider>
       <div className={theme === 'dark' ? 'bg-black' : 'bg-white'}>
         <ThemeSwitcher />
-        <TantoProvider theme={theme as 'dark'} customThemeToken={theme === 'custom' ? customThemeToken : undefined}>
+        <TantoProvider
+          theme={getTheme()}
+          config={{
+            clientId: '51623f93-6fa6-49d9-972f-c2d07bcab985',
+            createAccountOnConnect: true,
+            __internal_baseUrl: 'https://waypoint-api.skymavis.one/v1/rpc/public',
+          }}
+        >
           <WalletAccount />
         </TantoProvider>
       </div>

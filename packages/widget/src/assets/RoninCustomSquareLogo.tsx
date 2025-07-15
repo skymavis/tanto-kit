@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
-import { ImgHTMLAttributes } from 'react';
+import type { ImgHTMLAttributes } from 'react';
 
 import {
   roninExtensionCustomSquareLogoUri,
   roninMobileCustomSquareLogoUri,
   roninWaypointCustomSquareLogoUri,
-} from './data-uris';
+} from './dataUris';
 import { RoninBadge as RoninBadgeSvg } from './RoninBadge';
 
 const LOGO_SIZE = 90;

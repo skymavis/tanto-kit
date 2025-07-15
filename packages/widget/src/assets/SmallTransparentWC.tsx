@@ -1,6 +1,6 @@
-import { SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
-export const SmallTransparentWC = (props: SVGProps<SVGSVGElement>) => {
+export function SmallTransparentWC(props: SVGProps<SVGSVGElement>) {
   return (
     <svg width="16" height="11" viewBox="0 0 16 11" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path
@@ -10,4 +10,4 @@ export const SmallTransparentWC = (props: SVGProps<SVGSVGElement>) => {
       />
     </svg>
   );
-};
+}

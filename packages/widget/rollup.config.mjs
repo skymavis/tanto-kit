@@ -84,6 +84,7 @@ const config = defineConfig({
     replace({
       __sdkVersion: `'${packageJson.version}'`,
       __sdkName: `'${packageJson.name}'`,
+      preventAssignment: true,
     }),
   ].filter(Boolean),
 });

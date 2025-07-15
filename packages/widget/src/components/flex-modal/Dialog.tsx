@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { ElementRef, forwardRef } from 'react';
+import type { ElementRef } from 'react';
+import { forwardRef } from 'react';
 
-import { DIALOG_VISIBILITY_TRANSITION_DURATION } from '../../constants';
+import { CONTENT_Z_INDEX, DIALOG_VISIBILITY_TRANSITION_DURATION } from '../../constants';
 import { fadeInUp, fadeOutDown } from '../../styles/animations';
 
 export type DialogContentProps = DialogPrimitive.DialogContentProps;
@@ -16,7 +17,7 @@ const DialogContainer = styled.div({
   alignItems: 'center',
   position: 'fixed',
   inset: 0,
-  zIndex: 50,
+  zIndex: CONTENT_Z_INDEX,
 });
 
 const DialogContent = styled(DialogPrimitive.Content)(
@@ -24,7 +25,7 @@ const DialogContent = styled(DialogPrimitive.Content)(
     boxSizing: 'border-box',
     outline: 'none',
     display: 'grid',
-    minWidth: 420,
+    minWidth: 436,
     gap: '1rem',
     padding: '8px 20px 20px 20px',
     '&[data-state="open"]': {

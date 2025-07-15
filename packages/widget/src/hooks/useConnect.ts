@@ -1,15 +1,22 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Connector, useConfig, useConnect as useWagmiConnect } from 'wagmi';
+import type { Connector } from 'wagmi';
+import { useConfig, useConnect as useWagmiConnect } from 'wagmi';
 
+import { useTantoConfig } from '../contexts/tanto/useTantoConfig';
 import { ConnectState } from '../types/connect';
-import { isMobile, isWCConnector } from '../utils';
-import { useTantoConfig } from './useTantoConfig';
+import { isMobile } from '../utils/userAgent';
+import { isWCConnector } from '../utils/walletDetection';
 
-interface UseConnectParameters {
+type WagmiConnectCallbacks = Pick<
+  NonNullable<NonNullable<Parameters<typeof useWagmiConnect>[0]>['mutation']>,
+  'onSuccess' | 'onError'
+>;
+
+type UseConnectParameters = WagmiConnectCallbacks & {
   connector?: Connector;
-}
+};
 
-export function useConnect({ connector }: UseConnectParameters) {
+export function useConnect({ connector, onSuccess, onError }: UseConnectParameters) {
   const { setState } = useConfig();
   const { initialChainId, disableProfile, hideConnectSuccessPrompt } = useTantoConfig();
   const {
@@ -18,12 +25,11 @@ export function useConnect({ connector }: UseConnectParameters) {
     error,
   } = useWagmiConnect({
     mutation: {
-      onError(error) {
-        console.debug(error);
-      },
+      onSuccess,
+      onError,
     },
   });
-  const [status, setStatus] = useState<ConnectState>(ConnectState.PENDING);
+  const [status, setStatus] = useState<ConnectState>(ConnectState.CONNECTING);
 
   const connect = useCallback(() => {
     if (!connector) return;
@@ -36,13 +42,13 @@ export function useConnect({ connector }: UseConnectParameters) {
       switch (wagmiStatus) {
         case 'idle':
         case 'pending':
-          return isWCConnector(connector?.id) && isMobile() ? ConnectState.OPENING_WALLET : ConnectState.PENDING;
+          return isWCConnector(connector?.id) && isMobile() ? ConnectState.OPEN_MOBILE_WALLET : ConnectState.CONNECTING;
         case 'success':
           return hideConnectSuccessPrompt ? prevStatus : ConnectState.SUCCESS;
         case 'error':
-          return ConnectState.ERROR;
+          return ConnectState.FAILED;
         default:
-          return ConnectState.PENDING;
+          return ConnectState.CONNECTING;
       }
     });
   }, [wagmiStatus, connector?.id, disableProfile, hideConnectSuccessPrompt]);
