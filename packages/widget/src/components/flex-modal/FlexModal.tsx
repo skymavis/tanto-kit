@@ -11,6 +11,7 @@ import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import type { ElementRef, ReactNode } from 'react';
 import { createContext, forwardRef, useContext, useMemo } from 'react';
 
+import { OVERLAY_Z_INDEX } from '../../constants';
 import { useIsMobileView } from '../../hooks/useIsMobileView';
 import { fadeIn, fadeOut } from '../../styles/animations';
 import { TantoWidgetError, TantoWidgetErrorCodes } from '../../utils/errors';
@@ -66,7 +67,7 @@ const Overlay = forwardRef<ElementRef<typeof Dialog.Overlay>, Dialog.DialogOverl
       css={{
         position: 'fixed',
         inset: 0,
-        zIndex: 49,
+        zIndex: OVERLAY_Z_INDEX,
         backgroundColor: theme.overlayBackground,
         backdropFilter: theme.overlayBackdropFilter,
         '&[data-state="open"]': {

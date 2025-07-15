@@ -24,7 +24,7 @@ export default function WidgetExample() {
           config={{
             clientId: '51623f93-6fa6-49d9-972f-c2d07bcab985',
             createAccountOnConnect: true,
-            __internal_customBaseUrl: 'https://waypoint-api.skymavis.one/v1/rpc/public',
+            __internal_baseUrl: 'https://waypoint-api.skymavis.one/v1/rpc/public',
           }}
         >
           <WalletAccount />

@@ -31,6 +31,7 @@ export const CSSReset = styled.div(({ theme }) => ({
   },
 
   'p, h1, h2, h3, h4, h5, h6': {
+    display: 'block',
     overflowWrap: 'break-word',
   },
 

@@ -3,7 +3,7 @@ import * as DialogPrimitive from '@radix-ui/react-dialog';
 import type { ElementRef } from 'react';
 import { forwardRef } from 'react';
 
-import { DIALOG_VISIBILITY_TRANSITION_DURATION } from '../../constants';
+import { CONTENT_Z_INDEX, DIALOG_VISIBILITY_TRANSITION_DURATION } from '../../constants';
 import { fadeInUp, fadeOutDown } from '../../styles/animations';
 
 export type DialogContentProps = DialogPrimitive.DialogContentProps;
@@ -17,7 +17,7 @@ const DialogContainer = styled.div({
   alignItems: 'center',
   position: 'fixed',
   inset: 0,
-  zIndex: 50,
+  zIndex: CONTENT_Z_INDEX,
 });
 
 const DialogContent = styled(DialogPrimitive.Content)(

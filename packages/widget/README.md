@@ -234,7 +234,7 @@ Customize the widget's behavior with the `config` prop.
 
 - `hideConnectSuccessPrompt` (boolean): Skips the success animation (~1.5s) after connection.
 - `initialChainId` (number): Target chain ID for the widget (e.g., 2021 for Ronin Testnet).
-- `createAccountOnConnect` (boolean): Check out [Referral program](https://docs.skymavis.com/mavis/ronin-account/explanation/ronin-wallet-referral)
+- `createAccountOnConnect` (boolean): Create a Ronin Account when connecting. Check out [Referral program](https://docs.skymavis.com/mavis/ronin-account/explanation/ronin-wallet-referral)
 - `clientId`: required when `createAccountOnConnect` is enabled. It is used for tracking purposes in the [Referral program](https://docs.skymavis.com/mavis/ronin-account/explanation/ronin-wallet-referral).
 
 ### Custom Connect Button
