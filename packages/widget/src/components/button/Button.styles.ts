@@ -1,8 +1,9 @@
+import { Theme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import type { ButtonProps } from './Button.types';
 
-function getIntentStyles(theme: any, intent?: string) {
+function getIntentStyles(theme: Theme, intent?: string) {
   const intentMap = {
     primary: {
       color: theme.buttonPrimaryColor,
@@ -41,7 +42,7 @@ function getIntentStyles(theme: any, intent?: string) {
   return intentMap[intent as keyof typeof intentMap] || intentMap.primary;
 }
 
-function getVariantStyles(theme: any, variant?: string) {
+function getVariantStyles(theme: Theme, variant?: string) {
   const variantMap = {
     plain: {
       color: theme.buttonSecondaryColor,
@@ -98,7 +99,7 @@ function getShapeStyles(shape?: string) {
   return shapeMap[shape as keyof typeof shapeMap] || {};
 }
 
-function getDisabledStyles(theme: any, disabled?: boolean) {
+function getDisabledStyles(theme: Theme, disabled?: boolean) {
   if (!disabled) return {};
 
   return {

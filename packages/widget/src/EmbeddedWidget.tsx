@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import type { CSSProperties } from 'react';
+import { Prettify } from 'viem';
 
 import { CONNECT_SUCCESS_DELAY } from './constants';
 import { useTantoConfig } from './contexts/tanto/useTantoConfig';
@@ -23,7 +24,7 @@ export type EmbeddedWidgetProps = AccountConnectionCallback & {
   className?: string;
 };
 
-export type TantoEmbeddedWidgetProps = EmbeddedWidgetProps & WidgetUIConfigState;
+export type TantoEmbeddedWidgetProps = Prettify<EmbeddedWidgetProps & Omit<WidgetUIConfigState, 'isModal'>>;
 
 function EmbeddedWidget({ onConnect, onDisconnect, ...rest }: EmbeddedWidgetProps) {
   const { reset } = useWidgetRouter();

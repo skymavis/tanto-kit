@@ -59,6 +59,10 @@ const config = defineConfig({
       'boring-avatars',
       '@tanstack/react-query',
       'uuid',
+      'zod',
+      'react-hook-form',
+      '@hookform/resolvers',
+      'input-otp',
     ].some(pkg => id === pkg || id.startsWith(`${pkg}/`) || id.startsWith(`@${pkg}/`)),
   plugins: [
     peerDepsExternal(),

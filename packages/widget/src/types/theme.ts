@@ -1,4 +1,7 @@
+import { Interpolation, Theme } from '@emotion/react';
 import { Prettify } from 'viem';
+
+export type EmotionCSS = Interpolation<Theme>;
 
 export type TantoWidgetCustomThemeTokens = Prettify<Partial<Omit<TantoWidgetThemeTokens, 'mode'>>>;
 
@@ -12,6 +15,7 @@ export interface TantoWidgetThemeTokens {
   fontSize: number | string;
 
   /* Intent Colors */
+  errorColor: string;
   warningColor: string;
   successColor: string;
 
@@ -84,6 +88,12 @@ export interface TantoWidgetThemeTokens {
 
   /* QR Code */
   qrcodeBackground: string;
+
+  /* Input */
+  inputBorderRadius: number;
+  inputBackgroundColor: string;
+  inputBorderColor: string;
+  inputFocusBorderColor: string;
 }
 
 export type TantoWidgetTheme = TantoWidgetThemeMode | TantoWidgetThemeTokens;

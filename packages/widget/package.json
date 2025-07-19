@@ -70,18 +70,23 @@
   "dependencies": {
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.0",
+    "@hookform/resolvers": "5.1.1",
+    "@radix-ui/react-compose-refs": "1.1.2",
     "@radix-ui/react-dialog": "1.1.7",
     "@radix-ui/react-visually-hidden": "1.2.3",
     "@sky-mavis/tanto-connect": "0.0.21",
     "@sky-mavis/tanto-wagmi": "0.0.11",
     "boring-avatars": "1.11.2",
+    "input-otp": "1.4.2",
     "lodash.omit": "4.5.0",
     "motion": "12.19.1",
     "qr-code-styling": "1.9.2",
+    "react-hook-form": "7.60.0",
     "ua-parser-js": "2.0.4",
     "use-resize-observer": "9.1.0",
     "uuid": "11.1.0",
-    "vaul": "1.1.2"
+    "vaul": "1.1.2",
+    "zod": "4.0.5"
   },
   "devDependencies": {
     "@emotion/babel-plugin": "11.13.5",

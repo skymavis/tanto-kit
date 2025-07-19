@@ -1,6 +1,8 @@
 import type { HTMLAttributes } from 'react';
 import useResizeObserver from 'use-resize-observer';
 
+import { TRANSITION_DURATION } from '../../constants';
+
 export function SmoothHeight({ children, ...rest }: HTMLAttributes<HTMLDivElement>) {
   const { height, ref } = useResizeObserver();
   return (
@@ -8,7 +10,7 @@ export function SmoothHeight({ children, ...rest }: HTMLAttributes<HTMLDivElemen
       style={{
         boxSizing: 'border-box',
         overflow: 'hidden',
-        transition: 'height 0.2s',
+        transition: `height ${TRANSITION_DURATION}ms`,
         height: height ? `${height}px` : 'auto',
       }}
       {...rest}

@@ -14,13 +14,10 @@ export function WidgetRouterProvider({ children }: PropsWithChildren) {
   const { disableProfile } = useTantoConfig();
   const { isConnected } = useAccount();
 
-  const getInitialView = useCallback(
-    (route?: Route) => {
-      if (route) return viewConfigs[route];
-      return isConnected && !disableProfile ? viewConfigs[Route.PROFILE] : viewConfigs[Route.WALLETS];
-    },
-    [isConnected, disableProfile],
-  );
+  const getInitialView = useCallback(() => {
+    const route = isConnected && !disableProfile ? Route.PROFILE : Route.WALLETS;
+    return viewConfigs[route];
+  }, [isConnected, disableProfile]);
 
   const [routerState, setRouterState] = useState(() => {
     const initialView = getInitialView();
@@ -29,29 +26,31 @@ export function WidgetRouterProvider({ children }: PropsWithChildren) {
 
   const reset = useCallback(
     (route?: Route) => {
-      const initialView = getInitialView(route);
-      setRouterState({ view: initialView, history: [initialView] });
+      const view = route ? viewConfigs[route] : getInitialView();
+      setRouterState({ view, history: [view] });
     },
     [getInitialView],
   );
 
   const goTo = useCallback(
-    (nextRoute: Route, options?: Partial<Omit<View, 'route'>>) => {
+    (nextRoute: Route, opts?: Partial<Omit<View, 'route'>>) => {
       if (!isConnected && authenticatedRoutes.includes(nextRoute)) return;
 
-      setRouterState(({ view: currentView, history }) => {
-        const isSameView = nextRoute === currentView.route;
+      setRouterState(prevState => {
+        const viewConfig = viewConfigs[nextRoute];
+        const hasPreviousViews = prevState.history.length > 0;
+
         const newView: View = {
           route: nextRoute,
-          title: options?.title ?? currentView.title,
-          content: options?.content ?? viewConfigs[nextRoute].content,
-          showBackButton: options?.showBackButton ?? (!isSameView && history.length > 0),
-          ...options,
+          title: opts?.title ?? viewConfig.title,
+          showBackButton: opts?.showBackButton ?? viewConfig.showBackButton ?? hasPreviousViews,
+          content: opts?.content ?? viewConfig.content,
+          ...opts,
         };
 
         return {
           view: newView,
-          history: isSameView ? history : [...history, newView],
+          history: [...prevState.history, newView],
         };
       });
     },
@@ -59,11 +58,10 @@ export function WidgetRouterProvider({ children }: PropsWithChildren) {
   );
 
   const goBack = useCallback(() => {
-    setRouterState(prevRouterState => {
-      const { history } = prevRouterState;
-      if (history.length <= 1) return prevRouterState;
+    setRouterState(prevState => {
+      if (prevState.history.length <= 1) return prevState;
 
-      const newHistory = history.slice(0, -1);
+      const newHistory = prevState.history.slice(0, -1);
       return {
         view: newHistory[newHistory.length - 1],
         history: newHistory,
@@ -96,7 +94,7 @@ export function WidgetRouterProvider({ children }: PropsWithChildren) {
       goBack,
       reset,
     }),
-    [routerState, goTo, goBack, reset],
+    [routerState.view, routerState.history, goTo, goBack, reset],
   );
 
   return <WidgetRouterContext.Provider value={contextValue}>{children}</WidgetRouterContext.Provider>;

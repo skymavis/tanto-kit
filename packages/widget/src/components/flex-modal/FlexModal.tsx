@@ -83,12 +83,18 @@ const Overlay = forwardRef<ElementRef<typeof Dialog.Overlay>, Dialog.DialogOverl
 });
 Overlay.displayName = Dialog.Overlay.displayName;
 
-const Content = forwardRef<ElementRef<typeof Dialog.Content>, Dialog.DialogContentProps>((props, ref) => {
-  const { isMobile } = useFlexModalContext();
-  const ContentComponent = isMobile ? Drawer.Content : Dialog.Content;
-  const theme = useTheme();
-  return <ContentComponent ref={ref} css={{ backgroundColor: theme.modalBackground }} {...props} />;
-});
+const Content = forwardRef<ElementRef<typeof Dialog.Content>, Dialog.DialogContentProps>(
+  ({ children, ...props }, ref) => {
+    const { isMobile } = useFlexModalContext();
+    const ContentComponent = isMobile ? Drawer.Content : Dialog.Content;
+    const theme = useTheme();
+    return (
+      <ContentComponent ref={ref} css={{ backgroundColor: theme.modalBackground }} {...props}>
+        <div css={{ position: 'relative' }}>{children}</div>
+      </ContentComponent>
+    );
+  },
+);
 Content.displayName = Dialog.Content.displayName;
 
 function Title(props: DialogTitleProps) {

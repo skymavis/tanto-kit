@@ -6,14 +6,15 @@ import { WidgetUIConfigContext } from './WidgetUIConfigContext';
 
 export type WidgetUIConfigProviderProps = PropsWithChildren<WidgetUIConfigState>;
 
-export function WidgetUIConfigProvider({ children, config: customConfig }: WidgetUIConfigProviderProps) {
-  const defaultConfig: WidgetUIConfig = {
-    markKeylessWalletConnected: false,
-    markWCConnected: false,
-  };
+const defaultConfig: WidgetUIConfig = {
+  markKeylessWalletConnected: false,
+  markWCConnected: false,
+};
 
-  const config = useMemo<WidgetUIConfig>(() => Object.assign({}, defaultConfig, customConfig), [customConfig]);
-  const contextValue = useMemo(() => ({ config }), [config]);
+export function WidgetUIConfigProvider({ children, isModal, config: customConfig }: WidgetUIConfigProviderProps) {
+  const mergedConfig = useMemo<WidgetUIConfig>(() => ({ ...defaultConfig, ...customConfig }), [customConfig]);
+
+  const contextValue = useMemo(() => ({ isModal, config: mergedConfig }), [isModal, mergedConfig]);
 
   return <WidgetUIConfigContext.Provider value={contextValue}>{children}</WidgetUIConfigContext.Provider>;
 }

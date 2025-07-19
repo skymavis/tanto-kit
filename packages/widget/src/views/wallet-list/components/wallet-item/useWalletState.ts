@@ -22,6 +22,7 @@ export function useWalletState(wallet: Wallet) {
       isMarkedConnected,
       isInjected,
       isWCWallet,
+      isWaypointWallet,
       highlightContent: highlightBackground ? (isMobile ? 'Fastest' : 'Fastest to start') : undefined,
     };
   }, [

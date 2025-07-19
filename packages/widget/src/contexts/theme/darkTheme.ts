@@ -39,6 +39,13 @@ export function darkTheme(customThemeToken: TantoWidgetCustomThemeTokens = {}): 
     badgeHighlightColor: '#FBB2D0',
     badgeHighlightBackground: 'rgba(115, 13, 55, 0.60)',
     qrcodeBackground: '#F1F3F9',
+
+    errorColor: '#F6515E',
+    inputBorderRadius: 8,
+    inputBackgroundColor: 'rgba(14, 17, 22, 0.00)',
+    inputBorderColor: 'rgba(205, 213, 229, 0.1)',
+    inputFocusBorderColor: '#4A4F5C',
+
     ...customThemeToken,
   };
 }

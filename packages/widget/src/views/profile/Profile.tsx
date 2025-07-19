@@ -15,7 +15,7 @@ export function Profile() {
   const normalizedAddress = address?.toLowerCase();
 
   return (
-    <Box vertical align="center" gap={32}>
+    <Box vertical align="center" gap={32} pt={32}>
       <Box vertical align="center" gap={16}>
         <Avatar seed={normalizedAddress} size="XXL" showDot={isConnected} />
         <Box vertical align="center" gap={4}>

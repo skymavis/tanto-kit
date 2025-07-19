@@ -6,6 +6,7 @@ export interface WidgetUIConfig {
 }
 
 export interface WidgetUIConfigState {
+  isModal?: boolean;
   config?: WidgetUIConfig;
 }
 
