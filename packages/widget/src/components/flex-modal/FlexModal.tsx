@@ -8,10 +8,13 @@ import type {
   DialogTriggerProps,
 } from '@radix-ui/react-dialog';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
-import { createContext, ElementRef, forwardRef, ReactNode, useContext, useMemo } from 'react';
+import type { ElementRef, ReactNode } from 'react';
+import { createContext, forwardRef, useContext, useMemo } from 'react';
 
+import { OVERLAY_Z_INDEX } from '../../constants';
 import { useIsMobileView } from '../../hooks/useIsMobileView';
 import { fadeIn, fadeOut } from '../../styles/animations';
+import { TantoWidgetError, TantoWidgetErrorCodes } from '../../utils/errors';
 import * as Dialog from './Dialog';
 import * as Drawer from './Drawer';
 
@@ -24,12 +27,15 @@ const FlexModalContext = createContext<FlexModalContextValue | null>(null);
 function useFlexModalContext() {
   const context = useContext(FlexModalContext);
   if (!context) {
-    throw new Error('FlexModal components cannot be rendered outside the FlexModal Context');
+    throw new TantoWidgetError(
+      TantoWidgetErrorCodes.CONTEXT_NOT_INITIALIZED,
+      'FlexModal components cannot be rendered outside the FlexModal Context',
+    );
   }
   return context;
 }
 
-const Root = ({ children, ...props }: DialogProps) => {
+function Root({ children, ...props }: DialogProps) {
   const { isMobile } = useFlexModalContext();
   const RootComponent = isMobile ? Drawer.Root : Dialog.Root;
   return (
@@ -37,19 +43,19 @@ const Root = ({ children, ...props }: DialogProps) => {
       {children}
     </RootComponent>
   );
-};
+}
 
-const Portal = (props: DialogPortalProps) => {
+function Portal(props: DialogPortalProps) {
   const { isMobile } = useFlexModalContext();
   const PortalComponent = isMobile ? Drawer.Portal : Dialog.Portal;
   return <PortalComponent {...props} />;
-};
+}
 
-const Description = (props: DialogDescriptionProps) => {
+function Description(props: DialogDescriptionProps) {
   const { isMobile } = useFlexModalContext();
   const DescriptionComponent = isMobile ? Drawer.Description : Dialog.Description;
   return <DescriptionComponent {...props} />;
-};
+}
 
 const Overlay = forwardRef<ElementRef<typeof Dialog.Overlay>, Dialog.DialogOverlayProps>((props, ref) => {
   const theme = useTheme();
@@ -61,7 +67,7 @@ const Overlay = forwardRef<ElementRef<typeof Dialog.Overlay>, Dialog.DialogOverl
       css={{
         position: 'fixed',
         inset: 0,
-        zIndex: 49,
+        zIndex: OVERLAY_Z_INDEX,
         backgroundColor: theme.overlayBackground,
         backdropFilter: theme.overlayBackdropFilter,
         '&[data-state="open"]': {
@@ -85,7 +91,7 @@ const Content = forwardRef<ElementRef<typeof Dialog.Content>, Dialog.DialogConte
 });
 Content.displayName = Dialog.Content.displayName;
 
-const Title = (props: DialogTitleProps) => {
+function Title(props: DialogTitleProps) {
   const { isMobile } = useFlexModalContext();
   const TitleComponent = isMobile ? Drawer.Title : Dialog.Title;
   return (
@@ -99,19 +105,19 @@ const Title = (props: DialogTitleProps) => {
       {...props}
     />
   );
-};
+}
 
-const Trigger = (props: DialogTriggerProps) => {
+function Trigger(props: DialogTriggerProps) {
   const { isMobile } = useFlexModalContext();
   const TriggerComponent = isMobile ? Drawer.Trigger : Dialog.Trigger;
   return <TriggerComponent {...props} />;
-};
+}
 
-const Close = (props: DialogCloseProps) => {
+function Close(props: DialogCloseProps) {
   const { isMobile } = useFlexModalContext();
   const CloseComponent = isMobile ? Drawer.Close : Dialog.Close;
   return <CloseComponent {...props} />;
-};
+}
 
 export interface FlexModalProps {
   children: ReactNode;
@@ -120,7 +126,7 @@ export interface FlexModalProps {
   onOpenChange?: (open: boolean) => void;
 }
 
-export const FlexModal = (props: FlexModalProps) => {
+export function FlexModal(props: FlexModalProps) {
   const { children, defaultOpen, open, onOpenChange } = props;
   const isMobile = useIsMobileView();
 
@@ -149,6 +155,6 @@ export const FlexModal = (props: FlexModalProps) => {
       </Root>
     </FlexModalContext.Provider>
   );
-};
+}
 
 export { Close, Content, Overlay, Portal, Root, Title, Trigger };

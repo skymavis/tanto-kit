@@ -1,7 +1,8 @@
-import { createContext, ReactNode } from 'react';
-import { Prettify } from 'viem';
+import type { ReactNode } from 'react';
+import { createContext } from 'react';
+import type { Prettify } from 'viem';
 
-import { Route } from '../../types/route';
+import type { Route } from '../../types/route';
 
 export interface View {
   route: Route;

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Drawer as DrawerPrimitive } from 'vaul';
 
-import { DRAWER_VISIBILITY_TRANSITION_DURATION } from '../../constants';
+import { CONTENT_Z_INDEX, DRAWER_VISIBILITY_TRANSITION_DURATION } from '../../constants';
 
 const Root = DrawerPrimitive.Root;
 const Portal = DrawerPrimitive.Portal;
@@ -15,7 +15,7 @@ const Content = styled(DrawerPrimitive.Content)(({ theme }) => ({
   position: 'fixed',
   insetX: 0,
   bottom: 0,
-  zIndex: 50,
+  zIndex: CONTENT_Z_INDEX,
   marginTop: '24px',
   display: 'flex',
   width: '100%',

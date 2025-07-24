@@ -88,5 +88,3 @@ export const Box = forwardRef<HTMLDivElement, BoxProps>(({ children, ...rest }, 
     </StyledBox>
   );
 });
-
-Box.displayName = 'Box';
