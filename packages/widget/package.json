@@ -1,7 +1,7 @@
 {
   "name": "@sky-mavis/tanto-widget",
   "type": "module",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Tanto Widget",
   "author": "SkyMavis",
   "license": "MIT",
