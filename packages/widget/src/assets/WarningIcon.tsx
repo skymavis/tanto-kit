@@ -1,5 +1,5 @@
 import { useTheme } from '@emotion/react';
-import { SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
 export function WarningIcon(props: SVGProps<SVGSVGElement>) {
   const theme = useTheme();

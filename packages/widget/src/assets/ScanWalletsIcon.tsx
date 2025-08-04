@@ -1,7 +1,7 @@
-import { ImgHTMLAttributes } from 'react';
+import type { ImgHTMLAttributes } from 'react';
 
-import { scanWalletsIconUri } from './data-uris';
+import { scanWalletsIconUri } from './dataUris';
 
-export const ScanWalletsIcon = (props: ImgHTMLAttributes<HTMLImageElement>) => {
+export function ScanWalletsIcon(props: ImgHTMLAttributes<HTMLImageElement>) {
   return <img width={31} height={31} src={scanWalletsIconUri} {...props} />;
-};
+}

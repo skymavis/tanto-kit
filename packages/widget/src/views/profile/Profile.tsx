@@ -1,7 +1,8 @@
-import { useAccount, useBalance } from 'wagmi';
+import { useBalance } from 'wagmi';
 
 import { Avatar } from '../../components/avatar/Avatar';
 import { Box } from '../../components/box/Box';
+import { useAccount } from '../../hooks/useAccount';
 import { useRnsName } from '../../hooks/useRnsName';
 import { AddressDisplay } from './components/AddressDisplay';
 import { BalanceDisplay } from './components/BalanceDisplay';
@@ -15,9 +16,9 @@ export function Profile() {
 
   return (
     <Box vertical align="center" gap={32}>
-      <Box vertical align="center" gap={20}>
+      <Box vertical align="center" gap={16}>
         <Avatar seed={normalizedAddress} size="XXL" showDot={isConnected} />
-        <Box vertical align="center" gap={8}>
+        <Box vertical align="center" gap={4}>
           <AddressDisplay rns={rns} address={address} />
           <BalanceDisplay isLoading={isLoading} balanceData={balanceData} />
         </Box>

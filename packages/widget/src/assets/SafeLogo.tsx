@@ -1,7 +1,7 @@
 import { useTheme } from '@emotion/react';
-import { SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
-export const SafeLogo = (props: SVGProps<SVGSVGElement>) => {
+export function SafeLogo(props: SVGProps<SVGSVGElement>) {
   const theme = useTheme();
   return (
     <svg
@@ -27,4 +27,4 @@ export const SafeLogo = (props: SVGProps<SVGSVGElement>) => {
       />
     </svg>
   );
-};
+}

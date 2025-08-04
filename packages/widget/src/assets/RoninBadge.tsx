@@ -1,7 +1,7 @@
 import { useTheme } from '@emotion/react';
-import { SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
-export const RoninBadge = (props: SVGProps<SVGSVGElement>) => {
+export function RoninBadge(props: SVGProps<SVGSVGElement>) {
   const theme = useTheme();
 
   return (
@@ -33,4 +33,4 @@ export const RoninBadge = (props: SVGProps<SVGSVGElement>) => {
       </defs>
     </svg>
   );
-};
+}

@@ -1,14 +1,16 @@
-import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
-import { useAccount } from 'wagmi';
+import type { PropsWithChildren } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { analytic } from '../../analytic';
 import { viewConfigs } from '../../configs/viewConfigs';
-import { useTantoConfig } from '../../hooks/useTantoConfig';
+import { useAccount } from '../../hooks/useAccount';
 import { useUnmount } from '../../hooks/useUnmount';
 import { authenticatedRoutes, internalRoutes, publicRoutes, Route } from '../../types/route';
-import { View, WidgetRouterContext, WidgetRouterState } from './WidgetRouterContext';
+import { useTantoConfig } from '../tanto/useTantoConfig';
+import type { View, WidgetRouterState } from './WidgetRouterContext';
+import { WidgetRouterContext } from './WidgetRouterContext';
 
-export const WidgetRouterProvider = ({ children }: PropsWithChildren) => {
+export function WidgetRouterProvider({ children }: PropsWithChildren) {
   const { disableProfile } = useTantoConfig();
   const { isConnected } = useAccount();
 
@@ -98,4 +100,4 @@ export const WidgetRouterProvider = ({ children }: PropsWithChildren) => {
   );
 
   return <WidgetRouterContext.Provider value={contextValue}>{children}</WidgetRouterContext.Provider>;
-};
+}

@@ -1,11 +1,18 @@
 export enum ConnectState {
-  PENDING = 'PENDING',
-  OPENING_WALLET = 'OPENING_WALLET',
+  CONNECTING = 'CONNECTING',
+  OPEN_MOBILE_WALLET = 'OPEN_MOBILE_WALLET',
+  AUTHENTICATING = 'AUTHENTICATING',
   SUCCESS = 'SUCCESS',
-  ERROR = 'ERROR',
+  FAILED = 'FAILED',
+}
+
+export interface AccountConnectData {
+  address?: string;
+  chainId: number;
+  connectorId?: string;
 }
 
 export interface AccountConnectionCallback {
-  onConnect?: (data: { address?: string; chainId: number; connectorId?: string }) => void;
+  onConnect?: (data: AccountConnectData) => void;
   onDisconnect?: () => void;
 }

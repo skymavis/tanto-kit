@@ -1,4 +1,5 @@
-import { AnimatePresence, AnimationDefinition, AnimationProps } from 'motion/react';
+import type { AnimationDefinition, MotionNodeAnimationOptions } from 'motion/react';
+import { AnimatePresence } from 'motion/react';
 import * as m from 'motion/react-m';
 import type { ReactNode } from 'react';
 import { forwardRef } from 'react';
@@ -9,7 +10,7 @@ interface TransitionedViewProps {
   onAnimationComplete?: (definition: AnimationDefinition) => void;
 }
 
-const animationProps: AnimationProps = {
+const animationProps: MotionNodeAnimationOptions = {
   initial: { opacity: 0, scale: 0.95 },
   animate: { opacity: 1, scale: 1 },
   exit: { opacity: 0, scale: 0.95 },

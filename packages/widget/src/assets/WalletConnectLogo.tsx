@@ -1,6 +1,6 @@
-import { SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
-export const WalletConnectLogo = (props: SVGProps<SVGSVGElement>) => {
+export function WalletConnectLogo(props: SVGProps<SVGSVGElement>) {
   return (
     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path d="M0 8a8 8 0 0 1 8-8h16a8 8 0 0 1 8 8v16a8 8 0 0 1-8 8H8a8 8 0 0 1-8-8z" fill="#fff" />
@@ -10,4 +10,4 @@ export const WalletConnectLogo = (props: SVGProps<SVGSVGElement>) => {
       />
     </svg>
   );
-};
+}

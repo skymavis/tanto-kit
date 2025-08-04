@@ -1,8 +1,9 @@
-import { Address, namehash } from 'viem';
+import type { Address } from 'viem';
+import { namehash } from 'viem';
 import { useChainId, useReadContract } from 'wagmi';
 
-import { RNS_PUBLIC_RESOLVER_ADDRESS } from '../constants';
-import { getReverseNode } from '../utils';
+import { RNS_NAME_ABI, RNS_PUBLIC_RESOLVER_ADDRESS } from '../constants';
+import { getReverseNode } from '../utils/string';
 
 export interface UseRnsNameParameters {
   address?: Address;
@@ -18,15 +19,7 @@ export function useRnsName({ address, chainId: targetChainId }: UseRnsNameParame
     address && contractAddress
       ? {
           address: contractAddress,
-          abi: [
-            {
-              inputs: [{ internalType: 'bytes32', name: 'node', type: 'bytes32' }],
-              name: 'name',
-              outputs: [{ internalType: 'string', name: '', type: 'string' }],
-              stateMutability: 'view',
-              type: 'function',
-            },
-          ],
+          abi: RNS_NAME_ABI,
           functionName: 'name',
           args: [namehash(getReverseNode(address))],
           query: {

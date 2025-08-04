@@ -7,12 +7,15 @@ const SIGNATURE_METHODS = ['personal_sign', 'eth_signTypedData_v4', 'eth_sign', 
 const TRANSACTION_METHODS = ['eth_sendTransaction'];
 const REQUIRED_SIGNING_METHODS = [...SIGNATURE_METHODS, ...TRANSACTION_METHODS];
 
-const isSignatureMethod = (method: string): method is typeof SIGNATURE_METHODS[number] =>
-  SIGNATURE_METHODS.includes(method);
-const isTransactionMethod = (method: string): method is typeof TRANSACTION_METHODS[number] =>
-  TRANSACTION_METHODS.includes(method);
-const isRequiredSigningMethod = (method: string): method is typeof REQUIRED_SIGNING_METHODS[number] =>
-  REQUIRED_SIGNING_METHODS.includes(method);
+function isSignatureMethod(method: string): method is typeof SIGNATURE_METHODS[number] {
+  return SIGNATURE_METHODS.includes(method);
+}
+function isTransactionMethod(method: string): method is typeof TRANSACTION_METHODS[number] {
+  return TRANSACTION_METHODS.includes(method);
+}
+function isRequiredSigningMethod(method: string): method is typeof REQUIRED_SIGNING_METHODS[number] {
+  return REQUIRED_SIGNING_METHODS.includes(method);
+}
 
 interface RequestArguments {
   method: string;
@@ -35,7 +38,7 @@ interface UseConnectorRequestInterceptorParams {
   afterRequest?: (args: RequestArguments, error?: Error) => void;
 }
 
-const createRequestProxy = ({
+function createRequestProxy({
   request,
   beforeRequest,
   afterRequest,
@@ -43,7 +46,7 @@ const createRequestProxy = ({
   request: Request;
   beforeRequest?: (args: RequestArguments) => void;
   afterRequest?: (args: RequestArguments, error?: Error) => void;
-}): Request => {
+}): Request {
   return new Proxy(request, {
     async apply(target, thisArg, args: [RequestArguments, string | undefined, number | undefined]) {
       beforeRequest?.(args[0]);
@@ -57,9 +60,9 @@ const createRequestProxy = ({
       }
     },
   });
-};
+}
 
-const createSignerProxy = ({
+function createSignerProxy({
   signer,
   beforeRequest,
   afterRequest,
@@ -67,7 +70,7 @@ const createSignerProxy = ({
   signer: Signer;
   beforeRequest?: (args: RequestArguments) => void;
   afterRequest?: (args: RequestArguments, error?: Error) => void;
-}): Signer => {
+}): Signer {
   return new Proxy(signer, {
     get(target, prop, receiver) {
       if (prop === 'request') {
@@ -80,12 +83,12 @@ const createSignerProxy = ({
       return Reflect.get(target, prop, receiver);
     },
   });
-};
+}
 
-export const useConnectorRequestInterceptor = ({
+export function useConnectorRequestInterceptor({
   beforeRequest,
   afterRequest,
-}: UseConnectorRequestInterceptorParams = {}) => {
+}: UseConnectorRequestInterceptorParams = {}) {
   const { connector } = useAccount();
   const isListenerActive = useRef(false);
 
@@ -143,9 +146,5 @@ export const useConnectorRequestInterceptor = ({
     }
 
     void setupProvider();
-
-    return () => {
-      isListenerActive.current = false;
-    };
   }, [connector, handleBeforeRequest, handleAfterRequest]);
-};
+}

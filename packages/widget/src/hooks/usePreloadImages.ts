@@ -1,10 +1,10 @@
 import { useTheme } from '@emotion/react';
 import { useEffect } from 'react';
 
-import * as dataUris from '../assets/data-uris';
-import { isValidURL } from '../utils';
+import * as dataUris from '../assets/dataUris';
+import { isValidURL } from '../utils/url';
 
-export const usePreloadImages = (imageSources: string[]) => {
+export function usePreloadImages(imageSources: string[]) {
   useEffect(() => {
     const validSources = imageSources.filter(isValidURL);
     validSources.forEach(src => {
@@ -13,9 +13,9 @@ export const usePreloadImages = (imageSources: string[]) => {
       return img;
     });
   }, [imageSources]);
-};
+}
 
-export const usePreloadTantoImages = () => {
+export function usePreloadTantoImages() {
   const theme = useTheme();
   const images = [
     dataUris.blueFilledWCLogoUri,
@@ -42,4 +42,4 @@ export const usePreloadTantoImages = () => {
     ]);
   }
   usePreloadImages(images);
-};
+}

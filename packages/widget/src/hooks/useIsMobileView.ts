@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { isMobile } from '../utils';
-
-const MOBILE_BREAKPOINT = 576;
+import { MOBILE_BREAKPOINT } from '../constants';
+import { isMobile } from '../utils/userAgent';
 
 export function useIsMobileView() {
   const [mobile, setMobile] = useState<boolean | undefined>(isMobile());

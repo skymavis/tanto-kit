@@ -1,6 +1,6 @@
-import { ImgHTMLAttributes } from 'react';
+import type { ImgHTMLAttributes } from 'react';
 
-import { blueFilledWCLogoUri } from './data-uris';
+import { blueFilledWCLogoUri } from './dataUris';
 
 export function BlueFilledWalletConnectLogo(props: ImgHTMLAttributes<HTMLImageElement>) {
   return <img src={blueFilledWCLogoUri} {...props} />;

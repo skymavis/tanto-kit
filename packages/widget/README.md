@@ -2,6 +2,8 @@
 
 **Tanto Widget** is a React component library designed to provide a seamless **Connect Wallet** experience for Web3 applications, with a focus on **Ronin Wallets** and Ethereum-compatible wallets.
 
+![Tanto Widget](https://cdn.skymavis.com/ecosystem-portal/prod/1751014442-tanto-widget.png)
+
 ## Features
 
 - **Unified Ronin Wallet Integration**: Connect to Ronin Wallets effortlessly, handling edge cases for desktop, mobile, and in-wallet browsers.
@@ -9,6 +11,8 @@
   - Ronin Waypoint
   - Ronin Wallet
   - WalletConnect
+  - Coinbase Wallet
+  - Safe Wallet
   - Injected Wallets (EIP-6963 compliant)
 - **Responsive Design**: Optimized for all screen sizes and devices.
 - **Customizable Themes**: Tailor the widget's appearance to match your application's branding.
@@ -71,7 +75,7 @@ Add wallet connection functionality with the `TantoConnectButton` component.
 import { TantoConnectButton } from '@sky-mavis/tanto-widget';
 
 function Page() {
-  return <TantoConnectButton />;
+  return <TantoConnectButton label="Connect Wallet" />;
 }
 ```
 
@@ -123,13 +127,12 @@ import { TantoProvider } from '@tanto/widget';
 
 ### Custom Themes
 
-Customize the widget's appearance by passing a `customThemeToken` to `TantoProvider`.
+Customize the widget's appearance by extending from `lightTheme` or `darkTheme`.
 
 ```tsx
-import { TantoProvider } from '@sky-mavis/tanto-widget';
-import type { TantoWidgetCustomTheme } from '@sky-mavis/tanto-widget';
+import { TantoProvider, lightTheme } from '@sky-mavis/tanto-widget';
 
-const customTheme: TantoWidgetCustomTheme = {
+const customTheme = lightTheme({
   mode: 'light',
   fontFamily: ["'Nunito'", 'sans-serif'],
   fontSize: '1em',
@@ -138,13 +141,13 @@ const customTheme: TantoWidgetCustomTheme = {
   modalBackground: 'oklch(0.92 0.042 83.6)',
   modalBorderRadius: '0.625rem',
   // Add more theme tokens as needed
-};
+});
 
 function App() {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <TantoProvider customThemeToken={customTheme}>
+        <TantoProvider theme={customTheme}>
           {/* Your App */}
         </TantoProvider>
       </QueryClientProvider>
@@ -190,7 +193,6 @@ const config = getDefaultConfig({
 
 - `chains` (optional): An array of supported blockchain networks.
   - Default: `[ronin, saigon]`
-  - Type: `Chain[]` (from `viem/chains`)
   - You can import and use any EVM-compatible chain from `viem/chains` or define your own custom chain object.
 - `appMetadata` (optional): Metadata for your DApp.
   - `appName` (optional): Name of your DApp (e.g., "My DApp"). Defaults to "Ronin Wallet".
@@ -201,14 +203,13 @@ const config = getDefaultConfig({
   - `projectId` (optional): WalletConnect project ID from [WalletConnect Cloud](https://cloud.walletconnect.com/). Defaults to a predefined Ronin project ID.
   - `enable` (optional): Enable or disable WalletConnect (default: `true`).
 - `keylessWalletConfig` (optional): Configuration for Waypoint (keyless) wallet.
-  - `chainId` (optional): Blockchain chain ID (e.g., 2020 for Ronin Mainnet).
+  - Check out [Ronin Keyless Wallet guideline](https://docs.skymavis.com/mavis/ronin-waypoint/guides/get-started)
+  - `chainId` (optional): Blockchain chain ID (2020 or 2021).
   - `clientId` (required): Your client ID for authentication.
-  - `waypointOrigin` (optional): Waypoint service URL (e.g., "<https://waypoint.roninchain.com>").
   - `popupCloseDelay` (optional): Delay (ms) before closing the popup (e.g., 1000).
   - `enable` (optional): Enable or disable Waypoint (default: `true`).
 - `coinbaseWalletConfig` (optional): Configuration for Coinbase Wallet.
   - `enable` (optional): Enable or disable Coinbase Wallet (default: `false`).
-- `initialChainId` (optional): The default chain ID to use (e.g., 2020 for Ronin Mainnet).
 - `multiInjectedProviderDiscovery` (optional): Enable/disable multi-injected provider discovery (default: `true`).
 
 See [Wagmi Configuration Docs](https://wagmi.sh/core/config) for advanced options.
@@ -220,9 +221,9 @@ Customize the widget's behavior with the `config` prop.
 ```tsx
 <TantoProvider
   config={{
-    disableProfile: true,
-    hideConnectSuccessPrompt: true,
-    initialChainId: 2021,
+    clientId: "<your_client_id>"
+    initialChainId: 2020,
+    createAccountOnConnect: true
   }}
 >
   {/* Your App */}
@@ -231,9 +232,10 @@ Customize the widget's behavior with the `config` prop.
 
 **Options**:
 
-- `disableProfile` (boolean): Hides wallet address, avatar, and profile modal after connection.
 - `hideConnectSuccessPrompt` (boolean): Skips the success animation (~1.5s) after connection.
 - `initialChainId` (number): Target chain ID for the widget (e.g., 2021 for Ronin Testnet).
+- `createAccountOnConnect` (boolean): Automatically creates a Ronin Account upon connection. Set this to true if you want to enroll in the [Ronin Referral Program](https://www.notion.so/skymavis/Ronin-Referral-Program-1c1c48ae3fdd80d2a5b8ffb11bf300da) for Studios (Earn Up to 10% Revenue Share).
+- `clientId`: required when `createAccountOnConnect` is enabled. It is used for tracking purposes in the [Referral program](https://www.notion.so/skymavis/Ronin-Referral-Program-1c1c48ae3fdd80d2a5b8ffb11bf300da).
 
 ### Custom Connect Button
 
@@ -245,10 +247,10 @@ import { TantoConnectButton } from '@sky-mavis/tanto-widget';
 function CustomButton() {
   return (
     <TantoConnectButton>
-      {({ isConnected, showModal, address, chainId }) =>
+      {({ isConnected, showModal, address, rns, chainId }) =>
         isConnected ? (
           <p>
-            {address} ({chainId})
+            {rns || address} ({chainId})
           </p>
         ) : (
           <button onClick={showModal}>Connect Wallet</button>

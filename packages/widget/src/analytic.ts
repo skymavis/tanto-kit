@@ -1,16 +1,18 @@
 import { v4 } from 'uuid';
 
 import { ANALYTIC_PUBLIC_KEY } from './constants';
-import {
-  type AnalyticBaseEventData,
-  type AnalyticEventData,
-  type AnalyticIdentifyEventData,
-  type AnalyticOptions,
-  type AnalyticStorageConfig,
-  type AnalyticStorageData,
-  AnalyticEventType,
+import { request } from './services/request';
+import type {
+  AnalyticBaseEventData,
+  AnalyticEventData,
+  AnalyticIdentifyEventData,
+  AnalyticOptions,
+  AnalyticStorageConfig,
+  AnalyticStorageData,
 } from './types/analytic';
-import { getUserAgent, isClient } from './utils';
+import { AnalyticEventType } from './types/analytic';
+import { isClient } from './utils/common';
+import { getUserAgent } from './utils/userAgent';
 
 class AnalyticStorage {
   private static instance: AnalyticStorage;
@@ -113,7 +115,7 @@ class PlatformDataCollector {
 
 class Analytic {
   private static readonly INTERNAL_EVENTS = ['heartbeat', 'identify'];
-  private static readonly BATCH_SIZE = 20;
+  private static readonly BATCH_SIZE = 5;
   private static readonly HEARTBEAT_INTERVAL = 2000;
   private static readonly DEVICE_FINGERPRINT_KEY = '__TANTO_MA_DFP';
   private static readonly FIRST_PARTY_DOMAINS = ['skymavis.com', 'skymavis.one', 'roninchain.com', 'axieinfinity.com'];
@@ -123,8 +125,9 @@ class Analytic {
   private events!: Array<AnalyticEventData>;
   private storage!: AnalyticStorage;
   private platformDataCollector!: PlatformDataCollector;
+  private enableHeartbeat: boolean = false;
 
-  constructor(apiKey: string) {
+  constructor(apiKey: string, { enableHeartbeat = false }: { enableHeartbeat?: boolean } = {}) {
     if (!isClient()) {
       return;
     }
@@ -133,6 +136,7 @@ class Analytic {
     this.events = [];
     this.storage = AnalyticStorage.getInstance();
     this.platformDataCollector = PlatformDataCollector.getInstance();
+    this.enableHeartbeat = enableHeartbeat;
     if (!localStorage.getItem(Analytic.DEVICE_FINGERPRINT_KEY)) {
       localStorage.setItem(Analytic.DEVICE_FINGERPRINT_KEY, v4());
     }
@@ -177,7 +181,9 @@ class Analytic {
       this.handleNewSession(options);
     }
 
-    this.startHeartbeat();
+    if (this.enableHeartbeat) {
+      this.startHeartbeat();
+    }
   }
 
   private handleNewSession(options?: AnalyticOptions): void {
@@ -217,7 +223,9 @@ class Analytic {
 
   revoke(): void {
     this.storage.clear();
-    this.stopHeartbeat();
+    if (this.enableHeartbeat) {
+      this.stopHeartbeat();
+    }
   }
 
   startHeartbeat(): void {
@@ -239,6 +247,8 @@ class Analytic {
     try {
       if (!this.validate()) return;
 
+      const shouldForce = this.enableHeartbeat && eventName === 'heartbeat';
+
       await this.trackEvents(
         [
           {
@@ -254,7 +264,7 @@ class Analytic {
             },
           },
         ],
-        { force: eventName !== 'heartbeat' },
+        { force: shouldForce },
       );
     } catch (error) {
       console.debug('Failed to send event:', error);
@@ -301,7 +311,7 @@ class Analytic {
     }
 
     try {
-      const { force = true } = options || {};
+      const { force = false } = options || {};
       const data = this.storage.getData();
 
       const events = eventsData.map(event => ({
@@ -317,7 +327,8 @@ class Analytic {
       this.events.push(...events);
 
       if (force || this.events.length >= Analytic.BATCH_SIZE) {
-        await this.send(this.events);
+        // No await here for fire & forget and prevent race conditions
+        this.send(this.events);
         this.events.length = 0;
       }
 
@@ -331,13 +342,12 @@ class Analytic {
   }
 
   private async send(events: Array<AnalyticEventData>): Promise<Response> {
-    return fetch('https://x.skymavis.com/track', {
+    return request('https://x.skymavis.com/track', {
       method: 'POST',
-      headers: [
-        ['Authorization', `Basic ${btoa(`${this.apiKey}:`)}`],
-        ['Content-Type', 'application/json'],
-      ],
-      body: JSON.stringify({ events }),
+      headers: {
+        Authorization: `Basic ${btoa(`${this.apiKey}:`)}`,
+      },
+      body: { events },
     });
   }
 

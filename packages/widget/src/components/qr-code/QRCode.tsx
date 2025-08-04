@@ -1,19 +1,18 @@
 import { useTheme } from '@emotion/react';
-import QRCodeStyling, { Options } from 'qr-code-styling';
+import type { Options } from 'qr-code-styling';
+import QRCodeStyling from 'qr-code-styling';
 import { memo, useEffect, useMemo, useRef } from 'react';
 
-import { blueFilledWCLogoUri } from '../../assets/data-uris';
+import { blueFilledWCLogoUri } from '../../assets/dataUris';
+import { RADIUS, SIZE } from './constants';
 
-interface QRCode {
+interface QRCodeProps {
   value: string;
   size?: number;
   logo?: string;
 }
 
-const SIZE = 236;
-const RADIUS = 24;
-
-export const QRCode = memo(({ value, size = SIZE, logo = blueFilledWCLogoUri }: QRCode) => {
+export const QRCode = memo(({ value, size = SIZE, logo = blueFilledWCLogoUri }: QRCodeProps) => {
   const theme = useTheme();
   const qrRef = useRef<HTMLDivElement>(null);
   const qrCodeRef = useRef<QRCodeStyling | null>(null);

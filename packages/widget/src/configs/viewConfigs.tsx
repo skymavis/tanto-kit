@@ -1,4 +1,4 @@
-import { View } from '../contexts/widget-router/WidgetRouterContext';
+import type { View } from '../contexts/widget-router/WidgetRouterContext';
 import { Route } from '../types/route';
 import { ConnectInjector } from '../views/connect/ConnectInjector';
 import { ConnectWC } from '../views/connect/ConnectWC';

@@ -1,59 +1,45 @@
-import { useEffect } from 'react';
-
-import { analytic } from '../../analytic';
 import { TransitionedView } from '../../components/animated-containers/TransitionedView';
 import { Box } from '../../components/box/Box';
 import { CopyButton } from '../../components/copy-button/CopyButton';
 import { GetWalletCTA } from '../../components/get-wallet-cta/GetWalletCTA';
-import { WCQRCode } from '../../components/qr-code/WCQRCode';
+import { AnimatedQRCode } from '../../components/qr-code/AnimatedQRCode';
 import { RONIN_WALLET_APP_DEEPLINK } from '../../constants';
+import { useWidgetConnect } from '../../contexts/widget-connect/useWidgetConnect';
 import { useWalletConnectUri } from '../../hooks/useWalletConnectUri';
-import { useWidgetConnect } from '../../hooks/useWidgetConnect';
 import { ConnectState } from '../../types/connect';
-import { generateRoninMobileWCLink, isMobile } from '../../utils';
 import { openWindow } from '../../utils/openWindow';
+import { generateRoninMobileWCLink } from '../../utils/url';
+import { isMobile } from '../../utils/userAgent';
 import { ConnectLayout } from './components/ConnectLayout';
 import { ScanGuideline } from './components/ScanGuideline';
 
-const ScanQRCode = ({ uri }: { uri: string | undefined }) => {
+interface ScanQRCodeProps {
+  uri: string | undefined;
+}
+
+function ScanQRCode({ uri }: ScanQRCodeProps) {
   return (
     <Box vertical align="center" justify="center" gap={20} pt={20}>
       <Box vertical align="center" justify="center" gap={16}>
         <CopyButton value={uri}>Copy link</CopyButton>
-        <WCQRCode value={uri} />
+        <AnimatedQRCode value={uri} />
         <ScanGuideline />
       </Box>
       <GetWalletCTA />
     </Box>
   );
-};
+}
 
 export function ConnectWC() {
   const mobile = isMobile();
   const { selectedWallet, selectedConnector } = useWidgetConnect();
-  const { uri, status, generateConnectUri, error } = useWalletConnectUri({
+
+  const { uri, status, generateConnectUri } = useWalletConnectUri({
     connector: selectedConnector,
     onReceiveDisplayUri: uri => {
       if (mobile) openWindow(generateRoninMobileWCLink(uri, RONIN_WALLET_APP_DEEPLINK));
     },
   });
-
-  useEffect(() => {
-    analytic.sendEvent('wallet_connect_attempt', {
-      chain_id: selectedConnector?.chainId,
-      wallet_type: selectedConnector?.name,
-    });
-  }, [selectedConnector]);
-
-  useEffect(() => {
-    if (status === ConnectState.ERROR && error) {
-      analytic.sendEvent('wallet_connect_fail', {
-        chain_id: selectedConnector?.chainId,
-        wallet_type: selectedWallet?.name,
-        error_reason: error.message,
-      });
-    }
-  }, [status, error, selectedConnector, selectedWallet]);
 
   if (!selectedWallet) return null;
 
@@ -61,7 +47,7 @@ export function ConnectWC() {
 
   return (
     <TransitionedView viewKey={status}>
-      {status === ConnectState.PENDING ? (
+      {status === ConnectState.CONNECTING ? (
         <ScanQRCode uri={uri} />
       ) : (
         <ConnectLayout status={status} wallet={selectedWallet} wcUri={uri} onRetry={generateConnectUri} />
