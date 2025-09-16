@@ -204,10 +204,11 @@ const config = getDefaultConfig({
   - `enable` (optional): Enable or disable WalletConnect (default: `true`).
 - `keylessWalletConfig` (optional): Configuration for Waypoint (keyless) wallet.
   - Check out [Ronin Keyless Wallet guideline](https://docs.skymavis.com/mavis/ronin-waypoint/guides/get-started)
+  - `enable` (optional): Enable or disable Waypoint (default: `true`).
   - `chainId` (optional): Blockchain chain ID (2020 or 2021).
   - `clientId` (required): Your client ID for authentication.
   - `popupCloseDelay` (optional): Delay (ms) before closing the popup (e.g., 1000).
-  - `enable` (optional): Enable or disable Waypoint (default: `true`).
+  - `scopes` (optional): The OAuth 2.0 scope. Available values are openid, profile, email, and wallet. In WaypointProvider.create method, the default scopes are ['openid','wallet'].
 - `coinbaseWalletConfig` (optional): Configuration for Coinbase Wallet.
   - `enable` (optional): Enable or disable Coinbase Wallet (default: `false`).
 - `multiInjectedProviderDiscovery` (optional): Enable/disable multi-injected provider discovery (default: `true`).
@@ -293,6 +294,23 @@ function ModalControl() {
 }
 ```
 
+### useAuthEffect Hook
+
+Capture authentication events. This is useful for handling login flows, storing authentication tokens, or displaying error messages.
+
+```tsx
+import { useAuthEffect } from '@sky-mavis/tanto-widget';
+
+useAuthEffect({
+  onSuccess: ({address, chainId, token}) => {
+    setToken(token);
+  },
+  onError: (error) => {
+    console.log('Authentication failed: ', error);
+  },
+});
+```
+
 ## 🔗 RNS - Ronin Name Service
 
 Tanto Widget provides convenient hooks for working with **Ronin Name Service (RNS)**:
@@ -304,6 +322,60 @@ Tanto Widget provides convenient hooks for working with **Ronin Name Service (RN
 const name = useRnsName({ address: '0x123...abc' }); // Returns e.g. "vitalik.ron"
 const address = useRnsAddress({ name: 'vitalik.ron' }); // Returns e.g. "0x123...abc"
 ```
+
+## 👤 Get user's profile
+
+To retrieve user profile information from Ronin Waypoint, follow these steps:
+
+### Step 1: Configure keyless wallet with profile scope
+
+Add the `email` and `profile` scope to your keyless wallet configuration:
+
+```tsx
+const keylessWalletConfig = {
+  // ... other config
+  scopes: ['openid profile email wallet'],
+};
+```
+
+### Step 2: Capture authentication token
+
+Use the `useAuthEffect` hook to capture the authentication token when the user successfully authenticates:
+
+```tsx
+import { useAuthEffect } from '@sky-mavis/tanto-widget';
+
+useAuthEffect({
+  onSuccess: ({ address, chainId, token }) => {
+    // Store the token for making profile requests
+    setUserToken(token);
+  },
+  onError: (error) => {
+    console.error('Authentication failed:', error);
+  },
+});
+```
+
+### Step 3: Fetch user profile
+
+Make an HTTP request to the Ronin Waypoint API using the captured token:
+
+```tsx
+const fetchUserProfile = async (token: string) => {
+    const response = await fetch('https://waypoint.roninchain.com/api/public/get-profile', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id_token: token,
+      }),
+    });
+    const profile = await response.json();
+};
+```
+
+For more detailed information, check out the [Get user profile and wallet addresses guide](https://docs.skymavis.com/mavis/ronin-waypoint/guides/get-user-profile).
 
 ## Migrating from Ethers.js
 
