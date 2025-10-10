@@ -22,9 +22,12 @@ export default function WidgetExample() {
         <TantoProvider
           theme={getTheme()}
           config={{
-            clientId: '51623f93-6fa6-49d9-972f-c2d07bcab985',
+            clientId: 'c470d211-493b-4f9b-978f-e5d00ace0232',
             createAccountOnConnect: true,
-            __internal_baseUrl: 'https://waypoint-api.skymavis.one/v1/rpc/public',
+            __internal_waypointBaseUrl: 'https://waypoint-api.skymavis.one/v1/rpc/public',
+            __internal_mpcBaseUrl: 'https://growing-narwhal-infinitely.ngrok-free.app/v1/public/rpc',
+            __internal_mpcSocketUrl: 'wss://project-x.skymavis.one',
+            showConfirmationModal: true,
           }}
         >
           <WalletAccount />

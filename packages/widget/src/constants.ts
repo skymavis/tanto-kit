@@ -4,6 +4,7 @@ import { ronin, saigon } from 'viem/chains';
 // Wallet
 export const WALLET_IDS = {
   WAYPOINT: 'WAYPOINT',
+  RONIN_WALLET_HEADLESS: 'RONIN_WALLET_HEADLESS',
   RONIN_WALLET: 'RONIN_WALLET',
   RONIN_WALLET_INJECTED: 'com.roninchain.wallet',
   WALLET_CONNECT: 'walletConnect',
@@ -20,14 +21,18 @@ export const DELAY_CONNECT = 600;
 export const CONNECT_SUCCESS_DELAY = 1_200;
 export const DIALOG_VISIBILITY_TRANSITION_DURATION = 150;
 export const DRAWER_VISIBILITY_TRANSITION_DURATION = 500;
+export const TRANSITION_DURATION = 200;
 
 // UI
+export const DIALOG_MIN_WIDTH = 420;
 export const WALLET_ITEM_HEIGHT = 68;
 export const MAX_WALLET_ITEMS_PER_GROUP = 4;
 export const MOBILE_BREAKPOINT = 576;
 export const MAX_Z_INDEX = 2147483647;
 export const OVERLAY_Z_INDEX = MAX_Z_INDEX - 2;
 export const CONTENT_Z_INDEX = MAX_Z_INDEX - 1;
+export const RESEND_EMAIL_PENDING_TIME = 30;
+export const RON_LOGO_URL = 'https://cdn.skymavis.com/ronin/2020/ron/logo.png';
 
 // Analytics
 export const ANALYTIC_PUBLIC_KEY = '34cb0c94-cace-4e79-b708-96112181ddbb';
@@ -62,4 +67,7 @@ export const RNS_OWNER_OF_ABI = [
 
 // Waypoint
 export const WAYPOINT_ORIGINS = ['https://id.skymavis.one', 'https://waypoint.roninchain.com'];
-export const WAYPOINT_BASE_URL = 'https://dj.gateway.roninchain.com/waypoint-api/v1/rpc/public';
+export const WAYPOINT_BASE_URL = 'https://waypoint-api.skymavis.com/v1/rpc/public';
+export const MPC_BASE_URL = 'https://lockbox.skymavis.com/v1/public/rpc';
+export const MPC_SOCKET_URL = 'wss://lockbox.skymavis.com';
+export const MPC_BASE_URL_V1 = 'https://lockbox.skymavis.com/v1/public';

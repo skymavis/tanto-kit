@@ -18,6 +18,7 @@ export function useRnsName({ address, chainId: targetChainId }: UseRnsNameParame
   return useReadContract(
     address && contractAddress
       ? {
+          chainId,
           address: contractAddress,
           abi: RNS_NAME_ABI,
           functionName: 'name',

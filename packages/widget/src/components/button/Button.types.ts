@@ -11,6 +11,7 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   shape?: ButtonShape;
   size?: ButtonSize;
   fullWidth?: boolean;
+  loading?: boolean;
 };
 
 export type IconButtonProps = Omit<ButtonProps, 'children' | 'shape' | 'fullWidth'> & {

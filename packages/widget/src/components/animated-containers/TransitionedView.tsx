@@ -4,6 +4,8 @@ import * as m from 'motion/react-m';
 import type { ReactNode } from 'react';
 import { forwardRef } from 'react';
 
+import { TRANSITION_DURATION } from '../../constants';
+
 interface TransitionedViewProps {
   children: ReactNode;
   viewKey: string | number | boolean;
@@ -14,7 +16,7 @@ const animationProps: MotionNodeAnimationOptions = {
   initial: { opacity: 0, scale: 0.95 },
   animate: { opacity: 1, scale: 1 },
   exit: { opacity: 0, scale: 0.95 },
-  transition: { duration: 0.2 },
+  transition: { duration: TRANSITION_DURATION / 1000 },
 };
 
 export const TransitionedView = forwardRef<HTMLDivElement, TransitionedViewProps>(

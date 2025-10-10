@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { analytic } from '../../analytic';
-import { Box } from '../../components/box/Box';
+import { Box, BoxProps } from '../../components/box/Box';
 import { DashedDivider } from '../../components/dashed-divider/DashedDivider';
 import { Disclaimer } from '../../components/disclaimer/Disclaimer';
 import { GetWalletCTA } from '../../components/get-wallet-cta/GetWalletCTA';
@@ -10,7 +10,7 @@ import { isMobile } from '../../utils/userAgent';
 import { isRoninInAppBrowser } from '../../utils/walletDetection';
 import { WalletGroup } from './components/WalletGroup';
 
-export function WalletList() {
+export function WalletList(props: BoxProps) {
   const { wallets, primaryWallets, secondaryWallets } = useWidgetConnect();
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export function WalletList() {
   }, []);
 
   return (
-    <Box vertical gap={20}>
+    <Box vertical gap={20} {...props}>
       <WalletGroup wallets={primaryWallets} />
       {secondaryWallets.length > 0 && (
         <Box vertical gap={12}>

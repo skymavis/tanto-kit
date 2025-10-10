@@ -21,3 +21,8 @@ export function svgToBase64(svgText: string) {
   const encoded = encodeURIComponent(svgText).replace(/'/g, '%27').replace(/"/g, '%22');
   return `data:image/svg+xml;charset=utf-8,${encoded}`;
 }
+
+export function getSecondsFromMessage(message: string): number {
+  const match = message.match(/(\d+)\s+seconds?/i);
+  return match ? parseInt(match[1], 10) : 0;
+}

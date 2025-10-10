@@ -24,3 +24,5 @@ export type Wallet = WalletConfig & {
   isInstalled: boolean;
   connector?: Connector;
 };
+
+export type PreferredMethod = 'recovery_password' | 'passwordless';

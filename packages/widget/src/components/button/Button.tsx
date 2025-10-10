@@ -1,3 +1,4 @@
+import { Spinner } from '../spinner/Spinner';
 import { StyledButton, StyledIconButton } from './Button.styles';
 import type { ButtonProps, IconButtonProps } from './Button.types';
 
@@ -7,11 +8,13 @@ export function Button({
   shape = 'rounded',
   size = 'default',
   children,
+  disabled = false,
+  loading = false,
   ...rest
 }: ButtonProps) {
   return (
-    <StyledButton intent={intent} variant={variant} shape={shape} size={size} {...rest}>
-      {children}
+    <StyledButton disabled={disabled || loading} intent={intent} variant={variant} shape={shape} size={size} {...rest}>
+      {loading ? <Spinner size={size} /> : children}
     </StyledButton>
   );
 }

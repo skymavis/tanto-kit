@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
 
+import { BoxProps } from '../../components/box/Box';
 import { DELAY_CONNECT } from '../../constants';
 import { useWidgetConnect } from '../../contexts/widget-connect/useWidgetConnect';
 import { useConnectAndAuth } from '../../hooks/useConnectAndAuth';
 import { ConnectLayout } from './components/ConnectLayout';
 
-export function ConnectInjector() {
+export function ConnectInjector(props: BoxProps) {
   const { selectedWallet, selectedConnector } = useWidgetConnect();
   const { status, connect } = useConnectAndAuth({ connector: selectedConnector });
 
@@ -16,5 +17,5 @@ export function ConnectInjector() {
 
   if (!selectedWallet) return null;
 
-  return <ConnectLayout wallet={selectedWallet} status={status} onRetry={connect} />;
+  return <ConnectLayout wallet={selectedWallet} status={status} onRetry={connect} {...props} />;
 }

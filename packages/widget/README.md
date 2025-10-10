@@ -234,8 +234,8 @@ Customize the widget's behavior with the `config` prop.
 
 - `hideConnectSuccessPrompt` (boolean): Skips the success animation (~1.5s) after connection.
 - `initialChainId` (number): Target chain ID for the widget (e.g., 2021 for Ronin Testnet).
-- `createAccountOnConnect` (boolean): Automatically creates a Ronin Account upon connection. Set this to true if you want to enroll in the [Ronin Referral Program](https://www.notion.so/skymavis/Ronin-Referral-Program-1c1c48ae3fdd80d2a5b8ffb11bf300da) for Studios (Earn Up to 10% Revenue Share).
-- `clientId`: required when `createAccountOnConnect` is enabled. It is used for tracking purposes in the [Referral program](https://www.notion.so/skymavis/Ronin-Referral-Program-1c1c48ae3fdd80d2a5b8ffb11bf300da).
+- `createAccountOnConnect` (boolean): Create a Ronin Account when connecting. Check out [Referral program](https://docs.skymavis.com/mavis/ronin-account/explanation/ronin-wallet-referral)
+- `clientId`: required when `createAccountOnConnect` is enabled. It is used for tracking purposes in the [Referral program](https://docs.skymavis.com/mavis/ronin-account/explanation/ronin-wallet-referral).
 
 ### Custom Connect Button
 
@@ -327,4 +327,17 @@ const nextConfig = {
     return config
   }
 }
+```
+
+### Hydration error
+
+When using Server-Side Rendering (SSR) frameworks such as Next.js, you may encounter hydration warnings if the HTML rendered on the server doesn’t match the HTML rendered on the client.
+
+To prevent this, enable the [ssr](https://wagmi.sh/react/guides/ssr) option in your Wagmi config:
+
+```js
+const wagmiConfig = getDefaultConfig({
+  ssr: true,
+  ...
+})
 ```

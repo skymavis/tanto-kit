@@ -5,6 +5,7 @@ import { useConnectors } from 'wagmi';
 
 import { walletConfigs } from '../configs/walletConfigs';
 import { WALLET_IDS } from '../constants';
+import { useTantoConfig } from '../contexts/tanto/useTantoConfig';
 import type { Wallet } from '../types/wallet';
 import { notEmpty } from '../utils/common';
 import { isDesktop, isMobile } from '../utils/userAgent';
@@ -13,6 +14,7 @@ import {
   isInjectedConnector,
   isRoninExtensionInstalled,
   isRoninInAppBrowser,
+  isRoninWalletHeadlessConnector,
   isSafeConnector,
   isWaypointConnector,
   isWCConnector,
@@ -26,12 +28,6 @@ const WalletIcon = styled.img({
   objectFit: 'contain',
 });
 
-interface UseWalletsResult {
-  wallets: Wallet[];
-  primaryWallets: Wallet[];
-  secondaryWallets: Wallet[];
-}
-
 function getWalletInstallationStatus(
   connector: Connector<CreateConnectorFn>,
   connectors: readonly Connector<CreateConnectorFn>[],
@@ -42,6 +38,7 @@ function getWalletInstallationStatus(
     isSafeConnector(id) ||
     isCoinbaseConnector(id) ||
     isWaypointConnector(id) ||
+    isRoninWalletHeadlessConnector(id) ||
     isWCConnector(id) ||
     isInjectedConnector(type)
   );
@@ -65,8 +62,9 @@ function createWalletWithConfig(baseWallet: Wallet): Wallet {
   return walletConfig ? { ...baseWallet, ...walletConfig } : baseWallet;
 }
 
-export function useWallets(): UseWalletsResult {
+export function useWallets() {
   const connectors = useConnectors();
+  const { excludedWalletIds = [] } = useTantoConfig();
   const { isSafe } = useIsSafeWallet();
   const deviceInfo = useMemo(
     () => ({
@@ -78,14 +76,19 @@ export function useWallets(): UseWalletsResult {
   );
 
   const wallets = useMemo(
-    () => connectors.map(connector => createBaseWallet(connector, connectors)).map(createWalletWithConfig),
-    [connectors],
+    () =>
+      connectors
+        .map(connector => createBaseWallet(connector, connectors))
+        .map(createWalletWithConfig)
+        .filter(wallet => !excludedWalletIds.includes(wallet.id)),
+    [connectors, excludedWalletIds],
   );
 
   const walletsByType = useMemo(() => {
     const walletMap = new Map(wallets.map(wallet => [wallet.id, wallet]));
     const safeWallet = isSafe ? walletMap.get(WALLET_IDS.SAFE) : null;
     const waypointWallet = walletMap.get(WALLET_IDS.WAYPOINT);
+    const headlessWallet = walletMap.get(WALLET_IDS.RONIN_WALLET_HEADLESS);
     const coinbaseWallet = walletMap.get(WALLET_IDS.COINBASE_WALLET);
     const wcWallet = walletMap.get(WALLET_IDS.WALLET_CONNECT);
     const roninExtensionWallet =
@@ -112,6 +115,7 @@ export function useWallets(): UseWalletsResult {
 
     return {
       waypointWallet,
+      headlessWallet,
       roninExtensionWallet,
       roninMobileWallet,
       roninInAppBrowserWallet,
@@ -123,10 +127,11 @@ export function useWallets(): UseWalletsResult {
   }, [wallets, isSafe]);
 
   const primaryWallets = useMemo(() => {
-    const { waypointWallet, roninExtensionWallet, roninMobileWallet, roninInAppBrowserWallet } = walletsByType;
-    if (deviceInfo.isDesktop) return [waypointWallet, roninExtensionWallet].filter(notEmpty);
+    const { headlessWallet, waypointWallet, roninExtensionWallet, roninMobileWallet, roninInAppBrowserWallet } =
+      walletsByType;
+    if (deviceInfo.isDesktop) return [headlessWallet ?? waypointWallet, roninExtensionWallet].filter(notEmpty);
     if (deviceInfo.isMobile && !deviceInfo.isRoninInAppBrowser)
-      return [waypointWallet, roninMobileWallet].filter(notEmpty);
+      return [headlessWallet ?? waypointWallet, roninMobileWallet].filter(notEmpty);
     if (deviceInfo.isRoninInAppBrowser) return [roninInAppBrowserWallet].filter(notEmpty);
     return [];
   }, [walletsByType, deviceInfo]);
@@ -144,9 +149,10 @@ export function useWallets(): UseWalletsResult {
   return useMemo(
     () => ({
       wallets: [...primaryWallets, ...secondaryWallets],
+      walletsByType,
       primaryWallets,
       secondaryWallets,
     }),
-    [primaryWallets, secondaryWallets],
+    [primaryWallets, secondaryWallets, walletsByType],
   );
 }

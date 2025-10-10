@@ -63,7 +63,7 @@ export function TantoConnectButton({
         </SmoothWidth>
       ) : (
         <Button intent={isConnected ? 'secondary' : 'primary'} onClick={show}>
-          <SmoothWidth css={{ minWidth: 120 }}>
+          <SmoothWidth css={{ minWidth: 120, whiteSpace: 'nowrap', display: 'flex', justifyContent: 'center' }}>
             <TransitionedView viewKey={isConnected && isRnsSuccess}>
               {isConnected && !disableProfile ? (
                 <Box align="center" gap={8}>

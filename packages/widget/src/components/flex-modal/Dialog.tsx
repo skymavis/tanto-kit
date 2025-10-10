@@ -3,7 +3,7 @@ import * as DialogPrimitive from '@radix-ui/react-dialog';
 import type { ElementRef } from 'react';
 import { forwardRef } from 'react';
 
-import { CONTENT_Z_INDEX, DIALOG_VISIBILITY_TRANSITION_DURATION } from '../../constants';
+import { CONTENT_Z_INDEX, DIALOG_MIN_WIDTH, DIALOG_VISIBILITY_TRANSITION_DURATION } from '../../constants';
 import { fadeInUp, fadeOutDown } from '../../styles/animations';
 
 export type DialogContentProps = DialogPrimitive.DialogContentProps;
@@ -25,7 +25,7 @@ const DialogContent = styled(DialogPrimitive.Content)(
     boxSizing: 'border-box',
     outline: 'none',
     display: 'grid',
-    minWidth: 436,
+    minWidth: DIALOG_MIN_WIDTH,
     gap: '1rem',
     padding: '8px 20px 20px 20px',
     '&[data-state="open"]': {

@@ -10,14 +10,14 @@ import { mutation } from '../../services/queries';
 import { delay } from '../../utils/common';
 import { TantoWidgetError, TantoWidgetErrorCodes } from '../../utils/errors';
 import { generateSiweMessage } from '../../utils/siwe';
-import { isWaypointConnector, isWCConnector } from '../../utils/walletDetection';
+import { isRoninWalletHeadlessConnector, isWaypointConnector, isWCConnector } from '../../utils/walletDetection';
 import { useTantoConfig } from '../tanto/useTantoConfig';
 import type { AuthState } from './AuthContext';
 import { AuthContext } from './AuthContext';
 import { useWaypointMessageHandler } from './useWaypointMessageHandler';
 
 export function AuthProvider({ children }: PropsWithChildren) {
-  const { createAccountOnConnect: enableAuth = false, clientId, __internal_baseUrl } = useTantoConfig();
+  const { createAccountOnConnect: enableAuth = false, clientId } = useTantoConfig();
   const { address, chainId, connector } = useAccount();
   const { signMessageAsync } = useSignMessage();
   const { disconnect } = useDisconnect();
@@ -47,13 +47,9 @@ export function AuthProvider({ children }: PropsWithChildren) {
       // Wait for WC (in case of connect to metamask) switch chain
       if (isWCConnector(connector?.id)) await delay(1_000);
 
-      if (isWaypointConnector(connector?.id)) return;
+      if (isWaypointConnector(connector?.id) || isRoninWalletHeadlessConnector(connector?.id)) return;
 
-      const { nonce, expirationTime, issuedAt, notBefore } = await generateNonce({
-        baseUrl: __internal_baseUrl,
-        address,
-        clientId,
-      });
+      const { nonce, expirationTime, issuedAt, notBefore } = await generateNonce({ address });
       const message = generateSiweMessage({
         address,
         chainId,
@@ -67,12 +63,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
       if (currentSignInRef.current !== sessionId) return;
 
-      const { idToken } = await createAccount({
-        baseUrl: __internal_baseUrl,
-        message,
-        signature,
-        clientId,
-      });
+      const { idToken } = await createAccount({ message, signature });
       authEventEmitter.emit('success', {
         address,
         chainId,

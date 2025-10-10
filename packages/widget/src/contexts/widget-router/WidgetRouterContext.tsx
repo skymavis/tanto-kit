@@ -15,6 +15,7 @@ export interface WidgetRouterState {
   view: View;
   history: View[];
   goTo: (route: Route, options?: Prettify<Partial<Omit<View, 'route'>>>) => void;
+  replace: (route: Route, options?: Prettify<Partial<Omit<View, 'route'>>>) => void;
   goBack: () => void;
   reset: (route?: Route) => void;
 }

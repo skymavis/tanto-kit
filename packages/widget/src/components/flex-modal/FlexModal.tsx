@@ -83,12 +83,18 @@ const Overlay = forwardRef<ElementRef<typeof Dialog.Overlay>, Dialog.DialogOverl
 });
 Overlay.displayName = Dialog.Overlay.displayName;
 
-const Content = forwardRef<ElementRef<typeof Dialog.Content>, Dialog.DialogContentProps>((props, ref) => {
-  const { isMobile } = useFlexModalContext();
-  const ContentComponent = isMobile ? Drawer.Content : Dialog.Content;
-  const theme = useTheme();
-  return <ContentComponent ref={ref} css={{ backgroundColor: theme.modalBackground }} {...props} />;
-});
+const Content = forwardRef<ElementRef<typeof Dialog.Content>, Dialog.DialogContentProps>(
+  ({ children, ...props }, ref) => {
+    const { isMobile } = useFlexModalContext();
+    const ContentComponent = isMobile ? Drawer.Content : Dialog.Content;
+    const theme = useTheme();
+    return (
+      <ContentComponent ref={ref} css={{ backgroundColor: theme.modalBackground }} {...props}>
+        <div css={{ position: 'relative', overflow: 'hidden' }}>{children}</div>
+      </ContentComponent>
+    );
+  },
+);
 Content.displayName = Dialog.Content.displayName;
 
 function Title(props: DialogTitleProps) {
@@ -119,15 +125,16 @@ function Close(props: DialogCloseProps) {
   return <CloseComponent {...props} />;
 }
 
-export interface FlexModalProps {
+interface FlexModalProps {
   children: ReactNode;
   defaultOpen?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  onAfterClose?: () => void;
 }
 
 export function FlexModal(props: FlexModalProps) {
-  const { children, defaultOpen, open, onOpenChange } = props;
+  const { children, defaultOpen, open, onOpenChange, onAfterClose } = props;
   const isMobile = useIsMobileView();
 
   const contextValue = useMemo(
@@ -142,7 +149,7 @@ export function FlexModal(props: FlexModalProps) {
       <Root modal defaultOpen={defaultOpen} open={open} onOpenChange={onOpenChange}>
         <Portal>
           <Overlay />
-          <Content forceMount>
+          <Content forceMount onCloseAutoFocus={onAfterClose}>
             <VisuallyHidden>
               <Title />
             </VisuallyHidden>

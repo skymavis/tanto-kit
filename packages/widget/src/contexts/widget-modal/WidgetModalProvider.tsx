@@ -1,6 +1,7 @@
 import type { PropsWithChildren } from 'react';
 import { useCallback, useMemo, useState } from 'react';
 
+import { ConfirmationModal } from '../../ConfirmationModal';
 import { WidgetModal } from '../../WidgetModal';
 import type { WidgetModalState } from './WidgetModalContext';
 import { WidgetModalContext } from './WidgetModalContext';
@@ -25,6 +26,7 @@ export function WidgetModalProvider({ children }: PropsWithChildren) {
     <WidgetModalContext.Provider value={contextValue}>
       {children}
       <WidgetModal />
+      <ConfirmationModal />
     </WidgetModalContext.Provider>
   );
 }

@@ -28,6 +28,7 @@ export function usePreloadTantoImages() {
     dataUris.roninWaypointCustomLogoUri,
     dataUris.roninWaypointCustomSquareLogoUri,
     dataUris.scanWalletsIconUri,
+    dataUris.hourglassUri,
   ];
   if (theme.mode === 'light') {
     usePreloadImages([

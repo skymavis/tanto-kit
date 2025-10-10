@@ -1,5 +1,5 @@
 import { TransitionedView } from '../../components/animated-containers/TransitionedView';
-import { Box } from '../../components/box/Box';
+import { Box, BoxProps } from '../../components/box/Box';
 import { CopyButton } from '../../components/copy-button/CopyButton';
 import { GetWalletCTA } from '../../components/get-wallet-cta/GetWalletCTA';
 import { AnimatedQRCode } from '../../components/qr-code/AnimatedQRCode';
@@ -30,7 +30,7 @@ function ScanQRCode({ uri }: ScanQRCodeProps) {
   );
 }
 
-export function ConnectWC() {
+export function ConnectWC(props: BoxProps) {
   const mobile = isMobile();
   const { selectedWallet, selectedConnector } = useWidgetConnect();
 
@@ -46,12 +46,14 @@ export function ConnectWC() {
   if (mobile) return <ConnectLayout status={status} wallet={selectedWallet} wcUri={uri} onRetry={generateConnectUri} />;
 
   return (
-    <TransitionedView viewKey={status}>
-      {status === ConnectState.CONNECTING ? (
-        <ScanQRCode uri={uri} />
-      ) : (
-        <ConnectLayout status={status} wallet={selectedWallet} wcUri={uri} onRetry={generateConnectUri} />
-      )}
-    </TransitionedView>
+    <Box {...props}>
+      <TransitionedView viewKey={status}>
+        {status === ConnectState.CONNECTING ? (
+          <ScanQRCode uri={uri} />
+        ) : (
+          <ConnectLayout status={status} wallet={selectedWallet} wcUri={uri} onRetry={generateConnectUri} />
+        )}
+      </TransitionedView>
+    </Box>
   );
 }

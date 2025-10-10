@@ -14,6 +14,10 @@ export interface BoxProps extends HTMLAttributes<HTMLDivElement> {
   justify?: JustifyContent;
   align?: AlignItems;
   radius?: Spacing;
+  minWidth?: Spacing;
+  maxWidth?: Spacing;
+  minHeight?: Spacing;
+  maxHeight?: Spacing;
 
   p?: Spacing;
   pt?: Spacing;
@@ -41,7 +45,10 @@ const StyledBox = styled.div<BoxProps>(
     fullWidth,
     gap,
     radius,
-
+    minWidth,
+    maxWidth,
+    minHeight,
+    maxHeight,
     p,
     pt,
     pr,
@@ -67,7 +74,10 @@ const StyledBox = styled.div<BoxProps>(
       alignItems: align ?? undefined,
       gap: gap ?? undefined,
       borderRadius: radius ?? undefined,
-
+      minWidth: minWidth ?? undefined,
+      maxWidth: maxWidth ?? undefined,
+      minHeight: minHeight ?? undefined,
+      maxHeight: maxHeight ?? undefined,
       paddingTop: pt ?? py ?? p,
       paddingRight: pr ?? px ?? p,
       paddingBottom: pb ?? py ?? p,

@@ -1,6 +1,6 @@
 import { getAddress } from 'viem';
 
-export interface SigningMessageType {
+interface SigningMessageType {
   address: string;
   version?: number;
   chainId: number;

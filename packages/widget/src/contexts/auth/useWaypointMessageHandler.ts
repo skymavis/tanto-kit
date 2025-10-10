@@ -5,7 +5,7 @@ import { WAYPOINT_ORIGINS } from '../../constants';
 import { authEventEmitter } from '../../hooks/useAuthEffect';
 import { isWaypointConnector } from '../../utils/walletDetection';
 
-export interface WaypointMessageData {
+interface WaypointMessageData {
   method: string;
   type: 'success' | 'fail';
   data?: {

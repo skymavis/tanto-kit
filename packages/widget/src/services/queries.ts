@@ -1,65 +1,54 @@
-import { Address } from 'viem';
+import { queryOptions } from '@tanstack/react-query';
 
-import { WAYPOINT_BASE_URL } from '../constants';
-import { request } from './request';
+import { headlessInjector } from './headlessInjector';
 
-export const query = {} as const;
+const authApi = headlessInjector.resolve('authApi');
+const walletApi = headlessInjector.resolve('walletApi');
+const walletService = headlessInjector.resolve('walletService');
+
+export const query = {
+  encryptedClientShard: () =>
+    queryOptions({
+      queryKey: ['tantoGetEncryptedClientShard'],
+      queryFn: walletApi.getEncryptedClientShard,
+    }),
+} as const;
 
 export const mutation = {
   generateNonce: () => ({
     mutationKey: ['tantoGenerateNonce'],
-    mutationFn: async ({
-      baseUrl = WAYPOINT_BASE_URL,
-      clientId = '',
-      address,
-    }: {
-      baseUrl?: string;
-      clientId?: string;
-      address: Address;
-    }) => {
-      return request<{
-        expirationTime: string;
-        issuedAt: string;
-        nonce: string;
-        notBefore: string;
-      }>(`${baseUrl}/siwe/init`, {
-        method: 'POST',
-        headers: {
-          'sm-client-id': clientId,
-        },
-        body: {
-          address,
-        },
-      });
-    },
+    mutationFn: authApi.generateNonce,
   }),
   createAccount: () => ({
     mutationKey: ['tantoCreateAccount'],
-    mutationFn: async ({
-      baseUrl = WAYPOINT_BASE_URL,
-      clientId = '',
-      message,
-      signature,
-    }: {
-      baseUrl?: string;
-      clientId?: string;
-      message: string;
-      signature: string;
-    }) => {
-      return request<{
-        address: string;
-        idToken: string;
-        userID: string;
-      }>(`${baseUrl}/siwe/authenticate`, {
-        method: 'POST',
-        headers: {
-          'sm-client-id': clientId,
-        },
-        body: {
-          message,
-          signature,
-        },
-      });
-    },
+    mutationFn: authApi.authenticateWithSiwe,
+  }),
+  initOTPPasswordless: () => ({
+    mutationKey: ['tantoInitOTPPasswordless'],
+    mutationFn: authApi.initOTPPasswordless,
+  }),
+  authenticateWithOTP: () => ({
+    mutationKey: ['tantoAuthenticateWithOTP'],
+    mutationFn: authApi.authenticateWithOtp,
+  }),
+  exchangeToken: () => ({
+    mutationKey: ['tantoExchangeToken'],
+    mutationFn: authApi.exchangeToken,
+  }),
+  getUserProfile: () => ({
+    mutationKey: ['tantoGetUserProfileAPI'],
+    mutationFn: walletApi.getUserProfile,
+  }),
+  createKeylessWallet: () => ({
+    mutationKey: ['tantoCreateKeylessWallet'],
+    mutationFn: walletApi.createKeylessWallet,
+  }),
+  decryptClientShard: () => ({
+    mutationKey: ['tantoDecryptClientShard'],
+    mutationFn: walletService.decryptClientShard,
+  }),
+  migrateToPasswordless: () => ({
+    mutationKey: ['tantoMigrateToPasswordless'],
+    mutationFn: walletService.migrateToPasswordless,
   }),
 } as const;

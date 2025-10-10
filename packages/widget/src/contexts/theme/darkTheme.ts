@@ -39,6 +39,20 @@ export function darkTheme(customThemeToken: TantoWidgetCustomThemeTokens = {}): 
     badgeHighlightColor: '#FBB2D0',
     badgeHighlightBackground: 'rgba(115, 13, 55, 0.60)',
     qrcodeBackground: '#F1F3F9',
+
+    errorColor: '#F6515E',
+    inputBorderRadius: 8,
+    inputBackground: 'rgba(14, 17, 22, 0.00)',
+    inputBorder: 'rgba(205, 213, 229, 0.1)',
+    inputFocusBorder: '#4A4F5C',
+
+    checkboxBorder: 'rgba(205, 213, 229, 0.1)',
+    checkboxHoverBorder: 'rgba(205, 213, 229, 0.3)',
+    checkboxBackground: 'rgba(205, 213, 229, 0.07)',
+    checkboxHoverBackground: 'rgba(205, 213, 229, 0.1)',
+    checkboxCheckedBackground: 'rgba(19, 106, 236, 1)',
+    checkboxCheckedHoverBackground: 'rgba(12, 72, 192, 1)',
+
     ...customThemeToken,
   };
 }

@@ -1,7 +1,6 @@
 import { v4 } from 'uuid';
 
 import { ANALYTIC_PUBLIC_KEY } from './constants';
-import { request } from './services/request';
 import type {
   AnalyticBaseEventData,
   AnalyticEventData,
@@ -342,12 +341,13 @@ class Analytic {
   }
 
   private async send(events: Array<AnalyticEventData>): Promise<Response> {
-    return request('https://x.skymavis.com/track', {
+    return fetch('https://x.skymavis.com/track', {
       method: 'POST',
-      headers: {
-        Authorization: `Basic ${btoa(`${this.apiKey}:`)}`,
-      },
-      body: { events },
+      headers: [
+        ['Authorization', `Basic ${btoa(`${this.apiKey}:`)}`],
+        ['Content-Type', 'application/json'],
+      ],
+      body: JSON.stringify({ events }),
     });
   }
 

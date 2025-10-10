@@ -3,16 +3,16 @@ import { useEffect, useState } from 'react';
 import { MOBILE_BREAKPOINT } from '../constants';
 import { isMobile } from '../utils/userAgent';
 
-export function useIsMobileView() {
+export function useIsMobileView(breakpoint: number = MOBILE_BREAKPOINT) {
   const [mobile, setMobile] = useState<boolean | undefined>(isMobile());
 
   useEffect(() => {
-    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
+    const mql = window.matchMedia(`(max-width: ${breakpoint - 1}px)`);
     const onChange = () => {
-      setMobile(window.innerWidth < MOBILE_BREAKPOINT);
+      setMobile(window.innerWidth < breakpoint);
     };
     mql.addEventListener('change', onChange);
-    setMobile(window.innerWidth < MOBILE_BREAKPOINT);
+    setMobile(window.innerWidth < breakpoint);
     return () => mql.removeEventListener('change', onChange);
   }, []);
 

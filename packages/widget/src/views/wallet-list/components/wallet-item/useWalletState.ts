@@ -3,7 +3,12 @@ import { useMemo } from 'react';
 import { useWidgetUIConfig } from '../../../../contexts/widget-ui-config/useWidgetUIConfig';
 import { useIsMobileView } from '../../../../hooks/useIsMobileView';
 import type { Wallet } from '../../../../types/wallet';
-import { isInjectedConnector, isWaypointConnector, isWCConnector } from '../../../../utils/walletDetection';
+import {
+  isInjectedConnector,
+  isRoninWalletHeadlessConnector,
+  isWaypointConnector,
+  isWCConnector,
+} from '../../../../utils/walletDetection';
 
 export function useWalletState(wallet: Wallet) {
   const { icon, connector, displayOptions = {} } = wallet;
@@ -13,6 +18,7 @@ export function useWalletState(wallet: Wallet) {
 
   return useMemo(() => {
     const isWaypointWallet = isWaypointConnector(connector?.id);
+    const isHeadlessWallet = isRoninWalletHeadlessConnector(connector?.id);
     const isWCWallet = isWCConnector(connector?.id);
     const isInjected = isInjectedConnector(connector?.type);
     const isMarkedConnected = (isWaypointWallet && markKeylessWalletConnected) || (isWCWallet && markWCConnected);
@@ -22,6 +28,8 @@ export function useWalletState(wallet: Wallet) {
       isMarkedConnected,
       isInjected,
       isWCWallet,
+      isHeadlessWallet,
+      isWaypointWallet,
       highlightContent: highlightBackground ? (isMobile ? 'Fastest' : 'Fastest to start') : undefined,
     };
   }, [

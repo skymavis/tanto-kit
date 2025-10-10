@@ -7,6 +7,7 @@ const config = getDefaultConfig({
   keylessWalletConfig: {
     clientId: 'dbe1e3ff-e145-422f-84c4-e0beb4972f69',
     waypointOrigin: 'https://id.skymavis.one',
+    headless: true,
   },
   coinbaseWalletConfig: {
     enable: true,
