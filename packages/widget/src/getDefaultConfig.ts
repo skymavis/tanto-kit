@@ -51,16 +51,14 @@ export interface AppMetadata {
   appUrl?: string;
 }
 
-interface WalletEnableConfig {
-  enable?: boolean;
-}
+type ConditionalConfig<T> = ({ enable: false } & Partial<T>) | ({ enable?: true } & T);
 
 export type DefaultConfig = Prettify<
   Partial<Omit<CreateConfigParameters, 'client' | 'connectors'>> & {
     appMetadata?: AppMetadata;
-    walletConnectConfig?: WalletEnableConfig & Partial<Omit<WalletConnectParameters, 'showQrModal'>>;
-    keylessWalletConfig?: WalletEnableConfig & KeylessWalletConfig;
-    coinbaseWalletConfig?: WalletEnableConfig & Partial<CoinbaseWalletParameters>;
+    walletConnectConfig?: ConditionalConfig<Partial<Omit<WalletConnectParameters, 'showQrModal'>>>;
+    keylessWalletConfig?: ConditionalConfig<KeylessWalletConfig>;
+    coinbaseWalletConfig?: ConditionalConfig<Partial<CoinbaseWalletParameters>>;
   }
 >;
 
@@ -122,7 +120,7 @@ export function createConnectors(config: DefaultConfig): CreateConnectorFn[] {
   const appMetadata = createAppMetadata(config.appMetadata);
   const connectors: CreateConnectorFn[] = [createRoninConnector(), createSafeConnector()];
   const { keylessWalletConfig, walletConnectConfig, coinbaseWalletConfig } = config;
-  if (keylessWalletConfig?.enable !== false)
+  if (keylessWalletConfig && keylessWalletConfig?.enable !== false && keylessWalletConfig?.clientId)
     connectors.push(createWaypointConnector(omit(keylessWalletConfig, 'enable')));
   if (walletConnectConfig?.enable !== false)
     connectors.push(createWalletConnectConnector(appMetadata, omit(walletConnectConfig, 'enable')));
@@ -143,7 +141,11 @@ function createConfigParameters(config: DefaultConfig): CreateConfigParameters {
 }
 
 export function getDefaultConfig(config: DefaultConfig = {}): Config {
-  if (config.keylessWalletConfig?.enable !== false && !config.keylessWalletConfig?.clientId) {
+  if (
+    config.keylessWalletConfig &&
+    config.keylessWalletConfig?.enable !== false &&
+    !config.keylessWalletConfig?.clientId
+  ) {
     throw new TantoWidgetError(
       TantoWidgetErrorCodes.KEYLESS_WALLET_CONFIG_MISSING_CLIENT_ID,
       'KeylessWalletConfig requires a clientId when enabled',
