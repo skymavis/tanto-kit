@@ -57,9 +57,9 @@ roninWalletConnectConnector.on(ConnectorEvent.DISPLAY_URI, uri => setUri(uri));
 roninWalletConnectConnector.on(ConnectorEvent.DISCONNECT, async () => {
   setUri(null);
   setIsConnected(false);
-  roninWalletConnectConnector.connect(2021);
+  roninWalletConnectConnector.connect(202601);
 });
-roninWalletConnectConnector.connect(2021);
+roninWalletConnectConnector.connect(202601);
 ```
 
 

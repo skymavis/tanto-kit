@@ -1,6 +1,6 @@
 {
   "name": "@sky-mavis/tanto-connect",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "description": "Tanto Connect",
   "main": "dist/cjs/index.cjs",
   "module": "dist/mjs/index.mjs",

@@ -48,9 +48,9 @@ const RoninWalletConnect: FC = () => {
       connector.on(ConnectorEvent.DISCONNECT, async () => {
         setUri(null);
         setIsConnected(false);
-        connector.connect(2021);
+        connector.connect(202601);
       });
-      connector.connect(2021);
+      connector.connect(202601);
     });
   }, []);
 

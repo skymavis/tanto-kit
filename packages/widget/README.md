@@ -164,7 +164,7 @@ Customize wallet connection options via `getDefaultConfig`.
 
 ```tsx
 import { getDefaultConfig } from '@sky-mavis/tanto-widget';
-import { ronin, saigon } from 'viem/chains';
+import { ronin, saigon } from '@sky-mavis/tanto-connect';
 
 const config = getDefaultConfig({
   appMetadata: {
@@ -204,7 +204,7 @@ const config = getDefaultConfig({
   - `enable` (optional): Enable or disable WalletConnect (default: `true`).
 - `keylessWalletConfig` (optional): Configuration for Waypoint (keyless) wallet.
   - Check out [Ronin Keyless Wallet guideline](https://docs.skymavis.com/mavis/ronin-waypoint/guides/get-started)
-  - `chainId` (optional): Blockchain chain ID (2020 or 2021).
+  - `chainId` (optional): Blockchain chain ID (2020 or 202601).
   - `clientId` (required): Your client ID for authentication.
   - `popupCloseDelay` (optional): Delay (ms) before closing the popup (e.g., 1000).
   - `enable` (optional): Enable or disable Waypoint (default: `true`).
@@ -233,7 +233,7 @@ Customize the widget's behavior with the `config` prop.
 **Options**:
 
 - `hideConnectSuccessPrompt` (boolean): Skips the success animation (~1.5s) after connection.
-- `initialChainId` (number): Target chain ID for the widget (e.g., 2021 for Ronin Testnet).
+- `initialChainId` (number): Target chain ID for the widget (e.g., 202601 for Ronin Testnet).
 - `createAccountOnConnect` (boolean): Automatically creates a Ronin Account upon connection. Set this to true if you want to enroll in the [Ronin Referral Program](https://www.notion.so/skymavis/Ronin-Referral-Program-1c1c48ae3fdd80d2a5b8ffb11bf300da) for Studios (Earn Up to 10% Revenue Share).
 - `clientId`: required when `createAccountOnConnect` is enabled. It is used for tracking purposes in the [Referral program](https://www.notion.so/skymavis/Ronin-Referral-Program-1c1c48ae3fdd80d2a5b8ffb11bf300da).
 

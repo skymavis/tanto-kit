@@ -1,8 +1,8 @@
 import type { WaypointScope } from '@sky-mavis/tanto-connect';
+import { ronin, saigon } from '@sky-mavis/tanto-connect';
 import { roninWallet, waypoint } from '@sky-mavis/tanto-wagmi';
 import omit from 'lodash.omit';
 import type { Chain, Prettify } from 'viem/chains';
-import { ronin, saigon } from 'viem/chains';
 import type { Config, CreateConfigParameters, CreateConnectorFn } from 'wagmi';
 import { createConfig, http } from 'wagmi';
 import type { CoinbaseWalletParameters, WalletConnectParameters } from 'wagmi/connectors';

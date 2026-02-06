@@ -1,8 +1,21 @@
+import { ronin as roninViem, saigon as saigonViem } from 'viem/chains';
+
+export const ronin = {
+  ...roninViem,
+  id: 2020
+}
+
+export const saigon = {
+  ...saigonViem,
+  id: 202601
+}
+
+
 export enum ChainIds {
   Ethereum = 1,
   Goerli = 5,
   RoninMainnet = 2020,
-  RoninTestnet = 2021,
+  RoninTestnet = 202601,
 
   BaseMainnet = 8453,
 }

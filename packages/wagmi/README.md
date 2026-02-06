@@ -24,7 +24,7 @@ To connect to Ronin Wallet and Ronin Waypoint, use the **roninWallet()** and **w
 
 ```javascript
 import { roninWallet, waypoint } from '@sky-mavis/tanto-wagmi';
-import { ronin, saigon } from 'viem/chains';
+import { ronin, saigon } from '@sky-mavis/tanto-connect';
 import { createConfig, http } from 'wagmi';
 
 export const config = createConfig({

@@ -22,7 +22,7 @@ const Waypoint: FC = () => {
 
   useEffect(() => {
     const waypointProviderConfigs = {
-      chainId: 2021,
+      chainId: 202601,
     };
     const waypointConnector = requestWaypointConnector({ providerConfigs: waypointProviderConfigs });
     waypointConnector.autoConnect();
